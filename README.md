@@ -10,10 +10,11 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 
 | Skill | What it does |
 | --- | --- |
-| `/q:setup` | Initialize a project: scaffold `docs/conventions/` and index it in the agent briefing. Idempotent; proposes migrations, never overwrites. |
-| `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Classifies the change against the documentation policy and applies the right rules. |
-| `/q:groom-docs` | Verify and consolidate a project's documentation against the framework policy plus its recorded rulings. Deletions and reorganizations are proposed, never unilateral. |
-| `/q:improve-q` | From a consuming project, turn friction and flagged upstream candidates into a PR against the q repo. Converses first; opens the PR only on the user's go-ahead. |
+| `/q:setup` | Initialize a project: scaffold `docs/conventions/` and index it in the agent briefing. Idempotent, safe to re-run. |
+| `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
+| `/q:evaluate` | Evaluate code against the project's conventions, where either side may be the one to change. |
+| `/q:groom-docs` | Verify and consolidate a project's documentation against the framework policy plus its recorded rulings. |
+| `/q:improve-q` | From a consuming project, turn friction and flagged upstream candidates into a PR against the q repo. |
 
 ## How it works
 
