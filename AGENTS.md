@@ -6,7 +6,7 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 
 q is being extracted piece-by-piece from the workflow developed in the earmarks project (`github.com/Lab43/earmarks` — its `.claude/skills/`, `.claude/agents/`, and `docs/conventions/`). When porting a piece:
 
-- **Generalize, don't copy**: strip earmarks-specific paths, tools, and facts; make surface checks conditional on what exists in a consuming project (`AGENTS.md` *or* `CLAUDE.md`, `docs/plans/` only if present); reference framework files via `${CLAUDE_PLUGIN_ROOT}`.
+- **Generalize, don't copy**: strip earmarks-specific paths, tools, and facts; make surface checks conditional on what exists in a consuming project (`AGENTS.md` *or* `CLAUDE.md`, `docs/plans/` only if present).
 - **Split interleaved docs** by the policy/rulings rule: framework-general policy ships here in `conventions/`; project-specific data (rulings, deviations, exemplars) belongs to the consuming project's `docs/conventions/`, with its schema defined by the framework doc and scaffolded by `/q:setup`.
 - After a port is verified, the earmarks original should be deleted (in earmarks, by the user or a session there) — un-namespaced local skills otherwise keep getting used over the plugin's.
 - **Skill naming and descriptions** follow `docs/conventions/skills.md`. Earmarks names carry over where they already conform (`create-plan`, `triage-issue`, `check`, `verify`); non-conforming ones are renamed at port time (`pr-feedback` is noun-noun — port as e.g. `address-feedback`).

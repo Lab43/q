@@ -31,3 +31,5 @@ Procedure and preconditions the skill checks itself are learnable after — in t
 ## Body
 
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
+
+Framework files are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every consumer's machine, so a literal or relative path breaks everywhere but this checkout.
