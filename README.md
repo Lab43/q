@@ -38,7 +38,7 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 | --- | --- |
 | `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
 | `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
-| `(overrides: X)` | This rule deliberately replaces the named one — `(overrides: q documentation.md, Code examples)` for a q framework rule, `(overrides: docs/conventions/style.md, Magic numbers)` for a broader project convention. `/q:groom-docs` respects it, and `/q:improve-q` proposes upstreaming framework overrides. |
+| `(overrides: X)` | This rule deliberately replaces the named one — `(overrides: q documentation.md, Code examples)` for a q framework rule, `(overrides: docs/conventions/style.md, Magic numbers)` for a broader project convention. `/q:groom-docs` respects it, and `/q:improve-q` picks up framework overrides worth upstreaming. |
 
 ## Developing q
 
