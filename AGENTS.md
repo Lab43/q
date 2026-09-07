@@ -7,7 +7,7 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 q is being extracted piece-by-piece from the workflow developed in the earmarks project (`github.com/Lab43/earmarks` — its `.claude/skills/`, `.claude/agents/`, and `docs/conventions/`). When porting a piece:
 
 - **Generalize, don't copy**: strip earmarks-specific paths, tools, and facts; make surface checks conditional on what exists in a consuming project (`AGENTS.md` *or* `CLAUDE.md`, `docs/plans/` only if present).
-- **Split interleaved docs** by the policy/rulings rule: framework-general policy ships here in `conventions/`; project-specific data (rulings, deviations, exemplars) belongs to the consuming project's `docs/conventions/`, with its schema defined by the framework doc and scaffolded by `/q:setup`.
+- **Split interleaved docs** by the policy/rulings rule: framework-general policy ships here in `conventions/`; project-specific data (rulings, deviations, exemplars) belongs to the consuming project's `docs/conventions/`, with its schema defined by the framework doc.
 - After a port is verified, the earmarks original should be deleted (in earmarks, by the user or a session there) — un-namespaced local skills otherwise keep getting used over the plugin's.
 - **Skill naming and descriptions** follow `docs/conventions/skills.md`. Earmarks names carry over where they already conform (`create-plan`, `triage-issue`, `check`, `verify`); non-conforming ones are renamed at port time (`pr-feedback` is noun-noun — port as e.g. `address-feedback`).
 - **When the plan skills port**, the Plan lifecycle section moves from `conventions/documentation.md` into a new `conventions/plans.md` shipped with those skills — plans become their own topic once authoring and workflow rules join the lifecycle rules. documentation.md keeps only what the documentation policy owns: the `docs/plans/` taxonomy bullet (pointing `see: q plans.md`) and the Grooming section's treatment rule (status check only, bodies exempt).
@@ -27,6 +27,8 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 - Releasing is separate from merging and is the maintainer's act — PRs never touch `version`. To release: bump `version` in `.claude-plugin/plugin.json` on main and run `claude plugin tag --push`; updates only ship on a version bump, and the pushed `q--v{version}` tag is what project pins and `/q:update-q` resolve against.
 
 ## Conventions
+
+Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `conventions/` and `docs/conventions/`. All doc changes go through `/q:update-docs`.
 
 Framework payload (ships to consumers):
 
