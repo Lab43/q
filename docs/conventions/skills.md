@@ -14,7 +14,7 @@ How much a skill converses before acting — chosen per phase, not per skill: co
 - **Propose-then-apply** — the draft is the proposal: show the change and its target, apply on approval. For phases where a concrete draft opens the conversation better than abstract discussion.
 - **Autonomous** — execute, batching judgment calls to the user (AskUserQuestion) and reporting the rest. For phases with nothing to discuss until findings exist, and for mechanical execution of an agreed change.
 
-Modes are authoring vocabulary, not machinery — no frontmatter field, no mode registry, no mandated phase structure. A skill never declares its modes; it shows them: the body's decision gates are the record of intent. Review checks one agreement — each phase's interaction level fits its ambiguity and its actions' cost. Under-conversing where the call is still open, or an ungated irreversible step, is a finding.
+Modes are authoring vocabulary, not machinery — no frontmatter field, no mode registry, no mandated phase structure. A skill never declares its modes; it shows them: the body's decision gates are the record of intent — and where an agent would predictably stall to ask (deletions, doc edits under a prior go-ahead), the absence of a gate is stated as a direct imperative ("sync without asking"), never left to inference. Review checks one agreement — each phase's interaction level fits its ambiguity and its actions' cost. Under-conversing where the call is still open, or an ungated irreversible step, is a finding.
 
 In every mode, some calls are the user's alone: committing, pushing, deleting or reorganizing docs, and reversing a recorded decision. Each such invariant is stated in the body step that executes it.
 
@@ -29,6 +29,8 @@ The frontmatter description is the only part of a skill in context until it is i
 Procedure and preconditions the skill checks itself are learnable after — in the body. Avoid bloat. Every word should earn its keep.
 
 ## Body
+
+The description loads with the body at invocation, so an intro never restates it. An intro line survives only by adding what the description can't carry — an execution-binding constraint or design intent; with nothing to add, the body opens at its first step.
 
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
 
