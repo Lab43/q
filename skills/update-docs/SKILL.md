@@ -5,7 +5,7 @@ description: Create or update any project documentation — conventions, README,
 
 # Update Docs
 
-The single write path for documentation changes. Whatever the change — a lesson worth binding, a stale guide fact, a briefing tweak — this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that fold outcomes back into docs delegate here.
+The single write path for documentation changes. Whatever the change, this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that record new or amended rules delegate here.
 
 If the project has no `docs/conventions/`, propose `/q:setup` first.
 

@@ -5,7 +5,7 @@ description: Evaluate code — a file, directory, or the session's change — ag
 
 # Evaluate
 
-Judges the fit between a code artifact and the conventions that govern it — in both directions, so the code and the conventions are each candidates for change. Not a general code review: the rubric is the project's recorded conventions and the framework principles, nothing else.
+Not a general code review: the rubric is the project's recorded conventions and the framework principles, nothing else.
 
 If the project has no `docs/conventions/`, propose `/q:setup` first.
 

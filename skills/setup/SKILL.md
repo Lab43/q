@@ -5,7 +5,7 @@ description: Initialize a project for the q workflow — declare the q plugin in
 
 # Setup
 
-Prepares a consuming project to use the q skills. The scaffold is deliberately near-empty — setup creates the structure the skills expect, not content.
+The scaffold is deliberately near-empty — setup creates the structure the skills expect, not content.
 
 ## Step 1: Survey current state
 

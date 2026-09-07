@@ -5,7 +5,7 @@ description: Propose improvements to the q framework itself and, on approval, PR
 
 # Improve q
 
-Runs in a consuming project; changes q itself. Never edits the installed plugin in place — changes go through a PR to `https://github.com/Lab43/q`.
+Never edits the installed plugin in place — changes go through a PR to `https://github.com/Lab43/q`.
 
 ## Step 1: Gather candidates
 
