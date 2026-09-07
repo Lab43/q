@@ -40,7 +40,7 @@ Every doc opens with a topic title and an intro stating what the doc is *for* �
   - **Interface, not internals**: enumerating the product's interface (commands, skills, entry points) serves the reader and belongs; inventorying the repo's internals (directory layout, file lists) restates what browsing already shows — an internal detail earns mention only when it explains something non-obvious.
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`AGENTS.md`** (or `CLAUDE.md`) — the always-loaded agent briefing. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
-  - **The standing instructions** that make the conventions bind: both tiers of conventions apply (see: Two tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`.
+  - **The standing instructions** that make the conventions bind: both tiers of conventions apply (see: Two tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
   - **The docs index** — every conventions doc, framework and project tier alike, and any guide useful to agent sessions, one line per doc, restating the doc's intro. Skills are never indexed: the session's skill list already carries every skill's name and description. Rejected: announcing framework docs from the session-start hook instead of indexing them — not every doc source can inject session context, and an index split across channels fragments it.
 
 ## Single source of truth
@@ -79,7 +79,7 @@ Conventions prose carries only what components and lint can't express — decisi
 
 Every plan carries frontmatter: `status: pending | completed | abandoned`. Plans are written as `pending`, flipped to `completed` when their implementation ships, and flipped to `abandoned` only by the user. Grooming surfaces stale `pending` plans; only the user decides a plan is abandoned.
 
-After merge, a plan's body is frozen history: it describes the world at planning time, marked amendments are the deviation record, and readers treat plan age (git history) as the recency signal. Frozen bodies are exempt from accuracy, duplication, and pruning checks.
+After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (git history) as the recency signal. Marked amendments are the deviation record — added while the plan's implementation runs, never after it ships. Frozen bodies are exempt from accuracy, duplication, and pruning checks.
 
 Because plans are frozen history, code never references them: a comment pointing at `docs/plans/` sends future readers to text nobody maintains. State the constraint in the comment itself, or point at the convention doc that owns it.
 

@@ -1,0 +1,41 @@
+---
+name: update-docs
+description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
+---
+
+# Update Docs
+
+The single write path for documentation changes. Whatever the change — a lesson worth binding, a stale guide fact, a briefing tweak — this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that fold outcomes back into docs delegate here.
+
+If the project has no `docs/conventions/`, propose `/q:setup` first.
+
+## Step 1: Classify the change
+
+The change comes from the invocation: named in the prompt, surfaced by the session's own work, or handed over by a delegating skill. On a bare invocation, sweep the session for candidates — decisions made, gotchas hit, corrections taken. Route each by what it is:
+
+- **A lesson, pattern, or decision to record — including a decision to change an existing convention** → the conventions path, Step 3.
+- **A fact, instruction, or overview change for the product's readers** → the surface the taxonomy assigns it — a guide, the README, or the briefing, whether or not the invocation named one (see: q documentation.md, Taxonomy).
+- **A plan change** → the lifecycle's rules — status flips and marked amendments; authoring new plans belongs to the plan workflow, not here (see: q documentation.md, Plan lifecycle).
+
+## Step 2: Read the policy
+
+Read `${CLAUDE_PLUGIN_ROOT}/conventions/documentation.md` and the project's `docs/conventions/documentation.md` — the policy and the project's recorded rulings and deviations from it, which win on conflict.
+
+## Step 3: The conventions path — qualify the lesson
+
+Read `${CLAUDE_PLUGIN_ROOT}/conventions/principles.md` and the project's `docs/conventions/principles.md`, then hold the lesson to four gates, in order:
+
+1. **Is it a rule?** Would it change what a future reader writes or flags? Narrative, descriptions of current behavior, and code-readable facts don't qualify — the code carries those. What qualifies is the binding form: the constraint, the do/don't, the decision with rationale. No rule in it ends the path — report that, don't force an entry.
+2. **Where will its next reader be standing?** A fact needed only when touching one specific site becomes a code comment there, not a conventions entry. A lesson the next person would re-trip writing similar code elsewhere is cross-cutting even with one current instance — that one goes in the doc. Genuinely uncertain: comment now, promote on second occurrence (source: q principles.md, Colocate knowledge with its next reader).
+3. **Is prose the right rung?** A rule that a component or lint could hold shouldn't settle for documentation (source: q principles.md, Prefer the strongest enforcement rung). If a stronger rung exists, propose *that* as the fix (or schedule it), with the rationale colocated in the component or lint rule.
+4. **Which tier?** A lesson about the project's code belongs in its `docs/conventions/`. A lesson that seems to be about the q workflow itself is recorded there too — as a marked project deviation where it contradicts framework policy — and flagged to the user in the session as an upstream-to-q candidate — suggest `/q:improve-q`. Framework-general versus project-specific is hard to call from inside one project: record and flag, don't withhold (source: q documentation.md, Two tiers of conventions).
+
+A lesson through the gates gets a home: the topically-owning doc — grep the surface first, the rule may already be stated somewhere to refine; a new doc only when no existing topic owns it, arriving with its intro and briefing-index line in the same change (source: q documentation.md, Conventions docs).
+
+## Step 4: Confirm the scope
+
+State each change, its home, and its treatment — what gets rewritten, deleted, or added. What the user asked for outright is already agreed; confirm only what the session derived. Reversing a recorded decision always requires the user.
+
+## Step 5: Apply per policy
+
+Act autonomously once the scope is agreed — the git diff is the review surface, not a pre-shown draft. Every change refines, never appends — rewrite the text it lands in until the doc reads as if written that way from the start; deletion is the default when in doubt — git history keeps everything cut (source: q documentation.md, Reviewable by a human). Draft to each surface's own taxonomy rules (see: q documentation.md, Taxonomy). Keep the briefing's docs index in sync if membership or a gloss changed. Committing is the user's call.

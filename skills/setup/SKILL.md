@@ -40,7 +40,7 @@ Check what already exists, so every action below is create-if-missing:
    ```markdown
    ## Conventions
 
-   Conventions come in two tiers: the q plugin's `conventions/` (framework rules, read-only) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes go through `/q:update-docs`.
+   Conventions come in two tiers: the q plugin's `conventions/` (framework rules, read-only) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
    - `q principles.md` — cross-cutting rules for any design decision, plan, or review
    - `q documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate

@@ -28,7 +28,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 ## Conventions
 
-Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `conventions/` and `docs/conventions/`. All doc changes go through `/q:update-docs`.
+Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `conventions/` and `docs/conventions/`. All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
 Framework payload (ships to consumers):
 
