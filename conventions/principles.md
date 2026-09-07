@@ -25,6 +25,10 @@ When tooling genuinely forces a copy (an environment that can't import shared mo
 
 The test is where the next reader who needs the fact will be standing. A fact needed only when touching one specific site — a lint rule's rationale, why this workaround exists, a keep-in-sync note — lives as a code comment at that site: the comment reaches exactly that reader and moves with the code, while a conventions entry for it taxes every reader and rots independently. But a lesson that binds code not yet written — a gotcha the next person would re-trip writing similar code elsewhere — is cross-cutting even with one current instance, and goes to the conventions doc, where its future reader will actually look. When the future is genuinely uncertain, start with the comment; a second occurrence is the promotion signal — the knowledge twin of "Copying is the signal to extract."
 
+## Comments carry constraints, not justification
+
+A comment states what the code cannot show: the constraint, the gotcha, the reason a workaround must stay. A comment that justifies the chosen design, weighs it against alternatives, or narrates how the solution was arrived at is the author addressing the reviewer — noise once merged; git history and the PR carry that. The test: does the comment change how the next reader edits this site? If it only argues the code is right, cut it.
+
 ## Prefer the strongest enforcement rung
 
 When establishing a rule or pattern, put it on the strongest rung that can hold it: bake it into a component or API so violations are impossible, else lint it so they're mechanical to catch, and only as the last rung document it. Prose enforcement depends on a reader noticing; components and lint don't.

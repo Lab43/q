@@ -4,17 +4,26 @@ A Claude Code plugin packaging an agentic coding workflow: skills for planning, 
 
 Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
+## Install
+
+```
+claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
+```
+
+Then run `/q:setup` in each project that will use the workflow.
+
 ## Skills
 
 <!-- source: each skill's SKILL.md frontmatter description -->
 
 | Skill | What it does |
 | --- | --- |
-| `/q:setup` | Initialize a project: scaffold `docs/conventions/` and index it in the agent briefing. Idempotent, safe to re-run. |
+| `/q:setup` | Initialize a project: declare the q plugin in project settings, scaffold `docs/conventions/`, and index it in the agent briefing. Idempotent, safe to re-run. |
 | `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
 | `/q:evaluate` | Evaluate code against the project's conventions, where either side may be the one to change. |
 | `/q:groom-docs` | Verify and consolidate a project's documentation against the framework policy plus its recorded rulings. |
 | `/q:improve-q` | From a consuming project, turn friction and flagged upstream candidates into a PR against the q repo. |
+| `/q:update-q` | Sync the installed q to the project's pin, and optionally move the pin to the latest release, reconciling the project with what changed. |
 
 ## How it works
 
@@ -52,4 +61,4 @@ To work on q:
 
 - `claude --plugin-dir <path to your checkout>` from any project loads your working copy of the plugin; `/reload-plugins` picks up edits mid-session.
 - `claude plugin validate --strict .` checks structure and manifest.
-- Bump `version` in `.claude-plugin/plugin.json` to ship a change — installed consumers only receive updates on a version bump.
+- Releasing is separate from merging — PRs never touch `version`. To release: bump `version` in `.claude-plugin/plugin.json` on main and run `claude plugin tag --push`. Updates only ship on a version bump, and the `q--v{version}` tag is what project pins and `/q:update-q` resolve against.

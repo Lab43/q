@@ -28,7 +28,7 @@ Present the qualifiers in one message — for each, the proposed change, the evi
 
 1. Clone fresh into a temporary directory outside the project (`gh repo clone Lab43/q`) and branch.
 2. Read the checkout's `AGENTS.md` first and follow it — it governs how the change is made.
-3. Apply the change set; run `claude plugin validate --strict .`.
+3. Apply the change set; run `claude plugin validate --strict .`. Leave `version` untouched — releasing is the maintainer's act, not the PR's.
 4. Propose the commit — committing is the user's call.
 
 ## Step 4: Open the PR

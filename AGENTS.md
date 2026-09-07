@@ -24,7 +24,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 - `claude --plugin-dir <path to this checkout>` from any project loads the plugin ephemerally for testing; `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
 - `claude plugin validate --strict .` before considering any structural change done.
-- Bump `version` in `.claude-plugin/plugin.json` when a change should reach installed consumers — updates only ship on a version bump.
+- Releasing is separate from merging and is the maintainer's act — PRs never touch `version`. To release: bump `version` in `.claude-plugin/plugin.json` on main and run `claude plugin tag --push`; updates only ship on a version bump, and the pushed `q--v{version}` tag is what project pins and `/q:update-q` resolve against.
 
 ## Conventions
 
