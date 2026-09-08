@@ -23,7 +23,7 @@ with sync_playwright() as p:
         page.goto(SRC)
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(500)  # let webfonts settle before capture
-        page.locator(".diagram-frame").screenshot(path=HERE / f"{scheme}.png")
+        page.locator(".diagram-frame svg").screenshot(path=HERE / f"{scheme}.png")
         ctx.close()
     browser.close()
 print("wrote light.png and dark.png")
