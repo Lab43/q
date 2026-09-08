@@ -1,0 +1,226 @@
+<title>The q Workflow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --ink: #1C221E;
+    --muted: #5B665F;
+    --line: #D8DDD8;
+    --accent: #1E6B4F;
+    --accent-ink: #1E6B4F;
+    --accent-soft: #E4EFE9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141815;
+      --surface: #1C221D;
+      --ink: #E7ECE7;
+      --muted: #9AA69D;
+      --line: #37413A;
+      --accent: #4FC998;
+      --accent-ink: #6FD5AB;
+      --accent-soft: #22352B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141815;
+    --surface: #1C221D;
+    --ink: #E7ECE7;
+    --muted: #9AA69D;
+    --line: #37413A;
+    --accent: #4FC998;
+    --accent-ink: #6FD5AB;
+    --accent-soft: #22352B;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 3rem 1.25rem 5rem;
+  }
+  .wide { max-width: 64rem; margin: 0 auto; }
+
+  h1 {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.7rem;
+    letter-spacing: -.01em;
+    margin: 0 0 1.25rem;
+  }
+  h2 {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 2.5rem 0 .5rem;
+  }
+  figure { margin: 0; }
+  figure svg { display: block; width: 100%; height: auto; color: var(--ink); }
+  .diagram-frame {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.25rem 1rem .75rem;
+    overflow-x: auto;
+  }
+  .diagram-frame svg { min-width: 760px; }
+
+  .notes { max-width: 46rem; margin: 0 auto; font-size: .95rem; color: var(--muted); }
+  .notes ul { margin: 0; padding-left: 1.2rem; }
+  .notes li { margin-bottom: .45rem; }
+  .notes strong { color: var(--ink); font-weight: 600; }
+  .notes code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .85em;
+    background: var(--accent-soft);
+    border-radius: 4px;
+    padding: .05em .3em;
+  }
+</style>
+
+<div class="wide">
+  <h1>The q Workflow</h1>
+
+  <figure>
+    <div class="diagram-frame">
+      <svg viewBox="0 0 1000 462" role="img" aria-label="The q workflow: a spine of triage, tackle, plan, implement, human review, merge, with one adversarial review box under plan and implement, and human review looping back into implement until merge. Below, the conventions documentation is a tight vertical stack — project docs over doc packs over q docs — with an upstream PRs box receiving overrides from project docs and sending them to the doc-pack and q layers. Dashed edges show conventions being read from the top of the stack; green edges show gotchas and corrections written onto project docs.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/>
+          </marker>
+          <marker id="ah-mut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+          </marker>
+          <marker id="ah-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+          </marker>
+        </defs>
+
+        <!-- entries -->
+        <g font-family="Archivo, sans-serif" font-size="11.5" fill="var(--muted)">
+          <text x="71" y="22" text-anchor="middle">a set of work</text>
+          <text x="210" y="22" text-anchor="middle">a single ticket</text>
+        </g>
+        <line x1="71" y1="30" x2="71" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah)"/>
+        <line x1="210" y1="30" x2="210" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah)"/>
+
+        <!-- bypass arc: tackle -> implement (quick fix, no plan) -->
+        <path d="M 258 84 C 258 44, 290 28, 350 28 L 470 28 C 535 28, 560 48, 560 80" fill="none" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="410" y="20" text-anchor="middle" font-size="11.5" fill="var(--muted)" font-family="Archivo, sans-serif">quick fix — no plan</text>
+
+        <!-- review loop-back: human review -> implement -->
+        <path d="M 795 88 C 795 60, 772 44, 732 44 L 683 44 C 643 44, 620 58, 620 80" fill="none" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="708" y="36" text-anchor="middle" font-size="11.5" fill="var(--muted)" font-family="Archivo, sans-serif">changes requested</text>
+
+        <!-- spine boxes -->
+        <g font-family="Archivo, sans-serif">
+          <rect x="15" y="88" width="112" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="71" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">triage</text>
+          <text x="71" y="130" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">/q:triage</text>
+
+          <rect x="176" y="88" width="112" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="232" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">tackle</text>
+          <text x="232" y="130" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">/q:tackle</text>
+
+          <rect x="340" y="88" width="126" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="403" y="105" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">plan</text>
+          <text x="403" y="121" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="IBM Plex Mono, monospace">/q:create-plan</text>
+          <text x="403" y="134" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="IBM Plex Mono, monospace">/q:implement-plan</text>
+
+          <rect x="520" y="88" width="146" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="593" y="120" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">implement</text>
+
+          <rect x="720" y="88" width="150" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="795" y="110" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">🧑 human review</text>
+          <text x="795" y="127" text-anchor="middle" font-size="9.5" fill="var(--muted)">PR comments or chat</text>
+
+          <rect x="900" y="88" width="84" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="942" y="120" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">🚀 merge</text>
+        </g>
+
+        <!-- spine arrows -->
+        <g stroke="var(--ink)" stroke-width="1.5" fill="none">
+          <line x1="127" y1="116" x2="168" y2="116" marker-end="url(#ah)"/>
+          <line x1="288" y1="116" x2="332" y2="116" marker-end="url(#ah)"/>
+          <line x1="466" y1="116" x2="512" y2="116" marker-end="url(#ah)"/>
+          <line x1="666" y1="116" x2="712" y2="116" marker-end="url(#ah)"/>
+          <line x1="870" y1="116" x2="892" y2="116" marker-end="url(#ah)"/>
+        </g>
+
+        <!-- adversarial review -->
+        <g font-family="Archivo, sans-serif">
+          <rect x="420" y="196" width="170" height="56" rx="7" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="505" y="229" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)">🤖 adversarial review</text>
+        </g>
+        <g stroke="var(--ink)" stroke-width="1.5" fill="none">
+          <line x1="430" y1="144" x2="430" y2="192" marker-end="url(#ah)"/>
+          <line x1="452" y1="192" x2="452" y2="148" marker-end="url(#ah)"/>
+          <line x1="560" y1="144" x2="560" y2="192" marker-end="url(#ah)"/>
+          <line x1="582" y1="192" x2="582" y2="148" marker-end="url(#ah)"/>
+        </g>
+
+        <!-- writes: lessons and corrections become rules -->
+        <line x1="648" y1="144" x2="648" y2="328" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ah-acc)"/>
+        <text x="656" y="250" font-size="10.5" fill="var(--accent-ink)" font-family="Archivo, sans-serif">gotchas</text>
+
+        <line x1="795" y1="144" x2="795" y2="328" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#ah-acc)"/>
+        <text x="803" y="250" font-size="10.5" fill="var(--accent-ink)" font-family="Archivo, sans-serif">corrections codified as rules</text>
+
+        <!-- reads: conventions ground the work -->
+        <g stroke="var(--muted)" stroke-width="1.3" fill="none" stroke-dasharray="5 4">
+          <line x1="362" y1="328" x2="362" y2="148" marker-end="url(#ah-mut)"/>
+          <line x1="612" y1="328" x2="612" y2="148" marker-end="url(#ah-mut)"/>
+          <line x1="505" y1="328" x2="505" y2="256" marker-end="url(#ah-mut)"/>
+        </g>
+
+        <!-- conventions documentation: a tight stack + upstream PRs box -->
+        <text x="30" y="322" font-size="13" font-weight="700" fill="var(--ink)" font-family="Archivo, sans-serif">Conventions Documentation</text>
+
+        <g font-family="Archivo, sans-serif">
+          <rect x="30" y="332" width="830" height="36" rx="7" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.8"/>
+          <text x="45" y="355" font-size="12.5" font-weight="700" fill="var(--ink)">project docs</text>
+          <text x="185" y="355" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/conventions/</text>
+          <text x="845" y="355" text-anchor="end" font-size="10.5" font-weight="700" fill="var(--accent-ink)">your project's local rules — updated as you work</text>
+
+          <rect x="30" y="372" width="830" height="36" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+          <text x="45" y="395" font-size="12.5" font-weight="700" fill="var(--ink)">doc packs</text>
+          <text x="185" y="395" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">@acme/q-docs-*</text>
+          <text x="845" y="395" text-anchor="end" font-size="10.5" fill="var(--muted)">add-on rule sets — for libraries and shared standards</text>
+
+          <rect x="30" y="412" width="830" height="36" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+          <text x="45" y="435" font-size="12.5" font-weight="700" fill="var(--ink)">q docs</text>
+          <text x="185" y="435" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">@lab43/q-conventions</text>
+          <text x="845" y="435" text-anchor="end" font-size="10.5" fill="var(--muted)">q's own rules — how the docs above get written</text>
+        </g>
+
+        <!-- upstream PRs box + flows -->
+        <g font-family="Archivo, sans-serif">
+          <rect x="900" y="332" width="90" height="48" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+          <text x="945" y="352" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink)">upstream PRs</text>
+          <text x="945" y="367" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="IBM Plex Mono, monospace">/q:upstream</text>
+        </g>
+        <g stroke="var(--ink)" stroke-width="1.5" fill="none">
+          <line x1="862" y1="348" x2="896" y2="350" marker-end="url(#ah)"/>
+          <line x1="912" y1="380" x2="868" y2="390" marker-end="url(#ah)"/>
+          <path d="M 938 380 C 938 412, 900 428, 868 430" marker-end="url(#ah)"/>
+        </g>
+      </svg>
+    </div>
+  </figure>
+</div>
+
+<div class="notes">
+  <h2>Notes for the next edit</h2>
+  <ul>
+    <li><strong>This page never ships.</strong> The chart gets screenshotted into q's README; the README's prose does the introducing. Everything a cold reader needs must live inside the SVG — nothing on this page around it. After editing, regenerate both README images with <code>docs/workflow-chart/screenshot.py</code>.</li>
+    <li><strong>Arrow language</strong> (no legend, by choice): solid ink moves work; dashed reads the conventions; green writes them. Green is reserved for the rules circuit — the two write edges, project docs' border, and its tag line.</li>
+    <li><strong>Boxes are stages; mono lines are skills.</strong> Implement carries no skill line because two routes serve it: <code>/q:implement-plan</code> (listed under plan) and <code>/q:tackle</code>'s quick-fix path. Emojis mark the actor: 🤖 agent, 🧑 human, 🚀 shipped.</li>
+    <li><strong>All arrows touch the docs at project docs</strong>, the top row: writes land there literally; reads come off the top because precedence resolves top-down — project docs win on conflict, then doc packs, then q docs.</li>
+    <li><strong>Doc rows have three columns:</strong> name · where it lives (mono) · what it's for.</li>
+    <li><strong>Deliberate omissions:</strong> plan docs (working memory, frozen at merge — matters to skill authors, not the loop); read arrows into triage and tackle (conventions only shape work from plan onward); any adversarial-review sub-labels (it covers plans, phases, the final branch, and review-loop fixes).</li>
+    <li><strong>Label conventions:</strong> arc labels sit just above their arc's flat top with a consistent gap; the two green write labels share a baseline (y=250); arcs end in a genuinely vertical drop so arrowheads match their approach.</li>
+  </ul>
+</div>
