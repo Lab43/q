@@ -24,7 +24,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 - `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as a local marketplace in `.claude/settings.json`, and each new session syncs from the working tree (a new machine confirms once at the folder-trust prompt). From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
 - `claude plugin validate --strict .` before considering any structural change done.
-- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging and is the maintainer's act; PRs never touch a `version`. Steps in `docs/releasing.md`.
+- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging and is the maintainer's act; PRs never touch a `version`. Steps in `docs/guides/releasing.md`.
 
 ## Conventions
 
@@ -40,4 +40,4 @@ This project's own (rules for developing q):
 
 - `docs/conventions/documentation.md` — rules for writing q's docs, the framework payload and this repo's own
 - `docs/conventions/skills.md` — rules for writing q's skills
-- `docs/releasing.md` — how q's two artifacts, the plugin and the conventions pack, are versioned and released
+- `docs/guides/releasing.md` — how q's two artifacts, the plugin and the conventions pack, are versioned and released

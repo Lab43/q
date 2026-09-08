@@ -18,7 +18,7 @@ Build the grooming surface, taking each item only if it exists in this project:
 
 - `docs/conventions/*.md`, `README.md`, `AGENTS.md`/`CLAUDE.md` (the agent briefing) — full checks.
 - The `conventions/` of any doc pack this repo authors — a working-tree `package.json` carrying the `q-docs` keyword — full checks, like the project's own conventions (source: q conventions/doc-packs.md).
-- `docs/*.md` loose files — **guide mode**, per the policy's Taxonomy rules.
+- `docs/guides/*.md` — **guide mode**, per the policy's Taxonomy rules.
 - `docs/plans/*.md` — **status check only**, per the policy's Plan lifecycle rules.
 
 Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Installed doc packs (the framework's included) and the q plugin's skills are read-only — never groomed.
