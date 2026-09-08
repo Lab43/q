@@ -13,12 +13,12 @@ The pack name comes from the prompt — ask when missing. If the project has no 
 npm install --save-dev --save-exact --ignore-scripts <pack>
 ```
 
-Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q documentation.md, Doc packs). If not, `npm uninstall` it and report — never index it.
+Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/documentation.md, Doc packs). If not, `npm uninstall` it and report — never index it.
 
 ## Step 2: Index
 
-Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, by `node_modules/` path, blurb restating the doc's intro (source: q documentation.md, Taxonomy).
+Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, by `node_modules/` path, blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
 ## Step 3: Report
 
-The pack and version installed, the index lines added, and any overrides markers the pack's docs carry against framework rules — deviations the project now lives under, though its own rulings still win on conflict. Committing is the user's call.
+The pack and version installed, the index lines added, and any overrides markers the pack's docs carry against framework rules — deviations the project now lives under, though its own rulings still win on conflict. Also the pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/documentation.md, Doc packs) — held against the project's own pin: a pack written against a newer framework than the project runs is the signal to suggest `/q:update-q`; one written against an older framework, or carrying no declaration, is noted as-is — no update closes it. Committing is the user's call.

@@ -10,7 +10,7 @@ description: Sync the installed q to the project's pins — plugin and conventio
 Versioned independently, moved together in one run:
 
 - **Plugin**: pinned — the `ref` in `.claude/q-marketplace/.claude-plugin/marketplace.json`; installed — `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`; latest — the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`).
-- **Conventions pack**: pinned — `@lab43/q-conventions` in `package.json` `devDependencies`; installed — `version` in `node_modules/@lab43/q-conventions/package.json`; latest — `npm view @lab43/q-conventions version`.
+- **Conventions pack**: pinned — `@lab43/q-conventions` in `package.json` `devDependencies`, which in a pack-authoring repo is the pack's own `package.json` (source: q conventions/documentation.md, Doc packs); installed — `version` in `node_modules/@lab43/q-conventions/package.json`; latest — `npm view @lab43/q-conventions version`.
 
 Either pin missing → propose `/q:install-q`, which scaffolds the declarations, and stop. Otherwise report all six, then:
 
@@ -23,12 +23,15 @@ Either pin missing → propose `/q:install-q`, which scaffolds the declarations,
 Work only from the diffs:
 
 - **The pack's `conventions/`** — hold the project's docs against each changed rule:
-  - an override whose target updated to agree or disappeared is spent and comes out (source: q documentation.md, Two tiers of conventions)
+  - an override whose target updated to agree or disappeared is spent and comes out (source: q conventions/documentation.md, Two tiers of conventions)
   - a "(source: q …)" restatement is re-checked against its changed home
   - a project rule the new text now owns is duplication to prune
   - a project rule the new text contradicts is the one call the go-ahead didn't settle — ask: keep it as a recorded deviation (add the overrides marker) or adopt the framework rule. Adopting can leave code non-conforming — suggest `/q:evaluate` on the affected area; code fixes are out of scope here
 
+  A pack authored in this repo is part of that surface — its docs re-checked the same way — and the moved pin is the pack's written-against declaration: this re-check is what moving it certifies (source: q conventions/documentation.md, Doc packs).
+
   Then sync the briefing's framework index lines to the new payload — a doc added or removed changes the list, a changed intro re-draws its blurb.
+- **Installed doc packs** — each declares the framework version its docs are written against, via its `@lab43/q-conventions` devDependency (source: q conventions/documentation.md, Doc packs). A pack the moved pin leaves behind is flagged with a suggestion to run `/q:update-pack`, which closes the gap when a newer pack release does.
 - **`skills/install-q/`** — re-run `/q:install-q` after Step 3: it is idempotent and adds only what's missing.
 
 The go-ahead in Step 1 covered this reconciliation — apply it without re-asking.

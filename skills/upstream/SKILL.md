@@ -37,7 +37,7 @@ For each destination with shipped candidates:
 
 ## Step 4: Open the PRs
 
-Confirm with the user before each push — the PR is outward-facing. Then `gh pr create` against the default branch. The PR body carries what changed, why, and the provoking context from this session — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: q documentation.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
+Confirm with the user before each push — the PR is outward-facing. Then `gh pr create` against the default branch. The PR body carries what changed, why, and the provoking context from this session — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: q conventions/documentation.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
 
 ## Step 5: Report
 

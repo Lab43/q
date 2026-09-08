@@ -24,7 +24,7 @@ Check what already exists, so every action below is create-if-missing:
    ```markdown
    # Principles
 
-   This project's cross-cutting rules, including any deviations from the framework's (see: q principles.md).
+   This project's cross-cutting rules, including any deviations from the framework's (see: q conventions/principles.md).
    ```
 
    `docs/conventions/documentation.md`:
@@ -32,19 +32,19 @@ Check what already exists, so every action below is create-if-missing:
    ```markdown
    # Documentation
 
-   This project's documentation rulings and deviations (see: q documentation.md, Two tiers of conventions).
+   This project's documentation rulings and deviations (see: q conventions/documentation.md, Two tiers of conventions).
    ```
 
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
 2. **Framework conventions pack** — the framework conventions install as a pinned npm package:
    - Ensure a root `package.json` — create `{"private": true}` if the project has none — and that `.gitignore` covers `node_modules/`.
    - If `@lab43/q-conventions` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions`. If it is, leave the recorded pin alone; run plain `npm install` only when `node_modules/` is missing it.
-3. **Agent briefing** — in the existing `AGENTS.md`/`CLAUDE.md` (create a minimal `AGENTS.md` only if neither exists), ensure this section, adding it or its missing parts (source: q documentation.md, Taxonomy):
+3. **Agent briefing** — in the existing `AGENTS.md`/`CLAUDE.md` (create a minimal `AGENTS.md` only if neither exists), ensure this section, adding it or its missing parts (source: q conventions/documentation.md, Taxonomy):
 
    ```markdown
    ## Conventions
 
-   Conventions come in two tiers: the installed doc packs' (pinned in `package.json`, the q framework's `@lab43/q-conventions` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+   Conventions come in two tiers: the installed doc packs' (pinned in `package.json`, the q framework's `@lab43/q-conventions` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q conventions/documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
    - `node_modules/@lab43/q-conventions/conventions/principles.md` — cross-cutting rules for any design decision, plan, or review
    - `node_modules/@lab43/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate

@@ -22,9 +22,10 @@ A refinement that reaches beyond this project — one that would improve a frame
 
 The format behind the pack tier, for anyone authoring or publishing a pack:
 
-- A doc pack is an ordinary npm package containing documentation and nothing executable — no scripts, no code.
+- A doc pack is an npm package whose `package.json` carries the `q-docs` keyword, containing documentation and nothing executable — no scripts, no code. The keyword is the identity: how tooling tells packs from a project's other dependencies, and how packs are found on the registry. Nothing without it is a pack — a project's own `docs/conventions/` included.
 - The layout is a fixed contract: a `conventions/` directory at the package root, each doc written to this policy. Conventions — rules for the consuming project's code — are the only docs a pack ships.
-- The `q-docs` keyword in `package.json` marks the package as a doc pack — it is how tooling identifies packs among a project's dependencies, and how packs are found on the registry.
+- A pack is authored in a project that itself uses q, with `@lab43/q-conventions` pinned in the pack's own `package.json` — an exact devDependency that is also the authoring project's live install (in a monorepo, the pack as a workspace), so pin and declaration are one field, never two to drift apart. Shipped in the tarball, the pin declares the framework version the pack's docs are written against; the skills hold it against a consuming project's own pin and flag drift. The framework pack alone carries no pin: its version is the thing declared against.
+- In its authoring project, a pack's `conventions/` joins the documentation surface: held to this policy, groomed, and reconciled against framework updates like the project's own docs — that reconciliation is what the moved declaration certifies. A lesson a pack doc owns is edited directly into it there; overrides, deviations, and upstreaming are the consumer's mechanism, not the author's.
 - A pack doc may deviate from a framework rule the same way a project doc does, stating the deviation with an overrides marker (see: Markers); the project's own rulings still win over any pack's (see: Two tiers of conventions).
 
 Rejected: a `q` metadata key in `package.json` (configurable paths, a per-doc manifest) — every job it would do is already covered by the fixed layout, the keyword, and the doc intros, and an enumeration of docs rots against its own contents.
@@ -73,16 +74,14 @@ Inline cross-references tying a statement to the doc it depends on. Agents follo
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
 - a heading in the current doc (`see: Markers`)
-- a project doc, by path (`docs/conventions/testing.md`)
-- a framework doc, by its `q `-prefixed shorthand — `q documentation.md` names the framework pack's copy, `node_modules/@lab43/q-conventions/conventions/documentation.md`
-- any other installed pack's doc, by full path (`node_modules/@acme/q-docs-x/conventions/retries.md`)
-- any other repo file a fact is read from (`source: config.yml`)
+- a repo file, by path from the repo root — a project doc (`docs/conventions/testing.md`) or any other file a fact is read from (`source: config.yml`)
+- a pack doc, by package name plus path from the package root (`@acme/q-docs-x conventions/retries.md`), `q` being the alias for the framework pack, `@lab43/q-conventions` (`q conventions/documentation.md`). The name resolves to the installed copy in `node_modules/` — or to the pack's working tree in the repo that authors it. A pack doc uses this form even for a sibling in its own pack: a marker must stay unambiguous when its text is quoted away from its file.
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Restatements).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q documentation.md, Code examples`), another pack's rule (`overrides: node_modules/@acme/q-docs-x/conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 
