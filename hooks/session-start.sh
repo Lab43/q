@@ -1,25 +1,15 @@
 #!/bin/bash
-# SessionStart hook: one line of context carrying the resolved plugin root, so
-# sessions can resolve the briefing's framework-doc pointers and read the docs
-# without a q skill in play. ${CLAUDE_PLUGIN_ROOT} exists only inside plugin
-# components, and the install path embeds the plugin version, so no doc can
-# state the path durably — injecting it at session start is the only rot-free
-# channel. Injecting the docs' names or content here was rejected: the agent
-# briefing is the index (its framework lines synced by /q:update-q), and the
-# one-line path is this hook's accepted footprint.
+# SessionStart hook: enforce the project's q pin. Claude Code loads whatever
+# plugin version is installed, so a session only learns the pin is stale if
+# something checks at session start — no other channel runs every session.
+
+pin_file="${CLAUDE_PROJECT_DIR:-.}/.claude/q-marketplace/.claude-plugin/marketplace.json"
+[ -f "$pin_file" ] || exit 0
 
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
-[ -d "$root/conventions" ] || exit 0
+pinned=$(grep -o 'q--v[0-9][0-9A-Za-z.-]*' "$pin_file" | head -1 | sed 's/^q--v//')
+installed=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$root/.claude-plugin/plugin.json" | head -1)
 
-context="q plugin root: ${root} — framework conventions at ${root}/conventions/. Pointers to q framework docs in the agent briefing resolve against this path."
-
-pin_file=".claude/q-marketplace/.claude-plugin/marketplace.json"
-if [ -f "$pin_file" ]; then
-  pinned=$(grep -o 'q--v[0-9][0-9.]*' "$pin_file" | head -1 | sed 's/^q--v//')
-  installed=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$root/.claude-plugin/plugin.json" | head -1)
-  if [ -n "$pinned" ] && [ -n "$installed" ] && [ "$pinned" != "$installed" ]; then
-    context="${context} NOTE: this project pins q ${pinned} but the loaded q is ${installed} — run claude plugin install q@q-pin --scope project, then restart, to match the pin."
-  fi
+if [ -n "$pinned" ] && [ -n "$installed" ] && [ "$pinned" != "$installed" ]; then
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"This project pins q %s but the loaded q is %s — run /q:update-q to sync."}}\n' "$pinned" "$installed"
 fi
-
-printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$context"

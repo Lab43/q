@@ -5,16 +5,16 @@ description: Evaluate code — a file, directory, or the session's change — ag
 
 # Evaluate
 
-Not a general code review: the rubric is the project's recorded conventions and the framework principles, nothing else.
+Not a general code review: the rubric is the project's recorded conventions and the installed packs' rules, nothing else.
 
-If the project has no `docs/conventions/`, propose `/q:setup` first.
+If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
 
 ## Step 1: Scope the target and assemble the rubric
 
 The target comes from the prompt: a file, component, directory, or the session's recent change. The rubric, in descending precedence:
 
 1. The project's `docs/conventions/` docs whose topics govern the target — the stack-specific doc plus any broader ones that apply — found from the agent briefing's index. Recorded deviations ("(overrides:" markers) arrive with these docs and win over whichever rule they override.
-2. The framework docs in `${CLAUDE_PLUGIN_ROOT}/conventions/` whose topics govern the target; `principles.md` always applies.
+2. The installed doc packs' docs whose topics govern the target — `node_modules/@lab43/q-conventions/conventions/` plus any other pack the briefing indexes; the framework `principles.md` always applies.
 
 Check whether the target is a living exemplar — grep `docs/conventions/` for its path. Drift in an exemplar outranks every other finding: the docs actively send imitators to it.
 

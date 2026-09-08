@@ -34,4 +34,4 @@ The description loads with the body at invocation, so an intro never restates it
 
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
 
-Framework files are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every consumer's machine, so a literal or relative path breaks everywhere but this checkout.
+Framework docs are read from the consuming project's `node_modules/@lab43/q-conventions/conventions/` — a stable project-relative path. Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.

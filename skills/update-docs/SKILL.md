@@ -7,7 +7,7 @@ description: Create or update any project documentation — conventions, README,
 
 The single write path for documentation changes. Whatever the change, this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that record new or amended rules delegate here.
 
-If the project has no `docs/conventions/`, propose `/q:setup` first.
+If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
 
 ## Step 1: Classify the change
 
@@ -19,18 +19,18 @@ The change comes from the invocation: named in the prompt, surfaced by the sessi
 
 ## Step 2: Read the policy
 
-Read `${CLAUDE_PLUGIN_ROOT}/conventions/documentation.md` and the project's `docs/conventions/documentation.md` — the policy and the project's recorded rulings and deviations from it, which win on conflict.
+Read the framework policy — `node_modules/@lab43/q-conventions/conventions/documentation.md` — plus any other installed pack's doc whose topic governs documentation, and the project's `docs/conventions/documentation.md`, its recorded rulings and deviations, which win on conflict.
 
 ## Step 3: The conventions path — qualify the lesson
 
-Read `${CLAUDE_PLUGIN_ROOT}/conventions/principles.md` and the project's `docs/conventions/principles.md`, then hold the lesson to four gates, in order:
+Read the framework's `node_modules/@lab43/q-conventions/conventions/principles.md` — plus any other installed pack's doc whose topic governs cross-cutting principles — and the project's `docs/conventions/principles.md`, then hold the lesson to four gates, in order:
 
 1. **Is it a rule?** Would it change what a future reader writes or flags? Narrative, descriptions of current behavior, and code-readable facts don't qualify — the code carries those. What qualifies is the binding form: the constraint, the do/don't, the decision with rationale. No rule in it ends the path — report that, don't force an entry.
 2. **Where will its next reader be standing?** A fact needed only when touching one specific site becomes a code comment there, not a conventions entry. A lesson the next person would re-trip writing similar code elsewhere is cross-cutting even with one current instance — that one goes in the doc. Genuinely uncertain: comment now, promote on second occurrence (source: q principles.md, Colocate knowledge with its next reader).
 3. **Is prose the right rung?** A rule that a component or lint could hold shouldn't settle for documentation (source: q principles.md, Prefer the strongest enforcement rung). If a stronger rung exists, propose *that* as the fix (or schedule it), with the rationale colocated in the component or lint rule.
-4. **Which tier?** A lesson about the project's code belongs in its `docs/conventions/`. A lesson that seems to be about the q workflow itself is recorded there too — as a marked project deviation where it contradicts framework policy — and flagged to the user in the session as an upstream-to-q candidate — suggest `/q:improve-q`. Framework-general versus project-specific is hard to call from inside one project: record and flag, don't withhold (source: q documentation.md, Two tiers of conventions).
+4. **Which tier?** A lesson about the project's code belongs in its `docs/conventions/`. A lesson that seems to belong to a pack — about the q workflow itself, or a topic another installed pack owns — is recorded in the project's `docs/conventions/` too, as a marked project deviation where it contradicts the pack's rule, and flagged to the user in the session as an upstream candidate — suggest `/q:upstream`. Pack-general versus project-specific is hard to call from inside one project: record and flag, don't withhold (source: q documentation.md, Two tiers of conventions).
 
-A lesson through the gates gets a home: the topically-owning doc — grep the surface first, the rule may already be stated somewhere to refine; a new doc only when no existing topic owns it, arriving with its intro and briefing-index line in the same change (source: q documentation.md, Conventions docs).
+A lesson through the gates gets a home: the topically-owning doc — grep the surface first, installed packs' docs included: a project rule may already exist to refine, and a rule a pack already carries is already law — record it only as a marked deviation if the lesson disagrees, never as a copy. A new doc only when no existing topic owns the rule, arriving with its intro and briefing-index line in the same change (source: q documentation.md, Conventions docs).
 
 ## Step 4: Confirm the scope
 

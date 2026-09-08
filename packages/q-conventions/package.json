@@ -1,0 +1,15 @@
+{
+  "name": "@lab43/q-conventions",
+  "version": "0.1.0",
+  "description": "q's framework conventions, delivered as a q doc pack.",
+  "keywords": ["q-docs"],
+  "files": ["conventions"],
+  "license": "MIT",
+  "author": { "name": "Cameron Spencer", "email": "cameron@lab43.com" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lab43/q.git",
+    "directory": "packages/q-conventions"
+  },
+  "homepage": "https://github.com/Lab43/q#readme"
+}
