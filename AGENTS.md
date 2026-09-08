@@ -10,7 +10,7 @@ q is being extracted piece-by-piece from the workflow developed in the earmarks 
 - **Split interleaved docs** by the policy/rulings rule: framework-general policy ships here in `packages/q-conventions/conventions/`; project-specific data (rulings, deviations, exemplars) belongs to the consuming project's `docs/conventions/`, with its schema defined by the framework doc.
 - After a port is verified, the earmarks original should be deleted (in earmarks, by the user or a session there) — un-namespaced local skills otherwise keep getting used over the plugin's.
 - **Skill naming and descriptions** follow `docs/conventions/skills.md`. Earmarks names carry over where they already conform (`create-plan`, `triage-issue`, `check`, `verify`); non-conforming ones are renamed at port time (`pr-feedback` is noun-noun — port as e.g. `address-feedback`).
-- **When the plan skills port**, the Plan lifecycle section moves from the payload's `documentation.md` into a new sibling `plans.md` shipped with those skills — plans become their own topic once authoring and workflow rules join the lifecycle rules. documentation.md keeps only what the documentation policy owns: the `docs/plans/` taxonomy bullet (pointing `see: q conventions/plans.md`) and the Grooming section's treatment rule (status check only, bodies exempt).
+- **When the plan skills port**, the Plan lifecycle section moves from the payload's `documentation.md` into a new sibling `plans.md` shipped with those skills — plans become their own topic once authoring and workflow rules join the lifecycle rules. documentation.md keeps only what the documentation policy owns: the `docs/plans/` taxonomy bullet (pointing `see: q conventions/plans.md`) and how grooming treats plans (status check only, frozen bodies exempt).
 
 This section is scaffolding for the extraction, not part of q. When the last piece is ported, delete it and scrub every remaining earmarks mention from this repo — q is its own thing, and its history lives in git, not its docs.
 
@@ -33,6 +33,7 @@ Before writing code, before design decisions and reviews, and before changing do
 Framework payload (ships to consumers):
 
 - `packages/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+- `packages/q-conventions/conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
 - `packages/q-conventions/conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
 
 This project's own (rules for developing q):

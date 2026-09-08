@@ -48,6 +48,7 @@ Check what already exists, so every action below is create-if-missing:
 
    - `node_modules/@lab43/q-conventions/conventions/principles.md` — cross-cutting rules for any design decision, plan, or review
    - `node_modules/@lab43/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+   - `node_modules/@lab43/q-conventions/conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
    - `docs/conventions/principles.md` — this project's cross-cutting rules, including deviations from the framework's
    - `docs/conventions/documentation.md` — this project's documentation rulings and deviations
    ```

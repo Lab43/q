@@ -7,7 +7,7 @@ description: Sync an installed third-party doc pack to its pin, and optionally m
 
 ## Step 1: Take stock
 
-The installed doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword — `@lab43/q-conventions` excepted, its pin being `/q:update-q`'s. For the named pack, or each pack on a bare invocation, three versions: pinned — `package.json`; installed — `version` in `node_modules/<pack>/package.json`; latest — `npm view <pack> version`. Alongside, hold each pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/documentation.md, Doc packs) — against the project's framework pin: a declaration ahead of the pin is closed by `/q:update-q`, one behind only by a pack release that moves it. Flag either mismatch.
+The installed doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword — `@lab43/q-conventions` excepted, its pin being `/q:update-q`'s. For the named pack, or each pack on a bare invocation, three versions: pinned — `package.json`; installed — `version` in `node_modules/<pack>/package.json`; latest — `npm view <pack> version`. Alongside, hold each pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — against the project's framework pin: a declaration ahead of the pin is closed by `/q:update-q`, one behind only by a pack release that moves it. Flag either mismatch.
 
 Report them, then:
 

@@ -11,28 +11,14 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Two tiers of conventions
 
-- **Pack conventions** — the installed doc packs (see: Doc packs), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q-conventions`, this directory — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Pack conventions** — the installed doc packs (see: q conventions/doc-packs.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q-conventions`, this directory — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: on conflict, project conventions win — over any pack's rule, whichever pack carries it.** A project overrides a pack rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look. A deviation is written as an ordinary rule, a sentence or two: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces. It is refined in place or deleted as the decision evolves, never appended as a log entry; an override outlived by its target — updated to agree, or gone — is spent and comes out. No other override mechanism exists or is needed — the readers are agents, so a stated deviation is the mechanism.
 
 A refinement that reaches beyond this project — one that would improve a framework rule, or another pack's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-## Doc packs
-
-The format behind the pack tier, for anyone authoring or publishing a pack:
-
-- A doc pack is an npm package whose `package.json` carries the `q-docs` keyword, containing documentation and nothing executable — no scripts, no code. The keyword is the identity: how tooling tells packs from a project's other dependencies, and how packs are found on the registry. Nothing without it is a pack — a project's own `docs/conventions/` included.
-- The layout is a fixed contract: a `conventions/` directory at the package root, each doc written to this policy. Conventions — rules for the consuming project's code — are the only docs a pack ships.
-- A pack is authored in a project that itself uses q, with `@lab43/q-conventions` pinned in the pack's own `package.json` — an exact devDependency that is also the authoring project's live install (in a monorepo, the pack as a workspace), so pin and declaration are one field, never two to drift apart. Shipped in the tarball, the pin declares the framework version the pack's docs are written against; the skills hold it against a consuming project's own pin and flag drift. The framework pack alone carries no pin: its version is the thing declared against.
-- In its authoring project, a pack's `conventions/` joins the documentation surface: held to this policy, groomed, and reconciled against framework updates like the project's own docs — that reconciliation is what the moved declaration certifies. A lesson a pack doc owns is edited directly into it there; overrides, deviations, and upstreaming are the consumer's mechanism, not the author's.
-- A pack doc may deviate from a framework rule the same way a project doc does, stating the deviation with an overrides marker (see: Markers); the project's own rulings still win over any pack's (see: Two tiers of conventions).
-
-Rejected: a `q` metadata key in `package.json` (configurable paths, a per-doc manifest) — every job it would do is already covered by the fixed layout, the keyword, and the doc intros, and an enumeration of docs rots against its own contents.
-
-Conventions graduate into a pack when their audience grows beyond one project — org-wide rules, or rules for code that uses a product. The shared rules move out of the authoring project's `docs/conventions/` into the pack, never copied into both homes, and the authoring project installs its own pack like any consumer, keeping only its project-specific rulings local.
-
-The format says nothing about repositories: publishing the pack from a subdirectory of the authoring repo works as well as a dedicated repo. A pack published from a subdirectory sets `repository.directory` so registry links resolve to it. Use a `files` whitelist so the tarball carries only `conventions/`, the README, and `package.json`.
+Conventions graduate into a pack when their audience grows beyond one project — org-wide rules, or rules for code that uses a product (see: q conventions/doc-packs.md).
 
 ## Conventions docs
 
