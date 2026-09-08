@@ -5,6 +5,7 @@
   "keywords": ["q-docs"],
   "files": ["conventions"],
   "license": "MIT",
+  "publishConfig": { "registry": "https://registry.npmjs.org/", "access": "public" },
   "author": { "name": "Cameron Spencer", "email": "cameron@lab43.com" },
   "repository": {
     "type": "git",
