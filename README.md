@@ -63,4 +63,4 @@ To work on q:
 
 - `claude --plugin-dir <path to your checkout>` from any project loads your working copy of the plugin; `/reload-plugins` picks up edits mid-session.
 - `claude plugin validate --strict .` checks structure and manifest.
-- Releasing is separate from merging — PRs never touch `version`. To release: bump `version` in `.claude-plugin/plugin.json` on main and run `claude plugin tag --push`. Updates only ship on a version bump, and the `q--v{version}` tag is what project pins and `/q:update-q` resolve against.
+- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging, and PRs never touch a `version`; the steps live in `docs/releasing.md`.

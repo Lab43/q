@@ -24,8 +24,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 - `claude --plugin-dir <path to this checkout>` from any project loads the plugin ephemerally for testing; `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
 - `claude plugin validate --strict .` before considering any structural change done.
-- Releasing is separate from merging and is the maintainer's act — PRs never touch `version`. To release: bump `version` in `.claude-plugin/plugin.json` on main and run `claude plugin tag --push`; updates only ship on a version bump, and the pushed `q--v{version}` tag is what project pins and `/q:update-q` resolve against.
-- The framework conventions also publish as the `@lab43/q-conventions` npm doc pack, released from `packages/q-conventions/` with `npm publish --access public`. Its `version` moves independently of the plugin's, and publishing is likewise the maintainer's act.
+- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging and is the maintainer's act; PRs never touch a `version`. Steps in `docs/releasing.md`.
 
 ## Conventions
 
@@ -40,3 +39,4 @@ This project's own (rules for developing q):
 
 - `docs/conventions/documentation.md` — rules for writing q's docs, the framework payload and this repo's own
 - `docs/conventions/skills.md` — rules for writing q's skills
+- `docs/releasing.md` — how q's two artifacts, the plugin and the conventions pack, are versioned and released
