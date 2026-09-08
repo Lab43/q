@@ -22,7 +22,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 ## Developing
 
-- `claude --plugin-dir <path to this checkout>` from any project loads the plugin ephemerally for testing; `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
+- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as a local marketplace in `.claude/settings.json`, and each new session syncs from the working tree (a new machine confirms once at the folder-trust prompt). From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
 - `claude plugin validate --strict .` before considering any structural change done.
 - Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging and is the maintainer's act; PRs never touch a `version`. Steps in `docs/releasing.md`.
 

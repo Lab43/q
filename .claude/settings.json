@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "q-dev": {
+      "source": {
+        "source": "directory",
+        "path": "./"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "q@q-dev": true
+  }
+}

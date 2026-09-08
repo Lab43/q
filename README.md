@@ -61,6 +61,6 @@ This repo has two conventions directories, by design. `packages/q-conventions/co
 
 To work on q:
 
-- `claude --plugin-dir <path to your checkout>` from any project loads your working copy of the plugin; `/reload-plugins` picks up edits mid-session.
+- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as a local marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. `/reload-plugins` picks up edits mid-session.
 - `claude plugin validate --strict .` checks structure and manifest.
 - Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging, and PRs never touch a `version`; the steps live in `docs/releasing.md`.

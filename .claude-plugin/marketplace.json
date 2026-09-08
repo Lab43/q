@@ -1,0 +1,6 @@
+{
+  "name": "q-dev",
+  "description": "Loads this checkout of q as a local plugin for development",
+  "owner": { "name": "Lab43" },
+  "plugins": [{ "name": "q", "source": "./" }]
+}
