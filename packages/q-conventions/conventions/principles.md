@@ -27,7 +27,12 @@ The test is where the next reader who needs the fact will be standing. A fact ne
 
 ## Comments carry constraints, not justification
 
-A comment states what the code cannot show: the constraint, the gotcha, the reason a workaround must stay. A comment that justifies the chosen design, weighs it against alternatives, or narrates how the solution was arrived at is the author addressing the reviewer — noise once merged; git history and the PR carry that. The test: does the comment change how the next reader edits this site? If it only argues the code is right, cut it.
+A comment states what the code cannot show: the constraint, the gotcha, the reason a workaround must stay. The test: does the comment change how the next reader edits this site? If not, cut it.
+
+What fails the test is the author addressing someone other than that reader, in two shapes:
+
+- **Justification** — defending the chosen design, weighing alternatives, narrating how the solution was arrived at. That addresses the reviewer, and it's noise once merged; git history and the PR carry it.
+- **Pointers to unmaintained artifacts** — plan docs (frozen after merge), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
 
 ## Prefer the strongest enforcement rung
 

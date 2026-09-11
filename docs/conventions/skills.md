@@ -6,17 +6,11 @@ Rules for writing q's skills.
 
 Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object — and the noun must be accurate about that object (`update-docs` writes to the whole doc surface; `groom-docs` grooms all of it, not just conventions). Autocomplete makes length free, and explicit names tell users what a skill does at the point of choice. Avoid names that collide with built-in commands or well-known skills (`init`, `help`) even when namespacing would disambiguate — a near-synonym sitting in the same skill list misroutes both humans and models, and distinctiveness beats conformance when a collision looms.
 
-## Interaction modes
+## Modes
 
-How much a skill converses before acting — chosen per phase, not per skill: conversation goes where ambiguity is, gates go where cost is, autonomy covers the rest. A phase takes only the mode its work earns — many skills live in a single mode throughout, and the full arc (converse, then propose, then execute) appears only in a skill that carries a change from open requirements to shipped result.
+The collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md` — defines the modes a run moves through and the conduct that binds each. Every skill references it once, before its first step. The modes themselves are declared inline, at the step where each stretch begins — the go-ahead that closes a conversational stretch, the agreement that makes the next one autonomous, the question that settles the review mode. A skill that stays in one mode is the exception: it says so alongside the reference ("this run is conversational throughout"). When a skill is invoked from inside another skill's run, the caller's agreement and review mode carry over — the skill says so up front instead of renegotiating.
 
-- **Conversational** — converge with the user: present candidates, discuss, make small calls autonomously and state them, bring genuine forks with a recommendation; proceed on go-ahead. For phases where the change set is still being decided.
-- **Propose-then-apply** — the draft is the proposal: show the change and its target, apply on approval. For phases where a concrete draft opens the conversation better than abstract discussion.
-- **Autonomous** — execute, batching judgment calls to the user (AskUserQuestion) and reporting the rest. For phases with nothing to discuss until findings exist, and for mechanical execution of an agreed change.
-
-Modes are authoring vocabulary, not machinery — no frontmatter field, no mode registry, no mandated phase structure. A skill never declares its modes; it shows them: the body's decision gates are the record of intent — and where an agent would predictably stall to ask (deletions, doc edits under a prior go-ahead), the absence of a gate is stated as a direct imperative ("sync without asking"), never left to inference. Review checks one agreement — each phase's interaction level fits its ambiguity and its actions' cost. Under-conversing where the call is still open, or an ungated irreversible step, is a finding.
-
-In every mode, some calls are the user's alone: committing, pushing, deleting or reorganizing docs, and reversing a recorded decision. Each such invariant is stated in the body step that executes it.
+Assign each phase's mode by its work: conversation where the shape is still ambiguous, a go-ahead gate just before a step that is expensive or hard to reverse, autonomy for the rest. Inside an autonomous stretch, write the approval into any step an agent's default caution would stall on — deletions, overwrites, anything destructive-looking — as a direct imperative in that step ("sync without asking"): a missing gate reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
 
 ## Description
 
@@ -32,6 +26,14 @@ Procedure and preconditions the skill checks itself are learnable after — in t
 
 The description loads with the body at invocation, so an intro never restates it. An intro line survives only by adding what the description can't carry — an execution-binding constraint or design intent; with nothing to add, the body opens at its first step.
 
+A body instructs the agent executing it: write imperatives ("commit the fixes"), never narration about what "the run" or "the skill" does ("the run commits the fixes") and never passives that hide the actor ("the fixes are committed"). Declarative sentences are reserved for facts a step relies on ("plans can predate refactors"); every action gets a command.
+
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
 
 Framework docs are read from the consuming project's `node_modules/@lab43/q-conventions/conventions/` — a stable project-relative path. Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.
+
+Instructions shared across skills live in `references/` at the plugin root, referenced from skill bodies via `${CLAUDE_PLUGIN_ROOT}/references/`. They are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the pack instead.
+
+An instruction another doc already owns — a pack doc's, a reference doc's — enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (see: q conventions/documentation.md, Restatements).
+
+A step that launches a subagent passes what the agent's description names as its inputs — the description is the caller's side of the contract, and a launch that omits a named input is a defect.

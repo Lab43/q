@@ -26,7 +26,7 @@ Work only from the diffs:
   - an override whose target updated to agree or disappeared is spent and comes out (source: q conventions/documentation.md, Two tiers of conventions)
   - a "(source: q …)" restatement is re-checked against its changed home
   - a project rule the new text now owns is duplication to prune
-  - a project rule the new text contradicts is the one call the go-ahead didn't settle — ask: keep it as a recorded deviation (add the overrides marker) or adopt the framework rule. Adopting can leave code non-conforming — suggest `/q:evaluate` on the affected area; code fixes are out of scope here
+  - a project rule the new text contradicts is the one call the go-ahead didn't settle — ask: keep it as a recorded deviation (add the overrides marker) or adopt the framework rule. Adopting can leave code non-conforming — suggest `/q:review-conformance` on the affected area; code fixes are out of scope here
 
   A pack authored in this repo is part of that surface — its docs re-checked the same way — and the moved pin is the pack's written-against declaration: this re-check is what moving it certifies (source: q conventions/doc-packs.md).
 

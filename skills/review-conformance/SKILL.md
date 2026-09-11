@@ -1,5 +1,5 @@
 ---
-name: evaluate
+name: review-conformance
 description: Evaluate code — a file, directory, or the session's change — against the project's conventions; recommends fixing the code or amending the convention, and the user rules on each. Use when checking conformance, before imitating existing code, or when a rule seems stale or missing; not for bugs or general quality.
 ---
 

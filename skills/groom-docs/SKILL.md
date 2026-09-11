@@ -19,7 +19,7 @@ Build the grooming surface, taking each item only if it exists in this project:
 - `docs/conventions/*.md`, `README.md`, `AGENTS.md`/`CLAUDE.md` (the agent briefing) — full checks.
 - The `conventions/` of any doc pack this repo authors — a working-tree `package.json` carrying the `q-docs` keyword — full checks, like the project's own conventions (source: q conventions/doc-packs.md).
 - `docs/guides/*.md` — **guide mode**, per the policy's Taxonomy rules.
-- `docs/plans/*.md` — **status check only**, per the policy's Plan lifecycle rules.
+- `docs/plans/*.md` — **status check only**, per the policy's `docs/plans/` taxonomy rule.
 
 Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Installed doc packs (the framework's included) and the q plugin's skills are read-only — never groomed.
 
@@ -32,7 +32,7 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 3. **Dead references**: every file, symbol, helper, script, and skill named anywhere on the surface exists. Greps must exclude build artifacts (`dist/`, `node_modules/`, and the like) — stale generated files resurrect deleted symbols.
 4. **Consistency**: the agent briefing's docs index matches `docs/conventions/` exactly — membership *and* each entry still matching its doc's intro; the index also carries every installed doc pack's docs and no lines for packs no longer installed (packs are the direct dependencies in `package.json` whose own `package.json` carries the `q-docs` keyword); guide entries are optional, but each present one is held to the same intro match; any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve.
 5. **Organization**: each doc's structure — topic scope, intro, section placement, and splits or merges across docs — conforms to the policy. Findings here become reorganization proposals.
-6. **Plan statuses** (if `docs/plans/` exists): every plan has valid `status` frontmatter (`pending | completed | abandoned`); list every `pending` plan with its age (last git commit date).
+6. **Plan statuses** (if `docs/plans/` exists): every plan has valid `status` frontmatter (source: q conventions/plans.md, Frontmatter); list every `pending` plan with its age (last git commit date).
 
 ## Step 3: Consolidate with the user
 

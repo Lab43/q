@@ -34,10 +34,10 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 The policy owns exactly what this taxonomy names — the three `docs/` directories below, the README, and the briefing. Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
-Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs. The intro is the authoritative description of its doc: the briefing index's line for the doc is drawn from it and restates it, and grooming checks each pair for agreement.
+File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs. The intro is the authoritative description of its doc: the briefing index's line for the doc is drawn from it and restates it, and grooming checks each pair for agreement.
 
 - **`docs/conventions/`** — the project's conventions docs (see: Conventions docs).
-- **`docs/plans/`** — historical records of feature plans (projects using the plan workflow). See "Plan lifecycle" below.
+- **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
 - **`docs/guides/`** — guides: instructions for using and operating the product, not for writing its code (deployment walkthroughs, feature guides, operational procedures). Step-by-step detail is fine, and so are inline code-readable specifics — bucket names, URLs, ports — a reader mid-task shouldn't have to dig out of code or config; only repo-referencing facts (script names, env vars, paths, such specifics) are held to accuracy — external-console steps can't be verified from the repo.
 - **`README.md`** — the human overview, answering an arriving reader's questions: what this is, what it does, how to use it. The README and the agent briefing never point at each other — a pointer sends a reader to a document written for a different reader.
   - **Summarizing facts owned elsewhere is its normal mode**, not a violation — the obligation is checkability: a summary that mirrors one identifiable home carries a source marker; free-form overview prose is held accurate against the things it describes by grooming. Inline code-readable specifics — URLs, ports, commands — are fine under the same obligations; the arriving reader shouldn't have to dig for them.
@@ -85,12 +85,3 @@ Rejected: full copy-paste templates, even compile-checked ones — doc inaccurac
 
 Conventions prose carries only what components and lint can't express — decisions, rationale, rejected alternatives, cross-component gotchas. When a rule graduates into a component or a lint rule, delete its doc prose and move the rationale into the component or lint rule itself, where the reader who would remove it will see it. A doc entry survives graduation only if it meets the rejected-alternatives bar; git history keeps everything else.
 
-## Plan lifecycle
-
-Every plan carries frontmatter: `status: pending | completed | abandoned`. Plans are written as `pending`, flipped to `completed` when their implementation ships, and flipped to `abandoned` only by the user. Grooming surfaces stale `pending` plans; only the user decides a plan is abandoned.
-
-After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (git history) as the recency signal. Marked amendments are the deviation record — added while the plan's implementation runs, never after it ships. Frozen bodies are exempt from accuracy, duplication, and pruning checks.
-
-Because plans are frozen history, code never references them: a comment pointing at `docs/plans/` sends future readers to text nobody maintains. State the constraint in the comment itself, or point at the convention doc that owns it.
-
-Rejected: an `archive/` directory for terminal plans (moves break links; status is machine-readable in place) and a `superseded` status (chain-tracking costs more than it returns; a plan implemented then reversed stays `completed` — both plans are accurate history).

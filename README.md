@@ -10,7 +10,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
 ```
 
-Then run `/q:install-q` in each project that will use the workflow.
+Then run `/q:install-q` in each project that will use the workflow. The workflow skills require an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
 
 ## Skills
 
@@ -22,8 +22,10 @@ Then run `/q:install-q` in each project that will use the workflow.
 | `/q:update-q` | Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed. |
 | `/q:install-pack` | Install a third-party doc pack and index its docs in the agent briefing. |
 | `/q:update-pack` | Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed. |
+| `/q:create-plan` | Collaboratively plan a feature into `docs/plans/` — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc. |
+| `/q:implement-plan` | Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for. |
 | `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
-| `/q:evaluate` | Evaluate code against the project's conventions, where either side may be the one to change. |
+| `/q:review-conformance` | Evaluate code against the project's conventions, where either side may be the one to change. |
 | `/q:groom-docs` | Audit the whole documentation surface against the documentation policy and consolidate what has drifted. |
 | `/q:upstream` | Turn session friction and recorded deviations into PRs against the repos that own the rules — the q framework's or a doc pack's. |
 

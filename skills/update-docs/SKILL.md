@@ -15,7 +15,8 @@ The change comes from the invocation: named in the prompt, surfaced by the sessi
 
 - **A lesson, pattern, or decision to record — including a decision to change an existing convention** → the conventions path, Step 3.
 - **A fact, instruction, or overview change for the product's readers** → the surface the taxonomy assigns it — a guide, the README, or the briefing, whether or not the invocation named one (see: q conventions/documentation.md, Taxonomy).
-- **A plan change** → the lifecycle's rules — status flips and marked amendments; authoring new plans belongs to the plan workflow, not here (see: q conventions/documentation.md, Plan lifecycle).
+- **A plan change** → the lifecycle's rules — status flips and marked amendments; authoring new plans belongs to `/q:create-plan`, and amendments during an implementation run to `/q:implement-plan`, not here (see: q conventions/plans.md, Lifecycle).
+- **A change that belongs in a q skill's instructions** → not a doc change; flag it as an upstream candidate — suggest `/q:upstream`. (A change that belongs in a pack's doc stays on the conventions path — Step 3 records it locally as a deviation first.)
 
 ## Step 2: Read the policy
 

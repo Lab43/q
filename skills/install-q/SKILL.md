@@ -16,6 +16,7 @@ Check what already exists, so every action below is create-if-missing:
 - `.claude/settings.json` and whether it already declares the q plugin
 - The agent briefing: `AGENTS.md` or `CLAUDE.md` (either counts; never create one when the other exists)
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
+- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both — if either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install; nothing below depends on them.
 
 ## Step 2: Scaffold
 
@@ -49,6 +50,7 @@ Check what already exists, so every action below is create-if-missing:
    - `node_modules/@lab43/q-conventions/conventions/principles.md` — cross-cutting rules for any design decision, plan, or review
    - `node_modules/@lab43/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
    - `node_modules/@lab43/q-conventions/conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
+   - `node_modules/@lab43/q-conventions/conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
    - `docs/conventions/principles.md` — this project's cross-cutting rules, including deviations from the framework's
    - `docs/conventions/documentation.md` — this project's documentation rulings and deviations
    ```
