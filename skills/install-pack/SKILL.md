@@ -19,7 +19,7 @@ Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries th
 
 ## Step 2: Index
 
-Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Markers), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
+Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
 ## Step 3: Report
 

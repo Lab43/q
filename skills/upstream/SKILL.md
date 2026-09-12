@@ -35,7 +35,7 @@ The Step 2 rulings are the agreement — work each destination autonomously. For
 1. Clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. Read the checkout's `AGENTS.md`/`CLAUDE.md` first and follow it — it governs how the change is made.
 3. Apply the destination's change set. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
-4. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation): both lenses, grounded in the destination checkout's own conventions.
+4. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Ground the conventions lens in the framework pack's rules, which every destination shares — packs are authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
 5. Propose the commit — committing is the user's call.
 
 ## Step 4: Open the PRs

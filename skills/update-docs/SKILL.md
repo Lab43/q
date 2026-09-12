@@ -41,11 +41,11 @@ In a run invoked directly by the user, ask which review mode — local or ship �
 
 ## Step 5: Apply per policy
 
-Act autonomously once the scope is agreed: edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy) and the writing rules (see: q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed. In a user-invoked run, create a branch when the session isn't already on one; in ship mode, commit.
+Act autonomously once the scope is agreed: edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy) and the writing rules (see: q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed. In a user-invoked run, create a branch when the session isn't already on one, and commit in ship mode.
 
 ## Step 6: Adversarial review
 
-Changes made for a calling skill end at Step 5: they join the calling run's change, which validates and delivers them. Otherwise validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation): both lenses over the run's own change.
+Changes made for a calling skill end at Step 5: they join the calling run's change, which validates and delivers them. Otherwise validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
 ## Step 7: Open the PR
 

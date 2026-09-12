@@ -52,6 +52,10 @@ Every fact has exactly one home; every other doc links to it, never restates it.
 
 Rejected: a standing central registry of all shared facts and their homes. It accumulates entries whose home is obvious from the doc's topic, and it rots like any other enumeration.
 
+## Pack doc paths
+
+Reference a pack doc by package name plus path from the package root — `@acme/q-docs-x conventions/retries.md`. `q` is the alias for the framework pack, `@lab43/q-conventions`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the pack's working tree in the repo that authors it. Use the form for every reference to a pack doc — markers, the briefing's index lines, skill text. Use it even for a sibling in the doc's own pack: a reference must stay unambiguous when its text is quoted away from its file.
+
 ## Markers
 
 Inline cross-references tying a statement to the doc it depends on. They are the doc surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run. Three, all ordinary language:
@@ -60,7 +64,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 
 - a heading in the current doc (`see: Markers`)
 - a repo file, by path from the repo root — a project doc (`docs/conventions/testing.md`) or any other file a fact is read from (`source: config.yml`)
-- a pack doc, by package name plus path from the package root (`@acme/q-docs-x conventions/retries.md`), `q` being the alias for the framework pack, `@lab43/q-conventions` (`q conventions/documentation.md`). The name resolves to the installed copy in `node_modules/` — or to the pack's working tree in the repo that authors it. A pack doc uses this form even for a sibling in its own pack: a marker must stay unambiguous when its text is quoted away from its file.
+- a pack doc, by its path form (see: Pack doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
 

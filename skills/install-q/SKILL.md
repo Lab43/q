@@ -51,7 +51,7 @@ The invocation is the agreement — scaffold autonomously:
 
    Conventions come in two tiers: the installed doc packs' (pinned in `package.json`, the q framework's `@lab43/q-conventions` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q conventions/documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-   In path references, `q` abbreviates the `@lab43/q-conventions` pack: `q conventions/writing.md` is `node_modules/@lab43/q-conventions/conventions/writing.md` (source: q conventions/documentation.md, Markers).
+   Doc-pack paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates the `@lab43/q-conventions` pack: `q conventions/principles.md` is `node_modules/@lab43/q-conventions/conventions/principles.md` (source: q conventions/documentation.md, Pack doc paths).
 
    Installed doc packs:
 
@@ -68,7 +68,7 @@ The invocation is the agreement — scaffold autonomously:
    - `docs/conventions/documentation.md` — documentation rulings and deviations
    ```
 
-   The list is the docs index, grouped by tier as shown: one line per doc, blurb drawn from the doc's intro — doc-pack docs by package name plus path from the package root (see: q conventions/documentation.md, Markers). In a project with existing conventions docs, other installed doc packs, or guides useful to agent sessions, extend it accordingly; `/q:groom-docs` checks it for drift.
+   The list is the docs index, grouped by tier as shown: one line per doc, blurb drawn from the doc's intro — doc-pack docs by package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths). In a project with existing conventions docs, other installed doc packs, or guides useful to agent sessions, extend it accordingly; `/q:groom-docs` checks it for drift.
 4. **Plugin declaration** — the repo declares q as a dependency at a pinned version, via a project-owned marketplace. Two files, created if missing; when they exist, leave the recorded pin alone. First `.claude/q-marketplace/.claude-plugin/marketplace.json`:
 
    ```json

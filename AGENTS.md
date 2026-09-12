@@ -30,7 +30,7 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `packages/q-conventions/conventions/` and `docs/conventions/`. All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates the `@lab43/q-conventions` pack — here resolving to `packages/q-conventions/`, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `q` abbreviates the `@lab43/q-conventions` pack (source: q conventions/documentation.md, Pack doc paths) — here resolving to `packages/q-conventions/`, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 

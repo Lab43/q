@@ -63,11 +63,11 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
   <tr>
     <th rowspan="3" scope="rowgroup">Docs</th>
     <td><code>/q:update-docs</code></td>
-    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing.</td>
+    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Invoked directly, the changes ship as a PR.</td>
   </tr>
   <tr>
     <td><code>/q:groom-docs</code></td>
-    <td>Audit the whole documentation surface against the documentation policy and consolidate what has drifted.</td>
+    <td>Audit the whole documentation surface against the documentation policy and consolidate what has drifted. Approved edits ship as a PR.</td>
   </tr>
   <tr>
     <td><code>/q:upstream</code></td>

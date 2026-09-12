@@ -53,7 +53,7 @@ Merge the findings into proposed edits, each stating its remedy and citing its f
 
 ## Step 5: Adversarial review
 
-Validate the applied edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation): both lenses over the run's own change.
+Validate the applied edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
 ## Step 6: Open the PR
 
