@@ -34,7 +34,7 @@ Reference a policy doc whole — never with a parenthetical list of its sections
 
 Framework docs are read from the consuming project's `node_modules/@lab43/q-conventions/conventions/` — a stable project-relative path. Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.
 
-Instructions shared across skills live in `references/` at the plugin root, referenced from skill bodies via `${CLAUDE_PLUGIN_ROOT}/references/`. They are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the pack instead.
+Instructions shared across skills may be duplicated in each body or extracted into `references/` at the plugin root, referenced via `${CLAUDE_PLUGIN_ROOT}/references/`. Duplication is the default — inline text reads in flow, while a reference turns a step into a lookup; extraction earns that lookup when the copies are long, keep drifting apart, or the sharers multiply. Reference files are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the pack instead.
 
 An instruction another doc already owns — a pack doc's, a reference doc's — enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (see: q conventions/documentation.md, Restatements).
 

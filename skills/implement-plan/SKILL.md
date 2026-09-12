@@ -1,6 +1,6 @@
 ---
 name: implement-plan
-description: Implement a plan from docs/plans end-to-end and open the PR or stacked PRs its delivery call names. Asks its questions up front — the review mode among them, ship (commit, push, and open PRs without asking) or local (nothing committed until the user reviews and approves) — then runs autonomously, interrupting only when a discovery would redirect significant work.
+description: Implement a plan from docs/plans end-to-end and open the PR or stacked PRs its delivery call names, with every commit, push, and PR gated by the review mode the user picks up front.
 ---
 
 # Implement Plan

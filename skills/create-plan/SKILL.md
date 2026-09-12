@@ -7,8 +7,6 @@ description: Collaboratively create a plan in docs/plans, grounded in the codeba
 
 The idea to plan comes from the invocation, at any fidelity — a phrase ("email templates", "rate limiting") or a worked-out writeup; given nothing, ask what they want to plan. Whatever arrives is a starting point, not a transcript: a vague idea gets its details teased out, and a detailed one still gets grounded, verified, and challenged.
 
-If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
-
 ## Ground rules
 
 - **Follow the collaboration contract** — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.

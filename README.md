@@ -16,16 +16,34 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
 
 <!-- source: each skill's SKILL.md frontmatter description -->
 
+### Setup
+
 | Skill | What it does |
 | --- | --- |
 | `/q:install-q` | Install q into a project: declare the plugin pin, install the conventions pack, scaffold `docs/conventions/`, and index both tiers in the agent briefing. Idempotent, safe to re-run. |
 | `/q:update-q` | Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed. |
 | `/q:install-pack` | Install a third-party doc pack and index its docs in the agent briefing. |
 | `/q:update-pack` | Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed. |
+
+### Workflow
+
+| Skill | What it does |
+| --- | --- |
+| `/q:tackle` | Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing. |
 | `/q:create-plan` | Collaboratively plan a feature into `docs/plans/` — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc. |
 | `/q:implement-plan` | Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for. |
-| `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
+
+### Review
+
+| Skill | What it does |
+| --- | --- |
 | `/q:review-conformance` | Evaluate code against the project's conventions, where either side may be the one to change. |
+
+### Docs
+
+| Skill | What it does |
+| --- | --- |
+| `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
 | `/q:groom-docs` | Audit the whole documentation surface against the documentation policy and consolidate what has drifted. |
 | `/q:upstream` | Turn session friction and recorded deviations into PRs against the repos that own the rules — the q framework's or a doc pack's. |
 

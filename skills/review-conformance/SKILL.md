@@ -7,8 +7,6 @@ description: Evaluate code — a file, directory, or the session's change — ag
 
 Not a general code review: the rubric is the project's recorded conventions and the installed packs' rules, nothing else.
 
-If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
-
 Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
 
 ## Step 1: Scope the target and assemble the rubric

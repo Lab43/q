@@ -9,8 +9,6 @@ The single write path for documentation changes. Whatever the change, this skill
 
 Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
 
-If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
-
 ## Step 1: Classify the change
 
 The change comes from the invocation: named in the prompt, surfaced by the session's own work, or handed over by a delegating skill. On a bare invocation, sweep the session for candidates — decisions made, gotchas hit, corrections taken. Route each by what it is:
