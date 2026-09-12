@@ -5,7 +5,7 @@ description: Sync an installed third-party doc pack to its pin, and optionally m
 
 # Update Pack
 
-Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Take stock
 

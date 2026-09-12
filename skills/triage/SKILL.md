@@ -7,9 +7,9 @@ description: Choose what to work on next from a set of items — a Jira board, G
 
 ## Ground rules
 
-- **Follow the collaboration contract** — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+- **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **Triage ranks, tackle grounds**: judge items on what the source says — titles, descriptions, labels, dates — never by exploring the code. Grounding an item against the codebase is the first step of its tackle cycle, not a triage cost paid across the whole set.
-- **Conventions govern the tracker**: read and follow the issue-tracking conventions — the framework's at `node_modules/@lab43/q-conventions/conventions/issue-tracking.md`, plus any project rulings, which win. Never re-ask what they settle.
+- **Conventions govern the tracker**: read and follow the issue-tracking conventions (see: q conventions/issue-tracking.md), plus any project rulings, which win. Never re-ask what they settle.
 - **Track the session**: keep a scratchpad note of the session's agreements (review mode, write-backs, priority guidelines) and each item's outcome. An outcome is the PR, plan, or nothing-to-do verdict the tackle cycle produced, or that the user skipped the item. Ranking and the closing recap read from this note, and it keeps the loop intact when earlier cycles are compacted away.
 
 ## Step 1: Read the set
@@ -20,9 +20,9 @@ Set aside items not available to pick up rather than proposing them (source: q c
 
 ## Step 2: Settle the session
 
-In conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes), settle the session in one batch of questions:
+In conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes), settle the session in one batch of questions:
 
-- The review mode every tackle cycle will run under (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Review modes).
+- The review mode every tackle cycle will run under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes).
 - The write-backs the issue-tracking conventions gate on the user's agreement: claiming each agreed pick, commenting PR links (see: q conventions/issue-tracking.md). Skip what the source can't support and what conventions already settle.
 - Anything about the set itself that ranking genuinely turns on.
 
