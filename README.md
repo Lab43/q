@@ -29,6 +29,7 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
 
 | Skill | What it does |
 | --- | --- |
+| `/q:triage` | Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to `/q:tackle`. |
 | `/q:tackle` | Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing. |
 | `/q:create-plan` | Collaboratively plan a feature into `docs/plans/` — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc. |
 | `/q:implement-plan` | Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for. |
