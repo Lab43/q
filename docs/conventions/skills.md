@@ -8,9 +8,11 @@ Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object �
 
 ## Modes
 
-The collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md` — defines the modes a run moves through and the conduct that binds each. Every skill references it once, before its first step. The modes themselves are declared inline, at the step where each stretch begins — the go-ahead that closes a conversational stretch, the agreement that makes the next one autonomous, the question that settles the review mode. A skill that stays in one mode is the exception: it says so alongside the reference ("this run is conversational throughout"). When a skill is invoked from inside another skill's run, the caller's agreement and review mode carry over — the skill says so up front instead of renegotiating.
+The collaboration contract defines the modes a run moves through and the conduct that binds each (see: references/collaboration.md). Every skill references it once, before its first step, and declares each mode inline at the step where its stretch begins, the question that settles the review mode included.
 
-Assign each phase's mode by its work: conversation where the shape is still ambiguous, a go-ahead gate just before a step that is expensive or hard to reverse, autonomy for the rest. Inside an autonomous stretch, write the approval into any step an agent's default caution would stall on — deletions, overwrites, anything destructive-looking — as a direct imperative in that step ("sync without asking"): a missing gate reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
+The common shape of a run is three stretches: gather, converse, execute. Gathering takes no mode; it neither seeks an agreement nor executes one. Conversation belongs where the shape is still ambiguous, and ends in the agreement. Execution runs autonomously under that agreement, with a go-ahead gate just before any step that is expensive or hard to reverse. Where an autonomous step looks destructive — a deletion, an overwrite — write the approval into it as a direct imperative ("sync without asking"): a missing one reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
+
+An invocation that fully specifies its work is itself the agreement, and leaves nothing to converse about. A skill whose every run is like this declares the mode where it references the contract ("proceed autonomously throughout"). The same rule governs one skill invoking another: the caller spells out the scope, review mode included when the callee needs one. A call that would leave the callee asking is underspecified; fix the call rather than suppressing the callee's questions.
 
 ## Description
 

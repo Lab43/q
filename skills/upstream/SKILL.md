@@ -7,6 +7,8 @@ description: Turn session friction and the project's recorded deviations into up
 
 Never edits an installed plugin or pack in place — changes go through a PR to the repo that owns them.
 
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+
 ## Step 1: Gather candidates
 
 1. The prompt — the user may name the improvement outright.
@@ -20,7 +22,7 @@ Partition the candidates by destination: skill friction and "(overrides: q …)"
 
 Qualify the candidates against the framework's documentation policy (`node_modules/@lab43/q-conventions/conventions/documentation.md`). An override or extension made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
 
-Present the qualifiers in one message, grouped by destination — for each, the proposed change, the evidence behind it, and a recommendation — and collect a ruling on each (AskUserQuestion). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
+Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
 
 - **Ship** — joins the change set the remaining steps carry to its destination's PR.
 - **Defer** — stays recorded in the project, a candidate for a later run.
@@ -28,7 +30,7 @@ Present the qualifiers in one message, grouped by destination — for each, the 
 
 ## Step 3: Make the changes
 
-For each destination with shipped candidates:
+The Step 2 rulings are the agreement — work each destination autonomously. For each with shipped candidates:
 
 1. Clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. Read the checkout's `AGENTS.md`/`CLAUDE.md` first and follow it — it governs how the change is made.

@@ -5,6 +5,8 @@ description: Sync the installed q to the project's pins — plugin and conventio
 
 # Update q
 
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+
 ## Step 1: Take stock — two pins, three versions each
 
 Versioned independently, moved together in one run:
@@ -14,11 +16,17 @@ Versioned independently, moved together in one run:
 
 Either pin missing → propose `/q:install-q`, which scaffolds the declarations, and stop. Otherwise report all six, then:
 
-- **Installed ≠ pinned** → sync: `claude plugin install q@q-pin --scope project` then `/reload-plugins` for the plugin, `npm install` for the pack. Sync without asking — a pin is the project's recorded decision, and this merely enforces it. If a pin is also behind latest, settle the next branch's question first: taking the update makes this sync redundant (Step 3's installs land on the new pins); declining it is when this sync runs.
-- **A pin behind latest** → diff pinned against latest for each artifact that moved: the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); the pack by downloading both tarballs (`npm pack @lab43/q-conventions@<version>` into a scratch directory, extracted) and diffing their `conventions/`. Summarize what the releases change and what reconciliation they would demand of this project, then ask once: move both pins (Steps 2–4), or stay and sync to the current pins. Pins are recorded decisions — only the user moves them.
+- **Installed ≠ pinned** → sync: `claude plugin install q@q-pin --scope project` then `/reload-plugins` for the plugin, `npm install` for the pack. Sync without asking — a pin is the project's recorded decision, and this merely enforces it. If a pin is also behind latest, settle the next branch's question first: taking the update makes this sync redundant (Step 2's installs land on the new pins); declining it is when this sync runs.
+- **A pin behind latest** → diff pinned against latest for each artifact that moved: the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); the pack by downloading both tarballs (`npm pack @lab43/q-conventions@<version>` into a scratch directory, extracted) and diffing their `conventions/`. Summarize what the releases change and what reconciliation they would demand of this project, then ask once: move both pins (Steps 2–4), or stay and sync to the current pins — the go-ahead that makes the rest of the run autonomous. Pins are recorded decisions — only the user moves them.
 - **Everything equal** → report the project is current and stop.
 
-## Step 2: Reconcile what the diff touched
+## Step 2: Move the pins
+
+1. Update the plugin pin in the project's marketplace file to the new release tag, then apply it: `claude plugin marketplace update q-pin`, then `claude plugin update q@q-pin --scope project`. If the content doesn't move, uninstall and reinstall `q@q-pin` — the plugin cache is keyed by version, so a pin move without a version change is otherwise invisible.
+2. Move the pack pin: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions@<latest>`.
+3. Run `/reload-plugins` — it loads the new plugin, hooks included, into the running session; the new pack docs are readable the moment `npm install` finishes.
+
+## Step 3: Reconcile what the diff touched
 
 Work only from the diffs:
 
@@ -32,15 +40,9 @@ Work only from the diffs:
 
   Then sync the briefing's framework index lines to the new payload — a doc added or removed changes the list, a changed intro re-draws its blurb.
 - **Installed doc packs** — each declares the framework version its docs are written against, via its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md). A pack the moved pin leaves behind is flagged with a suggestion to run `/q:update-pack`, which closes the gap when a newer pack release does.
-- **`skills/install-q/`** — re-run `/q:install-q` after Step 3: it is idempotent and adds only what's missing.
+- **`skills/install-q/`** — re-run `/q:install-q`: it is idempotent and adds only what's missing.
 
 The go-ahead in Step 1 covered this reconciliation — apply it without re-asking.
-
-## Step 3: Move the pins
-
-1. Update the plugin pin in the project's marketplace file to the new release tag, then apply it: `claude plugin marketplace update q-pin`, then `claude plugin update q@q-pin --scope project`. If the content doesn't move, uninstall and reinstall `q@q-pin` — the plugin cache is keyed by version, so a pin move without a version change is otherwise invisible.
-2. Move the pack pin: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions@<latest>`.
-3. Run `/reload-plugins` — it loads the new plugin, hooks included, into the running session; the new pack docs are readable the moment `npm install` finishes.
 
 ## Step 4: Report
 

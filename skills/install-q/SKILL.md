@@ -7,6 +7,8 @@ description: Install q into a project — declare the plugin pin, install the co
 
 The scaffold is deliberately near-empty — this skill creates the structure the other skills expect, not content.
 
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+
 ## Step 1: Survey current state
 
 Check what already exists, so every action below is create-if-missing:
@@ -19,6 +21,8 @@ Check what already exists, so every action below is create-if-missing:
 - The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both — if either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install; nothing below depends on them.
 
 ## Step 2: Scaffold
+
+The invocation is the agreement — scaffold autonomously:
 
 1. **The two mirror docs** — create each if missing, with exactly this content; if present, leave it untouched — never rewrite existing entries. `docs/conventions/principles.md`:
 
@@ -89,7 +93,7 @@ Check what already exists, so every action below is create-if-missing:
 
 ## Step 3: Migration proposals (existing projects only)
 
-If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q-conventions/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion. Propose only; the user decides. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
+If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q-conventions/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
 
 ## Step 4: Report
 

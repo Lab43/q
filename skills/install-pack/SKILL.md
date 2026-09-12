@@ -5,6 +5,8 @@ description: Install a third-party doc pack and index its docs in the agent brie
 
 # Install Pack
 
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`; the named pack is the agreement — proceed autonomously throughout.
+
 ## Step 1: Install
 
 The pack name comes from the prompt — ask when missing. If the project has no root `package.json` or the briefing has no docs index, propose `/q:install-q` first and stop. Then:

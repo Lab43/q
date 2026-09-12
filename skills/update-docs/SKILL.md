@@ -1,11 +1,13 @@
 ---
 name: update-docs
-description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
+description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. The argument can be a spelled-out change (applied as given), a rough topic, or nothing — bare invocation sweeps the session for changes worth recording. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
 ---
 
 # Update Docs
 
 The single write path for documentation changes. Whatever the change, this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that record new or amended rules delegate here.
+
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
 
 If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
 
@@ -35,7 +37,7 @@ A lesson through the gates gets a home: the topically-owning doc — grep the su
 
 ## Step 4: Confirm the scope
 
-State each change, its home, and its treatment — what gets rewritten, deleted, or added. What the user asked for outright is already agreed; confirm only what the session derived. Reversing a recorded decision always requires the user.
+Confirm what the session derived, in a conversational stretch — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
 
 ## Step 5: Apply per policy
 

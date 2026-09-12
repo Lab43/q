@@ -3,11 +3,13 @@ name: review-conformance
 description: Evaluate code — a file, directory, or the session's change — against the project's conventions; recommends fixing the code or amending the convention, and the user rules on each. Use when checking conformance, before imitating existing code, or when a rule seems stale or missing; not for bugs or general quality.
 ---
 
-# Evaluate
+# Review Conformance
 
 Not a general code review: the rubric is the project's recorded conventions and the installed packs' rules, nothing else.
 
 If the project has no `docs/conventions/`, or `node_modules/@lab43/q-conventions/` is absent, propose `/q:install-q` first — on a fresh clone, `npm install` alone may fill the latter.
+
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
 
 ## Step 1: Scope the target and assemble the rubric
 
@@ -30,9 +32,11 @@ On disagreement, the convention is presumed right — it is the recorded decisio
 
 ## Step 3: Rule with the user
 
-Present the findings, each with a recommendation: fix the code, amend the convention, record a new one, or drop. Discuss; make small calls autonomously and state them; the user rules on every finding that changes something. Nothing is edited before this step.
+Present the findings, each with a recommendation: fix the code, amend the convention, record a new one, or drop. Discuss — a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Decide at the right altitude); the user rules on every finding that changes something. Nothing is edited before this step.
 
 ## Step 4: Execute the rulings
+
+Step 3's rulings are the agreement — proceed autonomously:
 
 - Apply the approved code fixes; run the project's own checks (lint, tests) over the result and report failures rather than papering over them.
 - Approved convention changes — amendments and new rules — go through `/q:update-docs`, the documentation surface's single write path.

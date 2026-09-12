@@ -12,6 +12,8 @@ description: Audit the project's whole documentation surface against the documen
 
 If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q-conventions/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
 
+Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+
 ## Step 1: Inventory
 
 Build the grooming surface, taking each item only if it exists in this project:
@@ -36,15 +38,15 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 
 ## Step 3: Consolidate with the user
 
-Merge the findings into proposed edits, each stating its remedy and citing its finding.
+Merge the findings into proposed edits, each stating its remedy and citing its finding — a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes).
 
-- Apply autonomously: wording-level fixes, replacing a single restated sentence or bullet with a cross-reference to its home, and dead-reference corrections. List them all in the report.
-- **Batch everything else to the user via AskUserQuestion before applying** — including larger deletions and rewrites, any reorganization, any `pending` plan proposed as `abandoned` (only the user flips a status), and any fact that couldn't be verified either way.
+- Apply autonomously: wording-level fixes, replacing a single restated sentence or bullet with a cross-reference to its home, and dead-reference corrections.
+- **Everything else goes to the user** (AskUserQuestion) — including larger deletions and rewrites, any reorganization, any `pending` plan proposed as `abandoned` (only the user flips a status), and any fact that couldn't be verified either way.
 - When a user ruling sets a precedent, record it in the same run: project-specific rulings go in the project's `docs/conventions/documentation.md`; a ruling that would apply to every q project is recorded as a project deviation and flagged in the report as a candidate to upstream (via `/q:upstream`).
 
 ## Step 4: Apply, re-check, report
 
-1. Apply the approved edits.
+1. Step 3's rulings are the agreement — apply the approved edits autonomously.
 2. Re-run the dead-reference and consistency checks over the result — approved edits can break each other's targets.
 3. Report: what changed per doc, what was deduped and into where, every autonomous fix, every user decision and its outcome, any upstream-to-q candidates, and anything that couldn't be verified (named explicitly — never silently dropped).
-4. **Committing is the user's call.** Propose a commit structure and ask; never commit or push unprompted.
+4. **Committing is the user's call** — propose a commit structure and ask.
