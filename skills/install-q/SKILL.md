@@ -55,6 +55,7 @@ The invocation is the agreement — scaffold autonomously:
    - `node_modules/@lab43/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
    - `node_modules/@lab43/q-conventions/conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
    - `node_modules/@lab43/q-conventions/conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
+   - `node_modules/@lab43/q-conventions/conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
    - `docs/conventions/principles.md` — this project's cross-cutting rules, including deviations from the framework's
    - `docs/conventions/documentation.md` — this project's documentation rulings and deviations
    ```

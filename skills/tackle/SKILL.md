@@ -17,7 +17,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 ## Step 1: Understand
 
-1. Read the work item and whatever it cites: stack traces, linked discussions, named files.
+1. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files.
 2. Read the conventions governing the affected territory, found from the agent briefing's docs index.
 3. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
 4. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
@@ -34,7 +34,7 @@ The routes:
 
 - **Fix here** — the work fits one reviewable PR. The agreed scope and approach authorize Steps 3–6.
 - **Plan-worthy** — the work won't fit one reviewable PR, needs its PR divisions designed, or turns on forks the batch can't settle. On the go-ahead, continue into `/q:create-plan` in this session, handing over what this run established: the verdict, what Step 1 found, and the decisions already settled.
-- **Nothing to do** — the code already behaves as asked, the report doesn't reproduce, or the behavior is intended. Present the evidence (`file:line`) and stop.
+- **Nothing to do** — the code already behaves as asked, the report doesn't reproduce, or the behavior is intended. Present the evidence (`file:line`) and stop. When the item lives in a tracker, offer to record the verdict there; closing it is the user's call.
 
 ## Step 3: Branch
 
@@ -62,9 +62,9 @@ Then loop, at most three times: fix the BLOCKING findings (apply your judgment o
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: stop and ask the user to review — the uncommitted diff, presented with its check results and anything else they should weigh. Expect change requests: make them and iterate with the user, running no machinery per exchange. At their go-ahead, run the checks covering what the session changed and, when the changes were substantive, one `adversarial-reviewer` pass (both lenses) over them — then commit the work as one commit.
+1. **Local review's gate**: stop and ask the user to review — the uncommitted diff, presented with its check results and anything else they should weigh. Expect change requests: make them and iterate with the user, running no machinery per exchange. At their go-ahead, commit exactly what they reviewed. Then run the checks covering what the session changed and, when the changes were substantive, one `adversarial-reviewer` pass (both lenses) over them. Never fold the resulting fixes into the reviewed commit: leave them uncommitted and return to the gate, where the user reviews them as their own diff and may ask for more changes. Repeat until a go-ahead leaves nothing uncommitted.
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`. Title from the work; body per the project's PR conventions where it records any, with these sections:
-   - **Summary** — what this PR delivers and why, linking the issue (`Fixes #N`) when one exists
+   - **Summary** — what this PR delivers and why, linking the issue (`Fixes #N`) when one exists (source: q conventions/issue-tracking.md, Work links back)
    - **Decisions & deviations** — autonomous choices, a toned-down review, findings rejected with their reasons; omit when empty
    - **Caveats** — findings that survived the review cap, known flakes hit; omit when empty
    - **Follow-ups** — out-of-scope improvements this work surfaced, candidates for future plans; omit when empty
