@@ -62,7 +62,7 @@ Then loop, at most three times: fix the BLOCKING findings (apply your judgment o
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: stop and ask the user to review — the uncommitted diff, presented with its check results and anything else they should weigh. Expect change requests: make them and iterate with the user, running no machinery per exchange. At their go-ahead, run the checks covering what the session changed and, when the changes were substantive, one `adversarial-reviewer` pass (both lenses) over them — then commit the work as one commit.
+1. **Local review's gate**: stop and ask the user to review — the uncommitted diff, presented with its check results and anything else they should weigh. Expect change requests: make them and iterate with the user, running no machinery per exchange. At their go-ahead, commit exactly what they reviewed. Then run the checks covering what the session changed and, when the changes were substantive, one `adversarial-reviewer` pass (both lenses) over them. Never fold the resulting fixes into the reviewed commit: leave them uncommitted and return to the gate, where the user reviews them as their own diff and may ask for more changes. Repeat until a go-ahead leaves nothing uncommitted.
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`. Title from the work; body per the project's PR conventions where it records any, with these sections:
    - **Summary** — what this PR delivers and why, linking the issue (`Fixes #N`) when one exists (source: q conventions/issue-tracking.md, Work links back)
    - **Decisions & deviations** — autonomous choices, a toned-down review, findings rejected with their reasons; omit when empty
