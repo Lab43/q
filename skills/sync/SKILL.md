@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — and flag pins whose docs were never reconciled, routing those to an update run. Use on a fresh clone or a new machine, when the session-start hook reports drift, or whenever the local install may not match the pins. Never moves pins and never reconciles docs; the only file it may touch is a lockfile an npm sync rewrites.
+description: Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — and flag pins whose docs were never reconciled, routing those to an update run. Use on a fresh clone or a new machine, when the session-start hook reports drift, or whenever the local install may not match the pins. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile an npm sync rewrites.
 ---
 
 # Sync

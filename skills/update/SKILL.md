@@ -20,10 +20,10 @@ Alongside, hold each third-party pack's framework declaration — its `@lab43/q-
 An artifact whose pin is missing has nothing to update — propose `/q:install`, which scaffolds the declarations (bare for the plugin or framework pack, with the pack name for a third-party pack), and stop. Otherwise report the versions, then sort each artifact:
 
 - **Installed ≠ pinned** → enforce without asking: run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`. If a pin is also behind latest, settle the pin-move question first — taking the update lands the enforcement on the new pins; declining it is when this runs.
-- **Pinned ≠ watermark, or a pinned pack with no watermark entry** → the pin moved out of band, or was never reconciled: due for a catch-up (Step 4), without moving any pin.
+- **Pinned ≠ watermark, or an artifact with no watermark entry** → the pin moved out of band, or was never reconciled: due for a catch-up (Step 4), without moving any pin.
 - **A `reconciledAgainst` entry for a pack no longer in `package.json`** (bare runs) → due for pruning in Step 4's watermark write.
 - **Pinned behind latest** → diff pinned against latest for each artifact that moved: the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); a pack by downloading both tarballs (`npm pack <pack>@<version>` into a scratch directory, extracted) and diffing their `conventions/`. Summarize what the releases change and what reconciliation they would demand of this project. Pins are recorded decisions — only the user moves them.
-- **Nothing due** → report and stop: the pins are in force and reconciled. Name any tracked file the enforcement rewrote (a lockfile) — that change stays in the tree as the user's.
+- **Nothing due** → report and stop: the pins are in force and reconciled.
 
 When anything is due, ask once, one batch: move the pins that are behind latest (or stay on the current pins), and which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run with only catch-ups or pruning asks the review mode alone. The go-ahead makes the rest of the run autonomous — declined pin moves drop out, catch-ups and pruning stay in. When the answers leave nothing due — every move declined, nothing else scheduled — report and stop.
 
@@ -52,7 +52,7 @@ Work only from the diffs — for a moved pin, Step 1's pinned-to-latest diff; fo
 
   Then sync the briefing's index lines for the pack — a doc added or removed changes the list, a changed intro re-draws its blurb.
 - **The plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent and adds only what the new plugin's scaffold expects.
-- **A pinned pack with no watermark entry** — there is no diff base: run `/q:install` with the pack name instead, scoped to join this run's change — it indexes the pack as a fresh install and writes its watermark.
+- **An artifact with no watermark entry** — there is no diff base: run `/q:install` instead, scoped to join this run's change. Bare for the plugin — its scaffold catch-up writes `scaffoldedAgainst`. With the pack name for a pack — it indexes the pack as a fresh install and writes its watermark.
 
 After each artifact's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `reconciledAgainst` to the pack's pinned version, `scaffoldedAgainst` to the plugin's pinned version. On a bare run, drop `reconciledAgainst` entries for packs no longer in `package.json`.
 

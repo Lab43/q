@@ -29,7 +29,7 @@ Four runs skip this step:
 
 - A bare run where Step 1 found nothing missing beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. Run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` (machine state, not a repo change), then stop with the closing report (Step 7, item 3).
 - A pack run where the named pack is already pinned, installed, indexed, and watermarked, Step 1 found nothing missing from the q scaffold, and no install sits uncommitted from an earlier run — report that and stop.
-- Step 1's GitHub CLI check failed — there is no delivery, and Step 7 leaves the changes in the working tree.
+- Step 1's GitHub CLI check failed — there is no delivery; Step 6 stops with the closing report and the changes stay in the working tree.
 - Another skill's run invoked this one — the changes join that run's change.
 
 Otherwise, ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch); on a pack run the connected-work case is the pack arriving with the dependency that ships it.
@@ -118,7 +118,7 @@ The invocation is the agreement — scaffold autonomously, every item create-if-
 
    Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo. The `"q@lab43": false` keeps a user-scope install of q from loading alongside the pin.
 5. **Enforce the declarations** — make this machine match the pins just declared: run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
-6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `scaffoldedAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `reconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`.
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `scaffoldedAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `reconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`. The file is committed: when the project gitignores `.claude/`, add a `.gitignore` exception for it.
 7. **README setup line** — ensure the README tells collaborators how to bring a new machine up, wherever its setup instructions live:
 
    ```markdown
@@ -140,17 +140,17 @@ The named pack is the agreement — install it autonomously. If the pack is not 
 npm install --save-dev --save-exact --ignore-scripts <pack>
 ```
 
-If it is, leave the recorded pin alone; run `npm install` when `node_modules/` lacks it.
+If it is, leave the recorded pin alone and make this machine match through `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
 Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/doc-packs.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the pack failure in the close.
 
 Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
-Write the pack's `reconciledAgainst` entry from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — including for a pack Step 1 found pinned and installed by hand but unwatermarked.
+When the pack has no `reconciledAgainst` entry, write one from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — a pack Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not: moving a watermark is reconciliation's act, and reconciliation is `/q:update`'s.
 
 ## Step 6: Adversarial review
 
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 7, item 3), adding:
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked — every proposal declined on an otherwise complete project — and no earlier run's scaffold awaits delivery, report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 7, item 3), adding:
 
 - That the changes stay uncommitted — restate the `gh` fix.
 - That a re-run delivers them once `gh` is in place.
@@ -162,7 +162,9 @@ Otherwise: in ship mode, commit first. In both modes, validate the changes (see:
 1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
 3. Close the session by reporting:
-   - What was created, what already existed and was left untouched, and what was proposed with the user's decisions.
+   - What was created.
+   - What already existed and was left untouched.
+   - What was proposed, and the user's decisions.
    - On a pack run:
      - The pack and version installed, and the index lines added.
      - Any overrides markers the pack's docs carry against framework rules. These are deviations the project now lives under. The project's own rulings still win on conflict.

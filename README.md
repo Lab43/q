@@ -29,7 +29,7 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
   </tr>
   <tr>
     <td><code>/q:update</code></td>
-    <td>Update q and the project's doc packs: move pins to the latest releases, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
+    <td>Update q and the project's doc packs: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
