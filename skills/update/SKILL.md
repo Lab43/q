@@ -9,9 +9,9 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Take stock — four versions per artifact
 
-Bare invocation covers the plugin, the framework pack, and every installed third-party pack; a named target — q, or a pack name — scopes the run to it. The installed doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword.
+Bare invocation covers the plugin, the framework pack, and every installed third-party pack; a named target scopes the run — `q` means the plugin and the framework pack, which move together, and a pack name means that pack. The installed doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/doc-packs.md).
 
-- **Plugin**: pinned — the `ref` in `.claude/q-marketplace/.claude-plugin/marketplace.json`; installed — `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`; latest — the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`); watermark — `scaffoldedAgainst` in `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+- **Plugin**: pinned — the `ref` in `.claude/q-marketplace/.claude-plugin/marketplace.json`, its version the tag less the `q--v` prefix; installed — `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`; latest — the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`); watermark — `scaffoldedAgainst` in `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 - **Framework pack**: pinned — `@lab43/q-conventions` in `package.json` `devDependencies`, which in a pack-authoring repo is the pack's own `package.json` (source: q conventions/doc-packs.md); installed — `version` in `node_modules/@lab43/q-conventions/package.json`; latest — `npm view @lab43/q-conventions version`; watermark — its `reconciledAgainst` entry.
 - **Every other pack**: pinned — `package.json`; installed — `version` in `node_modules/<pack>/package.json`; latest — `npm view <pack> version`; watermark — its `reconciledAgainst` entry.
 
@@ -21,10 +21,11 @@ An artifact whose pin is missing has nothing to update — propose `/q:install`,
 
 - **Installed ≠ pinned** → enforce without asking: run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`. If a pin is also behind latest, settle the pin-move question first — taking the update lands the enforcement on the new pins; declining it is when this runs.
 - **Pinned ≠ watermark, or a pinned pack with no watermark entry** → the pin moved out of band, or was never reconciled: due for a catch-up (Step 4), without moving any pin.
+- **A `reconciledAgainst` entry for a pack no longer in `package.json`** (bare runs) → due for pruning in Step 4's watermark write.
 - **Pinned behind latest** → diff pinned against latest for each artifact that moved: the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); a pack by downloading both tarballs (`npm pack <pack>@<version>` into a scratch directory, extracted) and diffing their `conventions/`. Summarize what the releases change and what reconciliation they would demand of this project. Pins are recorded decisions — only the user moves them.
 - **Nothing due** → report and stop: the pins are in force and reconciled. Name any tracked file the enforcement rewrote (a lockfile) — that change stays in the tree as the user's.
 
-When anything is due, ask once, one batch: move the pins that are behind latest (or stay on the current pins), and which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run with only catch-ups asks the review mode alone. The go-ahead makes the rest of the run autonomous — declined pin moves drop out, catch-ups stay in.
+When anything is due, ask once, one batch: move the pins that are behind latest (or stay on the current pins), and which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run with only catch-ups or pruning asks the review mode alone. The go-ahead makes the rest of the run autonomous — declined pin moves drop out, catch-ups and pruning stay in. When the answers leave nothing due — every move declined, nothing else scheduled — report and stop.
 
 ## Step 2: Branch
 
