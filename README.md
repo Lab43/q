@@ -93,7 +93,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 
 **Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
 
-**You stay in charge.** q's framework conventions (documentation policy, cross-cutting principles) install read-only as a pinned npm pack and improve with pin updates, but your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Deletions, reorganizations, commits, and PRs are proposed, never applied unilaterally. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
+**You stay in charge.** q's framework conventions (documentation policy, cross-cutting principles) install read-only as a pinned npm pack and improve with pin updates, but your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
 
 ## Markers
 

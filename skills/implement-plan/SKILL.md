@@ -34,7 +34,7 @@ What emerges completes the agreement: the plan, as clarified, authorizes the res
 
 ## Step 3: Branch
 
-If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then require a clean working tree — except the plan doc itself, which may be untracked or modified (stop and tell the user about anything else) — and branch per the plan's `delivery` frontmatter (absent means single-PR):
+If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch): a plan is its own delivery unit, so the call is fresh branching, and a clean working tree comes first — except the plan doc itself, which may be untracked or modified (stop and tell the user about anything else). Branch per the plan's `delivery` frontmatter (absent means single-PR):
 
 **Single PR:**
 

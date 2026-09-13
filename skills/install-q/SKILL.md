@@ -1,6 +1,6 @@
 ---
 name: install-q
-description: Install q into a project — declare the plugin pin, install the conventions pack, scaffold docs/conventions/, and index both tiers in the agent briefing. Idempotent, safe to re-run on a partially set-up project.
+description: Install q into a project — declare the plugin pin, install the conventions pack, scaffold docs/conventions/, and index both tiers in the agent briefing. Idempotent, safe to re-run on a partially set-up project. The scaffold ships as a PR.
 ---
 
 # Install q
@@ -18,9 +18,19 @@ Check what already exists, so every action below is create-if-missing:
 - `.claude/settings.json` and whether it already declares the q plugin
 - The agent briefing: `AGENTS.md` or `CLAUDE.md` (either counts; never create one when the other exists)
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
-- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both — if either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install; nothing below depends on them.
+- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install — the scaffold still lands, and delivery is skipped (Steps 2 and 5).
 
-## Step 2: Scaffold
+## Step 2: Settle delivery
+
+Three runs skip this step:
+
+- Step 1 found nothing missing beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver, and Step 5 reports that.
+- Step 1's GitHub CLI check failed — there is no delivery, and Step 5 leaves the changes in the working tree.
+- Another skill's run invoked this one — the changes join that run's change.
+
+Otherwise, ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
+
+## Step 3: Scaffold
 
 The invocation is the agreement — scaffold autonomously:
 
@@ -101,10 +111,21 @@ The invocation is the agreement — scaffold autonomously:
    Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo. The `"q@lab43": false` keeps a user-scope install of q from loading alongside the pin. Claude Code doesn't auto-install from the declaration — each collaborator runs `claude plugin install q@q-pin --scope project` once, and `npm install` on any fresh clone; say so in the report.
 5. Do **not** create `docs/plans/` — it arrives with the plan workflow.
 
-## Step 3: Migration proposals (existing projects only)
+## Step 4: Migration proposals (existing projects only)
 
 If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q-conventions/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
 
-## Step 4: Report
+## Step 5: Adversarial review
 
-State what was created, what already existed and was left untouched, and what was proposed and the user's decisions. Committing is the user's call — propose it, don't do it.
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing and no earlier run's scaffold awaits delivery — a re-run on a fully set-up project — report that and stop. When Step 1's GitHub CLI check failed, report and stop: what was created, what already existed and was left untouched, what was proposed and the user's decisions, and that the changes stay uncommitted — restate the `gh` fix, and say a re-run delivers them once it's in place.
+
+Otherwise: in ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+
+## Step 6: Open the PR
+
+1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
+3. Close the session by reporting:
+   - What was created.
+   - What already existed and was left untouched.
+   - What was proposed, and the user's decisions.
