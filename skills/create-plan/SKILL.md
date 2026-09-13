@@ -38,7 +38,7 @@ Write `docs/plans/<plan-name>.md` according to the plan format (see: q conventio
 
 ## Step 4: Adversarial review
 
-Validate the plan (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **feasibility** and **rigor** lenses, with one difference: instead of an agreed scope, each reviewer gets the plan path and nothing more — the plan must stand alone, exactly as it will for `/q:implement-plan`. Anything still open after the third round goes to the user as an open risk rather than a caveat.
+Validate the plan (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **feasibility** and **rigor** lenses, with two differences. Instead of an agreed scope, each reviewer gets the plan path and nothing more — the plan must stand alone, exactly as it will for `/q:implement-plan`. And anything still open after the third round goes to the user as an open risk, not a caveat.
 
 One policy for BLOCKING and NITS alike: make the straightforward fix; take a finding to the user, with the reviewer's evidence, when its fix would reopen a settled decision or significantly change the plan. FOLLOW-UPS are never folded into the plan — report them to the user in Step 5.
 

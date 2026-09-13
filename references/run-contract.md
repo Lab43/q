@@ -40,7 +40,7 @@ Questions cost attention: collect them and ask together (recommended option firs
 
 Execution closes by validating the run's product before anything is delivered. Run the project's checks covering what changed. Then launch two `adversarial-reviewer` subagents in parallel over the change, one per lens, handing each the agreed scope and the artifact the skill names. The scope is what the user agreed the work would deliver, restated from the run's current state. It is never a list of the changes made: details the user has since overruled resurface as false findings.
 
-Fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering the fixes. Review again with the same reviewers — fixes are always re-reviewed. A round whose fixes were few and small may hand the next round to one reviewer carrying both lenses instead. In ship mode, commit each round. Loop at most three times. The loop exits when no reviewer reports a BLOCKING finding, and findings that survive the cap are reported as caveats.
+Fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering the fixes. Review again — fixes are always re-reviewed, with the same reviewers by default. A round whose fixes were few and small may hand the next round to one reviewer carrying both lenses. In ship mode, commit each round. Loop at most three times. The loop exits when no reviewer reports a BLOCKING finding, and findings that survive the cap are reported as caveats.
 
 ## The local gate
 

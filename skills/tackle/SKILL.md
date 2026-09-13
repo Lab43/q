@@ -54,7 +54,7 @@ When implementation reveals the work is deeper than the agreement — a redesign
 
 ## Step 5: Adversarial review
 
-Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope (what the fix was agreed to deliver) and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-exercise any drivable surface a fix touched. Surviving findings become Caveats in the PR description. Record each finding's resolution in the scratchpad note.
+Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-exercise any drivable surface a fix touched. Surviving findings become Caveats in the PR description. Record each finding's resolution in the scratchpad note.
 
 ## Step 6: Open the PR
 

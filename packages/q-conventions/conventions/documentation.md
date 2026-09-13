@@ -70,7 +70,7 @@ In docs rendered for humans (README, guides), the marker may sit in an HTML comm
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Restatements).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 
