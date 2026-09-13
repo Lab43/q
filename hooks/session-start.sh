@@ -25,7 +25,7 @@ state_file="$proj/.claude/q-state.json"
 if [ -f "$state_file" ]; then
   scaffolded=$(sed -n 's/.*"scaffoldedAgainst"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$state_file" | head -1)
   if [ -n "$pinned" ] && [ -n "$scaffolded" ] && [ "$pinned" != "$scaffolded" ]; then
-    add "The q pin ($pinned) moved past the version its scaffold last matched ($scaffolded) — run /q:update."
+    add "The q pin ($pinned) differs from the version its scaffold last matched ($scaffolded) — run /q:update."
   fi
 
   # One "name": "version" pair per line inside reconciledAgainst; the format
@@ -35,8 +35,11 @@ if [ -f "$state_file" ]; then
   for entry in $entries; do
     pack="${entry%%=*}"
     mark="${entry#*=}"
-    pin=$(grep -o "\"$pack\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$proj/package.json" 2>/dev/null |
-      head -1 | sed 's/.*"\([^"]*\)"$/\1/')
+    # Search only the devDependencies block, name regex-escaped — a pack name
+    # matching a key elsewhere in package.json must not read as its pin.
+    esc=$(printf '%s' "$pack" | sed 's/[].[\\*^$/]/\\&/g')
+    pin=$(sed -n '/"devDependencies"/,/}/p' "$proj/package.json" 2>/dev/null |
+      grep -o "\"$esc\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | head -1 | sed 's/.*"\([^"]*\)"$/\1/')
     [ -n "$pin" ] || continue
     if [ "$pin" != "$mark" ]; then
       add "$pack is pinned at $pin but its docs were last reconciled against $mark — run /q:update."
