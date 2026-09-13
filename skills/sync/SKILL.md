@@ -13,7 +13,7 @@ A project with no `.claude/q-marketplace/` has no pins to enforce — propose `/
 
 ## Step 2: Check the GitHub CLI
 
-Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHub-hosted — q's workflow skills require both. When either fails, report the fix: install via https://cli.github.com, then `gh auth login`.
+Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHub-hosted — q's workflow skills require both. When either fails, report the fix: install via https://cli.github.com and authenticate with `gh auth login` for a missing or unauthenticated CLI; a failing `gh repo view` with an authenticated CLI means `origin` is not GitHub-hosted.
 
 ## Step 3: Compare pins against watermarks
 
@@ -22,7 +22,7 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 - the plugin pin — the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json` — against `scaffoldedAgainst`
 - each doc pack's pin in `package.json` against its `reconciledAgainst` entry
 
-A mismatch means the pin moved without the project's docs being reconciled. Route it: `/q:update-q` for the plugin or the framework pack, `/q:update-pack` for any other pack. Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+A mismatch means the pin moved without the project's docs being reconciled. An absent file, or a pinned artifact with no entry, means reconciliation was never recorded — treat it as a mismatch too. Route each one: `/q:update-q` for the plugin or the framework pack, `/q:update-pack` for any other pack. Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 ## Step 4: Report
 
