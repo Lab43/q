@@ -23,7 +23,7 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="4" scope="rowgroup">Setup</th>
+    <th rowspan="5" scope="rowgroup">Setup</th>
     <td><code>/q:install-q</code></td>
     <td>Install q into a project: declare the plugin pin, install the conventions pack, scaffold <code>docs/conventions/</code>, and index both tiers in the agent briefing. Idempotent, safe to re-run.</td>
   </tr>
@@ -38,6 +38,10 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
   <tr>
     <td><code>/q:update-pack</code></td>
     <td>Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed.</td>
+  </tr>
+  <tr>
+    <td><code>/q:sync</code></td>
+    <td>Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — and flag pins whose docs were never reconciled.</td>
   </tr>
   <tr>
     <th rowspan="5" scope="rowgroup">Workflow</th>
