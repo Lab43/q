@@ -34,7 +34,7 @@ A question about the state of the work — "anything else to decide?", "does any
 
 ## Batch questions
 
-Questions cost attention: collect them and ask together (recommended option first) rather than one at a time. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
+Questions cost attention: collect them into one AskUserQuestion batch (recommended option first) rather than asking one at a time. Put everything an answer depends on inside the question itself. The go-ahead that closes a conversation is different: ask it in plain text, stating the agreed scope, so the user can green-light it or keep refining. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
 
 ## Validation
 
