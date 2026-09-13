@@ -10,6 +10,10 @@ An item assigned to someone else, marked in progress or blocked, or with a fix a
 
 Picking up a tracker item means assigning it to the user and moving it to the tracker's working status — on the user's agreement, asked once per session and carried forward.
 
+## Ask before filing
+
+Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch.
+
 ## Work links back
 
 The PR addressing an item links to it from the PR body; when the tracker doesn't pick that link up automatically, comment the PR's link on the item — on the user's agreement, asked once per session and carried forward.
