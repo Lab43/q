@@ -166,4 +166,4 @@ Otherwise: in ship mode, commit first. In both modes, validate the changes (see:
    - On a pack run:
      - The pack and version installed, and the index lines added.
      - Any overrides markers the pack's docs carry against framework rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-     - The pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update-q`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.
+     - The pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.

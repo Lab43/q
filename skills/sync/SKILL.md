@@ -22,7 +22,7 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 - the plugin pin — the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json` — against `scaffoldedAgainst`
 - each doc pack's pin in `package.json` against its `reconciledAgainst` entry
 
-A mismatch means the pin moved without the project's docs being reconciled. An absent file, or a pinned artifact with no entry, means reconciliation was never recorded — treat it as a mismatch too. Route each one: `/q:update-q` for the plugin or the framework pack, `/q:update-pack` for any other pack. Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+A mismatch means the pin moved without the project's docs being reconciled. An absent file, or a pinned artifact with no entry, means reconciliation was never recorded — treat it as a mismatch too. Route each one to `/q:update`. Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 ## Step 4: Report
 
@@ -30,4 +30,4 @@ Close by reporting:
 
 - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
 - The GitHub CLI result, with the fix when it failed.
-- Each pin-vs-watermark mismatch and the update run it routes to.
+- Each pin-vs-watermark mismatch routed to `/q:update`.

@@ -23,17 +23,13 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="4" scope="rowgroup">Setup</th>
+    <th rowspan="3" scope="rowgroup">Setup</th>
     <td><code>/q:install</code></td>
     <td>Install q into a project, or add a doc pack to one: declare the pins, scaffold <code>docs/conventions/</code>, index the docs in the agent briefing, and write the state file's watermarks. Idempotent, safe to re-run.</td>
   </tr>
   <tr>
-    <td><code>/q:update-q</code></td>
-    <td>Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed.</td>
-  </tr>
-  <tr>
-    <td><code>/q:update-pack</code></td>
-    <td>Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed.</td>
+    <td><code>/q:update</code></td>
+    <td>Update q and the project's doc packs: move pins to the latest releases, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
