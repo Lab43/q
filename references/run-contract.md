@@ -16,6 +16,10 @@ Work that will become commits runs in one of two review modes, settled up front 
 - **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's approval is what commits it.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's.
 
+## The delivery branch
+
+Settle the branch before changing anything: work built on one branch and delivered against another invites conflicts. When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run. Uncommitted changes the run does not own are the user's call: ask what to do with them before starting. Never mix them into the run's work. Branch mechanics a skill names — stacked PRs, worktrees — are its own.
+
 ## Decide at the right altitude
 
 Make small calls autonomously and state them so the user can veto; bring genuine forks to the user with a recommendation. A choice with a conventional default is not a question — make it and say so. What separates a fork from a small call is consequence, not difficulty: a decision that is hard to reverse, or that the user would decide differently with context only they hold, goes to them.

@@ -22,26 +22,31 @@ Partition the candidates by destination: skill friction and "(overrides: q …)"
 
 Qualify the candidates against the framework's documentation policy (see: q conventions/documentation.md). An override or extension made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
 
-Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
+Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). In the same batch, ask which review mode — local or ship — the deliveries run under, every destination PR and the project-side deletions alike (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
 
 - **Ship** — joins the change set the remaining steps carry to its destination's PR.
 - **Defer** — stays recorded in the project, a candidate for a later run.
-- **Remove** — for an override the review turns against: the upstream rule holds up and the deviation was the mistake. Delete it from the project's docs via `/q:update-docs`, outside the PR.
+- **Remove** — for an override the review turns against: the upstream rule holds up and the deviation was the mistake. Step 3 deletes it from the project's docs.
 
 ## Step 3: Make the changes
 
-The Step 2 rulings are the agreement — work each destination autonomously. For each with shipped candidates:
+The Step 2 rulings are the agreement — work each destination autonomously.
+
+First the Remove rulings: hand the deletions to `/q:update-docs` for full delivery under the run's review mode. Its own branch, validation, and PR carry them to this project, separate from every destination PR.
+
+Then, for each destination with shipped candidates:
 
 1. Clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. Read the checkout's `AGENTS.md`/`CLAUDE.md` first and follow it — it governs how the change is made.
 3. Apply the destination's change set. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
-4. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Ground the conventions lens in the framework pack's rules, which every destination shares — packs are authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
-5. Propose the commit — committing is the user's call.
+4. In ship mode, commit — the review history stays inspectable in git.
+5. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name the framework pack's rules as the substitute grounding surface in both lenses' launches — every destination shares them, packs being authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
+6. In local mode, run the gate over the checkout's diff, committing onto its branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate). The gate's own reviewer pass takes the same substitute grounding as item 5's.
 
 ## Step 4: Open the PRs
 
-Confirm with the user before each push — the PR is outward-facing. Then `gh pr create` against the default branch. The PR body carries what changed, why, and the provoking context from this session — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: q conventions/documentation.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
+Push each destination branch and open its PR with `gh pr create` against the default branch — the Step 2 agreement covers these PRs. Author the body per the PR-authoring rules (see: q conventions/pull-requests.md); the destination's own PR conventions and template win where they speak (source: q conventions/pull-requests.md). Carry the provoking context from this session in the body — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: q conventions/documentation.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
 
 ## Step 5: Report
 
-Per destination: the PR link; what shipped, what was deferred or dropped and why; any candidate undeliverable for lack of a recorded repository. And any project deviation a PR would resolve — leave it recorded, untouched: it comes out only after the change ships in a pin update, and the PR may be rejected.
+Per destination: the PR link; what shipped, what was deferred or dropped and why; any candidate undeliverable for lack of a recorded repository. Include the project-side PR from any Remove rulings. And any project deviation a PR would resolve — leave it recorded, untouched: it comes out only after the change ships in a pin update, and the PR may be rejected.

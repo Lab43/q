@@ -47,7 +47,7 @@ Merge the findings into proposed edits, each stating its remedy and citing its f
 
 ## Step 4: Apply
 
-1. Create a branch when the session isn't already on a work branch.
+1. Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
 2. Step 3's rulings are the agreement — apply the approved edits autonomously. In ship mode, commit them.
 3. Re-run the dead-reference and consistency checks over the result — approved edits can break each other's targets.
 

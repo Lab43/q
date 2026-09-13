@@ -38,7 +38,7 @@ The routes:
 
 ## Step 3: Branch
 
-If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then require a clean working tree — if anything is uncommitted, stop and show the user — and branch:
+If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A tackle item is its own delivery unit, so the call is a fresh branch. Require a clean working tree first — if anything is uncommitted, stop and show the user. Branch:
 
 ```bash
 git fetch origin && git checkout -b <work-slug> origin/<default-branch>
