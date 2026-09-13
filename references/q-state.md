@@ -23,10 +23,10 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 - `scaffoldedAgainst` — the plugin version the install scaffold last matched.
 - `reconciledAgainst` — one entry per installed doc pack: the pack version the project's docs were last reconciled against.
 
-## Writers
+## Writer rules
 
-- `/q:install` writes `scaffoldedAgainst` and the framework pack's entry at bootstrap, and a pack's entry when it installs a pack — each set to the version just installed. A fresh install has no reconciliation debt.
+- `/q:install` writes `scaffoldedAgainst` and the framework pack's entry at bootstrap, and a pack's entry on its pack path — each set to the version installed at that point. A fresh install has no reconciliation debt.
 - `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move. Its bare sweep drops entries for packs no longer in `package.json`.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 
-An absent file means no record — create it on the first watermark write. The file never ships in a pack: it lives in `.claude/`, outside any pack's `files` whitelist.
+An absent file means no record — create it on the first watermark write. The file never ships in a pack: it lives in `.claude/`, outside the `files` whitelist a pack's tarball is built from (source: q conventions/doc-packs.md).
