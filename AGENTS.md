@@ -26,7 +26,8 @@ Framework payload (ships to consumers):
 - `q conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
 - `q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
 - `q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
-- `q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything written for a human reader
+- `q conventions/pull-requests.md` — rules for authoring a pull request
+- `q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read
 - `q conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
 
 This project's own (rules for developing q):

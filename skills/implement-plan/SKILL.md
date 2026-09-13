@@ -10,10 +10,10 @@ The plan to execute comes from the invocation, as a name or path (`voice-selecti
 ## Ground rules
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
-- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR body's Decisions & deviations and Caveats sections.
+- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 - **Plan doc amendments**: when execution deviates from the plan or a verification step contradicts it, fold the outcome into the plan doc as a marked amendment per the lifecycle rules (see: q conventions/plans.md, Lifecycle), alongside the work of the phase that surfaced it.
-- **Doc updates**: make doc updates through `/q:update-docs` as they surface: doc changes the plan schedules; fixes to docs the diff falsifies; a single-site gotcha as a code comment where it bites (source: q conventions/principles.md, Colocate knowledge with its next reader); a new cross-cutting lesson as a conventions entry, held to the documentation policy's gates and flagged under Decisions & deviations. Don't amend or contradict an existing rule or recorded decision — that is the user's, surfaced as a Follow-up or, when the run can't proceed without the answer, an interrupt.
+- **Doc updates**: make doc updates through `/q:update-docs` as they surface: doc changes the plan schedules; fixes to docs the diff falsifies; a single-site gotcha as a code comment where it bites (source: q conventions/principles.md, Colocate knowledge with its next reader); a new cross-cutting lesson as a conventions entry, held to the documentation policy's gates. Don't amend or contradict an existing rule or recorded decision — that is the user's, surfaced in the closing report or, when the run can't proceed without the answer, an interrupt.
 
 ## Step 1: Understand
 
@@ -27,7 +27,7 @@ The plan to execute comes from the invocation, as a name or path (`voice-selecti
 
 Clarify the plan with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — everything asked here is a question the autonomous stretch won't have to stop for. One batch, via AskUserQuestion:
 
-- The ambiguities, plan/codebase conflicts, and scope questions Step 1 surfaced — when none need the user's attention, state your working assumptions in a short paragraph instead. If consequential questions keep accumulating, the plan is underspecified — say so and suggest revising it with `/q:create-plan` before implementing.
+- The ambiguities, plan/codebase conflicts, and scope questions Step 1 surfaced — when none need the user's attention, state your working assumptions instead. If consequential questions keep accumulating, the plan is underspecified — say so and suggest revising it with `/q:create-plan` before implementing.
 - The review mode, always asked (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes): in this run, ship covers every commit (a stacked run's `gh stack` operations included), push, and PR; local commits nothing until the user has reviewed it, each PR's content at that PR's boundary.
 
 What emerges completes the agreement: the plan, as clarified, authorizes the rest of the run as autonomous.
@@ -77,14 +77,8 @@ When a group's last phase lands, finish that PR before starting the next group:
 2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope. Per loop round, re-exercise any flow from item 1 that a fix changed. Surviving findings become Caveats in the PR description.
 3. **Local review's gate**: run the gate over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
 4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local review this commit rides the approval just given — don't ask again.
-5. **Open the PR**, so the user can start reviewing while later groups build. Stacked: `gh stack submit --auto --open` pushes the layers built so far and opens the new PR ready for review — GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. Single PR: `git push -u origin <plan-name>`, then `gh pr create`. Title from the plan name; body per the writing rules (see: q conventions/writing.md) and the project's PR conventions where it records any, with these sections:
-   - **Summary** — this PR's role in the plan, a line or two, linking `docs/plans/<name>.md`
-   - **Phases** — one line per phase: what it delivered, and where its judgment calls live (what a reviewer should read slowly)
-   - **Decisions & deviations** — this PR's autonomous choices, plan steps skipped as obsolete, review findings rejected with their reasons; omit when empty
-   - **Caveats** — findings that survived this PR's review cap, known flakes hit; omit when empty
-   - **Follow-ups** — out-of-scope improvements this PR's work surfaced, candidates for future plans; omit when empty
-   - **Testing** — what ran for this PR and the results
+5. **Open the PR**, so the user can start reviewing while later groups build. Stacked: `gh stack submit --auto --open` pushes the layers built so far and opens the new PR ready for review — GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. Single PR: `git push -u origin <plan-name>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
 
 ## Step 6: Report
 
-Close the session by reporting the PR URL(s), the phase list, and any caveats.
+Close the session by reporting the PR URL(s), the phase list, any caveats, any suggested changes to standing law, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).

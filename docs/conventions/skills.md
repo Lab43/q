@@ -28,7 +28,7 @@ Procedure and preconditions the skill checks itself are learnable after — in t
 
 The description loads with the body at invocation, so an intro never restates it. An intro line survives only by adding what the description can't carry — an execution-binding constraint or design intent; with nothing to add, the body opens at its first step.
 
-A body instructs the agent executing it: write imperatives ("commit the fixes"), never narration about what "the run" or "the skill" does ("the run commits the fixes") and never passives that hide the actor ("the fixes are committed"). Declarative sentences are reserved for facts a step relies on ("plans can predate refactors"); every action gets a command.
+A body instructs the agent executing it: every action gets a command (source: q conventions/writing.md, Instructions are commands).
 
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
 

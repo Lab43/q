@@ -58,5 +58,5 @@ Validate the applied edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.m
 ## Step 6: Open the PR
 
 1. **Local review's gate**: run the gate over the uncommitted edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-2. **Open the PR**: push the branch and open the PR; body per the writing rules (see: q conventions/writing.md) and the project's PR conventions where it records any.
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
 3. Close the session by reporting: what changed per doc, what was deduped and into where, every autonomous fix, every user decision and its outcome, any upstream-to-q candidates, and anything that couldn't be verified — named explicitly, never silently dropped.

@@ -23,7 +23,7 @@ Set aside items not available to pick up rather than proposing them (source: q c
 In conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes), settle the session in one batch of questions:
 
 - The review mode every tackle cycle will run under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes).
-- The write-backs the issue-tracking conventions gate on the user's agreement: claiming each agreed pick, commenting PR links (see: q conventions/issue-tracking.md). Skip what the source can't support and what conventions already settle.
+- The write-backs the issue-tracking conventions gate on a session-wide agreement: claiming each agreed pick, commenting PR links (see: q conventions/issue-tracking.md). Skip what the source can't support and what conventions already settle.
 - Anything about the set itself that ranking genuinely turns on.
 
 Settle each answer once and don't re-ask it per item, though the user may change any answer between items. Don't ask for priority guidelines when none were given. Rank by judgment instead, and state the basis with each proposal so the user can redirect it.
@@ -36,4 +36,4 @@ The agreed pick authorizes its handoff, nothing more. Claim the item in the sour
 
 ## Step 4: Loop
 
-When the cycle ends, re-read the source and the open PRs and screen the set again as in Step 1 — statuses change and items arrive mid-session. Then return to Step 3. When the set runs dry or the user stops, close with a short recap of each item's outcome.
+When the cycle ends, re-read the source and the open PRs and screen the set again as in Step 1 — statuses change and items arrive mid-session. Then return to Step 3. When the set runs dry or the user stops, close with a recap of each item's outcome.

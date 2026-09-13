@@ -50,5 +50,5 @@ Changes made for a calling skill end at Step 5: they join the calling run's chan
 ## Step 7: Open the PR
 
 1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-2. **Open the PR**: push the branch and open the PR; body per the writing rules (see: q conventions/writing.md) and the project's PR conventions where it records any.
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
 3. Close the session by reporting each change and its home, plus anything swept but not recorded and why.
