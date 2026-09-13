@@ -8,7 +8,7 @@ The file holds machine-written version watermarks — never rules, never doc enu
 
 ## Format
 
-The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so the hook can parse it with grep and sed:
+The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so a watermark move reads as a one-line diff:
 
 ```json
 {

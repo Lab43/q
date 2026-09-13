@@ -33,7 +33,7 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
-    <td>Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — and flag pins whose docs were never reconciled.</td>
+    <td>Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — handing off to <code>/q:install</code> or <code>/q:update</code> when the project's docs don't match its pins.</td>
   </tr>
   <tr>
     <th rowspan="5" scope="rowgroup">Workflow</th>
