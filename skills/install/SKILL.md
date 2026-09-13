@@ -118,7 +118,7 @@ The invocation is the agreement — scaffold autonomously, every item create-if-
 
    Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo. The `"q@lab43": false` keeps a user-scope install of q from loading alongside the pin.
 5. **Enforce the declarations** — make this machine match the pins just declared: run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
-6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `scaffoldedAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `reconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`. The file is committed: when the project gitignores `.claude/`, add a `.gitignore` exception for it.
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `scaffoldedAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `reconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). The file is committed: check `git check-ignore .claude/q-state.json` and fix the ignore rules until it reports nothing — a bare negation under an ignored `.claude/` does nothing; the directory rule itself must become `.claude/*` plus `!.claude/q-state.json`.
 7. **README setup line** — ensure the README tells collaborators how to bring a new machine up, wherever its setup instructions live:
 
    ```markdown
@@ -146,11 +146,11 @@ Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries th
 
 Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
-When the pack has no `reconciledAgainst` entry, write one from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — a pack Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not: moving a watermark is reconciliation's act, and reconciliation is `/q:update`'s.
+When the pack has no `reconciledAgainst` entry, write one from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — a pack Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not — it is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 ## Step 6: Adversarial review
 
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked — every proposal declined on an otherwise complete project — and no earlier run's scaffold awaits delivery, report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 7, item 3), adding:
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked — every proposal declined on an otherwise complete project — and no earlier run's scaffold awaits delivery: switch back to the prior branch, delete any branch this run created, and report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 7, item 3), adding:
 
 - That the changes stay uncommitted — restate the `gh` fix.
 - That a re-run delivers them once `gh` is in place.

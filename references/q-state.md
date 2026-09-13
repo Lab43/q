@@ -25,7 +25,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 
 ## Writer rules
 
-- `/q:install` writes `scaffoldedAgainst` and the framework pack's entry at bootstrap, and a pack's entry on its pack path — each set to the version installed at that point. A fresh install has no reconciliation debt.
+- `/q:install` writes `scaffoldedAgainst` and the framework pack's entry at bootstrap, and a pack's entry on its pack path — each set to the version installed at that point. A fresh install has no reconciliation debt. It writes only absent watermarks — never over a present entry, stale or not: moving a watermark is reconciliation's act, and only reconciliation moves it.
 - `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move. Its bare sweep drops entries for packs no longer in `package.json`.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 
