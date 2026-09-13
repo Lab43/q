@@ -4,10 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Reviewable by a human
 
-**Every doc this policy governs must stay reviewable by a human.** Two standing corrections to the model bias toward long prose and accretion — when any rule in this policy leaves a close call, resolve it against that bias:
-
-- **Deletion is the default**, and it is safe — git history keeps everything cut. When a judgment call between keeping and cutting is close, cut. When text is ambiguous or wrong, try deleting it before qualifying it.
-- **Every change refines, never appends** — new rules, clarifications, and corrections alike, at every scale. A change is integrated by rewriting the sentence, paragraph, or section it lands in until the doc reads as if written that way from the start: a clause bolted onto a sentence is accretion in miniature, and a rulings changelog at the bottom of a doc is accretion in full — git history is the changelog.
+**Every doc this policy governs must stay reviewable by a human.** Hold every edit to the writing rules (see: q conventions/writing.md).
 
 ## Two tiers of conventions
 
@@ -28,7 +25,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 **Every statement is a rule** — something to follow, a constraint to check, or a decision that binds future code, phrased that way; a sentence that wouldn't change what a reader writes or flags gets cut. Descriptions of how the system currently works are not conventions — the code and exemplars carry those. Record decisions and rejected alternatives only when they're highly likely to come up again (the alternative is the first thing a reader would reach for, or something deliberately ignored reads as an oversight) — and at a sentence or two per rejection, not an essay: name the alternative and the reason. The rationale stands inline — never cite the repo's issues or PRs as provenance (git history is the paper trail); links to other projects' trackers as evidence for external-tool claims, and operational pointers to pending work tracked in an issue, remain fine. Never facts readable from the code: directory listings, dependency lists, schema enumerations, config values, and model/version names rot the moment code moves, and the code already answers them.
 
-**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: Reviewable by a human) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule, and it arrives complete in one change: its intro (see: Taxonomy) plus its line in the agent briefing's index.
+**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule, and it arrives complete in one change: its intro (see: Taxonomy) plus its line in the agent briefing's index.
 
 ## Taxonomy
 
@@ -55,21 +52,25 @@ Every fact has exactly one home; every other doc links to it, never restates it.
 
 Rejected: a standing central registry of all shared facts and their homes. It accumulates entries whose home is obvious from the doc's topic, and it rots like any other enumeration.
 
+## Pack doc paths
+
+Reference a pack doc by package name plus path from the package root — `@acme/q-docs-x conventions/retries.md`. `q` is the alias for the framework pack, `@lab43/q-conventions`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the pack's working tree in the repo that authors it. Use the form for every reference to a pack doc — markers, the briefing's index lines, skill text. Use it even for a sibling in the doc's own pack: a reference must stay unambiguous when its text is quoted away from its file.
+
 ## Markers
 
-Inline cross-references tying a statement to the doc it depends on. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run. Three, all ordinary language:
+Inline cross-references tying a statement to the doc it depends on. They are the doc surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run. Three, all ordinary language:
 
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
 - a heading in the current doc (`see: Markers`)
 - a repo file, by path from the repo root — a project doc (`docs/conventions/testing.md`) or any other file a fact is read from (`source: config.yml`)
-- a pack doc, by package name plus path from the package root (`@acme/q-docs-x conventions/retries.md`), `q` being the alias for the framework pack, `@lab43/q-conventions` (`q conventions/documentation.md`). The name resolves to the installed copy in `node_modules/` — or to the pack's working tree in the repo that authors it. A pack doc uses this form even for a sibling in its own pack: a marker must stay unambiguous when its text is quoted away from its file.
+- a pack doc, by its path form (see: Pack doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Restatements).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 

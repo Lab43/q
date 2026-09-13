@@ -1,18 +1,18 @@
 ---
 name: groom-docs
-description: Audit the project's whole documentation surface against the documentation policy and consolidate what has drifted. Use when docs feel inflated or stale, after a stretch of merged changes, or on a docs-cleanup request.
+description: Audit the project's whole documentation surface against the documentation policy and consolidate what has drifted. Approved edits ship as a PR. Use when docs feel inflated or stale, after a stretch of merged changes, or on a docs-cleanup request.
 ---
 
 # Groom Docs
 
 **Read the rubric first, and follow it over any instinct:**
 
-1. The framework policy — `node_modules/@lab43/q-conventions/conventions/documentation.md` — plus any other installed pack's doc whose topic governs documentation: pack rules bind like the framework's.
+1. The framework policy (see: q conventions/documentation.md) and the writing rules (see: q conventions/writing.md), plus any other installed pack's doc whose topic governs documentation: pack rules bind like the framework's.
 2. The project's recorded rulings and deviations: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. On conflict with any pack, these win.
 
 If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q-conventions/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
 
-Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Inventory
 
@@ -38,15 +38,25 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 
 ## Step 3: Consolidate with the user
 
-Merge the findings into proposed edits, each stating its remedy and citing its finding — a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes).
+Merge the findings into proposed edits, each stating its remedy and citing its finding — a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes).
 
 - Apply autonomously: wording-level fixes, replacing a single restated sentence or bullet with a cross-reference to its home, and dead-reference corrections.
 - **Everything else goes to the user** (AskUserQuestion) — including larger deletions and rewrites, any reorganization, any `pending` plan proposed as `abandoned` (only the user flips a status), and any fact that couldn't be verified either way.
 - When a user ruling sets a precedent, record it in the same run: project-specific rulings go in the project's `docs/conventions/documentation.md`; a ruling that would apply to every q project is recorded as a project deviation and flagged in the report as a candidate to upstream (via `/q:upstream`).
+- In the same batch, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes).
 
-## Step 4: Apply, re-check, report
+## Step 4: Apply
 
-1. Step 3's rulings are the agreement — apply the approved edits autonomously.
-2. Re-run the dead-reference and consistency checks over the result — approved edits can break each other's targets.
-3. Report: what changed per doc, what was deduped and into where, every autonomous fix, every user decision and its outcome, any upstream-to-q candidates, and anything that couldn't be verified (named explicitly — never silently dropped).
-4. **Committing is the user's call** — propose a commit structure and ask.
+1. Create a branch when the session isn't already on a work branch.
+2. Step 3's rulings are the agreement — apply the approved edits autonomously. In ship mode, commit them.
+3. Re-run the dead-reference and consistency checks over the result — approved edits can break each other's targets.
+
+## Step 5: Adversarial review
+
+Validate the applied edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+
+## Step 6: Open the PR
+
+1. **Local review's gate**: run the gate over the uncommitted edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+2. **Open the PR**: push the branch and open the PR; body per the writing rules (see: q conventions/writing.md) and the project's PR conventions where it records any.
+3. Close the session by reporting: what changed per doc, what was deduped and into where, every autonomous fix, every user decision and its outcome, any upstream-to-q candidates, and anything that couldn't be verified — named explicitly, never silently dropped.

@@ -16,37 +16,64 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
 
 <!-- source: each skill's SKILL.md frontmatter description -->
 
-### Setup
-
-| Skill | What it does |
-| --- | --- |
-| `/q:install-q` | Install q into a project: declare the plugin pin, install the conventions pack, scaffold `docs/conventions/`, and index both tiers in the agent briefing. Idempotent, safe to re-run. |
-| `/q:update-q` | Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed. |
-| `/q:install-pack` | Install a third-party doc pack and index its docs in the agent briefing. |
-| `/q:update-pack` | Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed. |
-
-### Workflow
-
-| Skill | What it does |
-| --- | --- |
-| `/q:triage` | Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to `/q:tackle`. |
-| `/q:tackle` | Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing. |
-| `/q:create-plan` | Collaboratively plan a feature into `docs/plans/` — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc. |
-| `/q:implement-plan` | Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for. |
-
-### Review
-
-| Skill | What it does |
-| --- | --- |
-| `/q:review-conformance` | Evaluate code against the project's conventions, where either side may be the one to change. |
-
-### Docs
-
-| Skill | What it does |
-| --- | --- |
-| `/q:update-docs` | The single write path for doc changes — record a lesson, fix a guide, amend the briefing. |
-| `/q:groom-docs` | Audit the whole documentation surface against the documentation policy and consolidate what has drifted. |
-| `/q:upstream` | Turn session friction and recorded deviations into PRs against the repos that own the rules — the q framework's or a doc pack's. |
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Skill</th>
+    <th>What it does</th>
+  </tr>
+  <tr>
+    <th rowspan="4" scope="rowgroup">Setup</th>
+    <td><code>/q:install-q</code></td>
+    <td>Install q into a project: declare the plugin pin, install the conventions pack, scaffold <code>docs/conventions/</code>, and index both tiers in the agent briefing. Idempotent, safe to re-run.</td>
+  </tr>
+  <tr>
+    <td><code>/q:update-q</code></td>
+    <td>Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed.</td>
+  </tr>
+  <tr>
+    <td><code>/q:install-pack</code></td>
+    <td>Install a third-party doc pack and index its docs in the agent briefing.</td>
+  </tr>
+  <tr>
+    <td><code>/q:update-pack</code></td>
+    <td>Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed.</td>
+  </tr>
+  <tr>
+    <th rowspan="5" scope="rowgroup">Workflow</th>
+    <td><code>/q:triage</code></td>
+    <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
+  </tr>
+  <tr>
+    <td><code>/q:tackle</code></td>
+    <td>Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing.</td>
+  </tr>
+  <tr>
+    <td><code>/q:create-plan</code></td>
+    <td>Collaboratively plan a feature into <code>docs/plans/</code> — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc.</td>
+  </tr>
+  <tr>
+    <td><code>/q:implement-plan</code></td>
+    <td>Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for.</td>
+  </tr>
+  <tr>
+    <td><code>/q:review</code></td>
+    <td>Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer; you rule on the findings, and a finding may fault a convention rather than the work.</td>
+  </tr>
+  <tr>
+    <th rowspan="3" scope="rowgroup">Docs</th>
+    <td><code>/q:update-docs</code></td>
+    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Invoked directly, the changes ship as a PR.</td>
+  </tr>
+  <tr>
+    <td><code>/q:groom-docs</code></td>
+    <td>Audit the whole documentation surface against the documentation policy and consolidate what has drifted. Approved edits ship as a PR.</td>
+  </tr>
+  <tr>
+    <td><code>/q:upstream</code></td>
+    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — the q framework's or a doc pack's.</td>
+  </tr>
+</table>
 
 ## How it works
 
@@ -78,7 +105,7 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 | --- | --- |
 | `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
 | `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
-| `(overrides: X)` | This rule deliberately replaces the named one — a q framework rule (`overrides: q conventions/documentation.md, Code examples`), a doc pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
+| `(overrides: X)` | This rule deliberately replaces the named one — a q framework rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), a doc pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
 
 ## Developing q
 

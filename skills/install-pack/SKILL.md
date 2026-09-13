@@ -5,7 +5,7 @@ description: Install a third-party doc pack and index its docs in the agent brie
 
 # Install Pack
 
-Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`; the named pack is the agreement — proceed autonomously throughout.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`; the named pack is the agreement — proceed autonomously throughout.
 
 ## Step 1: Install
 
@@ -19,7 +19,7 @@ Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries th
 
 ## Step 2: Index
 
-Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, by `node_modules/` path, blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
+Add one line per doc in the pack's `conventions/` to the agent briefing's docs index, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
 ## Step 3: Report
 

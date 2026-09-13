@@ -9,7 +9,7 @@ The idea to plan comes from the invocation, at any fidelity — a phrase ("email
 
 ## Ground rules
 
-- **Follow the collaboration contract** — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+- **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **Plan, don't implement**: the only project file this skill writes is `docs/plans/<plan-name>.md` (create the directory on the first plan). No implementation, no commits unless the user asks.
 - **Ground everything**: every claim about current behavior comes from reading the code (cite `file:line`); every external fact (package versions, library APIs, option names, client support) is verified during planning, never stated from memory — online where reading settles it, by exercising the toolchain in scratch space where only running something can. A plan resting on an unverified assumption is a planning failure, not a note for the implementer.
 - **Evidence can flip decisions**: when exploration contradicts a tentative decision (a planned feature depends on data that turns out not to exist), surface the finding prominently and re-decide before it gets written into the plan.
@@ -20,12 +20,12 @@ The idea to plan comes from the invocation, at any fidelity — a phrase ("email
 Before proposing anything, establish current state:
 
 1. The relevant code — use an Explore subagent for breadth; read the load-bearing files yourself.
-2. The conventions governing the affected territory, found from the agent briefing's docs index — plus this workflow's own rubric, the plan format: `node_modules/@lab43/q-conventions/conventions/plans.md`.
+2. The conventions governing the affected territory, found from the agent briefing's docs index — plus this workflow's own rubric, the plan format (see: q conventions/plans.md).
 3. Prior plans in the same territory (`docs/plans/`, if it exists). Read their decisions and rejected alternatives for the rationale, not the ruling: a rejection whose grounds still hold isn't re-proposed; one whose grounds have shifted is back on the table, with its history. Deferrals are candidates to raise with the user, not inheritances. Status matters: a `pending` plan in the same territory is a possible collision to surface, and an `abandoned` one's decisions never bound anything. Trust newer plans and the code over older ones, and take no format cues — the plan format doc is the only format authority.
 
 ## Step 2: Discuss
 
-Tease out the goals and key aspects with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes). Beyond the design decisions themselves, two calls are settled here:
+Tease out the goals and key aspects with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Beyond the design decisions themselves, two calls are settled here:
 
 - Scope boundaries are decisions too: record what's explicitly out of scope or deferred, and why.
 - The delivery shape — single PR or stacked, per the format's defaults (see: q conventions/plans.md, Delivery shape) and any PR rules the project's conventions record. The defaults usually decide it: state the call for veto rather than asking, unless the estimate is genuinely borderline.
@@ -34,11 +34,11 @@ Once the scope, delivery shape, and key design decisions feel settled, ask for t
 
 ## Step 3: Write the plan
 
-Write `docs/plans/<plan-name>.md` according to the plan format (see: q conventions/plans.md).
+Write `docs/plans/<plan-name>.md` according to the plan format (see: q conventions/plans.md) and the writing rules (see: q conventions/writing.md).
 
 ## Step 4: Adversarial review
 
-Review, then fix, up to three times. Each round launches two `adversarial-reviewer` subagents in parallel over the plan doc — one with the **feasibility** lens, one with the **rigor** lens; both run every round, because a fix made for one lens can introduce a problem only the other would catch. Each gets the plan path and nothing more: the plan must stand alone, exactly as it will for `/q:implement-plan`. The loop ends when neither reviewer reports a BLOCKING finding; anything still open after the third round goes to the user as an open risk.
+Validate the plan (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **feasibility** and **rigor** lenses, with two differences. Instead of an agreed scope, each reviewer gets the plan path and nothing more — the plan must stand alone, exactly as it will for `/q:implement-plan`. And anything still open after the third round goes to the user as an open risk, not a caveat.
 
 One policy for BLOCKING and NITS alike: make the straightforward fix; take a finding to the user, with the reviewer's evidence, when its fix would reopen a settled decision or significantly change the plan. FOLLOW-UPS are never folded into the plan — report them to the user in Step 5.
 

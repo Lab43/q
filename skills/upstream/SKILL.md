@@ -7,7 +7,7 @@ description: Turn session friction and the project's recorded deviations into up
 
 Never edits an installed plugin or pack in place — changes go through a PR to the repo that owns them.
 
-Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Gather candidates
 
@@ -20,9 +20,9 @@ Partition the candidates by destination: skill friction and "(overrides: q …)"
 
 ## Step 2: Converge with the user
 
-Qualify the candidates against the framework's documentation policy (`node_modules/@lab43/q-conventions/conventions/documentation.md`). An override or extension made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
+Qualify the candidates against the framework's documentation policy (see: q conventions/documentation.md). An override or extension made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
 
-Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/collaboration.md, Collaboration modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
+Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
 
 - **Ship** — joins the change set the remaining steps carry to its destination's PR.
 - **Defer** — stays recorded in the project, a candidate for a later run.
@@ -35,7 +35,8 @@ The Step 2 rulings are the agreement — work each destination autonomously. For
 1. Clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. Read the checkout's `AGENTS.md`/`CLAUDE.md` first and follow it — it governs how the change is made.
 3. Apply the destination's change set. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
-4. Propose the commit — committing is the user's call.
+4. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Ground the conventions lens in the framework pack's rules, which every destination shares — packs are authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
+5. Propose the commit — committing is the user's call.
 
 ## Step 4: Open the PRs
 

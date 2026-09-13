@@ -1,6 +1,6 @@
-# Collaboration
+# Run Contract
 
-How a q skill operates with the user: the two mode axes a run moves through, and the conduct rules that bind throughout. Skills reference this contract; it governs from invocation to finish.
+How every q skill run operates, from invocation to finish. Skills reference this contract rather than restating it.
 
 ## Collaboration modes
 
@@ -35,3 +35,15 @@ A question about the state of the work — "anything else to decide?", "does any
 ## Batch questions
 
 Questions cost attention: collect them and ask together (recommended option first) rather than one at a time. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
+
+## Validation
+
+Execution closes by validating the run's product before anything is delivered. Run the project's checks covering what changed. Then launch two `adversarial-reviewer` subagents in parallel over the change, one per lens, handing each the agreed scope and the artifact the skill names. The scope is what the user agreed the work would deliver, restated from the run's current state. It is never a list of the changes made: details the user has since overruled resurface as false findings.
+
+Fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering the fixes. Review again — fixes are always re-reviewed, with the same reviewers by default. A round whose fixes were few and small may hand the next round to one reviewer carrying both lenses. In ship mode, commit each round. Loop at most three times. The loop exits when no reviewer reports a BLOCKING finding, and findings that survive the cap are reported as caveats.
+
+## The local gate
+
+The procedure local review runs at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange.
+
+At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the changes were substantive, run one `adversarial-reviewer` pass (both lenses) over them. Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted.

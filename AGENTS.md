@@ -30,13 +30,16 @@ This section is scaffolding for the extraction, not part of q. When the last pie
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `packages/q-conventions/conventions/` and `docs/conventions/`. All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
+In path references, `q` abbreviates the `@lab43/q-conventions` pack (source: q conventions/documentation.md, Pack doc paths) — here resolving to `packages/q-conventions/`, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
+
 Framework payload (ships to consumers):
 
-- `packages/q-conventions/conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
-- `packages/q-conventions/conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
-- `packages/q-conventions/conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
-- `packages/q-conventions/conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
-- `packages/q-conventions/conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
+- `q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+- `q conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
+- `q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
+- `q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
+- `q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything written for a human reader
+- `q conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
 
 This project's own (rules for developing q):
 

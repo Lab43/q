@@ -1,13 +1,13 @@
 ---
 name: update-docs
-description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. The argument can be a spelled-out change (applied as given), a rough topic, or nothing — bare invocation sweeps the session for changes worth recording. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
+description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. The argument can be a spelled-out change (applied as given), a rough topic, or nothing — bare invocation sweeps the session for changes worth recording. Invoked directly, the changes ship as a PR; invoked from another skill's run, they join that run's change. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
 ---
 
 # Update Docs
 
 The single write path for documentation changes. Whatever the change, this skill classifies it against the documentation taxonomy and applies that category's rules, so callers never need to pre-sort "conventions" from other docs. Other q skills that record new or amended rules delegate here.
 
-Follow the collaboration contract — `${CLAUDE_PLUGIN_ROOT}/references/collaboration.md`.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Classify the change
 
@@ -20,11 +20,11 @@ The change comes from the invocation: named in the prompt, surfaced by the sessi
 
 ## Step 2: Read the policy
 
-Read the framework policy — `node_modules/@lab43/q-conventions/conventions/documentation.md` — plus any other installed pack's doc whose topic governs documentation, and the project's `docs/conventions/documentation.md`, its recorded rulings and deviations, which win on conflict.
+Read the framework policy (see: q conventions/documentation.md) and the writing rules (see: q conventions/writing.md), plus any other installed pack's doc whose topic governs documentation, and the project's `docs/conventions/documentation.md` — its recorded rulings and deviations win on conflict.
 
 ## Step 3: The conventions path — qualify the lesson
 
-Read the framework's `node_modules/@lab43/q-conventions/conventions/principles.md` — plus any other installed pack's doc whose topic governs cross-cutting principles — and the project's `docs/conventions/principles.md`, then hold the lesson to four gates, in order:
+Read the framework principles (see: q conventions/principles.md), plus any other installed pack's doc whose topic governs cross-cutting principles, and the project's `docs/conventions/principles.md`. Then hold the lesson to four gates, in order:
 
 1. **Is it a rule?** Would it change what a future reader writes or flags? Narrative, descriptions of current behavior, and code-readable facts don't qualify — the code carries those. What qualifies is the binding form: the constraint, the do/don't, the decision with rationale. No rule in it ends the path — report that, don't force an entry.
 2. **Where will its next reader be standing?** A fact needed only when touching one specific site becomes a code comment there, not a conventions entry. A lesson the next person would re-trip writing similar code elsewhere is cross-cutting even with one current instance — that one goes in the doc. Genuinely uncertain: comment now, promote on second occurrence (source: q conventions/principles.md, Colocate knowledge with its next reader).
@@ -37,6 +37,18 @@ A lesson through the gates gets a home: the topically-owning doc — grep the su
 
 Confirm what the session derived, in a conversational stretch — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
 
+In a run invoked directly by the user, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), even when a spelled-out change skips the rest of this step.
+
 ## Step 5: Apply per policy
 
-Act autonomously once the scope is agreed — the git diff is the review surface, not a pre-shown draft. Every change refines, never appends — rewrite the text it lands in until the doc reads as if written that way from the start; deletion is the default when in doubt — git history keeps everything cut (source: q conventions/documentation.md, Reviewable by a human). Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy). Keep the briefing's docs index in sync if membership or a gloss changed. Committing is the user's call.
+Act autonomously once the scope is agreed: edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy) and the writing rules (see: q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed. In a user-invoked run, create a branch when the session isn't already on one, and commit in ship mode.
+
+## Step 6: Adversarial review
+
+Changes made for a calling skill end at Step 5: they join the calling run's change, which validates and delivers them. Otherwise validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+
+## Step 7: Open the PR
+
+1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+2. **Open the PR**: push the branch and open the PR; body per the writing rules (see: q conventions/writing.md) and the project's PR conventions where it records any.
+3. Close the session by reporting each change and its home, plus anything swept but not recorded and why.
