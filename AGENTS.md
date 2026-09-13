@@ -2,18 +2,6 @@
 
 q is a Claude Code plugin packaging an agentic coding workflow. This file briefs sessions working **on** q. A plugin install copies the whole repo to the consumer's machine, but nothing here auto-loads into their sessions — consumers encounter only what the plugin routes them to: skills, hooks, and the framework conventions the skills read.
 
-## Extraction
-
-q is being extracted piece-by-piece from the workflow developed in the earmarks project (`github.com/Lab43/earmarks` — its `.claude/skills/`, `.claude/agents/`, and `docs/conventions/`). When porting a piece:
-
-- **Generalize, don't copy**: strip earmarks-specific paths, tools, and facts; make surface checks conditional on what exists in a consuming project (`AGENTS.md` *or* `CLAUDE.md`, `docs/plans/` only if present).
-- **Split interleaved docs** by the policy/rulings rule: framework-general policy ships here in `packages/q-conventions/conventions/`; project-specific data (rulings, deviations, exemplars) belongs to the consuming project's `docs/conventions/`, with its schema defined by the framework doc.
-- After a port is verified, the earmarks original should be deleted (in earmarks, by the user or a session there) — un-namespaced local skills otherwise keep getting used over the plugin's.
-- **Skill naming and descriptions** follow `docs/conventions/skills.md`. Earmarks names carry over where they already conform (`check`, `verify`); non-conforming ones are renamed at port time (`pr-feedback` is noun-noun — port as e.g. `address-feedback`).
-- **`verify` ports as a guide-the-manual skill**: the q skill carries the pattern — creating, maintaining, and using a living driving manual — while the manual itself (launch/drive knowledge like earmarks' verify body) lives in the consuming project's docs. It hooks into every place a skill drives the product to validate a change or verify a fact: create-plan's scratch-space spikes, implement-plan's phase checks and PR-wrap verification, and tackle's fix path. (The adversarial reviewer never drives — it reports what needs driving as findings; the run validates them.)
-
-This section is scaffolding for the extraction, not part of q. When the last piece is ported, delete it and scrub every remaining earmarks mention from this repo — q is its own thing, and its history lives in git, not its docs.
-
 ## Two tiers
 
 (source: `docs/conventions/documentation.md`, The tier test)
