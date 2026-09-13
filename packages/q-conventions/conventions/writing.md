@@ -16,6 +16,14 @@ Each item stands alone, with no trailing commas and no closing "and" or "or". Wh
 
 Never regulate prose with a length target — "keep it short", "a few sentences", a line cap. Define what the piece must carry and what gets cut. A length target doesn't select for the right information, and it backfires when there is genuinely a lot to present.
 
+## Plain words
+
+Use the words a reader would use to describe the thing. Write "errors now show a message instead of crashing", not "error handling was hardened with graceful degradation". Jargon and category labels make the reader translate before they can follow.
+
+## Instructions are commands
+
+Write an instruction — to a human or an agent — as a command: "commit the fixes", never "the fixes are committed" or "the run commits the fixes". Passives and narration hide who acts. Keep declarative sentences for facts a reader relies on.
+
 ## Deletion is the default
 
 Deletion is safe: version history keeps everything cut. When a judgment call between keeping and cutting is close, cut. When text is ambiguous or wrong, try deleting it before qualifying it.
