@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Enforce the pins
 
-A project with no `.claude/q-marketplace/` has no pins to enforce — propose `/q:install-q` and stop. Otherwise run the enforcement procedure — `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+A project with no `.claude/q-marketplace/` has no pins to enforce — propose `/q:install` and stop. Otherwise run the enforcement procedure — `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
 ## Step 2: Check the GitHub CLI
 

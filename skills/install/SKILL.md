@@ -1,13 +1,13 @@
 ---
-name: install-q
-description: Install q into a project — declare the plugin pin, install the conventions pack, scaffold docs/conventions/, and index both tiers in the agent briefing. Idempotent, safe to re-run on a partially set-up project. The scaffold ships as a PR.
+name: install
+description: Install q into a project, or add a doc pack to one — declare the pins, scaffold docs/conventions/ and the onboarding lines, index the docs in the agent briefing, and write the state file's watermarks. Invoke bare to set q up; name a doc pack to install it, setting q up first when the project lacks it. Idempotent, safe to re-run on a partially set-up project. The changes ship as a PR.
 ---
 
-# Install q
+# Install
 
 The scaffold is deliberately near-empty — this skill creates the structure the other skills expect, not content.
 
-Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation picks the path: bare runs the bootstrap (Steps 3–4); a pack name runs the pack path (Step 5), preceded by the bootstrap when the project lacks a root `package.json` or a briefing docs index.
 
 ## Step 1: Survey current state
 
@@ -16,23 +16,27 @@ Check what already exists, so every action below is create-if-missing:
 - `docs/conventions/` and its two mirror docs, `principles.md` and `documentation.md`
 - A root `package.json`, whether it already declares `@lab43/q-conventions`, and whether `node_modules/@lab43/q-conventions/` is populated
 - `.claude/settings.json` and whether it already declares the q plugin
+- `.claude/q-state.json` and which watermarks it holds (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md)
 - The agent briefing: `AGENTS.md` or `CLAUDE.md` (either counts; never create one when the other exists)
+- The README, and whether it carries the new-machine setup line (Step 3)
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
-- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install — the scaffold still lands. Step 2 then skips the delivery questions, and Step 5 reports instead of delivering.
+- On a pack run: whether the named pack is already pinned, installed, indexed, and watermarked
+- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via https://cli.github.com and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands. Step 2 then skips the delivery questions, and Step 7 reports instead of delivering.
 
 ## Step 2: Settle delivery
 
-Three runs skip this step:
+Four runs skip this step:
 
-- Step 1 found nothing missing beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver, and Step 5 reports that.
-- Step 1's GitHub CLI check failed — there is no delivery, and Step 5 leaves the changes in the working tree.
+- A bare run where Step 1 found nothing missing beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. Run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` (machine state, not a repo change), then report per Step 7.
+- A pack run where the named pack is already pinned, installed, indexed, and watermarked, with no install sitting uncommitted from an earlier run — report that and stop.
+- Step 1's GitHub CLI check failed — there is no delivery, and Step 7 leaves the changes in the working tree.
 - Another skill's run invoked this one — the changes join that run's change.
 
-Otherwise, ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
+Otherwise, ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch); on a pack run the connected-work case is the pack arriving with the dependency that ships it.
 
 ## Step 3: Scaffold
 
-The invocation is the agreement — scaffold autonomously:
+Skip on a pack run whose Step 1 found q already set up. The invocation is the agreement — scaffold autonomously:
 
 1. **The two mirror docs** — create each if missing, with exactly this content; if present, leave it untouched — never rewrite existing entries. `docs/conventions/principles.md`:
 
@@ -53,7 +57,7 @@ The invocation is the agreement — scaffold autonomously:
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
 2. **Framework conventions pack** — the framework conventions install as a pinned npm package:
    - Ensure a root `package.json` — create `{"private": true}` if the project has none — and that `.gitignore` covers `node_modules/`.
-   - If `@lab43/q-conventions` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions`. If it is, leave the recorded pin alone; run plain `npm install` only when `node_modules/` is missing it.
+   - If `@lab43/q-conventions` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions`. If it is, leave the recorded pin alone.
 3. **Agent briefing** — in the existing `AGENTS.md`/`CLAUDE.md` (create a minimal `AGENTS.md` only if neither exists), ensure this section, adding it or its missing parts (source: q conventions/documentation.md, Taxonomy):
 
    ```markdown
@@ -77,6 +81,10 @@ The invocation is the agreement — scaffold autonomously:
 
    - `docs/conventions/principles.md` — cross-cutting rules, including deviations from the framework's
    - `docs/conventions/documentation.md` — documentation rulings and deviations
+
+   If the session's skill list has no `/q:` skills, this machine is missing the q plugin — ask the user to run `claude plugin install q@q-pin --scope project`, then `/q:sync`.
+
+   `.claude/q-state.json` is machine state written by q's skills — never edit it by hand; `/q:sync` reports drift.
    ```
 
    The list is the docs index, grouped by tier as shown: one line per doc, blurb drawn from the doc's intro — doc-pack docs by package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths). In a project with existing conventions docs, other installed doc packs, or guides useful to agent sessions, extend it accordingly; `/q:groom-docs` checks it for drift.
@@ -108,30 +116,49 @@ The invocation is the agreement — scaffold autonomously:
    }
    ```
 
-   Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo. The `"q@lab43": false` keeps a user-scope install of q from loading alongside the pin. Claude Code doesn't auto-install from the declaration — each collaborator runs `claude plugin install q@q-pin --scope project` once, and `npm install` on any fresh clone; say so in the report.
-5. Do **not** create `docs/plans/` — it arrives with the plan workflow.
+   Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo. The `"q@lab43": false` keeps a user-scope install of q from loading alongside the pin.
+5. **Enforce the declarations** — make this machine match the pins just declared: run `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `scaffoldedAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `reconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`.
+7. **README setup line** — ensure the README tells collaborators how to bring a new machine up, wherever its setup instructions live:
+
+   ```markdown
+   New machine? Run `claude plugin install q@q-pin --scope project` and `npm install`, then `/q:sync` in Claude Code.
+   ```
+
+   Create a minimal README carrying just this when the project has none.
+8. Do **not** create `docs/plans/` — it arrives with the plan workflow.
 
 ## Step 4: Migration proposals (existing projects only)
 
 If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q-conventions/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
 
-## Step 5: Adversarial review
+## Step 5: Install the pack (pack runs only)
 
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked and no earlier run's scaffold awaits delivery — a re-run on a fully set-up project — report that and stop. When Step 1's GitHub CLI check failed, report and stop:
+```
+npm install --save-dev --save-exact --ignore-scripts <pack>
+```
 
-- What was created.
-- What already existed and was left untouched.
-- What was proposed, and the user's decisions.
+Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/doc-packs.md). If not, `npm uninstall` it, switch back to the prior branch, delete any branch this run created, and report — never index it.
+
+Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
+
+Write the pack's `reconciledAgainst` entry from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — including for a pack Step 1 found pinned and installed by hand but unwatermarked.
+
+## Step 6: Adversarial review
+
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When Step 1's GitHub CLI check failed, report per Step 7 and stop, adding:
+
 - That the changes stay uncommitted — restate the `gh` fix.
 - That a re-run delivers them once `gh` is in place.
 
 Otherwise: in ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
-## Step 6: Open the PR
+## Step 7: Open the PR
 
 1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
 3. Close the session by reporting:
-   - What was created.
-   - What already existed and was left untouched.
-   - What was proposed, and the user's decisions.
+   - What was created, what already existed and was left untouched, and what was proposed with the user's decisions.
+   - On a pack run: the pack and version installed, and the index lines added.
+   - Any overrides markers the pack's docs carry against framework rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
+   - The pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update-q`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.

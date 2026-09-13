@@ -10,7 +10,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
 ```
 
-Then run `/q:install-q` in each project that will use the workflow. The workflow skills require an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+Then run `/q:install` in each project that will use the workflow. The workflow skills require an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
 
 ## Skills
 
@@ -23,17 +23,13 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="5" scope="rowgroup">Setup</th>
-    <td><code>/q:install-q</code></td>
-    <td>Install q into a project: declare the plugin pin, install the conventions pack, scaffold <code>docs/conventions/</code>, and index both tiers in the agent briefing. Idempotent, safe to re-run.</td>
+    <th rowspan="4" scope="rowgroup">Setup</th>
+    <td><code>/q:install</code></td>
+    <td>Install q into a project, or add a doc pack to one: declare the pins, scaffold <code>docs/conventions/</code>, index the docs in the agent briefing, and write the state file's watermarks. Idempotent, safe to re-run.</td>
   </tr>
   <tr>
     <td><code>/q:update-q</code></td>
     <td>Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed.</td>
-  </tr>
-  <tr>
-    <td><code>/q:install-pack</code></td>
-    <td>Install a third-party doc pack and index its docs in the agent briefing.</td>
   </tr>
   <tr>
     <td><code>/q:update-pack</code></td>
@@ -91,7 +87,7 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
 
 q's effect on your repo comes from context routing and documentation discipline — everything it produces is plain markdown in your repo, and it works in one loop:
 
-**Every session starts knowing where the rules are.** `/q:install-q` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+**Every session starts knowing where the rules are.** `/q:install` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 

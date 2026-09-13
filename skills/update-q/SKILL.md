@@ -14,7 +14,7 @@ Versioned independently, moved together in one run:
 - **Plugin**: pinned — the `ref` in `.claude/q-marketplace/.claude-plugin/marketplace.json`; installed — `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`; latest — the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`).
 - **Conventions pack**: pinned — `@lab43/q-conventions` in `package.json` `devDependencies`, which in a pack-authoring repo is the pack's own `package.json` (source: q conventions/doc-packs.md); installed — `version` in `node_modules/@lab43/q-conventions/package.json`; latest — `npm view @lab43/q-conventions version`.
 
-Either pin missing → propose `/q:install-q`, which scaffolds the declarations, and stop. Otherwise report all six, then:
+Either pin missing → propose `/q:install`, which scaffolds the declarations, and stop. Otherwise report all six, then:
 
 - **Installed ≠ pinned** → sync: `claude plugin install q@q-pin --scope project` then `/reload-plugins` for the plugin, `npm install` for the pack. Sync without asking — a pin is the project's recorded decision, and this merely enforces it. If a pin is also behind latest, settle the next branch's question first: taking the update makes this sync redundant (Step 3's installs land on the new pins); declining it is when this sync runs.
 - **A pin behind latest** → diff pinned against latest for each artifact that moved: the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); the pack by downloading both tarballs (`npm pack @lab43/q-conventions@<version>` into a scratch directory, extracted) and diffing their `conventions/`. Summarize what the releases change and what reconciliation they would demand of this project, then ask once: move both pins (Steps 2–6), or stay and sync to the current pins — the go-ahead that makes the rest of the run autonomous. In the same ask, settle the review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Pins are recorded decisions — only the user moves them.
@@ -44,7 +44,7 @@ Work only from the diffs:
 
   Then sync the briefing's framework index lines to the new payload — a doc added or removed changes the list, a changed intro re-draws its blurb.
 - **Installed doc packs** — each declares the framework version its docs are written against, via its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md). A pack the moved pin leaves behind is flagged with a suggestion to run `/q:update-pack`, which closes the gap when a newer pack release does.
-- **`skills/install-q/`** — re-run `/q:install-q`, scoped to join this run's change: it is idempotent and adds only what's missing.
+- **`skills/install/`** — re-run `/q:install`, scoped to join this run's change: it is idempotent and adds only what's missing.
 
 The go-ahead in Step 1 covered this reconciliation — apply it without re-asking.
 
