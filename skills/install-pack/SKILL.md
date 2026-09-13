@@ -21,7 +21,7 @@ Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md,
 npm install --save-dev --save-exact --ignore-scripts <pack>
 ```
 
-Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/doc-packs.md). If not, `npm uninstall` it, delete any branch this run created, and report — never index it.
+Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/doc-packs.md). If not, `npm uninstall` it, switch back to the prior branch, delete any branch this run created, and report — never index it.
 
 ## Step 4: Index
 

@@ -18,7 +18,7 @@ Check what already exists, so every action below is create-if-missing:
 - `.claude/settings.json` and whether it already declares the q plugin
 - The agent briefing: `AGENTS.md` or `CLAUDE.md` (either counts; never create one when the other exists)
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
-- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install — the scaffold still lands, and delivery is skipped (Steps 2 and 5).
+- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user (install via https://cli.github.com, then `gh auth login`) and continue the install — the scaffold still lands. Step 2 then skips the delivery questions, and Step 5 reports instead of delivering.
 
 ## Step 2: Settle delivery
 
@@ -117,7 +117,13 @@ If Step 1 found convention-like content outside `docs/conventions/` — rules in
 
 ## Step 5: Adversarial review
 
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing and no earlier run's scaffold awaits delivery — a re-run on a fully set-up project — report that and stop. When Step 1's GitHub CLI check failed, report and stop: what was created, what already existed and was left untouched, what was proposed and the user's decisions, and that the changes stay uncommitted — restate the `gh` fix, and say a re-run delivers them once it's in place.
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked and no earlier run's scaffold awaits delivery — a re-run on a fully set-up project — report that and stop. When Step 1's GitHub CLI check failed, report and stop:
+
+- What was created.
+- What already existed and was left untouched.
+- What was proposed, and the user's decisions.
+- That the changes stay uncommitted — restate the `gh` fix.
+- That a re-run delivers them once `gh` is in place.
 
 Otherwise: in ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 

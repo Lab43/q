@@ -41,7 +41,7 @@ Then, for each destination with shipped candidates:
 3. Apply the destination's change set. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
 4. In ship mode, commit — the review history stays inspectable in git.
 5. Validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name the framework pack's rules as the substitute grounding surface in both lenses' launches — every destination shares them, packs being authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
-6. In local mode, run the gate over the checkout's diff, committing onto its branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+6. In local mode, run the gate over the checkout's diff, committing onto its branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate). The gate's own reviewer pass takes the same substitute grounding as item 5's.
 
 ## Step 4: Open the PRs
 
