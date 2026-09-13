@@ -11,7 +11,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **One reviewable PR is the boundary**: never stack or split PRs here — PR divisions are designed and reviewed in a plan, not improvised mid-run. Work that won't fit is plan-worthy, whenever that surfaces.
-- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats.
+- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 - **Doc updates**: make doc updates through `/q:update-docs` as they surface: fixes to docs the diff falsifies; a single-site gotcha as a code comment where it bites (source: q conventions/principles.md, Colocate knowledge with its next reader); a new cross-cutting lesson as a conventions entry, held to the documentation policy's gates. Don't amend or contradict an existing rule or recorded decision — that is the user's, surfaced in the closing report or, when the run can't proceed without the answer, an interrupt.
 
@@ -60,4 +60,4 @@ Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Valida
 
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
-3. Close the session by reporting the PR URL, any caveats, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+3. Close the session by reporting the PR URL, any caveats, any suggested changes to standing law, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).

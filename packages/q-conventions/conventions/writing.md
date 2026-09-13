@@ -10,6 +10,8 @@ Give each instruction or claim its own sentence. Don't chain ideas with semicolo
 
 Three or more parallel items become a list. Parallelism hides in prose: check any paragraph that names several deliverables, steps, or options. A reader scans a list but has to parse a paragraph.
 
+Each item stands alone, with no trailing commas and no closing "and" or "or". When dropping the connective would lose meaning, the lead-in carries it: "any of the following".
+
 ## Constrain content, not length
 
 Never regulate prose with a length target — "keep it short", "a few sentences", a line cap. Define what the piece must carry and what gets cut. A length target doesn't select for the right information, and it backfires when there is genuinely a lot to present.

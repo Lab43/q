@@ -19,8 +19,14 @@ Describe the change, never the run that produced it. Review rounds, rulings, and
 
 Compose the body from these sections, in order. Most PRs need only Summary and Testing. Add another section only when it has something the reviewer needs.
 
-- **Summary** — the rubric the reviewer checks the diff against: what is true after merge that wasn't before, and why. State outcomes, not edits: one claim per deliverable, each something the reader can now rely on. The diff is the catalog of changes. When the diff is large, say where the substance lives and which files are mechanical fallout. It links the work's source: the tracker item when one exists (source: q conventions/issue-tracking.md, Work links back), and the plan doc when the PR implements a plan.
-- **Callouts** — answers to the questions the diff will raise: choices that look wrong but are deliberate, expected changes deliberately not made, close calls the author wants checked, and rules added to standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it. Each entry states the question's answer and its reason. A call no reviewer would question is noise here.
+- **Summary** — the rubric the reviewer checks the diff against: what is true after merge that wasn't before, and why. State outcomes, not edits: one claim per deliverable, each something the reader can now rely on. The diff is the catalog of changes. When the diff is large, say where the substance lives and which files are mechanical fallout. The Summary links the work's source: the tracker item when one exists (source: q conventions/issue-tracking.md, Work links back), and the plan doc when the PR implements a plan.
+- **Callouts** — answers to the questions the diff will raise:
+  - Choices that look wrong but are deliberate.
+  - Expected changes deliberately not made.
+  - Close calls the author wants checked.
+  - Rules added to standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it.
+
+  Each entry states the question's answer and its reason. A call no reviewer would question is noise here.
 - **Caveats** — the known problems shipping with the change. The reviewer shouldn't spend effort discovering what the author already knows.
 - **Follow-ups** — the work this change obligates: what a reviewer would otherwise ask "doesn't this mean X needs doing?". Link each to its tracker item when one exists — the body informs the reviewer, but nobody returns to a merged body to collect work, so the tracker carries it. Work the session surfaced that this change doesn't obligate goes to the tracker alone.
 - **Testing** — the evidence the diff doesn't carry: what was exercised and what it demonstrated, claim by claim. The project's standing checks prove nothing about this change and go unlisted. When the diff's own tests are the whole proof, say so.
