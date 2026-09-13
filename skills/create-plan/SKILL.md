@@ -44,12 +44,9 @@ One policy for BLOCKING and NITS alike: make the straightforward fix; take a fin
 
 ## Step 5: User review
 
-Present the plan: a summary of the settled decisions, what adversarial review changed, any surviving findings, and the reviewers' follow-ups. Then iterate:
+A review loop. It has no closing step: the run ends when the user starts the implementation.
 
-- The user reads the plan and asks questions. Treat each as potentially reopening design — answer with evidence, fold every outcome into the doc immediately, and summarize what changed.
-- If a round of user feedback materially changes decisions or phases, propose another adversarial round (Step 4) — ask rather than launch, since the user may not be done making changes.
-- Repeat until the user says the plan is ready.
-
-## Step 6: Handoff
-
-Close by reminding the user: `/q:implement-plan <plan-name>` executes it, and that it's best run after `/clear` — the plan doc is the complete handoff, so carrying the planning conversation along inflates every request's context and lets discussion that never made it into the plan steer the implementation.
+1. Present the plan: a summary of the settled decisions, what adversarial review changed, any surviving findings, and the reviewers' follow-ups. Suggest the next step alongside: when the plan is ready, run `/q:implement-plan <plan-name>` after `/clear`. The plan doc is the complete handoff. Carrying the planning conversation along inflates every request's context and lets discussion that never made it into the plan steer the implementation.
+2. The user may ask questions and request changes. Treat each as potentially reopening design: answer with evidence, and fold every outcome into the doc immediately.
+3. When the accumulated changes merit another adversarial round (Step 4), ask — the user may not be done making changes — and run it on their yes.
+4. Repeat from 1, presenting what changed since the last presentation in place of the full summary.
