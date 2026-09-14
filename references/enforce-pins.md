@@ -2,10 +2,11 @@
 
 The machine-local enforcement procedure: make this machine match the project's declared pins. Enforce without asking — pins are the project's recorded decisions, and this merely applies them.
 
-1. When `node_modules/` is missing a pinned package, or holds a version other than its pin, run `npm install`. When `npm` itself is missing, Node.js is not installed — report that fix and stop; nothing below can run without it.
-2. Before any plugin operation, run `claude plugin marketplace update q-pin` — the plugin cache is otherwise stale against a moved marketplace ref. When the CLI does not know the `q-pin` marketplace, first run `claude plugin marketplace add --scope local ./.claude/q-marketplace`. Local scope keeps the registration machine-local and per-project — the default user scope records one absolute `q-pin` path for the whole machine, and the next q project's add silently replaces it.
-3. When the plugin is absent, run `claude plugin install q@q-pin --scope project`.
-4. When the installed plugin version differs from the pin, or the pinned ref is known to have moved, run `claude plugin update q@q-pin --scope project`. If the content doesn't move, uninstall and reinstall `q@q-pin` — the plugin cache is keyed by version, so a ref move without a version change is otherwise invisible.
-5. After any plugin change, run `/reload-plugins`.
+1. Check that `node` and `npm` resolve. When either is missing, Node.js is not installed — report that fix; the npm sync below waits on it, though the plugin steps still run.
+2. When `node_modules/` is missing a pinned package, or holds a version other than its pin, run `npm install`.
+3. Before any plugin operation, run `claude plugin marketplace update q-pin` — the plugin cache is otherwise stale against a moved marketplace ref. When the CLI does not know the `q-pin` marketplace, first run `claude plugin marketplace add --scope local ./.claude/q-marketplace`. Local scope keeps the registration machine-local and per-project — the default user scope records one absolute `q-pin` path for the whole machine, and the next q project's add silently replaces it.
+4. When the plugin is absent, run `claude plugin install q@q-pin --scope project`.
+5. When the installed plugin version differs from the pin, or the pinned ref is known to have moved, run `claude plugin update q@q-pin --scope project`. If the content doesn't move, uninstall and reinstall `q@q-pin` — the plugin cache is keyed by version, so a ref move without a version change is otherwise invisible.
+6. After any plugin change, run `/reload-plugins`.
 
 Name any tracked file the enforcement rewrote (a lockfile). That change stays in the tree as the user's.

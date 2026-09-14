@@ -1,6 +1,6 @@
 ---
 name: update
-description: Update q and the project's doc packs — move pins to the latest releases with the user's go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band, writing the watermarks that record reconciliation. Invoked bare it checks the plugin, the framework pack, and every installed pack; a named target — q or a pack — scopes the run. Use after a release ships, when /q:sync hands off reconciliation, or whenever pins may be behind. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use sync. A pin move or catch-up ships as a PR.
+description: Update q and the project's doc packs — move pins to the latest releases with the user's go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band, writing the watermarks that record reconciliation. Invoked bare it checks the plugin, the framework pack, and every installed pack; a named target — q or a pack — scopes the run. Use after a release ships, or whenever pins may be behind. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use sync. A pin move or catch-up ships as a PR.
 ---
 
 # Update

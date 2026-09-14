@@ -51,13 +51,22 @@ const parse = (text) => {
   }
 };
 
-// Plugin pin: the q--v ref in the project's marketplace file.
-const pinText = read(
-  path.join(proj, ".claude/q-marketplace/.claude-plugin/marketplace.json"),
-);
-if (pinText === null) process.exit(0); // not a q-pinned project
+// Plugin pin: the q--v ref in the project's marketplace file. A missing file
+// means not a q-pinned project; one that exists but can't be read or parsed
+// fails like any other invalid state.
+let pinText = null;
+try {
+  pinText = fs.readFileSync(
+    path.join(proj, ".claude/q-marketplace/.claude-plugin/marketplace.json"),
+    "utf8",
+  );
+} catch (e) {
+  if (e.code === "ENOENT" || e.code === "ENOTDIR") process.exit(0);
+  fail();
+}
 
 const marketplace = parse(pinText);
+if (marketplace === undefined) fail();
 const ref = marketplace?.plugins?.find?.((p) => p?.name === "q")?.source?.ref;
 const match = (typeof ref === "string" ? ref : pinText).match(
   /q--v([0-9][0-9A-Za-z.-]*)/,
@@ -94,7 +103,7 @@ const devDeps =
 
 for (const [pack, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  const pin = devDeps[pack];
+  const pin = Object.hasOwn(devDeps, pack) ? devDeps[pack] : undefined;
   if (typeof pin !== "string") fail(); // removed out of band, never reconciled
   if (pin !== mark) fail();
 
@@ -110,7 +119,7 @@ for (const [pack, mark] of Object.entries(recon)) {
 // never indexed. A dependency that isn't installed can't be identified as a
 // doc pack — skip it.
 for (const dep of Object.keys(devDeps)) {
-  if (dep in recon) continue;
+  if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
     read(path.join(proj, "node_modules", dep, "package.json")) ?? "",
   )?.keywords;
