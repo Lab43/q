@@ -10,7 +10,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
 ```
 
-Then run `/q:install` in each project that will use the workflow. The workflow skills require an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+Then run `/q:install` in each project that will use the workflow — it pins q at the project level. Teammates' machines pick the pin up with `claude plugin install q@q-pin --scope project`, then `npm install`, then `/q:sync`; `/q:install` folds those instructions into your README so they travel with the repo. The workflow requires [Node.js](https://nodejs.org) — the conventions install as an npm package — and an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
 
 ## Skills
 
@@ -25,7 +25,7 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
   <tr>
     <th rowspan="3" scope="rowgroup">Setup</th>
     <td><code>/q:install</code></td>
-    <td>Install q into a project, or add a doc pack to one: declare the pins, scaffold <code>docs/conventions/</code>, index the docs in the agent briefing, and write the state file's watermarks. Idempotent, safe to re-run.</td>
+    <td>Install q into a project, or add a doc pack to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
     <td><code>/q:update</code></td>
@@ -33,7 +33,7 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
-    <td>Set up or repair this machine for a q-using project — the npm install, the pinned plugin install, the GitHub CLI check — handing off to <code>/q:install</code> or <code>/q:update</code> when the project's docs don't match its pins.</td>
+    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code> or <code>/q:update</code> when the project's docs don't match its pins.</td>
   </tr>
   <tr>
     <th rowspan="5" scope="rowgroup">Workflow</th>
@@ -83,13 +83,13 @@ Then run `/q:install` in each project that will use the workflow. The workflow s
 
 q's effect on your repo comes from context routing and documentation discipline — everything it produces is plain markdown in your repo, and it works in one loop:
 
-**Every session starts knowing where the rules are.** `/q:install` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+**Every session starts knowing where the rules are.** `/q:install` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). It also pins the plugin itself, via a project-owned declaration in `.claude/`, so every teammate's machine runs the q version the repo chose. Watermarks in a committed `.claude/q-state.json` record what those pins were last reconciled against, and every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 
 **Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
 
-**You stay in charge.** q's framework conventions (documentation policy, cross-cutting principles) install read-only as a pinned npm pack and improve with pin updates, but your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
+**You stay in charge.** Both halves of q install pinned — the plugin by the project-owned declaration, the framework conventions (documentation policy, cross-cutting principles) as a read-only npm pack — and pins move only when you approve an update, which reconciles your docs with what changed. Your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
 
 ## Markers
 

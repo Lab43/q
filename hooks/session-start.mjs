@@ -2,9 +2,9 @@
 // session to run /q:sync. Claude Code loads whatever plugin version is
 // installed, so drift surfaces only if something checks at session start —
 // no other channel runs every session. The checks: plugin installed vs
-// pinned, plugin pin vs scaffold watermark, each watermarked pack's pin and
-// installed version, and the reverse direction — a doc-pack devDependency
-// with no watermark entry (installed by hand, never indexed).
+// pinned, plugin pin vs the q reconciliation watermark, each watermarked
+// pack's pin and installed version, and the reverse direction — a doc-pack
+// devDependency with no watermark entry (installed by hand, never indexed).
 //
 // The remedy is uniform — /q:sync re-derives the specifics and hands
 // reconciliation to /q:update — so every failure emits the same message and
@@ -79,16 +79,16 @@ const manifest = parse(read(path.join(root, ".claude-plugin/plugin.json")) ?? ""
 if (typeof manifest?.version !== "string") fail();
 if (manifest.version !== pinned) fail();
 
-// Watermarks. A pinned project without a state file, or without a scaffold
-// watermark matching the pin, is unrecorded drift.
+// Watermarks. A pinned project without a state file, or whose q watermark
+// doesn't match the pin, is unrecorded drift.
 const stateText = read(path.join(proj, ".claude/q-state.json"));
 if (stateText === null) fail();
 
 const state = parse(stateText);
 if (state === undefined || typeof state !== "object" || state === null) fail();
-if (state.scaffoldedAgainst !== pinned) fail();
+if (state.qReconciledAgainst !== pinned) fail();
 
-const recon = state.reconciledAgainst ?? {};
+const recon = state.docsReconciledAgainst ?? {};
 if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
 
 const pkgText = read(path.join(proj, "package.json"));
