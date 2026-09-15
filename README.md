@@ -4,13 +4,30 @@ A Claude Code plugin packaging an agentic coding workflow: skills for planning, 
 
 Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
-## Install
+## Requirements
+
+[Claude Code](https://claude.com/claude-code), [Node.js](https://nodejs.org) — the conventions install as an npm package — and an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+
+## Adding q to a project
 
 ```
 claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
 ```
 
-Then run `/q:install` in each project that will use the workflow — it pins q at the project level. Teammates' machines pick the pin up with `claude plugin install q@q-pin --scope project`, then `npm install`, then `/q:sync`; `/q:install` folds those instructions into your README so they travel with the repo. The workflow requires [Node.js](https://nodejs.org) — the conventions install as an npm package — and an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+Then run `/q:install` in the project.
+
+## Joining a project that uses q
+
+Before starting Claude Code in a fresh clone, run:
+
+<!-- source: skills/install/SKILL.md -->
+
+```
+claude plugin marketplace add --scope local ./.claude/q-marketplace && claude plugin install q@q-pin --scope project
+npm install   # or your package manager's equivalent
+```
+
+`/q:install` folds these instructions into the project's README, so a q-using repo carries them itself.
 
 ## Skills
 
@@ -89,7 +106,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 
 **Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
 
-**You stay in charge.** Both halves of q install pinned — the plugin by the project-owned declaration, the framework conventions (documentation policy, cross-cutting principles) as a read-only npm pack — and pins move only when you approve an update, which reconciles your docs with what changed. Your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
+**You stay in charge.** Both halves of q install pinned, and pins move only when you approve an update, which reconciles your docs with what changed. Your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
 
 ## Markers
 

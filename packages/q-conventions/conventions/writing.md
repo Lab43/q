@@ -24,10 +24,6 @@ Use the words a reader would use to describe the thing. Write "errors now show a
 
 Write an instruction — to a human or an agent — as a command: "commit the fixes", never "the fixes are committed" or "the run commits the fixes". Passives and narration hide who acts. Keep declarative sentences for facts a reader relies on.
 
-## State each fact once
-
-Within a piece, a fact appears in one section — the one where the reader acts on it — and other sections point to it rather than restate it. A second enumeration of the same items is a copy to keep in sync, and it will drift. A pointer may run forward when the acting section comes later. Treat each forward pointer as evidence to weigh: the piece may be presenting information in the wrong order.
-
 ## Deletion is the default
 
 Deletion is safe: version history keeps everything cut. When a judgment call between keeping and cutting is close, cut. When text is ambiguous or wrong, try deleting it before qualifying it.

@@ -1,6 +1,6 @@
 # The q State File
 
-Format and writer rules for `.claude/q-state.json`, the consumer-side record of the versions a project's docs were last reconciled against. The skills that read or write the file follow this doc; nothing else edits it.
+Format and writer rules for `.claude/q-state.json`, the consumer-side record of the versions a project was last reconciled against. The skills that read or write the file follow this doc; nothing else edits it.
 
 ## What the file is
 

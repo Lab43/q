@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Set up or repair this machine for a q-using project, handing off to /q:install or /q:update when the project's docs don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
+description: Set up or repair this machine for a q-using project, handing off to /q:install or /q:update when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
 ---
 
 # Sync
