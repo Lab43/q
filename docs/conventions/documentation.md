@@ -6,7 +6,7 @@ Rules for writing q's docs — the framework payload and this repo's own.
 
 Every rule written in this repo goes to one of two homes:
 
-- **Framework payload** — `packages/q-conventions/conventions/` plus everything else the plugin ships. A rule lands here when it would bind a consuming project: how their docs work, principles their sessions follow. The test: would this change what a session in *someone else's* repo writes or flags?
+- **Framework payload** — `packages/q-conventions/conventions/` plus everything the plugin routes consumer sessions to: skills, hooks, agents, and the references they read. A rule lands here when it would bind a consuming project: how their docs work, principles their sessions follow. The test: would this change what a session in *someone else's* repo writes or flags?
 - **`docs/conventions/` (this project's tier)** — a rule about developing q itself: its skills, its README, its repo mechanics. Consumers are never bound by these and never routed to them.
 
 **Payload is addressed solely to consumers.** Payload docs never mention q's own repo, development practices, or internal layout; even acknowledging that they might be read from within q muddies them for the audience they speak to. (A skill whose *subject* is the q repo — `/q:upstream` PRs against it — names the repo as its target; that is not mentioning it as "here".) q still follows the payload (it is a consuming project of its own workflow).

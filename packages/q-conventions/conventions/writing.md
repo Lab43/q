@@ -40,4 +40,4 @@ In every case, fix the original text where it stands.
 
 ## Write for the reader, not the edit
 
-Write each edit for the reader who arrives fresh: they see the merged text, never the text it replaced, the request, or the conversation behind the change. Cut detail that earns its place only against that history — a qualifier rebutting the old wording, a scope note answering something the conversation raised. To the fresh reader it answers a question no one asked. The test: would the sentence survive a from-scratch rewrite of the piece?
+Write each edit for the reader who arrives fresh: they see the merged text, never the request or the conversation behind the change. Cut detail that earns its place only against that history — a scope note answering something the discussion raised, a clause defending the choice against an objection, a reassurance that some neighboring case still holds. To the fresh reader it answers a question no one asked. The test: would the sentence survive a from-scratch rewrite of the piece?

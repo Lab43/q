@@ -26,7 +26,7 @@ Compose the body from these sections, in order. Most PRs need only Summary and T
   - Close calls the author wants checked.
   - Rules added to standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it.
 
-  Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Also post a callout tied to a specific change on its line of the diff (see: Diff comments).
+  Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Callouts also reach the reviewer on the diff itself (see: Diff comments).
 - **Caveats** — the known problems shipping with the change. The reviewer shouldn't spend effort discovering what the author already knows.
 - **Follow-ups** — the work this change obligates: what a reviewer would otherwise ask "doesn't this mean X needs doing?". Link each to its tracker item when one exists — the body informs the reviewer, but nobody returns to a merged body to collect work, so the tracker carries it. Work the session surfaced that this change doesn't obligate goes to the tracker alone.
 - **Testing** — the evidence the diff doesn't carry: what was exercised and what it demonstrated, claim by claim. The project's standing checks prove nothing about this change and go unlisted. When the diff's own tests are the whole proof, say so.

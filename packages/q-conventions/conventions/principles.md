@@ -19,7 +19,7 @@ Two guards:
 - Extract sameness, not resemblance: extract only mechanical duplicates that must change together. Keep code that merely looks similar but diverges in semantics separate (a link styled to mimic a button's visuals is still a link — two components, not one).
 - Don't treat imitating an exemplar as copying: the rule targets verbatim plumbing and scaffolding, not structural similarity to the file a convention doc holds up as the model.
 
-When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight. A plain note, not a `(source:)` marker: markers route the doc surface, not code (source: q conventions/documentation.md, Markers).
+When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight. A plain note, not a `(source:)` marker (see: q conventions/documentation.md, Markers): neither copy is the authority it would name.
 
 ## Colocate knowledge with its next reader
 

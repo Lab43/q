@@ -126,7 +126,7 @@ Every session start validates that installed, pinned, and watermarked versions s
 
 - Both halves of q install pinned, and pins move only when you approve an update, which reconciles your docs with what changed.
 - Your project's rulings win on conflict — record the disagreement and it stands (see the markers below).
-- Every run that delivers work settles its review mode with you up front: in local mode nothing is committed until you review it; in ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
+- Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
 - It's all plain text files in your repo — removing the plugin leaves your docs intact and yours.
 
 ## Markers

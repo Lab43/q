@@ -35,7 +35,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored pack's `conventions/` in its authoring repo (see: q conventions/doc-packs.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored pack's `conventions/` in its authoring repo (source: q conventions/doc-packs.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
@@ -71,7 +71,7 @@ Inline cross-references tying a statement to the doc it depends on. They are the
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
 - a heading in the current doc (`see: Markers`)
-- a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: skills/`)
+- a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - a pack doc, by its path form (see: Pack doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
