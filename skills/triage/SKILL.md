@@ -16,6 +16,14 @@ description: Choose what to work on next from a set of items — a Jira board, G
 
 The set comes from the invocation — a Jira board or filter, a GitHub repo's issues, a Notion doc, a file, a pasted list; given nothing, ask what to triage. Read it with whatever tool serves the source, fetching summaries rather than full item histories. Note any priority guidelines the invocation carries.
 
+Read the priority the user set, when the source records one — a hand-ordered position, a priority field, a label. A default listing order is not one: creation date and ID say nothing about priority. A fetch can drop the priority silently. Confirm the call you use preserves it. A GitHub milestone records its priority as a hand-ordered position. That order comes back only through GraphQL:
+
+```bash
+gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){milestones(query:"<milestone-title>",first:10){nodes{title issues(first:100,states:OPEN){nodes{number title}}}}}}'
+```
+
+`milestones(query:)` matches titles by substring, so take the node whose title is the one you were given. `gh issue list --milestone` returns creation order instead. Omitting `states: OPEN` pulls in the milestone's closed issues.
+
 Set aside items not available to pick up rather than proposing them (source: q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Name the set-asides once; the user can pull any back in.
 
 ## Step 2: Settle the session
@@ -26,7 +34,13 @@ In conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, C
 - The write-backs the issue-tracking conventions gate on a session-wide agreement: claiming each agreed pick, commenting PR links (see: q conventions/issue-tracking.md). Skip what the source can't support and what conventions already settle.
 - Anything about the set itself that ranking genuinely turns on.
 
-Settle each answer once and don't re-ask it per item, though the user may change any answer between items. Don't ask for priority guidelines when none were given. Rank by judgment instead, and state the basis with each proposal so the user can redirect it.
+Settle each answer once and don't re-ask it per item, though the user may change any answer between items. Don't ask for priority guidelines when none were given. Rank on the first of these the set gives you:
+
+- the priority guidelines the invocation carries
+- the priority the user set in the source
+- your own judgment
+
+State the basis with each proposal so the user can redirect it.
 
 ## Step 3: Propose and hand off
 
