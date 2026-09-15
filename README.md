@@ -40,17 +40,21 @@ npm install   # or your package manager's equivalent
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="3" scope="rowgroup">Setup</th>
+    <th rowspan="4" scope="rowgroup">Setup</th>
     <td><code>/q:install</code></td>
     <td>Install q into a project, or add a doc pack to one. Idempotent, safe to re-run on a partially set-up project.</td>
+  </tr>
+  <tr>
+    <td><code>/q:sync</code></td>
+    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-pack</code> when the project's records don't match its pins.</td>
   </tr>
   <tr>
     <td><code>/q:update</code></td>
     <td>Update q and the project's doc packs: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
-    <td><code>/q:sync</code></td>
-    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code> or <code>/q:update</code> when the project's docs don't match its pins.</td>
+    <td><code>/q:uninstall-pack</code></td>
+    <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
     <th rowspan="5" scope="rowgroup">Workflow</th>

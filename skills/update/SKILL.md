@@ -20,17 +20,17 @@ Read four versions for each artifact in scope — the watermarks per `${CLAUDE_P
 
 Alongside the versions, hold each third-party pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — against the project's framework pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating the framework here; one behind closes only by a pack release.
 
-An artifact with no pin has nothing to update — propose `/q:install` for it and stop.
+An artifact with no pin has nothing to update — propose `/q:install` for it and stop. For a pack whose watermark entry outlived its pin, propose `/q:uninstall-pack` instead.
 
 Report the versions, then sort each artifact by its state:
 
 - **Pinned behind latest** → a pin move to offer. Diff pinned against latest — the plugin via `gh api repos/Lab43/q/compare/<pinned-tag>...<latest-tag>` (no clone or install needed); a pack by diffing the two versions' `conventions/` (`npm pack <pack>@<version>` into a scratch directory, extracted) — and summarize what changed and what reconciliation it demands. Pins are recorded decisions — only the user moves them.
 - **Pinned ≠ watermark, or no watermark entry** → a catch-up: the pin moved out of band, or was never reconciled. Reconciled in Step 4, without moving any pin.
-- **A watermark entry for a pack no longer pinned** (bare runs) → pruned in Step 4's watermark write.
+- **A watermark entry for a pack no longer pinned** (bare runs) → a removal never reconciled. Leave the entry in place, and propose `/q:uninstall-pack` with the pack name when the run closes.
 - **Installed ≠ pinned** → machine drift: enforce without asking, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`. When a pin move is on offer, enforce only after the ask below, so enforcement lands on the pins the run keeps; otherwise enforce now.
 - **Everything agreeing, nothing newer** → in force and reconciled; report and stop.
 
-Then ask once, one batch: each offered pin move (take it or stay), and the review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run with only catch-ups or pruning asks the review mode alone; a run with only machine drift asks nothing — enforce, report, stop. The go-ahead makes the rest of the run autonomous: declined moves drop out, catch-ups and pruning stay in. When the answers leave nothing due, report and stop.
+Then ask once, one batch: each offered pin move (take it or stay), and the review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run with only catch-ups asks the review mode alone. A run finding only machine drift or `/q:uninstall-pack` proposals asks nothing — enforce, report, stop. The go-ahead makes the rest of the run autonomous: declined moves drop out, catch-ups stay in. When the answers leave nothing due, report and stop.
 
 ## Step 2: Branch
 
@@ -59,7 +59,7 @@ Work only from the diffs. Each artifact's diff runs from its watermark to its pi
 - **The plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new plugin's scaffold expects and correcting what has drifted from it.
 - **An artifact with no watermark entry** — there is no diff base: run `/q:install` instead, scoped to join this run's change. Bare for the plugin — its scaffold catch-up writes `qReconciledAgainst`. With the pack name for a pack — it indexes the pack as a fresh install and writes its watermark.
 
-After each artifact's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `docsReconciledAgainst` to the pack's pinned version, `qReconciledAgainst` to the plugin's pinned version. On a bare run, drop `docsReconciledAgainst` entries for packs no longer in `package.json`.
+After each artifact's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `docsReconciledAgainst` to the pack's pinned version, `qReconciledAgainst` to the plugin's pinned version.
 
 The go-ahead in Step 1 covered this reconciliation — apply it without re-asking.
 

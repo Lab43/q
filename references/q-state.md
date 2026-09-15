@@ -26,7 +26,8 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 ## Writer rules
 
 - `/q:install` fills in missing watermarks and never touches present ones — a stale entry is reconciliation's to move. Bootstrapping q, it writes `qReconciledAgainst` and the framework pack's `docsReconciledAgainst` entry; installing a doc pack, it writes that pack's entry. Each value is the version just installed, which has no reconciliation debt.
-- `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move. Its bare sweep drops entries for packs no longer in `package.json`.
+- `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move.
+- `/q:uninstall-pack` drops the pack's `docsReconciledAgainst` entry as part of reconciling its removal.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 
 An absent file means no record — create it on the first watermark write. The file never ships in a pack: it lives in `.claude/`, outside the `files` whitelist a pack's tarball is built from (source: q conventions/doc-packs.md).
