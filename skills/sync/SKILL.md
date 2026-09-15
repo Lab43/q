@@ -38,4 +38,4 @@ Report:
 - The GitHub CLI result, with the fix when it failed.
 - Each finding from Step 3 and the remedy it routes to.
 
-Then make Step 3's hand-offs — each invocation a full run of its own that asks and delivers for itself.
+Then make Step 3's hand-offs — each invocation a full run of its own that asks and delivers for itself. Make the `/q:install` and `/q:uninstall-pack` runs before any `/q:update` run, so update starts from repaired records.
