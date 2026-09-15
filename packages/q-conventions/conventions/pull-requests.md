@@ -26,7 +26,11 @@ Compose the body from these sections, in order. Most PRs need only Summary and T
   - Close calls the author wants checked.
   - Rules added to standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it.
 
-  Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Post a callout about a specific change also as a comment on its line of the diff, so the reviewer meets it in place. Give the comment only what a reader needs to understand why that change was made — the anchor already says where and what, so no labels and no framing. Sign comments posted from the user's account: "— Claude 🤖". If a callout does not relate to a specific change it does not need a comment.
+  Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Callouts also reach the reviewer on the diff itself (see: Diff comments).
 - **Caveats** — the known problems shipping with the change. The reviewer shouldn't spend effort discovering what the author already knows.
 - **Follow-ups** — the work this change obligates: what a reviewer would otherwise ask "doesn't this mean X needs doing?". Link each to its tracker item when one exists — the body informs the reviewer, but nobody returns to a merged body to collect work, so the tracker carries it. Work the session surfaced that this change doesn't obligate goes to the tracker alone.
 - **Testing** — the evidence the diff doesn't carry: what was exercised and what it demonstrated, claim by claim. The project's standing checks prove nothing about this change and go unlisted. When the diff's own tests are the whole proof, say so.
+
+## Diff comments
+
+Post a callout about a specific change also as a comment on its line of the diff, so the reviewer meets it in place. A callout not tied to a specific change needs no comment. Give the comment only what a reader needs to understand why that change was made — the anchor already says where and what, so no labels and no framing. Sign comments posted from the user's account: "— Claude 🤖".

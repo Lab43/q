@@ -2,7 +2,7 @@
 
 How q's two artifacts — the Claude Code plugin and the `@lab43/q-conventions` doc pack — are versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before running any step here.
 
-The artifacts version independently; release the one whose content changed — the plugin carries `skills/` and `hooks/`, the pack carries `packages/q-conventions/conventions/`. When one change moves both, publish the pack before tagging the plugin: the new plugin's skills may depend on the new pack content, and `/q:update` moves consuming projects to the latest of both in one run.
+The artifacts version independently; release the one whose content changed — the pack carries `packages/q-conventions/conventions/`, the plugin carries what it routes consumer sessions to: skills, hooks, agents, and the references they read. A change to this repo's own docs releases neither. When one change moves both, publish the pack before tagging the plugin: the new plugin's skills may depend on the new pack content, and `/q:update` moves consuming projects to the latest of both in one run.
 
 ## Plugin
 

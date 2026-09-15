@@ -1,22 +1,22 @@
 # q — Agent Briefing
 
-q is a Claude Code plugin packaging an agentic coding workflow. This file briefs sessions working **on** q. A plugin install copies the whole repo to the consumer's machine, but nothing here auto-loads into their sessions — consumers encounter only what the plugin routes them to: skills, hooks, and the framework conventions the skills read.
+q is a Claude Code plugin packaging an agentic coding workflow. This file briefs sessions working **on** q.
 
 ## Two tiers
 
-(source: `docs/conventions/documentation.md`, The tier test)
+(source: docs/conventions/documentation.md, The tier test)
 
-`packages/q-conventions/conventions/` and `skills/` are framework payload — the law and workflow that ship to every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
+`packages/q-conventions/conventions/` plus everything the plugin routes consumer sessions to are framework payload: the law and workflow that ship to every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
 
 ## Developing
 
-- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as a local marketplace in `.claude/settings.json`, and each new session syncs from the working tree (a new machine confirms once at the folder-trust prompt). From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. `/reload-plugins` picks up mid-session changes (SKILL.md edits apply immediately; hooks/agents/MCP need the reload).
-- `claude plugin validate --strict .` before considering any structural change done.
-- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging and is the maintainer's act; PRs never touch a `version`. Steps in `docs/guides/releasing.md`.
+- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as a local marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- Before considering any structural change done: `claude plugin validate --strict .` (the marketplace manifest), plus `claude plugin validate --strict skills` and `claude plugin validate --strict agents` (the components).
+- PRs never touch a `version`: releasing — the plugin or the pack — is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
 
 ## Conventions
 
-Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions — `packages/q-conventions/conventions/` and `docs/conventions/`. All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
 In path references, `q` abbreviates the `@lab43/q-conventions` pack (source: q conventions/documentation.md, Pack doc paths) — here resolving to `packages/q-conventions/`, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
 
