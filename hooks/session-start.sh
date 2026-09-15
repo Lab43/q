@@ -1,15 +1,20 @@
 #!/bin/bash
-# SessionStart hook: enforce the project's q pin. Claude Code loads whatever
-# plugin version is installed, so a session only learns the pin is stale if
-# something checks at session start — no other channel runs every session.
+# SessionStart hook entry point. The checks live in session-start.mjs; this
+# wrapper exists so non-q projects exit before paying node startup, and so a
+# missing node fails loud with a useful message instead of a cryptic exec
+# error. Node itself is a given on q projects — npm install is part of setup.
 
-pin_file="${CLAUDE_PROJECT_DIR:-.}/.claude/q-marketplace/.claude-plugin/marketplace.json"
+proj="${CLAUDE_PROJECT_DIR:-.}"
+pin_file="$proj/.claude/q-marketplace/.claude-plugin/marketplace.json"
 [ -f "$pin_file" ] || exit 0
 
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
-pinned=$(grep -o 'q--v[0-9][0-9A-Za-z.-]*' "$pin_file" | head -1 | sed 's/^q--v//')
-installed=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$root/.claude-plugin/plugin.json" | head -1)
 
-if [ -n "$pinned" ] && [ -n "$installed" ] && [ "$pinned" != "$installed" ]; then
-  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"This project pins q %s but the loaded q is %s — run /q:update-q to sync."}}\n' "$pinned" "$installed"
+if ! command -v node >/dev/null; then
+  # No node means the checks can't run — same remedy as any other failure.
+  # Keep the message in sync with MESSAGE in session-start.mjs.
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"The q plugin could not validate this project'"'"'s q setup, so its conventions and tooling may be stale or broken. Run /q:sync to repair it."}}\n'
+  exit 0
 fi
+
+CLAUDE_PROJECT_DIR="$proj" CLAUDE_PLUGIN_ROOT="$root" exec node "$root/hooks/session-start.mjs"

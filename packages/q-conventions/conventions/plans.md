@@ -4,7 +4,7 @@ Format, sequencing, and lifecycle rules for `docs/plans/` documents. `/q:create-
 
 ## Audience and length
 
-The plan documents the work, not the conversation that produced it, at minimum length for a fresh context: the reader is `/q:implement-plan` with none of that conversation. Every sentence must either direct work or prevent a wrong decision — cut anything else. State each fact in one section only; other sections reference it, never restate it. Rationale is the shortest argument that keeps a decision from being reopened — usually a sentence, more only when the evidence needs it; rejected alternatives appear only when a reviewer would plausibly re-propose them. Out of scope lists only work a reader would otherwise assume was included.
+The plan documents the work, not the conversation that produced it, at minimum length for a fresh context: the reader is `/q:implement-plan` with none of that conversation. Every sentence must either direct work or prevent a wrong decision — cut anything else. State each fact in one section only; other sections reference it, never restate it. A reference may run forward when the acting section comes later. Treat each forward reference as evidence to weigh: the plan may be presenting information in the wrong order. Rationale is the shortest argument that keeps a decision from being reopened — usually a sentence, more only when the evidence needs it; rejected alternatives appear only when a reviewer would plausibly re-propose them. Out of scope lists only work a reader would otherwise assume was included.
 
 ## Frontmatter
 

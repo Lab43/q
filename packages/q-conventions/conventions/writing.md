@@ -30,4 +30,10 @@ Deletion is safe: version history keeps everything cut. When a judgment call bet
 
 ## Refine rather than append
 
-Integrate a change of any kind by rewriting the text it lands in until the piece reads as if written that way from the start. A clause bolted onto a sentence is accretion in miniature. A changelog at the bottom of a doc is accretion in full. Version history is the changelog.
+Integrate a change by rewriting the text it lands in until the piece reads as if written that way from the start. Appending shows at every scale:
+
+- a qualifier bolted onto an existing sentence
+- a clarification or exception that walks back a statement made earlier — evidence the statement itself needs adjusting
+- a changelog at the bottom of a doc — version history is the changelog
+
+In every case, fix the original text where it stands.

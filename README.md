@@ -4,13 +4,30 @@ A Claude Code plugin packaging an agentic coding workflow: skills for planning, 
 
 Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
-## Install
+## Requirements
+
+[Claude Code](https://claude.com/claude-code), [Node.js](https://nodejs.org) — the conventions install as an npm package — and an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+
+## Adding q to a project
 
 ```
 claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
 ```
 
-Then run `/q:install-q` in each project that will use the workflow. The workflow skills require an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+Then run `/q:install` in the project.
+
+## Joining a project that uses q
+
+Before starting Claude Code in a fresh clone, run:
+
+<!-- source: skills/install/SKILL.md -->
+
+```
+claude plugin marketplace add --scope local ./.claude/q-marketplace && claude plugin install q@q-pin --scope project
+npm install   # or your package manager's equivalent
+```
+
+`/q:install` folds these instructions into the project's README, so a q-using repo carries them itself.
 
 ## Skills
 
@@ -23,21 +40,17 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="4" scope="rowgroup">Setup</th>
-    <td><code>/q:install-q</code></td>
-    <td>Install q into a project: declare the plugin pin, install the conventions pack, scaffold <code>docs/conventions/</code>, and index both tiers in the agent briefing. Idempotent, safe to re-run.</td>
+    <th rowspan="3" scope="rowgroup">Setup</th>
+    <td><code>/q:install</code></td>
+    <td>Install q into a project, or add a doc pack to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
-    <td><code>/q:update-q</code></td>
-    <td>Sync the installed q to the project's pins — plugin and conventions pack — and optionally move both to the latest releases, reconciling the project with what changed.</td>
+    <td><code>/q:update</code></td>
+    <td>Update q and the project's doc packs: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
-    <td><code>/q:install-pack</code></td>
-    <td>Install a third-party doc pack and index its docs in the agent briefing.</td>
-  </tr>
-  <tr>
-    <td><code>/q:update-pack</code></td>
-    <td>Sync a third-party doc pack to its pin, and optionally move the pin to the latest release, reconciling the project with what changed.</td>
+    <td><code>/q:sync</code></td>
+    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code> or <code>/q:update</code> when the project's docs don't match its pins.</td>
   </tr>
   <tr>
     <th rowspan="5" scope="rowgroup">Workflow</th>
@@ -87,13 +100,13 @@ Then run `/q:install-q` in each project that will use the workflow. The workflow
 
 q's effect on your repo comes from context routing and documentation discipline — everything it produces is plain markdown in your repo, and it works in one loop:
 
-**Every session starts knowing where the rules are.** `/q:install-q` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+**Every session starts knowing where the rules are.** `/q:install` scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings — installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`, and indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`). It also pins the plugin itself, via a project-owned declaration in `.claude/`, so every teammate's machine runs the q version the repo chose. Watermarks in a committed `.claude/q-state.json` record what those pins were last reconciled against, and every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. So every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 
 **Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
 
-**You stay in charge.** q's framework conventions (documentation policy, cross-cutting principles) install read-only as a pinned npm pack and improve with pin updates, but your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
+**You stay in charge.** Both halves of q install pinned, and pins move only when you approve an update, which reconciles your docs with what changed. Your project's rulings win on conflict — record the disagreement and it stands (see the markers below). Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours. And since it's all markdown in your repo, removing the plugin leaves your docs intact and yours.
 
 ## Markers
 
