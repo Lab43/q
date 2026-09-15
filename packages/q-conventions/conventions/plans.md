@@ -2,9 +2,13 @@
 
 Format, sequencing, and lifecycle rules for `docs/plans/` documents. `/q:create-plan` writes to this rubric and its adversarial plan reviews enforce it; `/q:implement-plan` executes the delivery shape the plan records.
 
-## Audience and length
+## Audience
 
-The plan documents the work, not the conversation that produced it, at minimum length for a fresh context: the reader is `/q:implement-plan` with none of that conversation. Every sentence must either direct work or prevent a wrong decision — cut anything else. State each fact in one section only; other sections reference it, never restate it. A reference may run forward when the acting section comes later. Treat each forward reference as evidence to weigh: the plan may be presenting information in the wrong order. Rationale is the shortest argument that keeps a decision from being reopened — usually a sentence, more only when the evidence needs it; rejected alternatives appear only when a reviewer would plausibly re-propose them. Out of scope lists only work a reader would otherwise assume was included.
+The plan documents the work, not the conversation that produced it: the reader is `/q:implement-plan` with none of that conversation.
+
+- Every sentence either directs work or prevents a wrong decision — cut anything else.
+- State each fact in one section only; other sections reference it, never restate it.
+- A reference may run forward when the acting section comes later. Treat each forward reference as evidence to weigh: the plan may be presenting information in the wrong order.
 
 ## Frontmatter
 
@@ -17,8 +21,8 @@ In order. A section with nothing load-bearing to say for this plan is omitted, n
 
 - **Goal** — what the plan delivers and why it's worth doing.
 - **Context** — the givens the plan inherits rather than chooses: what is true today, with `file:line` references, and any constraints the solution must respect — invariants, compatibility, external realities. A fact the code can't witness states how it was verified — the source read, or the check run — as evidence reviewers audit instead of repeating the verification. A given needs no defending rationale; anything that could have gone another way is a Decision instead.
-- **Decisions** — numbered, each carrying its rationale from the discussion (the why, not just the what) and its rejected alternatives inline.
-- **Out of scope** — each item marked deferred or declined, with why. Not a parking lot: adjacent ideas the discussion surfaced but the plan doesn't need stay out entirely.
+- **Decisions** — numbered, each carrying its rationale from the discussion (the why, not just the what) and its rejected alternatives inline. Rationale is the shortest argument that keeps a decision from being reopened. Rejected alternatives appear only when a reviewer would plausibly re-propose them.
+- **Out of scope** — only work a reader would otherwise assume was included, each item marked deferred or declined, with why. Not a parking lot: adjacent ideas the discussion surfaced but the plan doesn't need stay out entirely.
 - **Phases** — the implementation sequence, per Phases below.
 - **Verification** — how to prove the integrated result works: the end-to-end flows to exercise, and any proof beyond the phases' own tests. Phases prove themselves (see: Phases) — this section covers what no single phase's tests can. Only checks that prove *this plan's* changes: generic process steps (baseline runs, extra suite passes, added review rounds) belong in the workflow skills, decided once, not re-imposed per plan.
 
@@ -37,7 +41,7 @@ A phase is the unit of work and of review; the PR is the unit of shipping. A sin
 The `delivery` call:
 
 - **Single PR** — the default when the whole change is a scope a reviewer can hold in one sitting (roughly a few hundred changed lines).
-- **Stacked PRs** — for anything larger, using GitHub's stacked-PR support (`gh stack`): per-layer CI and review, cascading bottom-up merge. A stacked plan's Phases section groups its phases into PRs, each group one or more phases making a reviewable scope; `/q:implement-plan` carries the mechanics.
+- **Stacked PRs** — for anything larger, using the `gh stack` CLI extension: per-layer CI and review, cascading bottom-up merge. A stacked plan's Phases section groups its phases into PRs, each group one or more phases making a reviewable scope; `/q:implement-plan` carries the mechanics.
 
 When in doubt, ask the user. A genuinely borderline call records its rationale as a Decision.
 

@@ -12,18 +12,18 @@ When a plan or review catches this pattern, the fix belongs on the tooling side,
 
 ## Copying is the signal to extract
 
-Duplicated boilerplate isn't found by audits — it's created, one copy at a time. So the rule triggers on the act: if you're about to copy code from one file into another — a test stub, a helper function, a repeated component or hook shape — that copy is the second use. Extract it to a shared home instead (per the project's organization conventions) and import it from both call sites.
+Before copying code from one file into another — a test stub, a helper function, a repeated component or hook shape — extract instead: the copy you're about to make is the second use. Move the shared code to one home and import it from both call sites. Duplication is created one copy at a time, and the act of copying is the cheapest place to stop it.
 
 Two guards:
 
-- Extract sameness, not resemblance. The test is whether the copies are mechanical duplicates that must change together. Code that looks similar but diverges in semantics stays separate (a link styled to mimic a button's visuals is still a link — two components, not one).
-- Imitating an exemplar's patterns is not copying boilerplate — the rule targets verbatim plumbing and scaffolding, not structural similarity to the file a convention doc holds up as the model.
+- Extract sameness, not resemblance: extract only mechanical duplicates that must change together. Keep code that merely looks similar but diverges in semantics separate (a link styled to mimic a button's visuals is still a link — two components, not one).
+- Don't treat imitating an exemplar as copying: the rule targets verbatim plumbing and scaffolding, not structural similarity to the file a convention doc holds up as the model.
 
-When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight — a note, not a `(source:)` marker, because the copies are symmetric peers with no authoritative home.
+When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight. A plain note, not a `(source:)` marker: markers route the doc surface, not code (source: q conventions/documentation.md, Markers).
 
 ## Colocate knowledge with its next reader
 
-The test is where the next reader who needs the fact will be standing. A fact needed only when touching one specific site — a lint rule's rationale, why this workaround exists, a keep-in-sync note — lives as a code comment at that site: the comment reaches exactly that reader and moves with the code, while a conventions entry for it taxes every reader and rots independently. But a lesson that binds code not yet written — a gotcha the next person would re-trip writing similar code elsewhere — is cross-cutting even with one current instance, and goes to the conventions doc, where its future reader will actually look. When the future is genuinely uncertain, start with the comment; a second occurrence is the promotion signal — the knowledge twin of "Copying is the signal to extract."
+The test is where the next reader who needs the fact will be standing. A fact needed only when touching one specific site — a lint rule's rationale, why this workaround exists, a keep-in-sync note — lives as a code comment at that site: the comment reaches exactly that reader and moves with the code, while a conventions entry for it taxes every reader and rots independently. But a lesson that binds code not yet written — a gotcha the next person would re-trip writing similar code elsewhere — is cross-cutting even with one current instance, and goes to the conventions doc, where its future reader will actually look. When the future is genuinely uncertain, start with the comment; a second occurrence is the promotion signal (see: Copying is the signal to extract).
 
 ## Comments carry constraints, not justification
 
@@ -32,7 +32,7 @@ A comment states what the code cannot show: the constraint, the gotcha, the reas
 What fails the test is the author addressing someone other than that reader, in two shapes:
 
 - **Justification** — defending the chosen design, weighing alternatives, narrating how the solution was arrived at. That addresses the reviewer, and it's noise once merged; git history and the PR carry it.
-- **Pointers to unmaintained artifacts** — plan docs (frozen after merge), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
+- **Pointers to unmaintained artifacts** — plan docs (frozen after merge) (source: q conventions/plans.md, Lifecycle), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
 
 ## Prefer the strongest enforcement rung
 

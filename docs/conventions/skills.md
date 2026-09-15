@@ -10,7 +10,15 @@ Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object �
 
 The run contract defines the modes a run moves through and the conduct that binds each (see: references/run-contract.md). Every skill references it once, before its first step, and declares each mode inline at the step where its stretch begins, the question that settles the review mode included.
 
-The common shape of a run is four stretches: gather, converse, execute, validate. Gathering takes no mode; it neither seeks an agreement nor executes one. Conversation belongs where the shape is still ambiguous, and ends in the agreement. Execution runs autonomously under that agreement, with a go-ahead gate just before any step that is expensive or hard to reverse. Validation closes execution: the run's product passes the project's checks and an adversarial review before anything is delivered — the contract carries the shared procedure, and a skill's own text adds only its bindings (lenses, scope, diff). Where an autonomous step looks destructive — a deletion, an overwrite — write the approval into it as a direct imperative ("sync without asking"): a missing one reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
+The common shape of a run is five stretches: gather, converse, execute, validate, review.
+
+- Gathering takes no mode; it neither seeks an agreement nor executes one.
+- Conversation belongs where the shape is still ambiguous, and ends in the agreement.
+- Execution runs autonomously under that agreement, with a go-ahead gate just before any step that is expensive or hard to reverse.
+- Validation closes execution: the run's product passes the project's checks and an adversarial review before anything is delivered. The contract carries the shared procedure; a skill's own text adds only its bindings (lenses, scope, diff).
+- Review closes the run: the validated work reaches the user under the review mode — paused uncommitted at the local gate, or pushed and opened as the PR they review on GitHub (source: references/run-contract.md, Review modes).
+
+Where an autonomous step looks destructive — a deletion, an overwrite — write the approval into it as a direct imperative ("sync without asking"): a missing one reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
 
 An invocation that fully specifies its work is itself the agreement, and leaves nothing to converse about. A skill whose every run is like this declares the mode where it references the contract ("proceed autonomously throughout"). The same rule governs one skill invoking another: the caller spells out the scope, review mode included when the callee needs one. A call that would leave the callee asking is underspecified; fix the call rather than suppressing the callee's questions.
 
@@ -34,8 +42,6 @@ Reference a policy doc whole — never with a parenthetical list of its sections
 
 Framework docs are read from the consuming project's `node_modules/@lab43/q-conventions/conventions/` — a stable project-relative path. Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.
 
-Instructions shared across skills may be duplicated in each body or extracted into `references/` at the plugin root, referenced via `${CLAUDE_PLUGIN_ROOT}/references/`. Duplication is the default — inline text reads in flow, while a reference turns a step into a lookup; extraction earns that lookup when the copies are long, keep drifting apart, or the sharers multiply. Reference files are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the pack instead.
-
-An instruction another doc already owns — a pack doc's, a reference doc's — enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (see: q conventions/documentation.md, Restatements).
+Instructions shared across skills may be duplicated in each body or extracted into `references/` at the plugin root, referenced via `${CLAUDE_PLUGIN_ROOT}/references/`. Between skill bodies, duplication is the default — inline text reads in flow, while a reference turns a step into a lookup; extraction earns that lookup when the copies are long, keep drifting apart, or the sharers multiply. An instruction another doc already owns — a pack doc's, a reference doc's — is the exception: it enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (source: q conventions/documentation.md, Single source of truth). Reference files are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the pack instead.
 
 A step that launches a subagent passes what the agent's description names as its inputs — the description is the caller's side of the contract, and a launch that omits a named input is a defect.
