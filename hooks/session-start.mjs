@@ -6,8 +6,8 @@
 // pack's pin and installed version, and the reverse direction — a doc-pack
 // devDependency with no watermark entry (installed by hand, never indexed).
 //
-// The remedy is uniform — /q:sync re-derives the specifics and hands
-// reconciliation to /q:update — so every failure emits the same message and
+// The remedy is uniform — /q:sync re-derives the specifics and routes each
+// finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. The only designed silence is a project
 // with no pin file; anything else missing or unreadable fails like any other
 // invalid state.

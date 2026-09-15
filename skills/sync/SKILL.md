@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Set up or repair this machine for a q-using project, handing off to /q:install or /q:update when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
+description: Set up or repair this machine for a q-using project, handing off to /q:install, /q:update, or /q:uninstall-pack when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
 ---
 
 # Sync
@@ -22,9 +22,10 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 - the plugin pin — the version named by the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json`, the tag less its `q--v` prefix — against `qReconciledAgainst`
 - each doc pack's pin in `package.json` against its `docsReconciledAgainst` entry, in both directions — the doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/doc-packs.md)
 
-Two remedies cover what the comparison finds:
+Each finding routes to its remedy:
 
-- Records that disagree → `/q:update`, invoked bare once — its sweep covers every such finding. This is a pin differing from its watermark (moved out of band, unreconciled), or an entry for a pack no longer in `package.json` (removed out of band, the removal never reconciled).
+- A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
+- An entry for a pack no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-pack`, with the pack name, one run per pack.
 - No record where one belongs → `/q:install` — bare for a missing state file or `qReconciledAgainst`; with the pack name for a pinned doc pack that has no entry, one run per pack. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
