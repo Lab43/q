@@ -25,7 +25,7 @@ When tooling genuinely forces a copy (an environment that can't import shared mo
 
 The test is where the next reader who needs the fact will be standing. A fact needed only when touching one specific site — a lint rule's rationale, why this workaround exists, a keep-in-sync note — lives as a code comment at that site: the comment reaches exactly that reader and moves with the code, while a conventions entry for it taxes every reader and rots independently. But a lesson that binds code not yet written — a gotcha the next person would re-trip writing similar code elsewhere — is cross-cutting even with one current instance, and goes to the conventions doc, where its future reader will actually look. When the future is genuinely uncertain, start with the comment; a second occurrence is the promotion signal (see: Copying is the signal to extract).
 
-A private note only the agent reads — a memory file, a stored preference — is not a home. Its next reader is one agent on one project, while the lesson binds every session running the same workflow. Friction with a skill, a convention, or an agent's instructions is a defect in that surface, so the correction belongs there (see: q conventions/documentation.md, Two tiers of conventions).
+A private note only the agent reads — a memory file, a stored preference — is not a home. Its next reader is one agent on one project, while the lesson binds every session running the same workflow. Friction with a skill, a convention, or an agent's instructions is a defect in that surface, so the correction belongs there.
 
 ## Comments carry constraints, not justification
 
