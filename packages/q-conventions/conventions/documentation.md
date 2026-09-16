@@ -50,7 +50,7 @@ The intro is the authoritative description of its doc. The briefing index's line
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`AGENTS.md`** (or `CLAUDE.md`) — the always-loaded agent briefing. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
   - **The standing instructions** that make the conventions bind: both tiers of conventions apply (see: Two tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
-  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether from an installed pack or the project's own, plus any guide useful to agent sessions. Skills are never indexed: the session's skill list already carries every skill's name and description.
+  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether from an installed pack or the project's own, and every guide. An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
 ## Single source of truth
 
@@ -90,7 +90,7 @@ Prose rules carry the conventions; code carries itself:
 - Short shape-only snippets are allowed where a rule is illegible without one. Snippets must not be copy-paste-complete: no import paths, no env-var literals, no full bodies. Anything an agent would paste verbatim must come from the exemplar.
 - Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them.
 
-Rejected: full copy-paste templates, even compile-checked ones — doc inaccuracies cluster inside template code and code-readable fact restatements, not prose rules, and a stale template actively produces failing code.
+Rejected: full copy-paste code templates, even compile-checked ones — doc inaccuracies cluster inside template code and code-readable fact restatements, not prose rules, and a stale template actively produces failing code.
 
 ## Documentation is the last rung
 

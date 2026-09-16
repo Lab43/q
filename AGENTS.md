@@ -14,7 +14,9 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 - Before considering any structural change done: `claude plugin validate --strict .` (the marketplace manifest), plus `claude plugin validate --strict skills` and `claude plugin validate --strict agents` (the components).
 - PRs never touch a `version`: releasing — the plugin or the pack — is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
 
-## Conventions
+## Documentation
+
+q's rules live in this repo's documentation. Those rules are conventions: binding decisions about how q's code and docs get written, recorded as they are made. Guides sit alongside them — how to operate q, rather than rules for writing it.
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
@@ -30,8 +32,11 @@ Framework payload (ships to consumers):
 - `q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read
 - `q conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
 
-This project's own (rules for developing q):
+This project's own:
 
 - `docs/conventions/documentation.md` — rules for writing q's docs, the framework payload and this repo's own
 - `docs/conventions/skills.md` — rules for writing q's skills
+
+Guides:
+
 - `docs/guides/releasing.md` — how q's two artifacts, the plugin and the conventions pack, are versioned and released

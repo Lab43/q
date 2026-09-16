@@ -1,6 +1,6 @@
 ---
 name: create-plan
-description: Collaboratively create a plan in docs/plans, grounded in the codebase, hardened by adversarial review, and iterated with the user until it's ready for /q:implement-plan. The argument can be anything from a rough phrase to a detailed writeup. Produces only the plan doc — never implements, never commits.
+description: Collaboratively create a plan in docs/plans, grounded in the codebase, hardened by adversarial review, and iterated with the user until it's ready for /q:implement-plan. The argument can be anything from a rough phrase to a detailed writeup. Produces the plan doc — never implements, never commits.
 ---
 
 # Create Plan
@@ -10,8 +10,8 @@ The idea to plan comes from the invocation, at any fidelity — a phrase ("email
 ## Ground rules
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
-- **Plan, don't implement**: the only project file this skill writes is `docs/plans/<plan-name>.md` (create the directory on the first plan). No implementation, no commits unless the user asks.
-- **Ground everything**: every claim about current behavior comes from reading the code (cite `file:line`); every external fact (package versions, library APIs, option names, client support) is verified during planning, never stated from memory — online where reading settles it, by exercising the toolchain in scratch space where only running something can. A plan resting on an unverified assumption is a planning failure, not a note for the implementer.
+- **Plan, don't implement**: implement nothing, and make no commits unless the user asks. The plan doc is this skill's product — `docs/plans/<plan-name>.md` (create the directory on the first plan). Driving may also record what it taught in the project's driving manual.
+- **Ground everything**: every claim about current behavior comes from reading the code (cite `file:line`); every external fact (package versions, library APIs, option names, client support) is verified during planning, never stated from memory — online where reading settles it, and through `/q:drive` where only running something can, naming the question to settle as what to exercise. A plan resting on an unverified assumption is a planning failure, not a note for the implementer.
 - **Evidence can flip decisions**: when exploration contradicts a tentative decision (a planned feature depends on data that turns out not to exist), surface the finding prominently and re-decide before it gets written into the plan.
 - **Tooling limitations never dictate content** (see: q conventions/principles.md): if a design choice would break a test helper, CI step, or script, the plan schedules the tooling fix — it does not bend the design around it.
 
@@ -46,7 +46,7 @@ One policy for BLOCKING and NITS alike: make the straightforward fix; take a fin
 
 A review loop. It has no closing step: the run ends when the user starts the implementation.
 
-1. Present the plan: a summary of the settled decisions, what adversarial review changed, any surviving findings, and the reviewers' follow-ups. Suggest the next step alongside: when the plan is ready, run `/q:implement-plan <plan-name>` after `/clear`. The plan doc is the complete handoff. Carrying the planning conversation along inflates every request's context and lets discussion that never made it into the plan steer the implementation.
+1. Present the plan: a summary of the settled decisions, what adversarial review changed, any surviving findings, and the reviewers' follow-ups. Name anything the run left uncommitted. Suggest the next step alongside: when the plan is ready, run `/q:implement-plan <plan-name>` after `/clear`. The plan doc is the complete handoff. Carrying the planning conversation along inflates every request's context and lets discussion that never made it into the plan steer the implementation.
 2. The user may ask questions and request changes. Treat each as potentially reopening design: answer with evidence, and fold every outcome into the doc immediately.
 3. When the accumulated changes merit another adversarial round (Step 4), ask — the user may not be done making changes — and run it on their yes.
 4. Repeat from 1, presenting what changed since the last presentation in place of the full summary.

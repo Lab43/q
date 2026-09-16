@@ -41,7 +41,7 @@ In a run invoked directly by the user, ask which review mode — local or ship �
 
 ## Step 5: Apply per policy
 
-Act autonomously once the scope is agreed. In a run that delivers here (Steps 6–7), first pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Then edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy) and the writing rules (see: q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed. In a delivering run's ship mode, commit.
+Act autonomously once the scope is agreed. In a run that delivers here (Steps 6–7), first pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Then edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: q conventions/documentation.md, Taxonomy) and the writing rules (see: q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed, to the shape the briefing template defines (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). In a delivering run's ship mode, commit.
 
 ## Step 6: Adversarial review
 
