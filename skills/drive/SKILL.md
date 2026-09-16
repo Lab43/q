@@ -21,7 +21,9 @@ Derive how to drive when the project has no manual. Read its scripts, its config
 
 ## Step 2: Drive it
 
-Bring the target up. Exercise it the way it will really be used: load the page, call the endpoint, run the command, walk the flow.
+Bring the target up. Never stop what you didn't start: a stack already running is the user's.
+
+Exercise it the way it will really be used: load the page, call the endpoint, run the command, walk the flow.
 
 Write whatever harness the driving needs in scratch space — a script, a fixture, a seeded request. Leave it there. Report a harness worth keeping rather than planting it in the project.
 
