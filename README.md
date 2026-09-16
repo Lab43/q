@@ -57,7 +57,7 @@ npm install   # or your package manager's equivalent
     <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
-    <th rowspan="5" scope="rowgroup">Workflow</th>
+    <th rowspan="6" scope="rowgroup">Workflow</th>
     <td><code>/q:triage</code></td>
     <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
   </tr>
@@ -67,7 +67,7 @@ npm install   # or your package manager's equivalent
   </tr>
   <tr>
     <td><code>/q:create-plan</code></td>
-    <td>Collaboratively plan a feature into <code>docs/plans/</code> — grounded in the code, settled with you, hardened by adversarial review. Produces only the plan doc.</td>
+    <td>Collaboratively plan a feature into <code>docs/plans/</code> — grounded in the code, settled with you, hardened by adversarial review. Produces the plan doc, never code.</td>
   </tr>
   <tr>
     <td><code>/q:implement-plan</code></td>
@@ -76,6 +76,10 @@ npm install   # or your package manager's equivalent
   <tr>
     <td><code>/q:review</code></td>
     <td>Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer; you rule on the findings, and a finding may fault a convention rather than the work.</td>
+  </tr>
+  <tr>
+    <td><code>/q:drive</code></td>
+    <td>Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took, so the next session doesn't rediscover it.</td>
   </tr>
   <tr>
     <th rowspan="3" scope="rowgroup">Docs</th>

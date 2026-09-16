@@ -47,14 +47,14 @@ git fetch origin && git checkout -b <work-slug> origin/<default-branch>
 ## Step 4: Implement
 
 1. Implement the agreed fix, following the governing conventions and matching surrounding code.
-2. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). If the change produced a newly drivable surface — an endpoint, a screen — exercise it briefly (a curl, a page load). If the environment can't be brought up — here or at any later driving — interrupt and ask the user instead of skipping silently.
+2. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). When the change produced a newly drivable surface — an endpoint, a screen — drive it through `/q:drive`, naming that surface as what to exercise.
 3. In ship mode, commit — before review, so the review history is inspectable in git.
 
 When implementation reveals the work is deeper than the agreement — a redesign, more than one reviewable PR's worth of change — interrupt: present the discovery and recommend `/q:create-plan`. Planning starts only on the user's go-ahead; what this run learned and built goes into its scope.
 
 ## Step 5: Adversarial review
 
-Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-exercise any drivable surface a fix touched. Surviving findings become Caveats in the PR description.
+Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-drive a surface only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 
 ## Step 6: Open the PR
 
