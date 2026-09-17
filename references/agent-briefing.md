@@ -41,7 +41,7 @@ Guides:
 
 ## Maintaining it
 
-- **Write into `CLAUDE.md`**, creating it when it doesn't exist. Leave any `AGENTS.md` the project keeps for other tools alone — reading it, writing to it, or importing it from `CLAUDE.md` is the project's call, not q's.
+- **Write into `CLAUDE.md`**, creating it when it doesn't exist. Leave any `AGENTS.md` the project keeps for other tools alone. Linking the two is the project's call, not q's.
 - **Conform to the structure**: the section heading, the groups in the order they run here, one line per doc. Name each group for what it actually holds.
 - **Treat the prose as a floor, not a script.** Carry at least what the template's prose carries. Leave the project's own wording where it says the same thing. Where a statement isn't true of the project — it authors a pack rather than installing one, or loads the plugin some other way — say what is true instead.
 - **Keep what the project put there** — its own standing instructions, notes, and index entries beyond the required ones. Work missing information into what is already written rather than bolting a sentence alongside it. Rewrite freely to do that, but drop nothing the project said.
