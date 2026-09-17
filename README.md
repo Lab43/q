@@ -57,7 +57,7 @@ npm install
     <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
-    <th rowspan="7" scope="rowgroup">Workflow</th>
+    <th rowspan="8" scope="rowgroup">Workflow</th>
     <td><code>/q:triage</code></td>
     <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
   </tr>
@@ -76,6 +76,10 @@ npm install
   <tr>
     <td><code>/q:review</code></td>
     <td>Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer; you rule on the findings, and a finding may fault a convention rather than the work.</td>
+  </tr>
+  <tr>
+    <td><code>/q:address-feedback</code></td>
+    <td>Work feedback on a PR — the reviewer's comments, or revisions you raise yourself. Every item gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed to the PR, with replies posted when you want them.</td>
   </tr>
   <tr>
     <td><code>/q:drive</code></td>
