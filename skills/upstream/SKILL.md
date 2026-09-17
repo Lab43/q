@@ -37,7 +37,7 @@ First the Remove rulings: hand the deletions to `/q:update-docs` for full delive
 Then, for each destination with shipped candidates:
 
 1. **Clone and branch**: clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
-2. **Read the checkout's briefing** — `AGENTS.md`/`CLAUDE.md` — first and follow it. It governs how the change is made.
+2. **Read the checkout's briefing** — `CLAUDE.md` — first and follow it. It governs how the change is made.
 3. **Apply the change set** for the destination. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
 4. **Commit**, in ship mode — the review history stays inspectable in git.
 5. **Adversarial review**: validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name the framework pack's rules as the substitute grounding surface in both lenses' launches — every destination shares them, packs being authored in projects that use q (source: q conventions/doc-packs.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.

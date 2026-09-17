@@ -120,7 +120,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
 - installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`
-- indexes both tiers in your agent briefing (`AGENTS.md` or `CLAUDE.md`)
+- indexes both tiers in your agent briefing (`CLAUDE.md`)
 - pins the plugin itself, via a project-owned declaration in `.claude/`, so every teammate's machine runs the q version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
 
@@ -156,7 +156,7 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 
 This repo has two conventions directories, by design. `packages/q-conventions/conventions/` is the framework policy: it ships with the plugin — and publishes as the `@lab43/q-conventions` npm doc pack — and binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships.
 
-<!-- source: AGENTS.md, Developing -->
+<!-- source: CLAUDE.md, Developing -->
 
 To work on q:
 
