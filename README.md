@@ -57,7 +57,7 @@ npm install   # or your package manager's equivalent
     <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
-    <th rowspan="6" scope="rowgroup">Workflow</th>
+    <th rowspan="7" scope="rowgroup">Workflow</th>
     <td><code>/q:triage</code></td>
     <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
   </tr>
@@ -80,6 +80,10 @@ npm install   # or your package manager's equivalent
   <tr>
     <td><code>/q:drive</code></td>
     <td>Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took, so the next session doesn't rediscover it.</td>
+  </tr>
+  <tr>
+    <td><code>/q:parallelize</code></td>
+    <td>Give parallel sessions their own copies of what they contend over while driving — ports, databases, caches, devices. Isolates what it can, and names what sessions must take turns over instead.</td>
   </tr>
   <tr>
     <th rowspan="3" scope="rowgroup">Docs</th>
@@ -159,3 +163,4 @@ To work on q:
 - `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as a local marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
 - `claude plugin validate --strict .` checks the marketplace manifest; `claude plugin validate --strict skills` and `claude plugin validate --strict agents` check the components.
 - Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging, and PRs never touch a `version`; the steps live in `docs/guides/releasing.md`.
+- When another session is already working your checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.
