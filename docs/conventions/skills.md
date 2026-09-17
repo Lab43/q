@@ -28,7 +28,7 @@ The frontmatter description is the only part of a skill in context until it is i
 
 - **When it applies** — the situations to fire in, including the non-obvious moments where the session's attention is elsewhere ("including mid-investigation or mid-debugging") and the boundary against a neighboring skill where misrouting is live ("not for bugs or general quality"). The model matches descriptions against the current situation; an unnamed situation never fires.
 - **What to invoke it with** — argument expectations, chosen before the body loads.
-- **What it will do** — any irreversible or outward-facing effect not gated behind the user, and any unusual cost. A gated effect gets the shape of its outcome, not a procedure: say what the skill produces and who rules ("recommends fixing the code or amending the convention, and the user rules on each"), so a what-it-does clause never reads as the skill changing things on its own.
+- **What it will do** — any irreversible or outward-facing effect not gated behind the user, and any unusual cost. Hold a cost to this section's test: would a caller choose differently for knowing it. A constraint the skill merely handles well, rather than one it imposes, fails that test and belongs in the body. A gated effect gets the shape of its outcome, not a procedure: say what the skill produces and who rules ("recommends fixing the code or amending the convention, and the user rules on each"), so a what-it-does clause never reads as the skill changing things on its own.
 
 Procedure and preconditions the skill checks itself are learnable after — in the body. Avoid bloat. Every word should earn its keep.
 

@@ -17,10 +17,11 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 ## Step 1: Understand
 
-1. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files.
-2. Read the conventions governing the affected territory, found from the agent briefing's docs index.
-3. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
-4. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
+1. Announce the item to the peers before reading it — investigating it is already work a peer should not duplicate (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). A run continued from `/q:triage` arrives with the item already announced. Release it whenever this run stops working the item, whether it turns out unavailable or the verdict is nothing to do.
+2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: q conventions/issue-tracking.md, Respect existing claims).
+3. Read the conventions governing the affected territory, found from the agent briefing's docs index.
+4. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
+5. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
 
 The outcome is a verdict: what the work actually is, whether the item's claims hold against the code, and how big the real change is.
 
@@ -38,7 +39,7 @@ The routes:
 
 ## Step 3: Branch
 
-If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A tackle item is its own delivery unit, so the call is a fresh branch. Require a clean working tree first — if anything is uncommitted, stop and show the user. Branch:
+Settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A tackle item is its own delivery unit, so the call is a fresh branch. Require a clean working tree first — if anything is uncommitted, stop and show the user. Branch, unless the contract's peer check already put this run on a worktree's branch:
 
 ```bash
 git fetch origin && git checkout -b <work-slug> origin/<default-branch>

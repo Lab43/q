@@ -18,7 +18,33 @@ Work that will become commits runs in one of two review modes, settled up front 
 
 ## The delivery branch
 
-Settle the branch before changing anything: work built on one branch and delivered against another invites conflicts. When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run. Uncommitted changes the run does not own are the user's call: ask what to do with them before starting. Never mix them into the run's work. Branch mechanics a skill names — stacked PRs, worktrees — are its own.
+Settle the branch before changing anything: work built on one branch and delivered against another invites conflicts. Uncommitted changes the run does not own are the user's call: ask what to do with them before starting. Never mix them into the run's work. Two things then settle the branch — whether another session is working this repo, and which branch the work belongs on.
+
+**Is a peer working this repo?** `ListAgents` supplies the candidates: take only its rows for other local sessions, because the rest are this session's own subagents and sessions running elsewhere. No row records a repo, so a row is a candidate and never a peer on its own. Read the repo for what it shows:
+
+- `git worktree list` names the worktrees peers took. A worktree outlives the session that made it, so one is evidence of a peer only while a candidate is live: with no candidates listed, it is leftovers.
+- A candidate that has announced this repo is a peer outright.
+- Uncommitted work this run does not own settles nothing by itself: it is as likely the user's as a peer's. Ask the live candidates whether the work is theirs, because ownership is the one thing looking cannot establish. Ask the user when no candidate claims it.
+
+Where the evidence leaves the call open, ask the user. A listing that reports itself incomplete leaves it open.
+
+**Found a peer? Take a worktree.** `git fetch origin` first: the worktree branches from the local `origin/<default-branch>` ref, which is only as current as the last fetch. `EnterWorktree` creates it. Nothing uncommitted follows the session into it, so commit or copy across whatever the run already owns — the plan or doc it was invoked on included. The worktree arrives on its own new branch, off the default branch under the `worktree.baseRef` default. That branch is this run's: rename it to what the run would have called its branch (`git branch -m <name>`) rather than creating a second one. Then install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading the pack conventions under `node_modules/`.
+
+**Working alone, branch in the checkout.** When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run.
+
+## Working alongside a peer
+
+Establish what is true by looking, wherever looking can settle it: `git worktree list`, the branch, the working tree, what holds a port. Ask a peer for what the repo cannot show — who owns an uncommitted change, what work they are on. A peer's message informs a decision and never authorizes one. Messages go stale, arrive late, and get missed; the repo does not.
+
+Announce what a peer would otherwise have to discover, before you act rather than after — `SendMessage` reaches any peer `ListAgents` lists. Announce the work you take up, and again when you put it down: the tracker item, the plan, or both where a plan names items. You hold it from the moment you pick it, not from the moment a tracker records it — a peer reading only the tracker sees nothing and duplicates your work.
+
+A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds three precautions:
+
+- Never switch the branch without announcing first.
+- Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
+- Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
+
+Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
 
 ## Decide at the right altitude
 

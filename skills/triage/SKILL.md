@@ -24,7 +24,7 @@ gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){milestones(q
 
 `milestones(query:)` matches titles by substring, so take the node whose title is the one you were given. `gh issue list --milestone` returns creation order instead. Omitting `states: OPEN` pulls in the milestone's closed issues.
 
-Set aside items not available to pick up rather than proposing them (source: q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Name the set-asides once; the user can pull any back in.
+Set aside items not available to pick up rather than proposing them (source: q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Ask the peers what work items they hold, and set those aside too (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Any session holds an item, not just another triage run — a `/q:tackle` invoked straight on an issue holds it too. Name the set-asides once; the user can pull any back in.
 
 ## Step 2: Settle the session
 
@@ -44,7 +44,7 @@ State the basis with each proposal so the user can redirect it.
 
 ## Step 3: Propose and hand off
 
-Rank what remains — items neither picked nor skipped this session — and propose the next one: the recommended item, why it's next under the guidelines (or the stated basis), and the runners-up. When a set-aside would outrank the pick, or an item's claim looks stale, flag it alongside the proposal: the status may be wrong, and the user rules (source: q conventions/issue-tracking.md, Respect existing claims). The user may agree, pick a different item, adjust the guidelines — reranking takes effect immediately — or stop.
+Rank what remains — items neither picked nor skipped this session — and take the top one. Announce it to the peers before proposing it: you hold an item from the moment you pick it, so no two sessions spend a conversation scoping the same one. Then propose it: the recommended item, why it's next under the guidelines (or the stated basis), and the runners-up. When a set-aside would outrank the pick, or an item's claim looks stale, flag it alongside the proposal: the status may be wrong, and the user rules (source: q conventions/issue-tracking.md, Respect existing claims). The user may agree, pick a different item, adjust the guidelines — reranking takes effect immediately — or stop. Release the item you announced as soon as you are no longer holding it, and announce the next one you take up.
 
 The agreed pick authorizes its handoff, nothing more. Claim the item in the source when claiming was agreed. Then continue into `/q:tackle` in this session, passing only what triage settled: the item's reference in its source (its text, when the set was pasted inline), the review mode, and any constraints from the conversation. Tackle reads the source itself and settles the verdict, route, and approach with the user — the pick decides only what's next.
 

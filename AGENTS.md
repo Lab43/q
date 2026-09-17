@@ -13,6 +13,7 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 - `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as a local marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
 - Before considering any structural change done: `claude plugin validate --strict .` (the marketplace manifest), plus `claude plugin validate --strict skills` and `claude plugin validate --strict agents` (the components).
 - PRs never touch a `version`: releasing — the plugin or the pack — is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
+- When another session is already working this checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.
 
 ## Documentation
 

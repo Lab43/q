@@ -21,6 +21,12 @@ Derive how to drive when the project has no manual. Read its scripts, its config
 
 ## Step 2: Drive it
 
+Work out first what driving will bind — ports, databases, caches, devices — and which of those the repo holds only one of. The manual names them where a previous session recorded them, and the repo's scripts and config answer it where the manual doesn't. Then find out whether a peer already holds each one, under the conduct the run contract sets out (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer): probe the resource itself — what is listening on the port, what holds the lock — and use `ListAgents` to put a session behind what you find.
+
+Wait rather than seize. Where the harness offers a one-shot idle notice — `SendMessage`'s `notify_when_idle` — subscribe rather than poll. The notice says a session went idle, never that it freed anything: a session that left a server running is idle while still holding the port. Treat it as a prompt to probe again, never as an all-clear. Tell the user when the wait turns open-ended rather than waiting silently.
+
+Announce the claim when you take it. When you finish, announce what you actually freed and what you left running — a stack you leave up still holds its port.
+
 Bring the target up. Never stop what you didn't start: a stack already running is the user's.
 
 Exercise it the way it will really be used: load the page, call the endpoint, run the command, walk the flow.
@@ -36,6 +42,8 @@ Record what cost you time, and what would cost the next session time:
 - what has to be installed or running first — a database, a container stack, local certificates, an MCP server
 - the commands that bring it up, plus the ports, URLs, and credentials they need
 - the path to what you exercised — the route, the seed data, the login
+- what a session may run its own copy of, and what it must take turns over
+- how to claim and release each thing it takes turns over
 - the failure that looks like a bug in the code and isn't
 
 Write a failure as its symptom, its cause, and what to do about it. A symptom the next session can't match against what they're seeing teaches nothing.
@@ -50,4 +58,4 @@ Make the change through `/q:update-docs`. Deliver nothing here. The change joins
 
 ## Step 4: Report
 
-Report what you exercised and what it demonstrated, claim by claim — the evidence a PR's Testing section carries (source: q conventions/pull-requests.md, Sections). Name what changed in the manual, and say whether that change is still uncommitted. Report what failed and stop there.
+Report what you exercised and what it demonstrated, claim by claim — the evidence a PR's Testing section carries (source: q conventions/pull-requests.md, Sections). Name what changed in the manual, and say whether that change is still uncommitted. Name anything you waited on, and how long it held you. Report what failed and stop there.

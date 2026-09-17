@@ -19,7 +19,7 @@ Describe the change, never the run that produced it. Review rounds, rulings, and
 
 Compose the body from these sections, in order. Most PRs need only Summary and Testing. Add another section only when it has something the reviewer needs.
 
-- **Summary** — the rubric the reviewer checks the diff against: what is true after merge that wasn't before, and why. State outcomes, not edits: one claim per deliverable, each something the reader can now rely on. The diff is the catalog of changes. When the diff is large, say where the substance lives and which files are mechanical fallout. The Summary links the work's source: the tracker item when one exists (source: q conventions/issue-tracking.md, Work links back), and the plan doc when the PR implements a plan.
+- **Summary** — the rubric the reviewer checks the diff against: what is true after merge that wasn't before, and why. State outcomes, not edits: one claim per deliverable, each something the reader can now rely on. The diff is the catalog of changes. When the diff is large, say where the substance lives and which files are mechanical fallout. The Summary links the work's source: the tracker item when one exists (source: q conventions/issue-tracking.md, Work links back), and the plan doc when the PR implements a plan. Where the tracker closes an item from the link's wording, word it to close only in the PR whose merge finishes the item — the last layer of a stack, the only PR otherwise. Every other layer links the item without closing it, or the first merge closes work the rest of the stack hasn't delivered.
 - **Callouts** — answers to the questions the diff will raise:
   - Choices that look wrong but are deliberate.
   - Expected changes deliberately not made.
