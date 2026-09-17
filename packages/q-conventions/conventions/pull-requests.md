@@ -24,7 +24,7 @@ Compose the body from these sections, in order. Most PRs need only Summary and T
   - Choices that look wrong but are deliberate.
   - Expected changes deliberately not made.
   - Close calls the author wants checked.
-  - Rules added to standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it.
+  - Rules added to or changed in standing law that the PR's purpose doesn't explain — the diff shows the rule, not the problem that prompted it.
 
   Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Callouts also reach the reviewer on the diff itself (see: Diff comments).
 - **Caveats** — the known problems shipping with the change. The reviewer shouldn't spend effort discovering what the author already knows.

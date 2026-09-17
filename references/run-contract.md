@@ -79,7 +79,7 @@ Route every recording through `/q:update-docs`. It classifies the lesson and hol
 
 Record a correction in the change that prompted it. The diff at each review point carries its own doc updates, so a user approving the work sees everything the run proposes. A correction that arrives during review joins that iteration. Never defer one to the closing report, and never leave the user trusting that a doc update will follow.
 
-Amendments to existing rules are corrections too. Apply them rather than recommending them. A recommendation the user has to find in the output gets scanned past, while a diff hunk is something they can read and push back on. Call out a change to standing law where the work is reviewed (source: q conventions/pull-requests.md). Raise it instead of applying it when it would put existing code out of conformance: that is a migration, and its scope is the user's.
+Amendments to existing rules are corrections too. Apply them rather than recommending them. A recommendation the user has to find in the output gets scanned past, while a diff hunk is something they can read and push back on. Raise an amendment instead of applying it when it would put existing code out of conformance: that is a migration, and its scope is the user's.
 
 ## Validation
 

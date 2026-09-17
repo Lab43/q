@@ -88,4 +88,4 @@ When a group's last phase lands, finish that PR before starting the next group:
 
 ## Step 6: Report
 
-Close the session by reporting the PR URL(s), the phase list, any caveats, any suggested changes to standing law, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+Close the session by reporting the PR URL(s), the phase list, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
