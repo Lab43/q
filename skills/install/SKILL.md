@@ -94,7 +94,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    }
    ```
 
-   A trusted session registers the declared marketplace itself. Nothing fetches a github-source plugin. A joiner therefore needs this script before their first session in the folder. q owns the entry and corrects drift in it. Leave every other script alone.
+   q owns the entry and corrects drift in it. Leave every other script alone.
 5. **Enforce the declarations** — make this machine match the pins just declared, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `qReconciledAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `docsReconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude/q-marketplace/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.
