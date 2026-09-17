@@ -54,13 +54,25 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    - Ensure a root `package.json` — create `{"private": true}` if the project has none.
    - If `@lab43/q-conventions` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions` (via the project's package manager when it isn't npm). If it is, leave the recorded pin alone.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
-4. **Plugin declaration** — the repo declares q as a dependency at a pinned version, via a project-owned marketplace, and carries the script that brings a clone up to that declaration. Two files hold the declaration, created if missing; when they exist, leave the recorded pin alone. First `.claude/q-marketplace/.claude-plugin/marketplace.json`:
+4. **Plugin declaration** — the repo declares q as a dependency at a pinned version, via a project-owned marketplace, and carries the script that brings a clone up to that declaration. Two files hold the declaration, created if missing; when they exist, leave the recorded pin alone.
+
+   The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md). Two projects sharing a name means the second one installs a q version it never pinned.
+
+   Name the marketplace `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters. It is what keeps the name unique.
+
+   Read owner and repo from the repo's GitHub origin with `gh repo view --json nameWithOwner`. Use the project directory's name in their place when that command yields nothing. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
+
+   A project that already records a name keeps it, whatever it is. Other clones have already registered that name locally. Regenerating it strands them.
+
+   The manifest below records the name, written where the blocks read `<marketplace>`. The two `.claude/settings.json` keys and the install script repeat it. Correct any of the three that has drifted from what the manifest records.
+
+   First `.claude/q-marketplace/.claude-plugin/marketplace.json`:
 
    ```json
    {
-     "name": "q-pin",
+     "name": "<marketplace>",
      "owner": { "name": "this project" },
-     "metadata": { "description": "Pins this project's q version." },
+     "metadata": { "description": "Pins this project's q version. The name must stay unique to this project. Sharing another project's name makes this one resolve to that project's pinned q." },
      "plugins": [
        {
          "name": "q",
@@ -76,9 +88,9 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```json
    {
      "extraKnownMarketplaces": {
-       "q-pin": { "source": { "source": "directory", "path": "./.claude/q-marketplace" } }
+       "<marketplace>": { "source": { "source": "directory", "path": "./.claude/q-marketplace" } }
      },
-     "enabledPlugins": { "q@q-pin": true, "q@lab43": false }
+     "enabledPlugins": { "q@<marketplace>": true, "q@lab43": false }
    }
    ```
 
@@ -89,7 +101,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```json
    {
      "scripts": {
-       "q:install": "claude plugin marketplace add --scope local ./.claude/q-marketplace && claude plugin install q@q-pin --scope project"
+       "q:install": "claude plugin marketplace add --scope local ./.claude/q-marketplace && claude plugin install q@<marketplace> --scope project"
      }
    }
    ```
