@@ -38,10 +38,11 @@ Establish what is true by looking, wherever looking can settle it: `git worktree
 
 Announce what a peer would otherwise have to discover, before you act rather than after — `SendMessage` reaches any peer `ListAgents` lists. Announce the work you take up, and again when you put it down: the tracker item, the plan, or both where a plan names items. You hold it from the moment you pick it, not from the moment a tracker records it — a peer reading only the tracker sees nothing and duplicates your work.
 
-A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds two precautions:
+A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds three precautions:
 
 - Never switch the branch without announcing first.
 - Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
+- Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
 
