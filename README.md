@@ -18,13 +18,13 @@ Then run `/q:install` in the project.
 
 ## Joining a project that uses q
 
-Before starting Claude Code in a fresh clone, run:
+Before starting Claude Code in a fresh clone, run both of these — substituting your package manager where the project isn't on npm:
 
 <!-- source: skills/install/SKILL.md -->
 
 ```
-claude plugin marketplace add --scope local ./.claude/q-marketplace && claude plugin install q@q-pin --scope project
-npm install   # or your package manager's equivalent
+npm run q:install
+npm install
 ```
 
 `/q:install` folds these instructions into the project's README, so a q-using repo carries them itself.
