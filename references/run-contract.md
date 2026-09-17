@@ -66,6 +66,21 @@ A question about the state of the work — "anything else to decide?", "does any
 
 Questions cost attention: collect them into one AskUserQuestion batch (recommended option first) rather than asking one at a time. Put everything an answer depends on inside the question itself. The go-ahead that closes a conversation is different: ask it in plain text, stating the agreed scope, so the user can green-light it or keep refining. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
 
+## Corrections become rules
+
+Every run turns up documentation the project doesn't have yet. Record it as it surfaces:
+
+- a doc the change falsifies
+- a gotcha the run hit
+- a rule nobody wrote down
+- a correction the user made whose reason binds future work
+
+Route every recording through `/q:update-docs`. It classifies the lesson and holds it to the documentation policy's gates.
+
+Record a correction in the change that prompted it. The diff at each review point carries its own doc updates, so a user approving the work sees everything the run proposes. A correction that arrives during review joins that iteration. Never defer one to the closing report, and never leave the user trusting that a doc update will follow.
+
+Amendments to existing rules are corrections too. Apply them rather than recommending them. A recommendation the user has to find in the output gets scanned past, while a diff hunk is something they can read and push back on. Raise an amendment instead of applying it when it would put existing code out of conformance: that is a migration, and its scope is the user's.
+
 ## Validation
 
 Execution closes by validating the run's product before anything is delivered. Run the project's checks covering what changed. Then launch two `adversarial-reviewer` subagents in parallel over the change, one per lens, handing each the agreed scope and the artifact the skill names. The scope is what the user agreed the work would deliver, restated from the run's current state. It is never a list of the changes made: details the user has since overruled resurface as false findings.
@@ -74,6 +89,6 @@ Fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering
 
 ## The local gate
 
-The procedure local review runs at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange.
+The procedure local review runs at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
 
 At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the gate's iteration substantially changed the work, run one `adversarial-reviewer` pass (both lenses) over what changed. Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted.
