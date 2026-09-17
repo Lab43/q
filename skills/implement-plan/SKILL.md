@@ -34,7 +34,7 @@ What emerges completes the agreement: the plan, as clarified, authorizes the res
 
 ## Step 3: Branch
 
-If the project's conventions govern where parallel work lives (worktrees, session rules), apply them first. Then settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A plan is its own delivery unit, so the call is fresh branching. Require a clean working tree first, the plan doc itself excepted — it may be untracked or modified. Stop and ask the user what to do with anything else. Branch per the plan's `delivery` frontmatter (absent means single-PR):
+Settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A plan is its own delivery unit, so the call is fresh branching. Require a clean working tree first, the plan doc itself excepted — it may be untracked or modified. Stop and ask the user what to do with anything else. Branch per the plan's `delivery` frontmatter (absent means single-PR). A single-PR run skips the command below when the contract's peer check already put it on a worktree's branch; a stacked run's `gh stack init` adopts that branch or creates its first layer:
 
 **Single PR:**
 
