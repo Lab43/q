@@ -1,5 +1,6 @@
 ---
 status: completed
+tracks: https://github.com/Lab43/q/issues/7
 ---
 
 # Parallel Sessions
@@ -7,8 +8,6 @@ status: completed
 ## Goal
 
 Let several sessions work one repo at the same time without colliding. A worktree isolates a session's tree; taking turns covers whatever driving binds, until a project isolates those resources for real. Nothing in a project has to be built first — parallel sessions work on the day q is installed, and get faster if a project invests.
-
-Closes [#7](https://github.com/Lab43/q/issues/7).
 
 ## Context
 

@@ -14,6 +14,7 @@ The plan documents the work, not the conversation that produced it: the reader i
 
 - `status: pending | completed | abandoned` — when each applies and who flips it are lifecycle rules (see: Lifecycle).
 - `delivery: single | stacked` — absent means single; the choice is a sizing call (see: Delivery shape).
+- `tracks` — the work items this plan delivers, as their tracker names them: one reference, or a list of them. Absent means the plan answers to no tracker. This is where a reader looks for what the plan is against, and where a session announces what it holds, so the body states an item's reference only where it has something to say beyond naming it.
 
 ## Sections
 

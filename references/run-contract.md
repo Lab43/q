@@ -34,9 +34,9 @@ Where the evidence leaves the call open, ask the user. A listing that reports it
 
 ## Working alongside a peer
 
-Establish what is true by looking, wherever looking can settle it: `git worktree list`, the branch, the working tree, what holds a port. Ask a peer for what the repo cannot show — who owns an uncommitted change, which work item they are on. A peer's message informs a decision and never authorizes one. Messages go stale, arrive late, and get missed; the repo does not.
+Establish what is true by looking, wherever looking can settle it: `git worktree list`, the branch, the working tree, what holds a port. Ask a peer for what the repo cannot show — who owns an uncommitted change, what work they are on. A peer's message informs a decision and never authorizes one. Messages go stale, arrive late, and get missed; the repo does not.
 
-Announce what a peer would otherwise have to discover, before you act rather than after — `SendMessage` reaches any peer `ListAgents` lists. Announce the work item you take up, and again when you put it down. You hold it from the moment you pick it, not from the moment a tracker records it — a peer reading only the tracker sees nothing and duplicates your work.
+Announce what a peer would otherwise have to discover, before you act rather than after — `SendMessage` reaches any peer `ListAgents` lists. Announce the work you take up, and again when you put it down: the tracker item, the plan, or both where a plan names items. You hold it from the moment you pick it, not from the moment a tracker records it — a peer reading only the tracker sees nothing and duplicates your work.
 
 A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds two precautions:
 

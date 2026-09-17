@@ -18,10 +18,11 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 ## Step 1: Understand
 
 1. Read the plan in full.
-2. Read the conventions governing the plan's territory, found from the agent briefing's docs index.
-3. Explore the affected code — use an Explore subagent for broad reconnaissance.
-4. Plans can predate refactors: check every plan step against the current codebase and note steps that are already done, obsolete, or in conflict with current structure.
-5. The plan's external facts were verified at planning time. If the plan has aged — the dependency manifests, lockfile, or files the plan cites changed since the doc was last written (its last commit, or mtime if uncommitted) — re-verify the load-bearing ones before building on them; a plan executed fresh skips this.
+2. Announce the plan, and the items its `tracks` frontmatter names, before going further (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Release them if the run ends without delivering.
+3. Read the conventions governing the plan's territory, found from the agent briefing's docs index.
+4. Explore the affected code — use an Explore subagent for broad reconnaissance.
+5. Plans can predate refactors: check every plan step against the current codebase and note steps that are already done, obsolete, or in conflict with current structure.
+6. The plan's external facts were verified at planning time. If the plan has aged — the dependency manifests, lockfile, or files the plan cites changed since the doc was last written (its last commit, or mtime if uncommitted) — re-verify the load-bearing ones before building on them; a plan executed fresh skips this.
 
 ## Step 2: Clarify
 
