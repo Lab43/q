@@ -24,7 +24,7 @@ gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){milestones(q
 
 `milestones(query:)` matches titles by substring, so take the node whose title is the one you were given. `gh issue list --milestone` returns creation order instead. Omitting `states: OPEN` pulls in the milestone's closed issues.
 
-Set aside items not available to pick up rather than proposing them (source: q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Ask the peers what work items they hold, and set those aside too (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Any session holds an item, not just another triage run — a `/q:tackle` invoked straight on an issue holds it too. Name the set-asides once; the user can pull any back in.
+Set aside items not available to pick up rather than proposing them (source: q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Ask the peers what work items they hold, and set those aside too (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Any session holds an item, not just another triage run — a `/q:tackle` invoked straight on an issue holds it too. A peer triaging the same set holds no item until it picks. Never divide the set between sessions. Never ask the user to resolve the overlap. Name the set-asides once; the user can pull any back in.
 
 ## Step 2: Settle the session
 
