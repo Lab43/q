@@ -57,7 +57,7 @@ npm install   # or your package manager's equivalent
     <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
-    <th rowspan="7" scope="rowgroup">Workflow</th>
+    <th rowspan="8" scope="rowgroup">Workflow</th>
     <td><code>/q:triage</code></td>
     <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
   </tr>
@@ -72,6 +72,10 @@ npm install   # or your package manager's equivalent
   <tr>
     <td><code>/q:implement-plan</code></td>
     <td>Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for.</td>
+  </tr>
+  <tr>
+    <td><code>/q:address-feedback</code></td>
+    <td>Work a reviewer's feedback on a PR — every thread gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed back to the PR with a reply on each thread.</td>
   </tr>
   <tr>
     <td><code>/q:review</code></td>
