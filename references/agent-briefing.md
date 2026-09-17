@@ -11,7 +11,7 @@ The documentation policy decides what the briefing must carry (see: q convention
 
 This project follows q, an agentic coding workflow. Its rules live in the project's own documentation. Those rules are conventions: binding decisions about how this project's code and docs get written, recorded as they are made. Guides sit alongside them — how to operate the project, rather than rules for writing it.
 
-If the session's skill list has no `/q:` skills, this machine is missing the q plugin — ask the user to run `claude plugin install q@q-pin --scope project`, then `/q:sync`.
+If the session's skill list has no `/q:` skills, this machine is missing the q plugin — ask the user to run the `q:install` script (`npm run q:install`, or the project's package manager's equivalent), then `/q:sync`.
 
 When another session is already working this repo, take a worktree rather than sharing the checkout.
 
