@@ -74,12 +74,12 @@ npm install   # or your package manager's equivalent
     <td>Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for.</td>
   </tr>
   <tr>
-    <td><code>/q:address-feedback</code></td>
-    <td>Work a reviewer's feedback on a PR — every comment gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed back to the PR, with replies posted when you want them.</td>
-  </tr>
-  <tr>
     <td><code>/q:review</code></td>
     <td>Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer; you rule on the findings, and a finding may fault a convention rather than the work.</td>
+  </tr>
+  <tr>
+    <td><code>/q:address-feedback</code></td>
+    <td>Work feedback on a PR — the reviewer's comments, or revisions you raise yourself. Every item gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed to the PR, with replies posted when you want them.</td>
   </tr>
   <tr>
     <td><code>/q:drive</code></td>
