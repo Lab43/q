@@ -25,7 +25,7 @@ Work out first what driving will bind — ports, databases, caches, devices — 
 
 Wait rather than seize. Where the harness offers a one-shot idle notice — `SendMessage`'s `notify_when_idle` — subscribe rather than poll. The notice says a session went idle, never that it freed anything: a session that left a server running is idle while still holding the port. Treat it as a prompt to probe again, never as an all-clear. Tell the user when the wait turns open-ended rather than waiting silently.
 
-Claiming and releasing is what a driving session announces. When you finish, announce what you actually freed and what you left running — a stack you leave up still holds its port.
+Announce the claim when you take it. When you finish, announce what you actually freed and what you left running — a stack you leave up still holds its port.
 
 Bring the target up. Never stop what you didn't start: a stack already running is the user's.
 

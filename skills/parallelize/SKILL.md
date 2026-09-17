@@ -51,6 +51,7 @@ When the agreed isolation won't fit one reviewable PR, continue into `/q:create-
 
 2. Implement the agreed isolation, following the governing conventions and matching surrounding code.
 3. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine).
+4. In ship mode, commit — before review, so the review history is inspectable in git.
 
 When building reveals the work is deeper than the agreement — a redesign, more than one reviewable PR's worth of change — interrupt: present the discovery and recommend `/q:create-plan`. Planning starts only on the user's go-ahead; what this run learned and built goes into its scope.
 
@@ -66,4 +67,4 @@ Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Valida
 
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
-3. Close the session by reporting the PR URL, every resource left shared, any caveats, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+3. Close the session by reporting the PR URL, every resource left shared, any caveats, any suggested changes to standing law, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).

@@ -17,7 +17,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 ## Step 1: Understand
 
-1. Announce the item to the peers before reading it — investigating it is already work a peer should not duplicate (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). A run continued from `/q:triage` arrives with the item already announced.
+1. Announce the item to the peers before reading it — investigating it is already work a peer should not duplicate (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). A run continued from `/q:triage` arrives with the item already announced. Release it whenever this run stops working the item, whether it turns out unavailable or the verdict is nothing to do.
 2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: q conventions/issue-tracking.md, Respect existing claims).
 3. Read the conventions governing the affected territory, found from the agent briefing's docs index.
 4. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
