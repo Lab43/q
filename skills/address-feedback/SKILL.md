@@ -1,6 +1,6 @@
 ---
 name: address-feedback
-description: Work a human reviewer's feedback on a pull request — their comments, questions, and requested changes. Invoke it with a PR number or URL. Given nothing, it resolves the PR for the current branch. Every piece of unresolved feedback gets a recommended disposition — answered, pushed back on with evidence, fixed, or escalated as plan-worthy — and the user rules on each before anything changes. Agreed fixes are then implemented, adversarially reviewed, and delivered to the PR under the review mode the user picks. Whether each resolution is also posted as a reply on its thread is the user's choice. Fires when review feedback arrives on a PR. For a fresh bug or task, invoke /q:tackle.
+description: Work a human reviewer's feedback on a pull request — their comments, questions, and requested changes. Invoke it with a PR number or URL. Given nothing, it resolves the PR for the current branch. Every piece of unresolved feedback gets a recommended disposition — answered, pushed back on with evidence, fixed, or escalated as plan-worthy — and the user rules on each before anything changes. Agreed fixes are then implemented, adversarially reviewed, and delivered to the PR under the review mode the user picks. Whether each resolution is also posted back on the PR is the user's choice. Fires when review feedback arrives on a PR. For a fresh bug or task, invoke /q:tackle.
 ---
 
 # Address Feedback
@@ -61,7 +61,7 @@ Settle the round with the user, in conversational mode (see: `${CLAUDE_PLUGIN_RO
 
 - each item's disposition, with its evidence
 - the fork a disposition turns on, wherever an item has materially different resolutions, each with a recommendation
-- whether each item's resolution is posted as a reply on its thread, asked once for the round
+- whether each item's resolution is posted back where the reviewer wrote it, asked once for the round
 - the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR; local commits nothing until the user has reviewed the diff.
 
 Answers settle decisions; they are not the agreement. Close the conversation by summarizing the agreed dispositions and asking for the go-ahead — that green light, not the last answer, is what makes the rest of the run autonomous.
@@ -86,11 +86,11 @@ Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Val
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
 3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: q conventions/pull-requests.md).
-4. **Reply**, when replying was agreed: post each item's resolution on its thread. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: q conventions/pull-requests.md, Diff comments). Reply to an inline thread at its first comment's `databaseId`:
+4. **Reply**, when replying was agreed: post each item's resolution where the reviewer wrote it. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: q conventions/pull-requests.md, Diff comments). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
-   gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -f body='<reply>'
+   gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<reply-file>
    ```
 
-   Answer a top-level comment or a review summary with `gh pr comment <n> --body '<reply>'`. Never mark a thread resolved — that is the reviewer's call.
+   Answer a top-level comment or a review summary with `gh pr comment <n> --body-file <reply-file>`. Never mark a thread resolved — that is the reviewer's call.
 5. Close the session by reporting each item's resolution, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).

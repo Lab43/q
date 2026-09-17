@@ -75,7 +75,7 @@ npm install   # or your package manager's equivalent
   </tr>
   <tr>
     <td><code>/q:address-feedback</code></td>
-    <td>Work a reviewer's feedback on a PR — every thread gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed back to the PR, with a reply on each thread when you want one.</td>
+    <td>Work a reviewer's feedback on a PR — every comment gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed back to the PR, with replies posted when you want them.</td>
   </tr>
   <tr>
     <td><code>/q:review</code></td>
