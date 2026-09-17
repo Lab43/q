@@ -34,7 +34,7 @@ Fixes to an outstanding change another run owns stay uncommitted with it — don
 
 1. When delivering now, create a branch unless the session is already on one.
 2. The rulings are the agreement — apply the approved fixes autonomously, approved convention amendments included. Fixes and amendments that land in policy-governed docs go through `/q:update-docs`, the documentation surface's single write path. Run the project's checks covering what changed. In ship mode, commit.
-3. Sweep the rulings for lessons the docs should carry: a rejected finding whose reason is a rule nobody wrote down, or a correction the next reviewer would have to re-derive. Draft each new lesson through `/q:update-docs`, held to its gates. A drafted rule lands in the uncommitted change as a diff hunk the user can keep or delete — never as a suggestion buried in output. A sweep-derived lesson that would amend an existing rule or recorded decision is suggested instead and listed on its own in the closing report. Standing law changes only by the user's ruling.
+3. Sweep the rulings for lessons the docs should carry: a rejected finding whose reason is a rule nobody wrote down, or a correction the next reviewer would have to re-derive. Each one is a correction to record (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Corrections become rules).
 
 ## Step 5: Adversarial review
 

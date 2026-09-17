@@ -11,7 +11,6 @@ description: Give a repo's parallel sessions their own copies of what they conte
 - **Isolation is an optimization, never a precondition**: sessions take turns over whatever stays shared, which works in any repo today. A resource left un-isolated is a fact to record, not a failure.
 - **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
-- **Doc updates**: make doc updates through `/q:update-docs` as they surface: fixes to docs the diff falsifies; a single-site gotcha as a code comment where it bites (source: q conventions/principles.md, Colocate knowledge with its next reader); a new cross-cutting lesson as a conventions entry, held to the documentation policy's gates. Don't amend or contradict an existing rule or recorded decision — that is the user's, surfaced in the closing report or, when the run can't proceed without the answer, an interrupt.
 
 ## Step 1: Read the repo
 

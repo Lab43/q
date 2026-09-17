@@ -13,7 +13,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 - **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 - **Plan doc amendments**: when execution deviates from the plan or a verification step contradicts it, fold the outcome into the plan doc as a marked amendment per the lifecycle rules (see: q conventions/plans.md, Lifecycle), alongside the work of the phase that surfaced it.
-- **Doc updates**: make doc updates through `/q:update-docs` as they surface: doc changes the plan schedules; fixes to docs the diff falsifies; a single-site gotcha as a code comment where it bites (source: q conventions/principles.md, Colocate knowledge with its next reader); a new cross-cutting lesson as a conventions entry, held to the documentation policy's gates. Don't amend or contradict an existing rule or recorded decision — that is the user's, surfaced in the closing report or, when the run can't proceed without the answer, an interrupt.
+- **Doc updates**: make the doc changes the plan schedules through `/q:update-docs`, alongside the phase that carries them.
 
 ## Step 1: Understand
 
