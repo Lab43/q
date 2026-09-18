@@ -47,10 +47,11 @@ git fetch origin && git checkout -b <plan-name> origin/<default-branch>
 
 ```bash
 git fetch origin
-gh stack init <plan-name>/01-<group-slug> --base origin/<default-branch>
+git rev-parse <default-branch> origin/<default-branch>
+gh stack init <plan-name>/01-<group-slug> --base <default-branch>
 ```
 
-(`--base` takes an origin ref, never a local branch — a stale local silently becomes the stack's base.) Each later group's branch is created in Step 4 as work reaches it; only the first group's is created here. When the run lives in a worktree, the whole stack lives in that one worktree — later layers as branches inside it, never new worktrees.
+`--base` takes a branch name. `gh stack` records it verbatim and hands it to GitHub as every layer's PR base, and GitHub rejects a remote-tracking ref: `--base origin/main` pushes the branches and then fails each PR with "Base ref must be a branch". That is why the `rev-parse` above runs first — it must print the same SHA twice, because a local branch behind its remote silently becomes the stack's base. Fast-forward it before initializing when it isn't. Each later group's branch is created in Step 4 as work reaches it; only the first group's is created here. When the run lives in a worktree, the whole stack lives in that one worktree — later layers as branches inside it, never new worktrees.
 
 Either way, in ship mode record the group-start SHA (`git rev-parse HEAD`) as soon as the branch exists, before anything commits to it. It scopes this PR's final review in Step 5. Each later group records its own when its branch opens in Step 4.
 
