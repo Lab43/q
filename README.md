@@ -164,7 +164,8 @@ This repo has two conventions directories, by design. `conventions/` is the fram
 
 To work on q:
 
-- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as a local marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./` again.
 - `claude plugin validate --strict .` checks the marketplace manifest; `claude plugin validate --strict skills` and `claude plugin validate --strict agents` check the components; `npm run check-versions` checks that the two manifests carrying a version agree.
 - Releasing is separate from merging, and PRs never touch a `version`; the steps live in `docs/guides/releasing.md`.
 - When another session is already working your checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.

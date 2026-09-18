@@ -1,6 +1,6 @@
 {
   "name": "q",
-  "description": "Serves q's plugin from the installed package. /q:install then replaces it with a marketplace named uniquely for the project.",
+  "description": "Serves q's plugin from the installed package.",
   "owner": { "name": "Lab43" },
   "plugins": [{ "name": "q", "source": "./" }]
 }

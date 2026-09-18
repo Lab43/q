@@ -87,7 +87,7 @@ Established with throwaway fixtures, because none of it is readable from this re
 
    The consumer's dependency install needs nothing q-specific. `/q:install` stops scaffolding a `q:install` script, and the README setup line names the project's ordinary install.
 
-   `enforce-pins.md` keeps `marketplace add --scope local ./` as repair, for a declined trust prompt or a registry entry another checkout repointed. It keeps `/reload-plugins` after any change.
+   `enforce-pins.md` keeps `marketplace add --scope local ./` as repair, for a declined trust prompt or a registry entry another checkout repointed. It keeps `/reload-plugins` after any change. *(result: the add matches the registry by directory path, not by name. Verified live in Phase 2 — with an entry already pointing at the directory under a different name, it reported the old name as "already on disk" and never re-read the manifest, so `claude plugin marketplace remove <name>` then re-adding was required. The repointed-entry case this repair rests on is the mirror of that: name matching, path differing. Establish it before writing Phase 6.)*
 
 5. **`plugin.json` keeps a version, and a check holds it equal to `package.json`'s.** One version is not available: `claude plugin validate --strict` warns when `plugin.json` names none, and this repo gates structural changes on that command, which treats warnings as errors. The duplication is the CLI's price, not a design choice.
 
