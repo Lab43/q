@@ -18,6 +18,8 @@ claude plugin install q@q --scope project
 
 npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
 
+<!-- source: skills/install/SKILL.md -->
+
 - scaffolds your conventions
 - gives the project its own marketplace, sourcing the q you just installed
 - records the version your docs were reconciled against

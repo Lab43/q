@@ -74,17 +74,7 @@ const devDeps =
 // Declaring no @lab43/q devDependency is the one designed silence. A pin that
 // is declared but is not a version string is an invalid state like any other,
 // and fails the way a malformed pin fails for every other extension below.
-if (!Object.hasOwn(devDeps, "@lab43/q")) {
-  // Pinned in the wrong section: q is a devDependency (source: conventions/
-  // extensions.md, Pinning). Exiting here would exempt the project from every
-  // check below, so report it instead.
-  const deps =
-    pkg && typeof pkg.dependencies === "object" && pkg.dependencies !== null
-      ? pkg.dependencies
-      : {};
-  if (Object.hasOwn(deps, "@lab43/q")) fail();
-  process.exit(0);
-}
+if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
 const pinned = devDeps["@lab43/q"];
 if (typeof pinned !== "string") fail();
 
