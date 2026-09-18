@@ -6,7 +6,11 @@ The machine-local enforcement procedure: make this machine match the project's d
 2. When `node_modules/` is missing a pinned package, or holds a version other than its pin, run the project's package-manager install — `npm install`, or the pnpm or yarn equivalent its lockfile indicates. That install is the whole update mechanism: a session reads q from `node_modules/@lab43/q` as it stands, so nothing else has to reach it.
 3. Register the project's marketplace: `claude plugin marketplace add --scope local ./`. The manifest at the project root supplies the name, so nothing has to read or pass one. Run it unconditionally — the add changes nothing when the registry already points here. Local scope records the registration in the project's own `.claude/settings.local.json`, which does not keep it private.
 
-   Three situations need it. A fresh clone has never registered the marketplace. A declined trust prompt leaves it unregistered. The third is another checkout of this repo. The machine-global registry holds one entry per marketplace name, so that checkout may have repointed the project's name at itself. The add repoints it back: an entry whose name matches but whose path differs is updated to the new path.
+   Three situations need it:
+
+   - A fresh clone has never registered the marketplace.
+   - A declined trust prompt left it unregistered.
+   - Another checkout of this repo has repointed the project's name at itself. The machine-global registry holds one entry per marketplace name. The add repoints it back, because an entry whose name matches but whose path differs is updated to the new path.
 4. After any change above, run `/reload-plugins`.
 
 Name any tracked file the enforcement rewrote (a lockfile). That change stays in the tree as the user's.

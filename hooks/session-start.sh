@@ -9,9 +9,9 @@ proj="${CLAUDE_PROJECT_DIR:-.}"
 pkg="$proj/package.json"
 [ -f "$pkg" ] || exit 0
 # Match "@lab43/q" in key position only. As a value it is the name of q's own
-# manifest, which pins nothing. This stays a loose pre-filter — it also matches
-# the key under dependencies — and session-start.mjs exits silently unless the
-# key is a devDependency.
+# manifest, which pins nothing. This stays a loose pre-filter: it also matches
+# the key under dependencies. session-start.mjs exits silently unless the key
+# is a devDependency.
 grep -qE '"@lab43/q"[[:space:]]*:' "$pkg" 2>/dev/null
 status=$?
 # Exit only on a clean miss: the manifest was read and pins no q. Any other
