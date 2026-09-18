@@ -53,14 +53,14 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
-    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-pack</code> when the project's records don't match its pins.</td>
+    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-extension</code> when the project's records don't match its pins.</td>
   </tr>
   <tr>
     <td><code>/q:update</code></td>
     <td>Update q and the project's doc packs: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
-    <td><code>/q:uninstall-pack</code></td>
+    <td><code>/q:uninstall-extension</code></td>
     <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>

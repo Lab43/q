@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Set up or repair this machine for a q-using project, handing off to /q:install, /q:update, or /q:uninstall-pack when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
+description: Set up or repair this machine for a q-using project, handing off to /q:install, /q:update, or /q:uninstall-extension when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
 ---
 
 # Sync
@@ -29,7 +29,7 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 Each finding routes to its remedy:
 
 - A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
-- An entry for a pack no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-pack`, with the pack name, one run per pack.
+- An entry for an extension no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other pinned extension that has no entry, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
@@ -42,4 +42,4 @@ Report:
 - The GitHub CLI result, with the fix when it failed.
 - Each finding from Step 3 and the remedy it routes to.
 
-Then make Step 3's hand-offs — each invocation a full run of its own that asks and delivers for itself. Make the `/q:install` and `/q:uninstall-pack` runs before any `/q:update` run, so update starts from repaired records.
+Then make Step 3's hand-offs — each invocation a full run of its own that asks and delivers for itself. Make the `/q:install` and `/q:uninstall-extension` runs before any `/q:update` run, so update starts from repaired records.

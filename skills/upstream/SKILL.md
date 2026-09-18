@@ -1,22 +1,22 @@
 ---
 name: upstream
-description: Turn session friction and the project's recorded deviations into upstream PRs against the repos that own the rules — the q framework's or a third-party doc pack's. Use when friction with a q skill or a pack rule surfaces, when upstream candidates were flagged this session or have accumulated in the project's rulings, or to change how the workflow works.
+description: Turn session friction and the project's recorded deviations into upstream PRs against the repos that own the rules — q's own, or a third-party extension's. Use when friction with a q skill or an extension's rule surfaces, when upstream candidates were flagged this session or have accumulated in the project's rulings, or to change how the workflow works.
 ---
 
 # Upstream
 
-Never edits an installed plugin or pack in place — changes go through a PR to the repo that owns them.
+Never edits an installed extension in place — changes go through a PR to the repo that owns it.
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Gather candidates
 
 1. The prompt — the user may name the improvement outright.
-2. This session's history — friction with a q skill or any pack's rule (an instruction that misfired, a gap, a wrong assumption), and any upstream candidates flagged earlier in the session.
+2. This session's history — friction with a q skill or any extension's rule (an instruction that misfired, a gap, a wrong assumption), and any upstream candidates flagged earlier in the session.
 3. The project's marked overrides — grep `docs/conventions/` for "(overrides:", dropping those that target the project's own docs.
-4. The project's unmarked extensions — read the project docs whose filenames match an installed pack's for rulings that extend a pack rule rather than contradict it.
+4. The project's unmarked elaborations — read the project docs whose filenames match an installed extension's, for rulings that build on one of its rules rather than contradict it.
 
-Partition the candidates by destination: skill friction and "(overrides: q …)" targets belong to the q repo, `Lab43/q`; a candidate targeting another pack's doc belongs to that pack's repo, read from `repository` in `node_modules/<pack>/package.json`. A pack with no repository recorded can't be PRed — carry its candidates to the report for the user to deliver by hand.
+Partition the candidates by destination: skill friction and "(overrides: q …)" targets belong to the q repo, `Lab43/q`; a candidate targeting another extension's doc belongs to that extension's repo, read from `repository` in `node_modules/<extension>/package.json`. An extension with no repository recorded can't be PRed — carry its candidates to the report for the user to deliver by hand.
 
 ## Step 2: Converge with the user
 
@@ -38,9 +38,9 @@ Then, for each destination with shipped candidates:
 
 1. **Clone and branch**: clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. **Read the checkout's briefing** — `CLAUDE.md` — first and follow it. It governs how the change is made.
-3. **Apply the change set** for the destination. In the q repo, run `claude plugin validate --strict .`. Leave any `version` untouched, plugin manifest or pack — releasing is the maintainer's act, not the PR's.
+3. **Apply the change set** for the destination. In the q repo, run `claude plugin validate --strict .`. Leave every `version` untouched, in whichever manifests carry one — releasing is the maintainer's act, not the PR's.
 4. **Commit**, in ship mode — the review history stays inspectable in git.
-5. **Adversarial review**: validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name the framework pack's rules as the substitute grounding surface in both lenses' launches — every destination shares them, packs being authored in projects that use q (source: q conventions/extensions.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
+5. **Adversarial review**: validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name q's own rules as the substitute grounding surface in both lenses' launches — every destination shares them, extensions being authored in projects that use q (source: q conventions/extensions.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
 6. **Local review's gate**: in local mode, run the gate over the checkout's diff, committing onto its branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate). The gate's own reviewer pass takes the same substitute grounding as item 5's.
 
 ## Step 4: Open the PRs
