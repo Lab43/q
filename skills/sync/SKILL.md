@@ -9,7 +9,12 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Enforce the pins
 
-A project declaring no `@lab43/q` devDependency has no pins to enforce — propose `/q:install` and stop. Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+Two states have nothing to sync yet. Propose `/q:install` and stop for either:
+
+- The project declares no `@lab43/q` devDependency. It has no pins to enforce.
+- It declares one but has no `.claude-plugin/marketplace.json` at its root. q's bytes arrived, and the scaffold that pins and records them has not run. This is the window between the bootstrap install and the first `/q:install`, and it is the state the session-start check reports when a project has no `.claude/q-state.json`.
+
+Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
 ## Step 2: Check the GitHub CLI
 

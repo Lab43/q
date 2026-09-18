@@ -12,6 +12,7 @@ Exercise a change to the marketplace manifest, the hooks, or `/q:install` agains
 4. Set the `@lab43/q` devDependency to the literal version by hand. The tarball install records `file:lab43-q-<version>.tgz` instead. That is not an exact version pin, so it never matches the installed version. The session-start hook reports the mismatch, telling every session in the fixture to run `/q:sync`. The package still resolves from `node_modules` after the edit, which is what a session reads. Run no dependency install afterward: the pin now names a version the registry does not have.
 5. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q`.
 6. Install the plugin: `claude plugin install q@q --scope project`.
+7. Run `/q:install` in the fixture to finish the setup. Until it does, the fixture has no `.claude/q-state.json`, and the session-start hook reports that as drift on every session. That is the hook working, not a broken fixture — but it means the hook's silent branch is unreachable until this step runs. Exercising a hook change needs it.
 
 q declares no dependencies of its own, so nothing else needs installing — in a fixture or in this checkout.
 

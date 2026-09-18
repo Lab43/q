@@ -19,8 +19,8 @@ claude plugin install q@q --scope project
 npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
 
 - scaffolds your conventions
-- pins q in your `package.json`
-- gives the project its own marketplace
+- gives the project its own marketplace, sourcing the q you just installed
+- records the version your docs were reconciled against
 
 ## Joining a project that uses q
 
