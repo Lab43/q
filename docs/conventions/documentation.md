@@ -15,7 +15,7 @@ Rejected: shipping the framework conventions at the contract path (`docs/convent
 
 ## Working on the payload
 
-The payload's conventions are the doc pack this repo authors, so the framework's authoring rules govern them here (source: q conventions/doc-packs.md): they join this repo's documentation surface — editable, groomable, held to the documentation policy like any project's own docs — and a workflow-general lesson is edited directly into the framework doc it refines; there is no deviation to record or upstream to flag from inside the authoring repo. In this repo the `q` alias resolves to the repo root, the pack's working tree (source: q conventions/documentation.md, Pack doc paths).
+The payload's conventions are the doc pack this repo authors, so the framework's authoring rules govern them here (source: q conventions/extensions.md): they join this repo's documentation surface — editable, groomable, held to the documentation policy like any project's own docs — and a workflow-general lesson is edited directly into the framework doc it refines; there is no deviation to record or upstream to flag from inside the authoring repo. In this repo the `q` alias resolves to the repo root, the pack's working tree (source: q conventions/documentation.md, Pack doc paths).
 
 Rejected: seeding the framework tier into consuming projects as editable copies (seed-and-fork) — that loses the update channel and makes framework law indistinguishable from project choice during grooming.
 

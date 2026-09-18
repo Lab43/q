@@ -27,7 +27,7 @@ In path references, `q` abbreviates the `@lab43/q` pack (source: q conventions/d
 Framework payload (ships to consumers):
 
 - `q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
-- `q conventions/doc-packs.md` — the doc pack format: rules for authoring and publishing a pack
+- `q conventions/extensions.md` — the doc pack format: rules for authoring and publishing a pack
 - `q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
 - `q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
 - `q conventions/pull-requests.md` — rules for authoring a pull request

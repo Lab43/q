@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Two tiers of conventions
 
-- **Pack conventions** — the installed doc packs (see: q conventions/doc-packs.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q` — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Pack conventions** — the installed doc packs (see: q conventions/extensions.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q` — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: on conflict, project conventions win — over any pack's rule, whichever pack carries it.** A project overrides a pack rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
@@ -16,7 +16,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 A refinement that reaches beyond this project — one that would improve a framework rule, or another pack's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-Conventions graduate into a pack when their audience grows beyond one project (source: q conventions/doc-packs.md, Graduation).
+Conventions graduate into a pack when their audience grows beyond one project (source: q conventions/extensions.md, Graduation).
 
 ## Conventions docs
 
@@ -35,7 +35,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored pack's `conventions/` in its authoring repo (source: q conventions/doc-packs.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored pack's `conventions/` in its authoring repo (source: q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 

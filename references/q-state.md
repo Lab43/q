@@ -30,4 +30,4 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 - `/q:uninstall-pack` drops the pack's `docsReconciledAgainst` entry as part of reconciling its removal.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 
-An absent file means no record — create it on the first watermark write. The file never ships in a pack: it lives in `.claude/`, outside the `files` whitelist a pack's tarball is built from (source: q conventions/doc-packs.md).
+An absent file means no record — create it on the first watermark write. The file never ships in a pack: it lives in `.claude/`, outside the `files` whitelist a pack's tarball is built from (source: q conventions/extensions.md).

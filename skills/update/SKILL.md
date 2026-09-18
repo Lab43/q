@@ -9,16 +9,16 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Take stock
 
-Bare invocation covers the plugin and every installed doc pack — the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/doc-packs.md). A named target scopes the run: `q` or `plugin` means the plugin and the framework pack, which move together; a pack name means that pack. Confirm any other target before treating it as a pack.
+Bare invocation covers the plugin and every installed doc pack — the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/extensions.md). A named target scopes the run: `q` or `plugin` means the plugin and the framework pack, which move together; a pack name means that pack. Confirm any other target before treating it as a pack.
 
 Read four versions for each artifact in scope — the watermarks per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`:
 
 | | Pinned | Installed | Latest | Watermark |
 | --- | --- | --- | --- | --- |
 | Plugin | the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json`, less its prefix | `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` | the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`) | `qReconciledAgainst` |
-| Each doc pack | its pin in the project's `package.json`; the framework pack's, in a pack-authoring repo, lives in the authored pack's own manifest (source: q conventions/doc-packs.md) | `version` in `node_modules/<pack>/package.json` | `npm view <pack> version` | its `docsReconciledAgainst` entry |
+| Each doc pack | its pin in the project's `package.json`; the framework pack's, in a pack-authoring repo, lives in the authored pack's own manifest (source: q conventions/extensions.md) | `version` in `node_modules/<pack>/package.json` | `npm view <pack> version` | its `docsReconciledAgainst` entry |
 
-Alongside the versions, hold each third-party pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/doc-packs.md) — against the project's framework pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating the framework here; one behind closes only by a pack release.
+Alongside the versions, hold each third-party pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/extensions.md) — against the project's framework pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating the framework here; one behind closes only by a pack release.
 
 An artifact with no pin and no watermark entry has nothing to update — propose `/q:install` for it and stop.
 
@@ -54,7 +54,7 @@ Work only from the diffs. Each artifact's diff runs from its watermark to its pi
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; code fixes are out of scope here
 
-  A pack authored in this repo is part of that surface: re-check its docs the same way. The framework pin this run moved is also the pack's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: q conventions/doc-packs.md).
+  A pack authored in this repo is part of that surface: re-check its docs the same way. The framework pin this run moved is also the pack's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: q conventions/extensions.md).
 
   Then sync the briefing's index lines for the pack — a doc added or removed changes the list, a changed intro re-draws its blurb (see: q conventions/documentation.md, Taxonomy).
 - **The plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new plugin's scaffold expects and correcting what has drifted from it.

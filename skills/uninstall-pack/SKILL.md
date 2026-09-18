@@ -13,7 +13,7 @@ Refuse `@lab43/q` — the framework pack is always among a q project's installed
 
 Confirm the named target is a doc pack — any of the following identifies it:
 
-- the `q-docs` keyword in `node_modules/<pack>/package.json` (source: q conventions/doc-packs.md)
+- the `q-docs` keyword in `node_modules/<pack>/package.json` (source: q conventions/extensions.md)
 - the same keyword read from the registry (`npm view <pack> keywords`), for a pack pinned but not installed
 - a `docsReconciledAgainst` entry (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md)
 
