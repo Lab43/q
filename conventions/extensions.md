@@ -4,9 +4,15 @@ The format behind the extension conventions tier — rules for authoring and pub
 
 ## Identity
 
-A q extension is an npm package whose `package.json` carries the `q-extension` keyword. The keyword is the identity: how tooling tells extensions from a project's other dependencies, and how they are found on the registry. It means q's machinery discovers the package, indexes what it documents, and reconciles the project against its releases. Nothing without it is an extension — a project's own `docs/conventions/` included.
+A q extension is an npm package whose `package.json` carries the `q-extension` keyword. The keyword is the identity: how tooling tells extensions from a project's other dependencies, and how they are found on the registry. Carrying it means q's machinery:
 
-`@lab43/q` carries the keyword itself. That is what puts q's own conventions under the same discovery, indexing, and reconciliation as any other extension's, not a claim that q extends q.
+- discovers the package
+- indexes what it documents
+- reconciles the project against its releases
+
+Nothing without it is an extension — a project's own `docs/conventions/` included.
+
+q is an extension under this definition rather than an exception to it. Its own conventions are discovered, indexed, and reconciled exactly as any other extension's.
 
 Installing an extension runs no code. The install passes `--ignore-scripts`, and an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
 
