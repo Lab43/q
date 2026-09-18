@@ -209,7 +209,7 @@ Green when no skill or reference names a pack, `claude plugin validate --strict 
 
 #### Phase 8: The repo's own docs
 
-1. Rewrite `docs/guides/releasing.md` for one artifact and one version. Keep the version-choosing rules, which are unchanged. Drop the two-artifact ordering rule and the `claude plugin tag --push` step.
+1. Rewrite `docs/guides/releasing.md` for one artifact and one version. Keep the version-choosing rules, which are unchanged. Drop the two-artifact ordering rule and the `claude plugin tag --push` step. *(deviation: Phase 1 did the one-version rewrite, including the two-artifact ordering rule. The version check Phase 1 adds forbids the independent versioning that guide stated, so deferring the rewrite would have ended Phase 1 with a guide contradicting the repo's own check. Dropping the `claude plugin tag --push` step is what remains here — the tag stays a live pin target until Phase 6 moves pins into `node_modules`.)*
 2. Rewrite both halves of `docs/conventions/documentation.md`. The tier test names the payload as the package rather than the pack plus what the plugin routes to. Working on the payload, at lines 16 to 20, still calls the payload a doc pack this repo authors and cites the renamed heading — rewrite it around q being an extension, which is also what the Goal's claim to drop the framework-pack special case rests on.
 3. Update `docs/conventions/skills.md`, whose Body section names the framework docs path and `${CLAUDE_PLUGIN_ROOT}`.
 4. Update `README.md` and `CLAUDE.md` for the renamed skill and the extension category.

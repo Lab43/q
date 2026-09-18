@@ -52,7 +52,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
 2. **Framework conventions pack** — the framework conventions install as a pinned npm package:
    - Ensure a root `package.json` — create `{"private": true}` if the project has none.
-   - If `@lab43/q-conventions` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q-conventions` (via the project's package manager when it isn't npm). If it is, leave the recorded pin alone.
+   - If `@lab43/q` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q` (via the project's package manager when it isn't npm). If it is, leave the recorded pin alone.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
 4. **Plugin declaration** — the repo declares q as a dependency at a pinned version, via a project-owned marketplace, and carries the script that brings a clone up to that declaration. Two files hold the declaration, created if missing; when they exist, leave the recorded pin alone.
 
@@ -108,14 +108,14 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    q owns the entry and corrects drift in it. Leave every other script alone.
 5. **Enforce the declarations** — make this machine match the pins just declared, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
-6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `qReconciledAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `docsReconciledAgainst` entry from the version in `node_modules/@lab43/q-conventions/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: `qReconciledAgainst` from the installed plugin's version (`${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`), and the framework pack's `docsReconciledAgainst` entry from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude/q-marketplace/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.
 8. **README setup instructions** — ensure the README tells a collaborator using Claude Code how to bring up a fresh clone: run the `q:install` script (`npm run q:install`, or the project's package manager's equivalent), and install dependencies. Fold the steps into the project's existing setup instructions or setup script — a dependency install the project already documents (`npm install`, a pnpm or yarn equivalent, a bootstrap script) covers that step, and a README already carrying the information needs nothing. Present the q steps as applying to collaborators who use Claude Code, never as requirements for working in the repo. Create a minimal README with just these instructions when the project has none.
 9. Scaffold nothing else. An empty taxonomy directory arrives when its first document does.
 
 ## Step 4: Migration proposals (existing projects only)
 
-On a pack run, skip this step unless Step 3 just bootstrapped a previously q-less project. If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q-conventions/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
+On a pack run, skip this step unless Step 3 just bootstrapped a previously q-less project. If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
 
 ## Step 5: Install the pack (pack runs only)
 
@@ -157,4 +157,4 @@ Close the session by reporting:
 - On a pack run:
   - The pack and version installed, and the index lines added.
   - Any overrides markers the pack's docs carry against framework rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-  - The pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.
+  - The pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.

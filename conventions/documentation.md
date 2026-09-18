@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Two tiers of conventions
 
-- **Pack conventions** — the installed doc packs (see: q conventions/doc-packs.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q-conventions` — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Pack conventions** — the installed doc packs (see: q conventions/doc-packs.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q` — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: on conflict, project conventions win — over any pack's rule, whichever pack carries it.** A project overrides a pack rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
@@ -62,7 +62,7 @@ Rejected: a standing central registry of all shared facts and their homes. It ac
 
 ## Pack doc paths
 
-Reference a pack doc by package name plus path from the package root — `@acme/q-docs-x conventions/retries.md`. `q` is the alias for the framework pack, `@lab43/q-conventions`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the pack's working tree in the repo that authors it. Use the form for every reference to a pack doc across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own pack: a reference must stay unambiguous when its text is quoted away from its file.
+Reference a pack doc by package name plus path from the package root — `@acme/q-docs-x conventions/retries.md`. `q` is the alias for the framework pack, `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the pack's working tree in the repo that authors it. Use the form for every reference to a pack doc across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own pack: a reference must stay unambiguous when its text is quoted away from its file.
 
 ## Markers
 

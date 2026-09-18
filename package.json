@@ -1,0 +1,18 @@
+{
+  "name": "@lab43/q",
+  "version": "0.3.0",
+  "description": "An agentic coding workflow framework: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs.",
+  "keywords": ["q-extension"],
+  "files": ["conventions", "skills", "agents", "hooks", "references", ".claude-plugin"],
+  "scripts": {
+    "check-versions": "node scripts/check-versions.mjs"
+  },
+  "license": "MIT",
+  "publishConfig": { "registry": "https://registry.npmjs.org/", "access": "public" },
+  "author": { "name": "Cameron Spencer", "email": "cameron@lab43.com" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lab43/q.git"
+  },
+  "homepage": "https://github.com/Lab43/q#readme"
+}
