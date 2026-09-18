@@ -22,12 +22,12 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates the `@lab43/q` pack (source: q conventions/documentation.md, Pack doc paths) — here resolving to the repo root, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `q` abbreviates the `@lab43/q` pack (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 
 - `q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
-- `q conventions/extensions.md` — the doc pack format: rules for authoring and publishing a pack
+- `q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
 - `q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
 - `q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
 - `q conventions/pull-requests.md` — rules for authoring a pull request

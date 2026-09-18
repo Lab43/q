@@ -129,7 +129,7 @@ If it is, leave the recorded pin alone and make this machine match through `${CL
 
 Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/extensions.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the pack failure in the close.
 
-Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
+Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Extension doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
 When the pack has no `docsReconciledAgainst` entry, write one from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — a pack Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not — it is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
