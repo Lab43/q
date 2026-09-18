@@ -49,7 +49,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   <tr>
     <th rowspan="4" scope="rowgroup">Setup</th>
     <td><code>/q:install</code></td>
-    <td>Install q into a project, or add a doc pack to one. Idempotent, safe to re-run on a partially set-up project.</td>
+    <td>Install q into a project, or add an extension to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
     <td><code>/q:sync</code></td>
@@ -57,11 +57,11 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td><code>/q:update</code></td>
-    <td>Update q and the project's doc packs: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
+    <td>Update the project's installed extensions, q among them: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
     <td><code>/q:uninstall-extension</code></td>
-    <td>Remove a doc pack from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
+    <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
     <th rowspan="8" scope="rowgroup">Workflow</th>
@@ -107,7 +107,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td><code>/q:upstream</code></td>
-    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — the q framework's or a doc pack's.</td>
+    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — q's own, or another extension's.</td>
   </tr>
 </table>
 
@@ -118,7 +118,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 <a href="docs/workflow-chart/light.png">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-chart/dark.png">
-    <img alt="The q workflow: work flows from triage and tackle through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over doc packs over q docs — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
+    <img alt="The q workflow: work flows from triage and tackle through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
   </picture>
 </a>
 

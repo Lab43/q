@@ -86,7 +86,7 @@
 
   <figure>
     <div class="diagram-frame">
-      <svg viewBox="0 0 1000 462" role="img" aria-label="The q workflow: a spine of triage, tackle, plan, implement, human review, merge, with one adversarial review box under plan and implement, and human review looping back into implement until merge. Below, the conventions documentation is a tight vertical stack — project docs over doc packs over q docs — with an upstream PRs box receiving overrides from project docs and sending them to the doc-pack and q layers. Dashed edges show conventions being read from the top of the stack; green edges show gotchas and corrections written onto project docs.">
+      <svg viewBox="0 0 1000 422" role="img" aria-label="The q workflow: a spine of triage, tackle, plan, implement, human review, merge, with one adversarial review box under plan and implement, and human review looping back into implement until merge. Below, the conventions documentation is a tight vertical stack — project docs over the installed extensions — with an upstream PRs box receiving overrides from project docs and sending them down to the extensions. Dashed edges show conventions being read from the top of the stack; green edges show gotchas and corrections written onto project docs.">
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/>
@@ -187,14 +187,9 @@
           <text x="845" y="355" text-anchor="end" font-size="10.5" font-weight="700" fill="var(--accent-ink)">your project's local rules — updated as you work</text>
 
           <rect x="30" y="372" width="830" height="36" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
-          <text x="45" y="395" font-size="12.5" font-weight="700" fill="var(--ink)">doc packs</text>
-          <text x="185" y="395" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">@acme/q-docs-*</text>
-          <text x="845" y="395" text-anchor="end" font-size="10.5" fill="var(--muted)">add-on rule sets — for libraries and shared standards</text>
-
-          <rect x="30" y="412" width="830" height="36" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
-          <text x="45" y="435" font-size="12.5" font-weight="700" fill="var(--ink)">q docs</text>
-          <text x="185" y="435" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">@lab43/q-conventions</text>
-          <text x="845" y="435" text-anchor="end" font-size="10.5" fill="var(--muted)">q's own rules — how the docs above get written</text>
+          <text x="45" y="395" font-size="12.5" font-weight="700" fill="var(--ink)">extensions</text>
+          <text x="185" y="395" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">@lab43/q, @acme/q-ext-*</text>
+          <text x="845" y="395" text-anchor="end" font-size="10.5" fill="var(--muted)">q's own rules, plus any add-on rule sets you install</text>
         </g>
 
         <!-- upstream PRs box + flows -->
@@ -206,7 +201,6 @@
         <g stroke="var(--ink)" stroke-width="1.5" fill="none">
           <line x1="862" y1="348" x2="896" y2="350" marker-end="url(#ah)"/>
           <line x1="912" y1="380" x2="868" y2="390" marker-end="url(#ah)"/>
-          <path d="M 938 380 C 938 412, 900 428, 868 430" marker-end="url(#ah)"/>
         </g>
       </svg>
     </div>
@@ -219,7 +213,7 @@
     <li><strong>This page never ships.</strong> The chart gets screenshotted into q's README; the README's prose does the introducing. Everything a cold reader needs must live inside the SVG — nothing on this page around it. After editing, regenerate both README images with <code>docs/workflow-chart/screenshot.py</code>.</li>
     <li><strong>Arrow language</strong> (no legend, by choice): solid ink moves work; dashed reads the conventions; green writes them. Green is reserved for the rules circuit — the two write edges, project docs' border, and its tag line.</li>
     <li><strong>Boxes are stages; mono lines are skills.</strong> Implement carries no skill line because three routes serve it: <code>/q:implement-plan</code> (listed under plan), <code>/q:tackle</code>'s fix path, and <code>/q:address-feedback</code> (listed on the loop-back arc). Emojis mark the actor: 🤖 agent, 🧑 human, 🚀 shipped. That is why <code>/q:address-feedback</code> labels the arc instead of sitting under the 🧑 human review box it answers — a skill line inside a human box would misname the actor.</li>
-    <li><strong>All arrows touch the docs at project docs</strong>, the top row: writes land there literally; reads come off the top because precedence resolves top-down — project docs win on conflict, then doc packs, then q docs.</li>
+    <li><strong>All arrows touch the docs at project docs</strong>, the top row: writes land there literally; reads come off the top because precedence resolves top-down — project docs win on conflict, then the extensions'.</li>
     <li><strong>Doc rows have three columns:</strong> name · where it lives (mono) · what it's for.</li>
     <li><strong>Deliberate omissions:</strong> plan docs (working memory, frozen at merge — matters to skill authors, not the loop); read arrows into triage and tackle (conventions ground those stages too, but the downstream reads already carry the pattern and two more dashed arrows would clutter the left edge); any adversarial-review sub-labels (it covers plans, phases, the final branch, and review-loop fixes).</li>
     <li><strong>Label conventions:</strong> arc labels sit just above their arc's flat top with a consistent gap; the two green write labels share a baseline (y=250); arcs end in a genuinely vertical drop so arrowheads match their approach. The loop-back arc's skill line stacks above its prose label, since the arc occupies the space below.</li>

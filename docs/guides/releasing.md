@@ -2,13 +2,12 @@
 
 How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before running any step here.
 
-q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal. Every release moves both and ships both channels: the npm package, and the git tag a project's plugin marketplace resolves against.
+q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal. npm is the only channel: a project pins `@lab43/q` in its `package.json` and loads the plugin from `node_modules`.
 
 ## Steps
 
 1. On main, bump `version` in `package.json` and `.claude-plugin/plugin.json`. Run `npm run check-versions`, then commit.
 2. From the repo root, run `npm publish`. Its `publishConfig` pins the destination to the public npm registry with public access, so no flags are needed — but the logged-in account must own the `@lab43` scope; check with `npm whoami --registry https://registry.npmjs.org`.
-3. `claude plugin tag --push` — this pushes the `q--v{version}` tag that project pins and `/q:update` resolve against.
 
 ## Choosing the version
 
