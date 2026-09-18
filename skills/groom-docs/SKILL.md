@@ -10,7 +10,7 @@ description: Audit the project's whole documentation surface against the documen
 1. The framework policy (see: q conventions/documentation.md) and the writing rules (see: q conventions/writing.md), plus any other installed pack's doc whose topic governs documentation: pack rules bind like the framework's.
 2. The project's recorded rulings and deviations: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. On conflict with any pack, these win.
 
-If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q-conventions/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
+If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 

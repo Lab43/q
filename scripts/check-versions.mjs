@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // Hold the plugin manifest's version equal to the package's. Two manifests
 // carry it because `claude plugin validate --strict` warns when plugin.json
 // names no version, and that command gates structural changes here. Nothing
