@@ -222,7 +222,7 @@ Green when every skill, reference and doc names extensions, the chart and its im
 
 The phases carry their own checks. These prove the integrated result.
 
-- Bootstrap a fixture project with no q: `npm install` the packed tarball, `claude plugin marketplace add --scope local ./node_modules/@lab43/q`, `claude plugin install q@q --scope project`. A session loads the `q:` skills.
+- Bootstrap a fixture project with no q: `npm install` the packed tarball, `claude plugin marketplace add --scope local ./node_modules/@lab43/q`, `claude plugin install q@q --scope project`. A session loads the `q:` skills. *(deviation: the tarball install takes one more step. It records the pin as `file:lab43-q-<version>.tgz` rather than the version, which is not an exact pin, so the hook reports drift on every session until the devDependency is set to the literal version by hand. Run no dependency install after that edit — the pin names a version the registry does not have yet. The steps are in `docs/guides/driving-manual.md`.)*
 - Run `/q:install` in that fixture. It scaffolds the project-root marketplace, the settings, the state file and the mirror docs. Its `.claude/settings.json` disables `q@q`. A fresh session loads q through the project's own marketplace name.
 - Prove the bootstrap marketplace is retired rather than merely unused. Re-register the global `q` name against a different directory holding its own q, then confirm the scaffolded fixture still loads its own pinned copy. Reorder `enabledPlugins` so `q@q` sits first and confirm the result does not change.
 - Simulate a pin move in the fixture: bump the installed package's version in both manifests, run the dependency install, and confirm a new session loads the new content with no `claude plugin` command run.

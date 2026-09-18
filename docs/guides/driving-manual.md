@@ -9,8 +9,9 @@ Exercise a change to the marketplace manifest, the hooks, or `/q:install` agains
 1. From the checkout, run `npm pack --pack-destination <dir>`.
 2. Give the fixture directory its own `package.json`.
 3. Install the tarball there: `npm install --save-dev --save-exact --ignore-scripts ./lab43-q-<version>.tgz`. q lands at `node_modules/@lab43/q`.
-4. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q`.
-5. Install the plugin: `claude plugin install q@q --scope project`.
+4. Set the `@lab43/q` devDependency to the literal version by hand. The tarball install records `file:lab43-q-<version>.tgz`, which is not an exact version pin, so the session-start hook compares it against the installed version, finds no match, and tells every session in the fixture to run `/q:sync`. The package still resolves from `node_modules` after the edit, which is what a session reads. Run no dependency install afterward — the pin now names a version the registry does not have, so one would fail.
+5. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q`.
+6. Install the plugin: `claude plugin install q@q --scope project`.
 
 q declares no dependencies of its own, so nothing else needs installing — in a fixture or in this checkout.
 
