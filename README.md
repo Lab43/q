@@ -16,7 +16,11 @@ claude plugin marketplace add --scope local ./node_modules/@lab43/q
 claude plugin install q@q --scope project
 ```
 
-npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project: it scaffolds your conventions, pins q in your `package.json`, and gives the project its own marketplace.
+npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
+
+- scaffolds your conventions
+- pins q in your `package.json`
+- gives the project its own marketplace
 
 ## Joining a project that uses q
 

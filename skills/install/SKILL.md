@@ -64,7 +64,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    Name it `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters, and is what keeps the name unique. Read owner and repo from the repo's GitHub origin with `gh repo view --json nameWithOwner`. Use the project directory's name in their place when that command yields nothing. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
 
-   Generate that name only when creating the file. A project that already records one keeps it, whatever it is — other clones have already registered that name locally, and regenerating it strands them. This gives up guaranteed uniqueness for a name the project chose, which is the better trade against renaming a marketplace the project owns.
+   Generate that name only when creating the file. A project that already records one keeps it, whatever it is. Other clones have already registered that name locally. Regenerating it strands them. Keeping a name the project chose gives up guaranteed uniqueness, which is the better trade against renaming a marketplace the project owns.
 
    ```json
    {
