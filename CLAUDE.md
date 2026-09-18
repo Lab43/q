@@ -6,7 +6,7 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 
 (source: docs/conventions/documentation.md, The tier test)
 
-`conventions/` plus everything the plugin routes consumer sessions to are framework payload: the law and workflow that ship to every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
+What the `@lab43/q` package ships is framework payload — `conventions/`, the skills, the hooks, the agents, and the references they read: the law and workflow that reach every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
 
 ## Developing
 
