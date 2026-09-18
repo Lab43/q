@@ -155,7 +155,7 @@ Green when `extensions.md` states the format on Decision 6's terms, `grep -rn 'd
 #### Phase 4: documentation.md
 
 1. Rewrite `conventions/documentation.md`'s "Two tiers of conventions" as extension conventions and project conventions. State that q is the extension always installed, and drop the framework-pack special case.
-2. Rename "Pack doc paths" to "Extension doc paths". Keep the rule, which is already package name plus path from the package root. Update its examples.
+2. Rename "Pack doc paths" to "Extension doc paths". Keep the rule, which is already package name plus path from the package root. Update its examples. *(deviation: the rename carries its referrers with it. `conventions/extensions.md`, `CLAUDE.md`, `references/agent-briefing.md`, `docs/conventions/documentation.md` and `skills/install/SKILL.md` each carry a marker naming the old heading. Phase 3's review established that a marker names the heading existing when it lands, so these move with the heading rather than ahead of it.)*
 3. Update the `(overrides: X)` example on line 83 and the Taxonomy sentence that names an authored pack's `conventions/`.
 4. Update `README.md:155`, which restates the markers table for humans.
 5. Rewrite the two briefing index lines in `CLAUDE.md`. Line 29's blurb still reads "the doc pack format" after Phase 3 repointed its path, and line 28's must restate `documentation.md`'s changed intro. An index line restates its doc's intro, so both follow the rewrites above rather than waiting for Phase 8's sweep.
