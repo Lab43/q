@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Take stock
 
-Refuse `@lab43/q`. It is the extension every q project installs, and removing it would leave the project's conventions with no framework tier (source: q conventions/documentation.md, Two tiers of conventions).
+Refuse `@lab43/q`. It is the extension every q project installs. It carries the rules of the workflow itself (source: q conventions/documentation.md, Two tiers of conventions).
 
 Confirm the named target is an extension — any of the following identifies it:
 

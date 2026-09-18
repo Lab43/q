@@ -44,7 +44,7 @@ Run `npm install --save-dev --save-exact --ignore-scripts <extension>@<latest>`,
 
 ## Step 4: Reconcile what the diff touched
 
-Work only from the diffs. Each extension's diff runs from its watermark to its pin as Step 3 left it. What the diff touched decides which of these applies, and a diff may touch both:
+Work only from the diffs. Each extension's diff runs from its watermark to its pin as Step 3 left it. What the diff touched decides which of these applies. A diff may touch both:
 
 - **Changed `conventions/`** — hold the project's docs against each changed rule:
   - remove an override whose target updated to agree or disappeared — it is spent (source: q conventions/documentation.md, Two tiers of conventions)
