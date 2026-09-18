@@ -11,7 +11,7 @@ q is a Claude Code plugin packaging an agentic coding workflow. This file briefs
 ## Developing
 
 - `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
-- When the `q:` skills don't load here, the CLI's registry holds this directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches that registry by path, so re-adding `./` reports the stale entry and changes nothing. Remove it with `claude plugin marketplace remove <name>`, then add `./` again.
+- When the `q:` skills don't load here, the repair is in `docs/guides/driving-manual.md`.
 - Before considering any structural change done: `claude plugin validate --strict .` (the marketplace manifest), `claude plugin validate --strict skills` and `claude plugin validate --strict agents` (the components), and `npm run check-versions` (the two manifests carrying a version agree).
 - PRs never touch a `version`: releasing is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
 - When another session is already working this checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.
@@ -41,4 +41,5 @@ This project's own:
 
 Guides:
 
+- `docs/guides/driving-manual.md` — how to bring q up as a loaded plugin and exercise it
 - `docs/guides/releasing.md` — how q is versioned and released

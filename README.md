@@ -161,6 +161,7 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 This repo has two conventions directories, by design. `conventions/` is the framework policy: it ships in the `@lab43/q` npm package and binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships.
 
 <!-- source: CLAUDE.md, Developing -->
+<!-- source: docs/guides/driving-manual.md -->
 
 To work on q:
 

@@ -84,7 +84,11 @@ When a group's last phase lands, finish that PR before starting the next group:
 2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local review. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 3. **Local review's gate**: run the gate over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
 4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local review this flip rides the approval just given. That is a deliberate exception to the gate: the approval already covers this bookkeeping. Don't ask again.
-5. **Open the PR**, so the user can start reviewing while later groups build. Stacked: `gh stack submit --auto --open` pushes the layers built so far and opens the new PR ready for review — GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. Single PR: `git push -u origin <plan-name>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
+5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: q conventions/pull-requests.md).
+
+   Single PR: `git push -u origin <plan-name>`, then `gh pr create`.
+
+   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven — and it names the PR itself, from the branch, with no body. Write the title and body with `gh pr edit`, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body is written.
 
 ## Step 6: Report
 
