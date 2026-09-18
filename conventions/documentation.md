@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Two tiers of conventions
 
-- **Extension conventions** — the installed extensions' (see: q conventions/extensions.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. `@lab43/q` is the extension every q project installs: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Extension conventions** — the installed extensions (see: q conventions/extensions.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. `@lab43/q` is the extension every q project installs: it carries the rules of the workflow itself and defines the format the rest follow.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: on conflict, project conventions win — over any extension's rule, whichever extension carries it.** A project overrides an extension's rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
