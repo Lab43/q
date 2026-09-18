@@ -1,12 +1,17 @@
 #!/bin/bash
 # SessionStart hook entry point. The checks live in session-start.mjs; this
-# wrapper exists so non-q projects exit before paying node startup, and so a
-# missing node fails loud with a useful message instead of a cryptic exec
-# error. Node itself is a given on q projects — npm install is part of setup.
+# wrapper exists so a missing node fails loud with a useful message instead of
+# a cryptic exec error. Node itself is a given on q projects — q arrives as an
+# npm dependency. The gate below also keeps the checks off projects that don't
+# pin q, which is what keeps q's own repo quiet.
 
 proj="${CLAUDE_PROJECT_DIR:-.}"
-pin_file="$proj/.claude/q-marketplace/.claude-plugin/marketplace.json"
-[ -f "$pin_file" ] || exit 0
+pkg="$proj/package.json"
+[ -f "$pkg" ] || exit 0
+# The quoted key, so a package merely starting with @lab43/q doesn't match.
+# A loose pre-filter is fine: session-start.mjs exits silently unless the key
+# is a devDependency.
+grep -q '"@lab43/q"' "$pkg" || exit 0
 
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 

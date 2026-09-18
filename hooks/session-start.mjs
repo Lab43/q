@@ -1,16 +1,17 @@
 // Validate the project's q setup and, when it doesn't validate, tell the
-// session to run /q:sync. Claude Code loads whatever plugin version is
-// installed, so drift surfaces only if something checks at session start —
-// no other channel runs every session. The checks: plugin installed vs
-// pinned, plugin pin vs the q reconciliation watermark, each watermarked
-// pack's pin and installed version, and the reverse direction — a doc-pack
-// devDependency with no watermark entry (installed by hand, never indexed).
+// session to run /q:sync. Claude Code loads whatever plugin version is on
+// disk, so drift surfaces only if something checks at session start — no
+// other channel runs every session. The checks: the q copy this session
+// loaded vs the project's pin, each watermarked extension's pin vs its
+// watermark vs its installed version, and the reverse direction — a
+// q-extension devDependency with no watermark entry (installed by hand,
+// never indexed).
 //
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. The only designed silence is a project
-// with no pin file; anything else missing or unreadable fails like any other
-// invalid state.
+// that declares no @lab43/q devDependency; anything else missing or
+// unreadable fails like any other invalid state.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -50,78 +51,63 @@ const parse = (text) => {
     return undefined;
   }
 };
+const installedVersion = (dir) => parse(read(path.join(dir, "package.json")) ?? "")?.version;
 
-// Plugin pin: the q--v ref in the project's marketplace file. A missing file
-// means not a q-pinned project; one that exists but can't be read or parsed
+// Pins: one exact devDependency per extension, in the project's package.json.
+// No manifest means not a q project; one that exists but can't be parsed
 // fails like any other invalid state.
-let pinText = null;
-try {
-  pinText = fs.readFileSync(
-    path.join(proj, ".claude/q-marketplace/.claude-plugin/marketplace.json"),
-    "utf8",
-  );
-} catch (e) {
-  if (e.code === "ENOENT" || e.code === "ENOTDIR") process.exit(0);
-  fail();
-}
+const pkgText = read(path.join(proj, "package.json"));
+if (pkgText === null) process.exit(0);
+const pkg = parse(pkgText);
+if (pkg === undefined) fail();
 
-const marketplace = parse(pinText);
-if (marketplace === undefined) fail();
-const ref = marketplace?.plugins?.find?.((p) => p?.name === "q")?.source?.ref;
-const match = (typeof ref === "string" ? ref : pinText).match(
-  /q--v([0-9][0-9A-Za-z.-]*)/,
-);
-if (!match) fail();
-const pinned = match[1];
+const devDeps =
+  pkg && typeof pkg.devDependencies === "object" && pkg.devDependencies !== null
+    ? pkg.devDependencies
+    : {};
 
-// Installed plugin version.
-const manifest = parse(read(path.join(root, ".claude-plugin/plugin.json")) ?? "");
-if (typeof manifest?.version !== "string") fail();
-if (manifest.version !== pinned) fail();
+const pinned = Object.hasOwn(devDeps, "@lab43/q")
+  ? devDeps["@lab43/q"]
+  : undefined;
+if (typeof pinned !== "string") process.exit(0);
 
-// Watermarks. A pinned project without a state file, or whose q watermark
-// doesn't match the pin, is unrecorded drift.
+// The q this session actually loaded. CLAUDE_PLUGIN_ROOT is the directory it
+// was resolved from, and npm wrote that copy's version, so comparing it
+// against the pin also catches a session running some other checkout's q.
+const loaded = installedVersion(root);
+if (typeof loaded !== "string") fail();
+if (loaded !== pinned) fail();
+
+// Watermarks. A pinned project with no state file is unrecorded drift.
 const stateText = read(path.join(proj, ".claude/q-state.json"));
 if (stateText === null) fail();
 
 const state = parse(stateText);
 if (state === undefined || typeof state !== "object" || state === null) fail();
-if (state.qReconciledAgainst !== pinned) fail();
 
-const recon = state.docsReconciledAgainst ?? {};
+const recon = state.reconciledAgainst ?? {};
 if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
+if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
-const pkgText = read(path.join(proj, "package.json"));
-const pkg = pkgText === null ? null : parse(pkgText);
-if (pkgText !== null && pkg === undefined) fail();
-const devDeps =
-  pkg &&
-  typeof pkg.devDependencies === "object" &&
-  pkg.devDependencies !== null
-    ? pkg.devDependencies
-    : {};
-
-for (const [pack, mark] of Object.entries(recon)) {
+for (const [ext, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  const pin = Object.hasOwn(devDeps, pack) ? devDeps[pack] : undefined;
+  const pin = Object.hasOwn(devDeps, ext) ? devDeps[ext] : undefined;
   if (typeof pin !== "string") fail(); // removed out of band, never reconciled
   if (pin !== mark) fail();
 
-  const inst = parse(
-    read(path.join(proj, "node_modules", pack, "package.json")) ?? "",
-  );
-  if (typeof inst?.version !== "string") fail();
-  if (inst.version !== pin) fail();
+  const inst = installedVersion(path.join(proj, "node_modules", ext));
+  if (typeof inst !== "string") fail();
+  if (inst !== pin) fail();
 }
 
 // Reverse direction: a devDependency whose installed manifest carries the
-// q-docs keyword but that has no watermark entry was installed by hand and
-// never indexed. A dependency that isn't installed can't be identified as a
-// doc pack — skip it.
+// q-extension keyword but that has no watermark entry was installed by hand
+// and never indexed. A dependency that isn't installed can't be identified as
+// an extension — skip it.
 for (const dep of Object.keys(devDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
     read(path.join(proj, "node_modules", dep, "package.json")) ?? "",
   )?.keywords;
-  if (Array.isArray(keywords) && keywords.includes("q-docs")) fail();
+  if (Array.isArray(keywords) && keywords.includes("q-extension")) fail();
 }
