@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Enforce the pins
 
-A project with no `.claude/q-marketplace/` has no pins to enforce — propose `/q:install` and stop. Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+A project declaring no `@lab43/q` devDependency has no pins to enforce — propose `/q:install` and stop. Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
 ## Step 2: Check the GitHub CLI
 
@@ -19,14 +19,13 @@ Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHu
 
 Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
 
-- the plugin pin — the version named by the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json`, the tag less its `q--v` prefix — against `qReconciledAgainst`
-- each doc pack's pin in `package.json` against its `docsReconciledAgainst` entry, in both directions — the doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/extensions.md)
+- each extension's pin in `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: q conventions/extensions.md), `@lab43/q` among them
 
 Each finding routes to its remedy:
 
 - A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
 - An entry for a pack no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-pack`, with the pack name, one run per pack.
-- No record where one belongs → `/q:install` — bare for a missing state file or `qReconciledAgainst`; with the pack name for a pinned doc pack that has no entry, one run per pack. These were installed or scaffolded by hand, never recorded.
+- No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other pinned extension that has no entry, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
