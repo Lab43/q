@@ -54,10 +54,15 @@ const parse = (text) => {
 const installedVersion = (dir) => parse(read(path.join(dir, "package.json")) ?? "")?.version;
 
 // Pins: one exact devDependency per extension, in the project's package.json.
-// No manifest means not a q project; one that exists but can't be parsed
-// fails like any other invalid state.
-const pkgText = read(path.join(proj, "package.json"));
-if (pkgText === null) process.exit(0);
+// A missing manifest means not a q project. One that exists but can't be read
+// or parsed fails like any other invalid state.
+let pkgText;
+try {
+  pkgText = fs.readFileSync(path.join(proj, "package.json"), "utf8");
+} catch (e) {
+  if (e.code === "ENOENT" || e.code === "ENOTDIR") process.exit(0);
+  fail();
+}
 const pkg = parse(pkgText);
 if (pkg === undefined) fail();
 
@@ -66,10 +71,12 @@ const devDeps =
     ? pkg.devDependencies
     : {};
 
-const pinned = Object.hasOwn(devDeps, "@lab43/q")
-  ? devDeps["@lab43/q"]
-  : undefined;
-if (typeof pinned !== "string") process.exit(0);
+// Declaring no @lab43/q devDependency is the one designed silence. A pin that
+// is declared but is not a version string is an invalid state like any other,
+// and fails the way a malformed pin fails for every other extension below.
+if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
+const pinned = devDeps["@lab43/q"];
+if (typeof pinned !== "string") fail();
 
 // The q this session actually loaded. CLAUDE_PLUGIN_ROOT is the directory it
 // was resolved from, and npm wrote that copy's version, so comparing it
@@ -87,6 +94,10 @@ if (state === undefined || typeof state !== "object" || state === null) fail();
 
 const recon = state.reconciledAgainst ?? {};
 if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
+// q is the one extension whose name is known without reading a manifest, so a
+// pinned project with no entry for it is caught here. The reverse-direction
+// loop below cannot stand in: it identifies extensions by a keyword read from
+// node_modules, which an uninstalled or stale copy doesn't supply.
 if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
 for (const [ext, mark] of Object.entries(recon)) {
