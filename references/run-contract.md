@@ -28,7 +28,23 @@ Settle the branch before changing anything: work built on one branch and deliver
 
 Where the evidence leaves the call open, ask the user. A listing that reports itself incomplete leaves it open.
 
-**Found a peer? Take a worktree.** `git fetch origin` first: the worktree branches from the local `origin/<default-branch>` ref, which is only as current as the last fetch. `EnterWorktree` creates it. Nothing uncommitted follows the session into it, so commit or copy across whatever the run already owns — the plan or doc it was invoked on included. The worktree arrives on its own new branch, off the default branch under the `worktree.baseRef` default. That branch is this run's: rename it to what the run would have called its branch (`git branch -m <name>`) rather than creating a second one. Then install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading the pack conventions under `node_modules/`.
+**Found a peer? Take a worktree.** `git fetch origin` first: everything below reads the local remote-tracking refs, which are only as current as the last fetch. Nothing uncommitted follows the session into it, so commit or copy across whatever the run already owns — the plan or doc it was invoked on included. How the worktree is made then depends on whether the run's branch exists yet.
+
+**A branch the run is creating.** `EnterWorktree` makes the worktree and switches the session into it. It arrives on its own new branch, off the default branch under the `worktree.baseRef` default. That branch is this run's: rename it to what the run would have called its branch (`git branch -m <name>`) rather than creating a second one.
+
+**A branch that already exists.** The PR's branch, or a pushed branch the run continues. Never let `EnterWorktree` create the branch here. Its new branch sits at the default branch's tip with no upstream. Renaming that onto the existing name fails outright when the branch is already local, and builds the work on the wrong base when it exists only on the remote. Make the worktree on the branch itself with `git worktree add .claude/worktrees/<worktree-name> <branch>`, then hand `EnterWorktree` that path. A branch that exists only on the remote takes the same command, which creates the local branch from it and sets up tracking.
+
+An existing local branch is checked out as it stands, which may be behind the remote. Fast-forward it in the worktree with `git pull --ff-only`. Show the user when that reports divergence.
+
+`git worktree add` refuses when something already holds the branch, and names the worktree holding it. Free it first:
+
+- This session's own checkout holds it. Announce the switch, then move that checkout to the default branch. Its tree otherwise moves under whoever is standing in it.
+- A leftover worktree holds it. Remove it with `git worktree remove <path>`, then take the branch. The removal refuses when that worktree is dirty. Show the user what it holds and let them rule. Never `--force` past it.
+- A peer's worktree holds it. Ask the peer whether they still need the branch. Their answer informs the call and never settles it (see: Working alongside a peer). Take the branch once they have released it. Where they still hold it, or answer nothing, the user rules.
+
+Never take the branch with `git worktree add --force`. It succeeds, leaving two worktrees on one branch to diverge silently.
+
+Whichever way the worktree was made, install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading the pack conventions under `node_modules/`.
 
 **Working alone, branch in the checkout.** When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run.
 
