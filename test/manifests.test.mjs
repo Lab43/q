@@ -12,9 +12,11 @@ import assert from "node:assert/strict";
 import { lockVersions, manifests, lockfile } from "../scripts/manifests.mjs";
 
 describe("the manifest list", () => {
-  it("leads with the file the current version is read from", () => {
-    // Both scripts treat manifests[0] as the source: check-versions compares
-    // every other file against it, and set-version does its arithmetic on it.
+  it("names package.json first, which is the source both scripts read", () => {
+    // Both treat manifests[0] as the source: check-versions compares every
+    // other file against it, and set-version does its arithmetic on it. The
+    // suites for those two observe the behaviour; this pins the order it
+    // depends on.
     assert.equal(manifests[0], "package.json");
   });
 

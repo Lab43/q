@@ -14,6 +14,8 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { manifests, lockfile } from "../scripts/manifests.mjs";
+
 export const repoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Resolved from this process's PATH, because a case that empties the child's
@@ -137,12 +139,12 @@ export const stageFrontmatter = (files) => {
   return base;
 };
 
-/** Run check-frontmatter against a staged tree. */
-export const runFrontmatter = (base) => {
+/** Run a staged script from `scripts/`, with whatever arguments it takes. */
+export const runScript = (base, script, args = []) => {
   try {
     const stdout = execFileSync(
       process.execPath,
-      [path.join(base, "scripts", "check-frontmatter.mjs")],
+      [path.join(base, "scripts", script), ...args],
       { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
     );
     return { stdout, stderr: "", status: 0 };
@@ -173,19 +175,28 @@ export const stageVersions = (script, files) => {
   return base;
 };
 
-/** Run a staged version script, with whatever arguments it takes. */
-export const runVersions = (base, script, args = []) => {
-  try {
-    const stdout = execFileSync(
-      process.execPath,
-      [path.join(base, "scripts", script), ...args],
-      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-    );
-    return { stdout, stderr: "", status: 0 };
-  } catch (e) {
-    return { stdout: e.stdout ?? "", stderr: e.stderr ?? "", status: e.status ?? 1 };
-  }
-};
-
 /** Read a staged file back, to check what a script wrote or left alone. */
-export const staged = (base, file) => fs.readFileSync(path.join(base, file), "utf8");
+export const stagedFile = (base, file) => fs.readFileSync(path.join(base, file), "utf8");
+
+/** The version every version-script fixture starts at. */
+export const FIXTURE_VERSION = "1.2.3";
+
+/** A JSON file, formatted as the manifests in this repo are. */
+export const jsonFile = (value) => `${JSON.stringify(value, null, 2)}\n`;
+
+/** A manifest carrying a name and a version, and nothing the scripts read. */
+export const versionManifest = (version) => jsonFile({ name: "q", version });
+
+/** A lockfile carrying the version at both fields npm writes it to. */
+export const versionLock = (version, packageVersion = version) =>
+  jsonFile({ name: "q", version, packages: { "": { name: "q", version: packageVersion } } });
+
+/**
+ * A tree where every version-carrying file agrees, before overrides. Built
+ * from the real exports, so a file joining that set joins every case.
+ */
+export const versionTree = (overrides = {}) => ({
+  ...Object.fromEntries(manifests.map((file) => [file, versionManifest(FIXTURE_VERSION)])),
+  [lockfile]: versionLock(FIXTURE_VERSION),
+  ...overrides,
+});

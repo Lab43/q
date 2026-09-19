@@ -9,30 +9,25 @@
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { manifests, lockfile } from "../scripts/manifests.mjs";
-import { cleanup, runVersions, staged, stageVersions } from "./helpers.mjs";
+import {
+  FIXTURE_VERSION,
+  cleanup,
+  jsonFile,
+  runScript,
+  stageVersions,
+  stagedFile,
+  versionManifest,
+  versionTree,
+} from "./helpers.mjs";
 
 after(cleanup);
 
 const SCRIPT = "set-version.mjs";
-const VERSION = "1.2.3";
 
-const json = (value) => `${JSON.stringify(value, null, 2)}\n`;
+const stage = (overrides) => stageVersions(SCRIPT, versionTree(overrides));
 
-const manifest = (version) => json({ name: "q", version });
-const lock = (version) =>
-  json({ name: "q", version, packages: { "": { name: "q", version } } });
-
-const tree = (overrides = {}) => ({
-  ...Object.fromEntries(manifests.map((file) => [file, manifest(VERSION)])),
-  [lockfile]: lock(VERSION),
-  ...overrides,
-});
-
-const stage = (overrides) => stageVersions(SCRIPT, tree(overrides));
-
-/** Every version-carrying file's version, as the script left them on disk. */
-const versionsOn = (base) =>
-  [...manifests, lockfile].map((file) => JSON.parse(staged(base, file)).version);
+/** The version each version-carrying file holds, as the script left it. */
+const versionOn = (base, file) => JSON.parse(stagedFile(base, file)).version;
 
 describe("the arithmetic", () => {
   // The levels docs/guides/releasing.md defines, over plain major.minor.patch.
@@ -41,26 +36,30 @@ describe("the arithmetic", () => {
     ["minor", "1.3.0"],
     ["patch", "1.2.4"],
   ]) {
-    it(`moves ${VERSION} to ${expected} on ${level}`, () => {
+    it(`moves ${FIXTURE_VERSION} to ${expected} on ${level}`, () => {
       const base = stage();
-      const { status, stdout, stderr } = runVersions(base, SCRIPT, [level]);
+      const { status, stdout, stderr } = runScript(base, SCRIPT, [level]);
       assert.equal(status, 0, `expected success, got:\n${stderr}`);
-      assert.match(stdout, new RegExp(`${VERSION} → ${expected} \\(${level}\\)`));
+      assert.match(
+        stdout,
+        new RegExp(`${FIXTURE_VERSION} → ${expected} \\(${level}\\)`.replace(/\./g, "\\.")),
+      );
 
-      for (const value of versionsOn(base)) assert.equal(value, expected);
-      // The lockfile's second copy moves too, and nothing else reads it.
-      assert.equal(JSON.parse(staged(base, lockfile)).packages[""].version, expected);
+      for (const file of [...manifests, lockfile]) assert.equal(versionOn(base, file), expected);
+      // check-versions reads this second copy too, so a release that missed
+      // it would fail the next check rather than pass quietly.
+      assert.equal(JSON.parse(stagedFile(base, lockfile)).packages[""].version, expected);
     });
   }
 
   it("rejects a level it does not define", () => {
-    const { status, stderr } = runVersions(stage(), SCRIPT, ["sideways"]);
+    const { status, stderr } = runScript(stage(), SCRIPT, ["sideways"]);
     assert.equal(status, 1);
     assert.match(stderr, /usage: set-version/);
   });
 
   it("rejects being run with no level at all", () => {
-    const { status, stderr } = runVersions(stage(), SCRIPT);
+    const { status, stderr } = runScript(stage(), SCRIPT);
     assert.equal(status, 1);
     assert.match(stderr, /usage: set-version/);
   });
@@ -70,49 +69,46 @@ describe("a source it cannot read a version out of", () => {
   const [source] = manifests;
 
   it(`rejects ${source} missing entirely`, () => {
-    const { status, stderr } = runVersions(stage({ [source]: null }), SCRIPT, ["patch"]);
+    const { status, stderr } = runScript(stage({ [source]: null }), SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /set-version: cannot read/);
   });
 
   it(`rejects ${source} holding invalid JSON`, () => {
-    const { status, stderr } = runVersions(stage({ [source]: "{ not json" }), SCRIPT, ["patch"]);
+    const { status, stderr } = runScript(stage({ [source]: "{ not json" }), SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /set-version: cannot parse/);
   });
 
   it(`rejects ${source} naming no version`, () => {
-    const base = stage({ [source]: json({ name: "q" }) });
-    const { status, stderr } = runVersions(base, SCRIPT, ["patch"]);
+    const base = stage({ [source]: jsonFile({ name: "q" }) });
+    const { status, stderr } = runScript(base, SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /names no version/);
   });
 
   it("rejects a version that is not major.minor.patch", () => {
-    const base = stage({ [source]: manifest("1.2.3-beta.1") });
-    const { status, stderr } = runVersions(base, SCRIPT, ["patch"]);
+    const base = stage({ [source]: versionManifest("1.2.3-beta.1") });
+    const { status, stderr } = runScript(base, SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /not major\.minor\.patch/);
   });
 });
 
 describe("all or nothing", () => {
-  // Each case breaks one file and then asserts every other file still holds
-  // the old version. A script that wrote as it went would leave the earlier
-  // ones moved.
-  // The file the case deliberately broke carries no version to compare, so
-  // the assertion is about every other one.
+  // Each case breaks one file and asserts every other still holds the old
+  // version. A script that wrote as it went would leave the earlier ones
+  // moved. The broken file carries no version to compare, so it is excluded.
   const assertNothingMoved = (base, broken) => {
     for (const file of [...manifests, lockfile].filter((f) => f !== broken)) {
-      const value = JSON.parse(staged(base, file)).version;
-      assert.equal(value, VERSION, `a failed run must leave ${file} untouched`);
+      assert.equal(versionOn(base, file), FIXTURE_VERSION, `a failed run must not move ${file}`);
     }
   };
 
   for (const file of manifests.slice(1)) {
     it(`moves nothing when ${file} has no version field to rewrite`, () => {
-      const base = stage({ [file]: json({ name: "q" }) });
-      const { status, stderr } = runVersions(base, SCRIPT, ["patch"]);
+      const base = stage({ [file]: jsonFile({ name: "q" }) });
+      const { status, stderr } = runScript(base, SCRIPT, ["patch"]);
       assert.equal(status, 1);
       assert.match(stderr, /no version field to rewrite/);
       assertNothingMoved(base, file);
@@ -122,23 +118,19 @@ describe("all or nothing", () => {
   it('moves nothing when the lockfile has no packages[""] entry', () => {
     // The lockfile is checked after every manifest is rewritten in memory, so
     // this is the case that proves the writes really were held back.
-    const base = stage({ [lockfile]: json({ name: "q", version: VERSION }) });
-    const { status, stderr } = runVersions(base, SCRIPT, ["patch"]);
+    const base = stage({ [lockfile]: jsonFile({ name: "q", version: FIXTURE_VERSION }) });
+    const { status, stderr } = runScript(base, SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /no version to rewrite — run npm install instead/);
-    for (const file of manifests) {
-      assert.equal(JSON.parse(staged(base, file)).version, VERSION);
-    }
+    assertNothingMoved(base, lockfile);
   });
 
   it("moves nothing when the lockfile is unparseable", () => {
     const base = stage({ [lockfile]: "{ not json" });
-    const { status, stderr } = runVersions(base, SCRIPT, ["patch"]);
+    const { status, stderr } = runScript(base, SCRIPT, ["patch"]);
     assert.equal(status, 1);
     assert.match(stderr, /cannot parse/);
-    for (const file of manifests) {
-      assert.equal(JSON.parse(staged(base, file)).version, VERSION);
-    }
+    assertNothingMoved(base, lockfile);
   });
 });
 
@@ -150,15 +142,15 @@ describe("what it writes", () => {
     const compact = '{\n  "name": "q",\n  "keywords": ["a", "b"],\n  "version": "1.2.3"\n}\n';
     const base = stage({ [source]: compact });
 
-    assert.equal(runVersions(base, SCRIPT, ["patch"]).status, 0);
-    assert.equal(staged(base, source), compact.replace('"1.2.3"', '"1.2.4"'));
+    assert.equal(runScript(base, SCRIPT, ["patch"]).status, 0);
+    assert.equal(stagedFile(base, source), compact.replace('"1.2.3"', '"1.2.4"'));
   });
 
   it("re-serializes the lockfile as npm writes it", () => {
     const base = stage();
-    assert.equal(runVersions(base, SCRIPT, ["patch"]).status, 0);
+    assert.equal(runScript(base, SCRIPT, ["patch"]).status, 0);
 
-    const text = staged(base, lockfile);
+    const text = stagedFile(base, lockfile);
     assert.equal(text, `${JSON.stringify(JSON.parse(text), null, 2)}\n`);
   });
 });
