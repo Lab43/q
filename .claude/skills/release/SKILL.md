@@ -5,7 +5,7 @@ description: Release q — move the version, push the bump to main, and publish 
 
 # Release
 
-Follow the run contract — `@lab43/q references/run-contract.md`. Every release runs in ship mode, so never ask which (see: `@lab43/q references/run-contract.md`, Review modes). It commits and pushes without pausing, on `main` rather than a branch of its own, and opens no pull request. Its gates are the level the user settles in Step 2 and the permission prompt in Step 4.
+Follow the run contract — `@lab43/q references/run-contract.md`. Every release runs in ship mode, so never ask which (see: `@lab43/q references/run-contract.md`, Review modes). Work on `main` rather than a branch of this run's own. Commit and push without pausing, and open no pull request. The level the user settles in Step 2 and the permission prompt in Step 4 are this run's gates.
 
 `docs/guides/releasing.md` is the procedure. Read it before Step 1 and take every command from it, so a release never runs a copy that has drifted.
 
@@ -26,15 +26,11 @@ Settle it with the user, in conversational mode (see: `@lab43/q references/run-c
 3. Stop when nothing has landed since the tag. There is no release to make.
 4. Recommend a level against the guide's rules for choosing one, and say what in the diff puts it there. The user settles it. An invocation that named a level has settled it already — show what ships and go on to Step 3.
 
-The settled level is the agreement. Steps 3 to 5 execute it autonomously.
+The settled level is the agreement. Execute it autonomously from here.
 
 ## Step 3: Bump and push
 
-Run the guide's steps 1 and 2 without asking again, with one addition between them.
-
-1. Move the version, per the guide's step 1.
-2. Run `npm run check` over the moved tree, and stop on a failure. Run it here rather than earlier, so it covers the version the release ships rather than the one it replaced. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
-3. Commit and push, per the guide's step 2.
+Run the guide's steps 1 and 2 without asking again. Stop on a failing check.
 
 ## Step 4: Publish
 
