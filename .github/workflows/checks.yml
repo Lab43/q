@@ -1,0 +1,26 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      # Do not pin. These checks must agree with the validator developers run.
+      # A pin would pass on a validator nobody uses.
+      - run: npm install --global @anthropic-ai/claude-code
+      # CI never commits, so skip the pre-commit hook's install.
+      - run: npm ci --ignore-scripts
+      - run: npm run check

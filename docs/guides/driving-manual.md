@@ -14,7 +14,7 @@ Exercise a change to the marketplace manifest, the hooks, or `/q:install` agains
 6. Install the plugin: `claude plugin install q@q --scope project`.
 7. Run `/q:install` in the fixture to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. It does mean the hook's silent branch stays unreachable until this step runs. Exercising a hook change needs it.
 
-q declares no dependencies of its own, so nothing else needs installing — in a fixture or in this checkout.
+q ships no dependencies, so a fixture needs nothing installed beyond the tarball. This checkout is different: `npm install` here installs q's own devDependencies and the pre-commit hook.
 
 ## Proving a session loads it
 
