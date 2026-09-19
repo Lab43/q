@@ -74,7 +74,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - an extension's doc, by its path form (see: Extension doc paths)
 
-In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
+In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: q conventions/principles.md, Comments carry constraints, not justification).
 
 Three markers, all ordinary language:
 
