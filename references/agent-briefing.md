@@ -17,7 +17,7 @@ When another session is already working this repo, take a worktree rather than s
 
 Conventions come in three tiers: q's own, the conventions of any installed extensions, and this project's own `docs/conventions/` (source: q conventions/documentation.md, Three tiers of conventions). q and the extensions are pinned in `package.json`. Project rules win over an extension's rule, and an extension's rule wins over q's. Check all three tiers before writing code, before design decisions and reviews, and before changing docs. Doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-Extension doc paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates `@lab43/q`: `q conventions/principles.md` is `node_modules/@lab43/q/conventions/principles.md` (source: q conventions/documentation.md, Extension doc paths).
+Package doc paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates `@lab43/q`: `q conventions/principles.md` is `node_modules/@lab43/q/conventions/principles.md` (source: q conventions/documentation.md, Package doc paths).
 
 q:
 
@@ -51,4 +51,4 @@ Guides:
 - **Keep what the project put there** — its own standing instructions, notes, and index entries beyond the required ones. Work missing information into what is already written rather than bolting a sentence alongside it. Rewrite freely to do that, but drop nothing the project said.
 - **Drop a group with no entries.** A fresh project has no extensions and no guides, so those groups arrive with the first one of each. The q group is always there.
 - **Index every doc the policy requires, and nothing stale** — every conventions doc, from q, from an installed extension, or the project's own, and every guide (source: q conventions/documentation.md, Taxonomy). Drop the line for a doc that is gone, including every line of an extension the project no longer installs. The installed extensions are the direct dependencies whose own `package.json` carries the `q-extension` keyword (source: q conventions/extensions.md). An extension shipping no `conventions/` contributes no lines.
-- **Write each line as a path plus a blurb restating the doc's intro** — q's docs and an extension's by package name plus path from the package root (see: q conventions/documentation.md, Extension doc paths), the project's own by repo-relative path.
+- **Write each line as a path plus a blurb restating the doc's intro** — q's docs and an extension's by package name plus path from the package root (see: q conventions/documentation.md, Package doc paths), the project's own by repo-relative path.

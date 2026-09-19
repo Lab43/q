@@ -22,7 +22,7 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Package doc paths) — here resolving to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 
