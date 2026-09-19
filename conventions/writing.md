@@ -1,6 +1,6 @@
 # Writing
 
-Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read. Agents bias toward long, chained, accreting text. The style rules below are the standing correction.
+Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read. Agents bias toward long, chained, accreting text. Most of what follows is the standing correction.
 
 ## One idea per sentence
 
