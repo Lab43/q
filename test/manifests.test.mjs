@@ -2,10 +2,11 @@
 // against test-only seams targets executables that locate their inputs
 // relative to themselves, which this module's two callers do.
 //
-// Only the pure export is covered here. `helpers(script)` builds a `fail` that
-// calls process.exit(1), so an in-process call never returns and no assertion
-// after it would run; its output is observable only across a process
-// boundary, which the check-versions and set-version suites already do.
+// Covered here: the two data exports, and the pure function over them.
+// `helpers(script)` is not. It builds a `fail` that calls process.exit(1), so
+// an in-process call never returns and no assertion after it would run; its
+// output is observable only across a process boundary, which the
+// check-versions and set-version suites already do.
 
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";

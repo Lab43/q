@@ -1,7 +1,8 @@
-// Staging helpers for the suites. Every case runs the real shipped file —
-// copied into a staged tree rather than imported — because both targets read
-// their inputs from disk relative to themselves. Importing the logic would
-// test a reimplementation of the thing that actually runs.
+// Staging helpers for the suites. Every executable these stage runs as the
+// real shipped file, copied into a staged tree rather than imported, because
+// each resolves its inputs from disk relative to itself. Importing one would
+// test a reimplementation of the thing that actually runs. A module written
+// for import is the exception and is imported by its suite directly.
 //
 // `npm test` names `test/*.test.mjs` explicitly. Node treats every file under a
 // directory called test/ as a suite, so bare discovery reports this file as a
@@ -14,6 +15,8 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+// Imported to derive fixtures from, never as logic under test: a case built
+// from this list covers whatever files carry the version today.
 import { manifests, lockfile } from "../scripts/manifests.mjs";
 
 export const repoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");

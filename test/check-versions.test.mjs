@@ -25,6 +25,9 @@ after(cleanup);
 const SCRIPT = "check-versions.mjs";
 const OTHER = "9.9.9";
 
+/** Escape a version or filename for use inside a built RegExp. */
+const esc = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const check = (overrides) =>
   runScript(stageVersions(SCRIPT, versionTree(overrides)), SCRIPT);
 
@@ -39,7 +42,7 @@ describe("agreement", () => {
   it("accepts every version-carrying file at the same version", () => {
     const { status, stdout, stderr } = check();
     assert.equal(status, 0, `expected acceptance, got:\n${stderr}`);
-    assert.match(stdout, new RegExp(`check-versions: ${FIXTURE_VERSION.replace(/\./g, "\\.")}`));
+    assert.match(stdout, new RegExp(`check-versions: ${esc(FIXTURE_VERSION)}`));
   });
 
   it("reports the version it agreed on, not a fixed string", () => {
@@ -49,27 +52,41 @@ describe("agreement", () => {
     });
     assert.match(
       runScript(base, SCRIPT).stdout,
-      new RegExp(`check-versions: ${OTHER.replace(/\./g, "\\.")}`),
+      new RegExp(`check-versions: ${esc(OTHER)}`),
     );
   });
 });
 
 describe("a version that disagrees", () => {
-  // Every manifest in turn, so the set can grow without this suite going
-  // quiet on the file that was added.
-  for (const file of manifests) {
+  // Every manifest after the source, so the set can grow without this suite
+  // going quiet on the file that was added. Each names the
+  // manifest-versus-manifest message, which nothing else reaches.
+  for (const file of manifests.slice(1)) {
     it(`rejects ${file} carrying a different version`, () => {
-      assertRejected({ [file]: versionManifest(OTHER) }, new RegExp(OTHER.replace(/\./g, "\\.")));
+      assertRejected({ [file]: versionManifest(OTHER) }, /release moves both together/);
     });
   }
 
+  it(`rejects ${manifests[0]}, the source, carrying a different version`, () => {
+    // Everything is compared against this one, so it disagrees with all of them.
+    assertRejected({ [manifests[0]]: versionManifest(OTHER) }, new RegExp(esc(OTHER)));
+  });
+
   it("rejects the lockfile's root version disagreeing", () => {
-    assertRejected({ [lockfile]: versionLock(OTHER, FIXTURE_VERSION) }, /run npm install/);
+    assertRejected(
+      { [lockfile]: versionLock(OTHER, FIXTURE_VERSION) },
+      new RegExp(`${esc(lockfile)} is ${esc(OTHER)} — run npm install`),
+    );
   });
 
   it('rejects the lockfile\'s packages[""] version disagreeing', () => {
-    // The second field is the one a hand-edit misses, and npm ci ignores both.
-    assertRejected({ [lockfile]: versionLock(FIXTURE_VERSION, OTHER) }, /run npm install/);
+    // The second field is the one a hand-edit misses, and npm ci ignores
+    // both. Naming the value pins that the message reports this field rather
+    // than the root one, which still agrees.
+    assertRejected(
+      { [lockfile]: versionLock(FIXTURE_VERSION, OTHER) },
+      new RegExp(`${esc(lockfile)} is ${esc(OTHER)} — run npm install`),
+    );
   });
 });
 
