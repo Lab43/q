@@ -37,4 +37,4 @@ Post a callout about a specific change also as a comment on its line of the diff
 
 ## Sign what you post
 
-Sign the PR's body and every comment on it: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).
+Sign the PR's body and every comment or reply on it: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).

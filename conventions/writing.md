@@ -1,6 +1,6 @@
 # Writing
 
-Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read. Agents bias toward long, chained, accreting text. These rules are the standing correction.
+Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read. Agents bias toward long, chained, accreting text. The style rules below are the standing correction.
 
 ## One idea per sentence
 
@@ -49,6 +49,6 @@ Text posted under the user's account reads as the user's. Sign anything a reader
 - a pull request's body
 - a comment or reply on a pull request, on the diff or at the top level
 - an issue or tracker item you file
-- a comment on one
+- any comment you post on an issue or tracker item
 
 Text committed to the repo is not a message and carries no signature. Git history records who wrote it.
