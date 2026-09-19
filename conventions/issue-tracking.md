@@ -1,6 +1,6 @@
 # Issue Tracking
 
-Rules for working a project's issue tracker — the shared source of work items — from any session.
+Rules for working a project's issue tracker — the shared source of work items — from any session. Sign every item you file and every comment you post: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).
 
 ## Respect existing claims
 
@@ -17,7 +17,3 @@ Filing a new tracker item — the follow-up work a session surfaces — happens 
 ## Work links back
 
 The PR addressing an item links to it from the PR body; when the tracker doesn't pick that link up automatically, comment the PR's link on the item — on the user's agreement, asked once per session and carried forward.
-
-## Sign what you post
-
-Sign every item you file and every comment you post: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).
