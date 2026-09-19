@@ -32,7 +32,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 - Record decisions and rejected alternatives only when they're highly likely to come up again: the alternative is the first thing a reader would reach for, or something deliberately ignored reads as an oversight. Each rejection names the alternative and the reason, nothing more.
 - The rationale stands inline — never cite the repo's issues or PRs as provenance; git history is the paper trail. Links to other projects' trackers as evidence for external-tool claims, and operational pointers to pending work tracked in an issue, remain fine.
 
-**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: @lab43/q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule, and it arrives complete in one change: its intro (see: Taxonomy) plus its line in the agent briefing's index.
+**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: @lab43/q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule.
 
 ## Taxonomy
 
@@ -40,7 +40,7 @@ The policy owns what this taxonomy names — the `docs/` directories below, the 
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
-The intro is the authoritative description of its doc. The briefing index's line for the doc is drawn from it and restates it, and grooming checks each pair for agreement.
+The intro is the authoritative description of its doc. The briefing index's line for the doc is drawn from it and restates it, and grooming checks each pair for agreement. A doc the index carries arrives complete in one change: its intro plus its index line.
 
 - **`docs/conventions/`** — the project's conventions docs (see: Conventions docs).
 - **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: @lab43/q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
