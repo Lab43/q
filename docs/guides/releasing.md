@@ -23,9 +23,15 @@ Choose a level first (see: Choosing the version). Then, on `main`:
    git push origin main
    ```
 
-3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2.
+3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2:
 
-   Check that target rather than accepting the default. The form offers `main`'s tip. A release ships whatever commit it targets, so anything merged since step 2 would go out under a version that does not account for it.
+   ```sh
+   gh release create v<version> --repo Lab43/q --target "$(git rev-parse HEAD)" --generate-notes
+   ```
+
+   `--target` takes the full commit SHA. An abbreviated one is rejected with `Release.target_commitish is invalid`, alongside a `tag_name is not a valid tag` that points at the wrong field.
+
+   Check what the target resolves to, whichever way the release is made. A release ships whatever commit it targets. `HEAD` is the bump commit only while nothing has moved it since step 2, and the web form offers `main`'s tip rather than that commit. Neither of the workflow's checks objects to a later commit on `main`, so anything merged since step 2 would go out under a version that does not account for it.
 
 Publishing the release is what starts the workflow (source: .github/workflows/release.yml). It checks that the release commit is on `main`, that the tag names the version in `package.json`, and that `npm run check` passes over the tagged tree. Then it publishes to npm with provenance.
 
