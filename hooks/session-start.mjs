@@ -9,9 +9,11 @@
 //
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
-// the script stops at the first one. The only designed silence is a project
-// that declares no @lab43/q devDependency; anything else missing or
-// unreadable fails like any other invalid state.
+// the script stops at the first one. Two silences are designed. A project
+// that declares no @lab43/q devDependency is not a q project. A devDependency
+// with no watermark entry and no readable manifest cannot be identified as an
+// extension. Fail every other missing or unreadable input like any other
+// invalid state.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -71,7 +73,7 @@ const devDeps =
     ? pkg.devDependencies
     : {};
 
-// Declaring no @lab43/q devDependency is the one designed silence. A pin that
+// Declaring no @lab43/q devDependency is a designed silence. A pin that
 // is declared but is not a version string is an invalid state like any other,
 // and fails the way a malformed pin fails for every extension below.
 if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
@@ -114,8 +116,9 @@ for (const [ext, mark] of Object.entries(recon)) {
 
 // Reverse direction: a devDependency whose installed manifest carries the
 // q-extension keyword but that has no watermark entry was installed by hand
-// and never indexed. A dependency that isn't installed can't be identified as
-// an extension — skip it.
+// and never indexed. The keyword is readable only from the package's own
+// manifest under node_modules. A devDependency whose manifest is absent or
+// unparseable is therefore skipped here rather than reported.
 for (const dep of Object.keys(devDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
