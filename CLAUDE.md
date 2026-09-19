@@ -14,7 +14,7 @@ What the `@lab43/q` package ships is framework payload — `conventions/`, the s
 - When the `q:` skills don't load here, the repair is in `docs/guides/driving-manual.md`.
 - `npm run check` runs every check this repo has: plugin validation, version agreement between the two manifests carrying one, markdown linting, and frontmatter parsing. `package.json` names them, so read it there rather than trusting a list in prose. CI runs it on every pull request and on pushes to `main` (source: .github/workflows/checks.yml).
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree that has not been installed commits without checking anything.
-- PRs never touch a `version`: releasing is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
+- PRs never touch a `version`: releasing is the maintainer's act, separate from merging. A release is a workflow dispatch that runs the checks itself, because its own push starts no workflow (source: docs/guides/releasing.md).
 - When another session is already working this checkout, take a worktree rather than sharing it. Run `npm install` in it (source: @lab43/q references/run-contract.md, The delivery branch). `.claude/settings.json` is tracked, so the plugin loads there.
 
 ## Documentation
