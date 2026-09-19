@@ -9,9 +9,11 @@
 //
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
-// the script stops at the first one. The only designed silence is a project
-// that declares no @lab43/q devDependency; anything else missing or
-// unreadable fails like any other invalid state.
+// the script stops at the first one. Two silences are designed. A project
+// that declares no @lab43/q devDependency is not a q project. A pinned
+// dependency that is neither installed nor watermarked cannot be identified
+// as an extension, for the reason the reverse-direction loop states. Anything
+// else missing or unreadable fails like any other invalid state.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -114,8 +116,12 @@ for (const [ext, mark] of Object.entries(recon)) {
 
 // Reverse direction: a devDependency whose installed manifest carries the
 // q-extension keyword but that has no watermark entry was installed by hand
-// and never indexed. A dependency that isn't installed can't be identified as
-// an extension — skip it.
+// and never indexed. A dependency that isn't installed is skipped. The
+// keyword lives in its manifest, and nothing offline substitutes — a lockfile
+// records versions, not keywords. A pin that is neither installed nor
+// watermarked therefore escapes this check, until the next dependency install
+// puts the manifest here. Identifying one ahead of that install takes a
+// registry call on every session start.
 for (const dep of Object.keys(devDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
