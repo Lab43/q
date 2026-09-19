@@ -150,3 +150,42 @@ export const runFrontmatter = (base) => {
     return { stdout: e.stdout ?? "", stderr: e.stderr ?? "", status: e.status ?? 1 };
   }
 };
+
+/**
+ * Stage a tree holding a real version script and the shared module it reads
+ * its manifests through. Both scripts resolve their files from the module's
+ * own location, so the pair has to travel together.
+ *
+ * `files` maps relative paths to contents; a null omits that file, which is
+ * how a missing manifest is staged.
+ *
+ * No node_modules here, unlike stageFrontmatter: these scripts import nothing
+ * but node builtins and their sibling module, so there is nothing to resolve.
+ */
+export const stageVersions = (script, files) => {
+  const base = mkTmp("q-ver-");
+  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
+  for (const file of [script, "manifests.mjs"]) {
+    fs.copyFileSync(path.join(repoRoot, "scripts", file), path.join(base, "scripts", file));
+  }
+
+  writeFiles(base, files);
+  return base;
+};
+
+/** Run a staged version script, with whatever arguments it takes. */
+export const runVersions = (base, script, args = []) => {
+  try {
+    const stdout = execFileSync(
+      process.execPath,
+      [path.join(base, "scripts", script), ...args],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+    );
+    return { stdout, stderr: "", status: 0 };
+  } catch (e) {
+    return { stdout: e.stdout ?? "", stderr: e.stderr ?? "", status: e.status ?? 1 };
+  }
+};
+
+/** Read a staged file back, to check what a script wrote or left alone. */
+export const staged = (base, file) => fs.readFileSync(path.join(base, file), "utf8");
