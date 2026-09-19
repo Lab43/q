@@ -12,17 +12,16 @@ Picking up a tracker item means assigning it to the user and moving it to the tr
 
 ## Ask before filing
 
-Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch.
+Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch. File one piece of work per item. A bundled item gets half fixed and stays open.
 
 ## Write for whoever picks it up
 
-An item is read by a session holding none of the context that produced it, and ranked by a triage run that reads only its title and description. Hold its prose to the writing rules (see: q conventions/writing.md).
+An item is read by a session holding none of the context that produced it. Hold its prose to the writing rules (see: q conventions/writing.md).
 
-- The title says what is wrong or missing. A reader ranking a list decides from it without opening the item.
-- The body carries the evidence: the `file:line`, the reproduction, the error text. Without it the session that picks the item up starts from an unverified claim.
-- The body says what would be true once the item is closed. A closing condition left to guess gets the item closed wrong, or not at all.
-- Leave the fix to the run that takes the item, unless the approach is already settled. Then state it and the reason it was settled.
-- One item carries one piece of work. A bundled item gets half fixed and stays open.
+- Name the work the item asks for in the title. Someone scanning a list of items sees the titles and nothing else.
+- Ground the claim in the body with whatever evidence exists: the error text, the reproduction, the `file:line`. That is what tells the next reader where to look.
+- Say what would be true once the item is closed. A closing condition left to guess gets the item closed wrong, or not at all.
+- Leave the fix to the run that takes the item. Where the approach was already decided, state it and say what decided it.
 
 ## Work links back
 
