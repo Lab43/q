@@ -96,7 +96,7 @@ Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Val
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
 3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: q conventions/pull-requests.md).
-4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: q conventions/pull-requests.md, Diff comments). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
+4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
    gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<reply-file>

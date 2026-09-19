@@ -33,4 +33,8 @@ Compose the body from these sections, in order. Most PRs need only Summary and T
 
 ## Diff comments
 
-Post a callout about a specific change also as a comment on its line of the diff, so the reviewer meets it in place. A callout not tied to a specific change needs no comment. Give the comment only what a reader needs to understand why that change was made — the anchor already says where and what, so no labels and no framing. Sign comments posted from the user's account: "— Claude 🤖".
+Post a callout about a specific change also as a comment on its line of the diff, so the reviewer meets it in place. A callout not tied to a specific change needs no comment. Give the comment only what a reader needs to understand why that change was made — the anchor already says where and what, so no labels and no framing.
+
+## Sign what you post
+
+Sign the PR's body and every comment on it: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).
