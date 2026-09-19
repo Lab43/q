@@ -5,36 +5,20 @@
 // the session-start hook reads npm's record — so drift misleads whoever is
 // diagnosing an install rather than breaking one.
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { manifests, helpers } from "./manifests.mjs";
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const { fail, read, parse } = helpers("check-versions");
 
-const version = (file) => {
-  const full = path.join(root, file);
-  let value;
-  try {
-    value = JSON.parse(fs.readFileSync(full, "utf8")).version;
-  } catch (e) {
-    console.error(`check-versions: cannot read ${file} — ${e.message}`);
-    process.exit(1);
-  }
-  if (typeof value !== "string") {
-    console.error(`check-versions: ${file} names no version`);
-    process.exit(1);
-  }
+const [pkg, plugin] = manifests.map((file) => {
+  const value = parse(file, read(file)).version;
+  if (typeof value !== "string") fail(`${file} names no version`);
   return value;
-};
-
-const pkg = version("package.json");
-const plugin = version(".claude-plugin/plugin.json");
+});
 
 if (pkg !== plugin) {
-  console.error(
-    `check-versions: package.json is ${pkg}, .claude-plugin/plugin.json is ${plugin} — release moves both together`,
+  fail(
+    `${manifests[0]} is ${pkg}, ${manifests[1]} is ${plugin} — release moves both together`,
   );
-  process.exit(1);
 }
 
 console.log(`check-versions: ${pkg}`);

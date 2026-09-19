@@ -18,17 +18,23 @@ permissions:
   contents: write
   id-token: write
 
+# Two dispatches would compute the same version and race to publish it.
+concurrency: release
+
 jobs:
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # A dispatch can name any branch. Releasing from one would publish that
-      # tree and push the bump there.
+      # A dispatch can name any branch, and releasing from one would publish
+      # that tree. This catches the accident rather than a deliberate dispatch:
+      # the workflow file itself comes from the ref being dispatched.
       - name: Refuse to release from anywhere but main
         if: github.ref != 'refs/heads/main'
+        env:
+          REF: ${{ github.ref }}
         run: |
-          echo "Releases run from main. This dispatch named ${{ github.ref }}."
+          echo "Releases run from main. This dispatch named $REF."
           exit 1
 
       - uses: actions/checkout@v4
@@ -44,19 +50,25 @@ jobs:
       # A pin would pass on a validator nobody uses.
       - run: npm install --global @anthropic-ai/claude-code
 
-      # Nothing has been committed yet, so there is no pre-commit hook to install.
+      # --ignore-scripts leaves the tracked pre-commit hook uninstalled, so it
+      # cannot fire on the commit this job makes.
       - run: npm ci --ignore-scripts
-      - run: npm run check
 
-      - name: Bump both manifests
+      - name: Move the version
         id: bump
         env:
           LEVEL: ${{ inputs.level }}
         run: |
           node scripts/set-version.mjs "$LEVEL"
           npm install --package-lock-only --ignore-scripts
-          npm run check-versions
-          echo "version=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+          VERSION="$(node -p 'require("./package.json").version')"
+          test -n "$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      # After the bump, so the checks run on the tree being released. This is
+      # the only full check that tree ever gets: the push below uses
+      # GITHUB_TOKEN, which starts no workflow, so checks.yml never sees it.
+      - run: npm run check
 
       - name: Commit and tag
         env:
@@ -64,16 +76,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "v$VERSION" package.json package-lock.json .claude-plugin/plugin.json
+          git commit -m "Release $VERSION" package.json package-lock.json .claude-plugin/plugin.json
           git tag -a "v$VERSION" -m "v$VERSION"
 
-      # Nothing reaches origin until npm carries the version. A failed publish
-      # leaves main untouched, so the release is simply re-dispatched.
+      # A publish can be neither undone nor repeated, so refuse one whose commit
+      # could not then be pushed. The checkout is shallow and nothing has re-read
+      # origin since, so main advancing during the run would only surface after
+      # the irreversible step.
+      - name: Check main has not moved
+        run: |
+          git fetch --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+
       - run: npm publish --provenance
 
       - name: Push main and the tag
         env:
           VERSION: ${{ steps.bump.outputs.version }}
         run: |
-          git push origin main
+          git push origin HEAD:main
           git push origin "v$VERSION"

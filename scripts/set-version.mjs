@@ -1,57 +1,34 @@
-// Move q's version. Two manifests carry it — package.json and
-// .claude-plugin/plugin.json — and a release moves both here, before
+// Move q's version. Both manifests move together here, before
 // `check-versions` holds them equal.
 //
-// `npm version` is not used, though it would do the arithmetic: it rewrites
-// package.json in npm's own formatting, expanding every compact object in the
-// file. That reformat would land in the release commit, burying the one line
-// that changed. Both manifests are rewritten in place instead, so a release
-// diff is the version lines and nothing else.
+// Don't reach for `npm version` to do the arithmetic. It rewrites
+// package.json in npm's own formatting, expanding every compact value in the
+// file, and that reformat would bury the one changed line in every release
+// commit. `--dry-run` rewrites the file too, so it cannot supply the number
+// on its own.
 //
-// The levels are the ones docs/guides/releasing.md defines, over versions of
-// the plain major.minor.patch form q uses. A prerelease or build suffix is
-// rejected rather than guessed at.
+// The levels are the ones docs/guides/releasing.md defines, over the plain
+// major.minor.patch versions q uses.
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+import { root, manifests, helpers } from "./manifests.mjs";
 
-const manifests = ["package.json", ".claude-plugin/plugin.json"];
+const { fail, read, parse } = helpers("set-version");
+
 const levels = ["major", "minor", "patch"];
-
-const fail = (message) => {
-  console.error(`set-version: ${message}`);
-  process.exit(1);
-};
-
-const read = (file) => {
-  try {
-    return fs.readFileSync(path.join(root, file), "utf8");
-  } catch (e) {
-    fail(`cannot read ${file} — ${e.message}`);
-  }
-};
-
-const parse = (file, text) => {
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    fail(`cannot parse ${file} — ${e.message}`);
-  }
-};
-
 const level = process.argv[2];
 if (!levels.includes(level)) {
   fail(`usage: set-version.mjs <${levels.join("|")}>`);
 }
 
-const current = parse(manifests[0], read(manifests[0])).version;
-if (typeof current !== "string") fail(`${manifests[0]} names no version`);
+const [source] = manifests;
+const current = parse(source, read(source)).version;
+if (typeof current !== "string") fail(`${source} names no version`);
 
 const parts = /^(\d+)\.(\d+)\.(\d+)$/.exec(current);
-if (!parts) fail(`${manifests[0]} names ${current}, which is not major.minor.patch`);
+if (!parts) fail(`${source} names ${current}, which is not major.minor.patch`);
 
 const [major, minor, patch] = parts.slice(1).map(Number);
 const next = {
@@ -60,8 +37,8 @@ const next = {
   patch: `${major}.${minor}.${patch + 1}`,
 }[level];
 
-// Every file is rewritten and checked before any is written, so a manifest
-// that cannot take the version leaves the release with none of them moved.
+// Every manifest is rewritten and checked before any is written, so one that
+// cannot take the version leaves the release with none of them moved.
 const rewritten = manifests.map((file) => {
   const after = read(file).replace(
     /("version"\s*:\s*)"[^"]*"/,
