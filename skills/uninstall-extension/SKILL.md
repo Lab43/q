@@ -29,7 +29,7 @@ Remove without asking — each item a no-op when already absent:
 
 1. When the extension is pinned: `npm uninstall --ignore-scripts <extension>` (via the project's package manager when it isn't npm).
 2. When the pin is already gone: run the package manager's dependency install, catching up any lockfile and `node_modules` remnants the removal left.
-3. Remove the extension's lines from the agent briefing's docs index. An extension that shipped no `conventions/` has none to remove.
+3. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no `conventions/` has no group to remove.
 4. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
 
 ## Step 4: Rule on references
