@@ -54,6 +54,11 @@ Establish what is true by looking, wherever looking can settle it: `git worktree
 
 Announce what a peer would otherwise have to discover, before you act rather than after — `SendMessage` reaches any peer `ListAgents` lists. Announce the work you take up, and again when you put it down: the tracker item, the plan, or both where a plan names items. You hold it from the moment you pick it, not from the moment a tracker records it — a peer reading only the tracker sees nothing and duplicates your work.
 
+Send nothing else. A message to a peer carries only what keeps two sessions from duplicating or colliding over the same work. Every message surfaces in the user's session, so every message spends the user's attention.
+
+- Never send a peer a suggestion, an opinion, or a finding, unless they need it to avoid a collision.
+- Answer a peer only when the answer changes what they do. No reply is owed.
+
 A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds three precautions:
 
 - Never switch the branch without announcing first.
