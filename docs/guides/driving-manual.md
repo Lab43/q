@@ -1,6 +1,6 @@
 # Driving Manual
 
-How to bring q up and exercise it. q is a Claude Code plugin, so driving it means getting it loaded into a session and checking that the session got what the change intended.
+How to bring q up and exercise it. q runs inside Claude Code, so driving it means getting it loaded into a session and checking that the session got what the change intended.
 
 ## Driving q as an installed plugin
 

@@ -7,7 +7,7 @@ description: Install q into a project, or add an extension to one. Invoke bare t
 
 The scaffold is deliberately near-empty — this skill creates the structure the other skills expect, not content.
 
-Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation picks the path: a bare run bootstraps q (Steps 3–4); an extension run adds the extension install (Step 5) after them. Scaffolding brings q's surfaces to the forms in Step 3: create what is absent, correct what has drifted. Any run therefore completes a partially set-up project. Never rewrite what the user owns — each item below marks its own boundary.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation picks the path: a bare run bootstraps q (Steps 3–4); an extension run adds the extension install (Step 5) after them. A run naming `q` or `@lab43/q` is a bare run, because q is the framework rather than an extension (source: q conventions/extensions.md, Identity). Scaffolding brings q's surfaces to the forms in Step 3: create what is absent, correct what has drifted. Any run therefore completes a partially set-up project. Never rewrite what the user owns — each item below marks its own boundary.
 
 ## Step 1: Survey current state
 
@@ -38,7 +38,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```markdown
    # Principles
 
-   This project's cross-cutting rules, including any deviations from the framework's (see: q conventions/principles.md).
+   This project's cross-cutting rules, including any deviations from q's (see: q conventions/principles.md).
    ```
 
    `docs/conventions/documentation.md`:
@@ -46,7 +46,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```markdown
    # Documentation
 
-   This project's documentation rulings and deviations (see: q conventions/documentation.md, Two tiers of conventions).
+   This project's documentation rulings and deviations (see: q conventions/documentation.md, Three tiers of conventions).
    ```
 
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 delivery: stacked
 tracks: https://github.com/Lab43/q/issues/53
 ---
@@ -12,7 +12,7 @@ Ship q as one npm package, `@lab43/q`, carrying its conventions and its plugin t
 
 Three things follow. Anything built on q can read `references/run-contract.md`, because the package root is a stable project-relative path. A package can declare which q version it was written against, because "q" is one version number. Installing q stops requiring q, because npm delivers the bytes before Claude Code is involved.
 
-Doc packs become extensions in the same change. The category absorbs q rather than excluding it, which removes the special-casing of "the framework pack" across the conventions.
+Doc packs become extensions in the same change. The category absorbs q rather than excluding it, which removes the special-casing of "the framework pack" across the conventions. *(deviation: the category excludes q, which is the framework rather than an extension. The special-casing it removes is the layout clause, not the category membership — see Decision 6.)*
 
 ## Context
 
@@ -100,9 +100,9 @@ Established with throwaway fixtures, because none of it is readable from this re
    - The layout contract loosens from fixed to conditional: `conventions/` when present, `.claude-plugin/` when the package carries a plugin, at least one of the two.
    - An extension with no conventions is watermarked but not indexed, so watermarking decouples from briefing indexing.
    - The executability rule is restated on its real terms. Installing an extension runs no code, which `--ignore-scripts` and the absence of lifecycle scripts enforce. The old wording is false once `hooks/session-start.sh` ships in the package.
-   - The two tiers become extension conventions and project conventions. Precedence is unchanged.
+   - The two tiers become extension conventions and project conventions. Precedence is unchanged. *(deviation: the tiers are three — framework, extension, project — with precedence project > extensions > q. q is not an extension: extensions extend, and q is what they extend. The category bought no uniformity in practice — the hook still needed a dedicated `@lab43/q` branch, `/q:uninstall-extension` still refused q by name, and Pinning still exempted q from carrying a q pin. The conditional layout below, not the noun, is what removes the per-rule clause for the package that also ships skills, hooks and agents, and it stands. `@lab43/q` drops the `q-extension` keyword, and q's payload-grooming warrant moves to `docs/conventions/documentation.md`, Working on the payload.)*
 
-   Rejected: keeping pack terminology and special-casing q inside it. That is the cheaper edit, and it preserves the thing worth removing — every rule about packs then needs a clause for the one pack that also ships skills, hooks and agents. The category either covers q or it does not.
+   Rejected: keeping pack terminology and special-casing q inside it. That is the cheaper edit, and it preserves the thing worth removing — every rule about packs then needs a clause for the one pack that also ships skills, hooks and agents. The category either covers q or it does not. *(deviation: the category covers neither q nor the rules q shares with extensions. The conditional layout removed the need for it to.)*
 
 7. **q is an ordinary entry in the watermark map.** `.claude/q-state.json` holds one `reconciledAgainst` map with `@lab43/q` alongside any other extension. `qReconciledAgainst` disappears. Watermarks stay necessary, because pin against watermark is what catches an out-of-band bump.
 
@@ -111,7 +111,7 @@ Established with throwaway fixtures, because none of it is readable from this re
 ## Out of scope
 
 - **Installing a third-party extension's plugin** — deferred. The format describes what an extension may ship without q installing anyone else's. `extensions.md` states the format plainly, with no note about what is unimplemented.
-- **Precedence between extensions** — deferred, and untracked. Nothing here creates the conflict: a project installing one extension beside q has the same two-tier precedence it has today, and the rule for ordering three or more needs a case to reason from.
+- **Precedence between extensions** — deferred, and untracked. Nothing here creates the conflict: a project installing one extension beside q has the same two-tier precedence it has today, and the rule for ordering three or more needs a case to reason from. *(deviation: precedence is project > extensions > q, per Decision 6. Ordering among extensions stays deferred and untracked.)*
 - **Extension descriptions** — deferred. Issue #52 is written in pack terms and needs a wording pass once this lands. So does issue #26, on keeping a shipped declaration equal to the live framework pin.
 - **Publishing `@lab43/q` for the first time** — declined for these PRs, because releasing is the maintainer's act and a PR never touches a `version`. The phases make the repo publishable and rewrite the release guide; the publish that follows is what lets a consumer install q the new way. The name is free on the public registry, checked against `registry.npmjs.org`. Verification bootstraps from a packed tarball so it runs before that publish exists.
 - **Deprecating `@lab43/q-conventions` on npm** — deferred to issue #56, for the same reason.
@@ -124,7 +124,7 @@ Established with throwaway fixtures, because none of it is readable from this re
 
 #### Phase 1: Merge the two artifacts into one package
 
-1. Write `package.json` at the repo root: name `@lab43/q`, version matching `.claude-plugin/plugin.json`, keyword `q-extension`, `files` listing `conventions`, `skills`, `agents`, `hooks`, `references` and `.claude-plugin`, plus the `publishConfig`, `repository`, `license` and `author` fields from `packages/q-conventions/package.json`. Drop `repository.directory`. Take `description` from `.claude-plugin/plugin.json`, so the registry blurb and the plugin's own description agree.
+1. Write `package.json` at the repo root: name `@lab43/q`, version matching `.claude-plugin/plugin.json`, keyword `q-extension` *(deviation: no keyword — q is not an extension, per Decision 6)*, `files` listing `conventions`, `skills`, `agents`, `hooks`, `references` and `.claude-plugin`, plus the `publishConfig`, `repository`, `license` and `author` fields from `packages/q-conventions/package.json`. Drop `repository.directory`. Take `description` from `.claude-plugin/plugin.json`, so the registry blurb and the plugin's own description agree.
 2. Move `packages/q-conventions/conventions/` to `conventions/`.
 3. Fold `packages/q-conventions/README.md` into the root `README.md`, which becomes the package's registry page. Delete `packages/`. *(deviation: nothing in the pack README survives the fold. It exists to say the pack is not installed by hand and that the rest of q lives in the q repo, both of which the root README already covers. The item reduces to the delete.)*
 4. Write the version-agreement check from Decision 5 as `scripts/check-versions.mjs`, which exits non-zero when `package.json` and `.claude-plugin/plugin.json` disagree. Leave `scripts` out of the `files` whitelist, since it is a development tool rather than payload. Add a `package.json` script that runs it.
@@ -154,7 +154,7 @@ Green when `extensions.md` states the format on Decision 6's terms, `grep -rn 'd
 
 #### Phase 4: documentation.md
 
-1. Rewrite `conventions/documentation.md`'s "Two tiers of conventions" as extension conventions and project conventions. State that q is the extension always installed, and drop the framework-pack special case.
+1. Rewrite `conventions/documentation.md`'s "Two tiers of conventions" as extension conventions and project conventions. State that q is the extension always installed, and drop the framework-pack special case. *(deviation: states q as the framework tier the other two sit above, per Decision 6.)*
 2. Rename "Pack doc paths" to "Extension doc paths". Keep the rule, which is already package name plus path from the package root. Update its examples. *(deviation: the rename carries its referrers with it. `conventions/extensions.md`, `CLAUDE.md`, `references/agent-briefing.md`, `docs/conventions/documentation.md` and `skills/install/SKILL.md` each carry a marker naming the old heading. Phase 3's review established that a marker names the heading existing when it lands, so these move with the heading rather than ahead of it.)*
 3. Update the `(overrides: X)` example on line 83 and the Taxonomy sentence that names an authored pack's `conventions/`.
 4. Update `README.md:155`, which restates the markers table for humans.
@@ -196,7 +196,7 @@ Green when `/q:install` scaffolds a fresh fixture project that a session then lo
 #### Phase 7: The extension skills
 
 1. Rename `skills/uninstall-pack/` to `skills/uninstall-extension/`. Update its description, body, and the rule that it never removes `@lab43/q`. Repoint its referrers in the same phase: `README.md:49` and `README.md:56`, `references/q-state.md:30`, and `skills/sync/SKILL.md` at lines 3, 28 and 41.
-2. Restructure `skills/update/SKILL.md` around q being an ordinary extension. Four places branch plugin against pack, and Decision 7 collapses the distinction:
+2. Restructure `skills/update/SKILL.md` around q being an ordinary extension. *(deviation: restructured around q being the framework, per Decision 6. The skill defines *package* as the noun covering q and an extension, and uses it wherever a step must reach both.)* Four places branch plugin against pack, and Decision 7 collapses the distinction:
    - Line 12's sweep uses the new keyword.
    - Line 18's take-stock table loses the `q--v` row and reads the pin from `package.json`. Its `qReconciledAgainst` column folds into the one map.
    - Step 3's two branches at lines 44 and 45 become one dependency install, since moving any pin is now the same act.
@@ -209,12 +209,12 @@ Green when no skill or reference names a pack, `claude plugin validate --strict 
 
 #### Phase 8: The repo's own docs
 
-1. Rewrite `docs/guides/releasing.md` for one artifact and one version. Keep the version-choosing rules, which are unchanged. Drop the two-artifact ordering rule and the `claude plugin tag --push` step. *(deviation: Phase 1 did the one-version rewrite, including the two-artifact ordering rule. The version check Phase 1 adds forbids the independent versioning that guide stated, so deferring the rewrite would have ended Phase 1 with a guide contradicting the repo's own check. Dropping the `claude plugin tag --push` step is what remains here — the tag stays a live pin target until Phase 6 moves pins into `node_modules`.)*
-2. Rewrite both halves of `docs/conventions/documentation.md`. The tier test names the payload as the package rather than the pack plus what the plugin routes to. Working on the payload, at lines 16 to 20, still calls the payload a doc pack this repo authors and cites the renamed heading — rewrite it around q being an extension, which is also what the Goal's claim to drop the framework-pack special case rests on.
+1. Rewrite `docs/guides/releasing.md` for one artifact and one version. Keep the version-choosing rules, which are unchanged. Drop the two-artifact ordering rule and the `claude plugin tag --push` step. *(deviation: Phase 1 did the one-version rewrite, including the two-artifact ordering rule. The version check Phase 1 adds forbids the independent versioning that guide stated, so deferring the rewrite would have ended Phase 1 with a guide contradicting the repo's own check. Dropping the `claude plugin tag --push` step is what remains here — the tag stays a live pin target until Phase 6 moves pins into `node_modules`.)* *(deviation: the guide also loses the sentence naming npm as the only channel. The Steps carry one publish command and no other, so the sentence restated an absence the reader can already see.)*
+2. Rewrite both halves of `docs/conventions/documentation.md`. The tier test names the payload as the package rather than the pack plus what the plugin routes to. Working on the payload, at lines 16 to 20, still calls the payload a doc pack this repo authors and cites the renamed heading — rewrite it around q being an extension, which is also what the Goal's claim to drop the framework-pack special case rests on. *(deviation: rewritten around q being the framework rather than an extension, per Decision 6. Working on the payload states the authoring rules' warrant as this repo's own ruling instead of deriving it from membership, and that ruling is what puts `conventions/` on the grooming surface.)*
 3. Update `docs/conventions/skills.md`, whose Body section names the framework docs path and `${CLAUDE_PLUGIN_ROOT}`.
 4. Update `README.md` and `CLAUDE.md` for the renamed skill and the extension category.
-5. Redraw the conventions stack in `docs/workflow-chart/chart.html`. It shows three rows — project docs, doc packs, q docs — and this plan leaves two, with q an extension among extensions. The change is to the diagram's meaning, not only its labels, so it also covers the `aria-label` at line 89 and the precedence note at line 222. Then regenerate `light.png` and `dark.png` with `docs/workflow-chart/screenshot.py`, and rewrite the `alt` text at `README.md:114` to match. Install Python Playwright with Chromium if this machine lacks it, rather than shipping the change without the images.
-6. Grep for each term this plan retires, outside `docs/plans/`: `doc pack`, `doc-pack`, `\bpacks\?\b`, `q-docs`, `q-conventions`, `uninstall-pack`, `q--v`, `q-marketplace`, `qReconciledAgainst`, `docsReconciledAgainst`, `q:install"`, `npm run q:install` and `packages/`. Cover `docs/workflow-chart/chart.html` as well as the markdown. No hits remain. Search `q:install` as the script name rather than the skill, which keeps its own `/q:` form.
+5. Redraw the conventions stack in `docs/workflow-chart/chart.html`. It shows three rows — project docs, doc packs, q docs — and this plan leaves two, with q an extension among extensions. *(deviation: it keeps three, relabelled — project docs, extensions, q — per Decision 6. The 462 viewBox, the three rects and the third upstream arc are unchanged from before this plan; the bottom row is relabelled q, the middle row keeps its blurb and loses `@lab43/q` from its paths, and the `aria-label` and precedence note follow.)* The change is to the diagram's meaning, not only its labels, so it also covers the `aria-label` at line 89 and the precedence note at line 222. Then regenerate `light.png` and `dark.png` with `docs/workflow-chart/screenshot.py`, and rewrite the `alt` text at `README.md:114` to match. Install Python Playwright with Chromium if this machine lacks it, rather than shipping the change without the images.
+6. Grep for each term this plan retires, outside `docs/plans/`: `doc pack`, `doc-pack`, `\bpacks\?\b`, `q-docs`, `q-conventions`, `uninstall-pack`, `q--v`, `q-marketplace`, `qReconciledAgainst`, `docsReconciledAgainst`, `q:install"`, `npm run q:install` and `packages/`. Cover `docs/workflow-chart/chart.html` as well as the markdown. No hits remain. Search `q:install` as the script name rather than the skill, which keeps its own `/q:` form. *(deviation: "No hits remain" holds for every term but `\bpacks\?\b`, which keeps one class. `npm pack` is the npm command that builds a tarball, and `/q:update` runs it to diff two published versions. The retired term is the noun for an installed package of docs, not the command.)*
 
 Green when every skill, reference and doc names extensions, the chart and its images match, and the three `validate --strict` invocations and the version check pass.
 
