@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Sweep
 
-1. Run `git fetch origin`.
+1. Run `git fetch origin`. Never add `--prune`. It drops the tracking ref for a branch the remote deleted on merge. That worktree's commits then look like they never reached a remote, which blocks the cleanup this skill exists for.
 2. Run `git worktree prune`. It clears the registrations whose directory is already gone. A locked worktree keeps its registration either way, because locking is what protects a registration from pruning.
 3. Run `git worktree list --porcelain` for the worktrees. Then list the directories under `.claude/worktrees/`. One that git does not list is not a worktree. Never delete it.
 
@@ -20,10 +20,10 @@ Two worktrees are never candidates. Rule them out first:
 
 Then establish what each of the rest holds:
 
-- whether it is locked, which `git worktree list --porcelain` reports. A locked worktree is never removable, and its directory may be gone, which fails every command below. Report it and probe no further.
+- whether it is locked, which `git worktree list --porcelain` reports. A locked worktree is never removable. Its directory may be gone, which fails every command below. Report it and probe no further.
 - whether its tree is clean — `git -C <path> status --porcelain`
 - whether every commit it carries has reached a remote — `git -C <path> log --oneline HEAD --not --remotes` prints the ones that have not
-- whether a live peer holds it (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Working alongside a peer)
+- whether a live peer holds it. The contract's peer check establishes that (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch).
 
 Then establish whether its work has landed. Run `gh pr list --head <branch> --state all` for each branch's pull requests. Never use `git branch --merged` for this. A squash-merged branch is not an ancestor of the default branch, so that test reports long-merged work as unmerged. A detached worktree has no branch, so it has no pull requests to read.
 
@@ -34,7 +34,7 @@ A worktree is removable when it holds nothing the remote does not already have:
 - it is not locked
 - no live peer holds it
 
-Removing one costs only the checkout. Its branch survives the removal, so the commits do too.
+Removing one costs only the checkout. It deletes no ref, and by the test above every commit the worktree carries is already on a remote.
 
 ## Step 2: Agree what goes
 
