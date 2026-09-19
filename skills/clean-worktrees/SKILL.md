@@ -18,9 +18,9 @@ Two worktrees are never candidates. Rule them out first:
 - the main worktree, which `git worktree list` names first. Git refuses to remove it.
 - the worktree this session is running in, which `git rev-parse --show-toplevel` names. It reports the worktree's root from any depth, so it matches the path `git worktree list` reports however deep the session has moved.
 
-Ask the peers what they hold, before probing anything. `ListAgents` lists the live candidates (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch). With none listed, every worktree is leftovers. Otherwise send one message asking which worktrees they are working in. Ownership is the one thing looking cannot settle (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Working alongside a peer). A session that made a worktree and stepped out of it leaves nothing behind to show that it did. A worktree a peer claims is never removable.
+Ask the peers what they hold, before probing anything. `ListAgents` lists the live candidates (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch). With none listed, every worktree is leftovers. Otherwise ask each candidate it lists which worktrees they are working in. The repo cannot show who owns one (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Working alongside a peer). A session that made a worktree and stepped out of it leaves nothing behind to show that it did.
 
-Never wait on a reply. Finish the sweep. Name every candidate that has not answered in Step 2's go-ahead. A claim that arrives before Step 3 takes that worktree off the list.
+A worktree a peer claims is never removable. Silence is not a claim: a candidate that has not answered by the end of the sweep holds nothing, and every worktree stays as removable as the rest of the test found it. Never wait on a reply. Report the silence in Step 2 instead, so the user rules on the list knowing one candidate never accounted for itself.
 
 Then establish what each of the rest holds:
 
@@ -35,7 +35,7 @@ A worktree is removable when it holds nothing the remote does not already have:
 - its tree is clean
 - no commit it carries is missing from a remote
 - it is not locked
-- no live peer holds it
+- no peer claimed it
 
 Removing one costs only the checkout. It deletes no ref, and by the test above every commit the worktree carries is already on a remote.
 
@@ -43,16 +43,15 @@ Removing one costs only the checkout. It deletes no ref, and by the test above e
 
 Settle the list with the user, in conversational mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Collaboration modes). How a removable worktree reaches the user depends on what its pull requests say:
 
-- Merged or closed — the work is done with. Name it in the go-ahead below, for the user to veto. Asking them to pick it spends attention and settles nothing.
-- Open, or no pull request at all — the work is still in flight. Put it in a batch of choices (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Batch questions), and say the work is unfinished. The user may be coming back to the checkout.
+- Merged or closed — the work is done with. Name it in the go-ahead below, for the user to veto rather than asking them (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Decide at the right altitude).
+- Open, or no pull request at all — nothing says the work is finished. Put it in a batch of choices (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Batch questions), and say what its pull requests showed. The user may be coming back to the checkout.
 
-A sweep that turns up nothing in flight asks no questions at all.
+A sweep that turns up none of the second kind asks no questions at all.
 
-Close with the go-ahead, in plain text. State what it removes. State what it leaves out, and why:
+Close with the go-ahead, in plain text. State what it removes. Name any candidate that never answered the ask, and which of the worktrees it removes that candidate might yet claim. State what the go-ahead leaves out, and why:
 
 - the worktrees ruled out before probing
 - the worktrees that failed the removable test
-- the live peers that never answered
 - the directories git does not list
 
 The go-ahead is the agreement.
@@ -61,6 +60,7 @@ The go-ahead is the agreement.
 
 Remove what the user agreed to, without asking again.
 
-1. Remove each agreed worktree with `git worktree remove <path>`. Never `--force` (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch). A removal that refuses means something changed since the sweep — show the user what it reports instead of forcing past it.
-2. Leave every branch alone. Deleting the branch a removed worktree held is the user's call.
-3. Report what was removed, what was left and why, and each directory under `.claude/worktrees/` that git does not list.
+1. Drop any worktree a peer has claimed since the go-ahead. A reply arriving late still settles ownership, and the user agreed to remove a worktree nobody had claimed. Report each one dropped.
+2. Remove each remaining agreed worktree with `git worktree remove <path>`. Never `--force` (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch). A removal that refuses means something changed since the sweep — show the user what it reports instead of forcing past it.
+3. Leave every branch alone. Deleting the branch a removed worktree held is the user's call.
+4. Report what was removed, what was left and why, and each directory under `.claude/worktrees/` that git does not list.
