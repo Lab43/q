@@ -15,7 +15,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
   "note": "Machine state written by q's skills. Never edit by hand; /q:sync reports drift.",
   "qReconciledAgainst": "0.3.0",
   "docsReconciledAgainst": {
-    "@lab43/q-conventions": "0.1.0"
+    "@lab43/q": "0.3.0"
   }
 }
 ```

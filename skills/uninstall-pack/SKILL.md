@@ -1,6 +1,6 @@
 ---
 name: uninstall-pack
-description: Remove a doc pack from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the pack name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference the pack for the user's ruling. Never removes the framework pack, @lab43/q-conventions. The changes ship as a PR.
+description: Remove a doc pack from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the pack name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference the pack for the user's ruling. Never removes the framework pack, @lab43/q. The changes ship as a PR.
 ---
 
 # Uninstall Pack
@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Take stock
 
-Refuse `@lab43/q-conventions` — the framework pack is always among a q project's installed packs (source: q conventions/documentation.md, Two tiers of conventions).
+Refuse `@lab43/q` — the framework pack is always among a q project's installed packs (source: q conventions/documentation.md, Two tiers of conventions).
 
 Confirm the named target is a doc pack — any of the following identifies it:
 

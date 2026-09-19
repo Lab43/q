@@ -123,7 +123,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 **Every session starts knowing where the rules are.** `/q:install` puts the routing in place:
 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
-- installs q's framework conventions as the `@lab43/q-conventions` npm pack, pinned in your `package.json`
+- installs q's framework conventions as the `@lab43/q` npm pack, pinned in your `package.json`
 - indexes both tiers in your agent briefing (`CLAUDE.md`)
 - pins the plugin itself, via a project-owned declaration in `.claude/`, so every teammate's machine runs the q version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
@@ -158,13 +158,15 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 
 <!-- source: docs/conventions/documentation.md, The tier test -->
 
-This repo has two conventions directories, by design. `packages/q-conventions/conventions/` is the framework policy: it ships with the plugin — and publishes as the `@lab43/q-conventions` npm doc pack — and binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships.
+This repo has two conventions directories, by design. `conventions/` is the framework policy: it ships in the `@lab43/q` npm package and binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships.
 
 <!-- source: CLAUDE.md, Developing -->
+<!-- source: docs/guides/driving-manual.md -->
 
 To work on q:
 
-- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as a local marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
-- `claude plugin validate --strict .` checks the marketplace manifest; `claude plugin validate --strict skills` and `claude plugin validate --strict agents` check the components.
-- Releasing — the plugin or the `@lab43/q-conventions` pack — is separate from merging, and PRs never touch a `version`; the steps live in `docs/guides/releasing.md`.
+- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./` again.
+- `claude plugin validate --strict .` checks the marketplace manifest; `claude plugin validate --strict skills` and `claude plugin validate --strict agents` check the components; `npm run check-versions` checks that the two manifests carrying a version agree.
+- Releasing is separate from merging, and PRs never touch a `version`; the steps live in `docs/guides/releasing.md`.
 - When another session is already working your checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.

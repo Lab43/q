@@ -14,7 +14,7 @@ Rejected: a `q` metadata key in `package.json` (configurable paths, a per-doc ma
 
 ## Pinning
 
-A pack is authored in a project that itself uses q, with `@lab43/q-conventions` pinned in the pack's own `package.json` — an exact devDependency that is also the authoring project's live install (in a monorepo, the pack as a workspace), so pin and declaration are one field, never two to drift apart. Shipped in the tarball, the pin declares the framework version the pack's docs are written against; the skills hold it against a consuming project's own pin and flag drift. The framework pack alone carries no pin: its version is the thing declared against.
+A pack is authored in a project that itself uses q, with `@lab43/q` pinned in the pack's own `package.json` — an exact devDependency that is also the authoring project's live install (in a monorepo, the pack as a workspace), so pin and declaration are one field, never two to drift apart. Shipped in the tarball, the pin declares the framework version the pack's docs are written against; the skills hold it against a consuming project's own pin and flag drift. The framework pack alone carries no pin: its version is the thing declared against.
 
 ## Authoring
 

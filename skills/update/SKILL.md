@@ -18,7 +18,7 @@ Read four versions for each artifact in scope — the watermarks per `${CLAUDE_P
 | Plugin | the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json`, less its prefix | `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` | the highest `q--v*` tag on `Lab43/q` (`gh api repos/Lab43/q/git/matching-refs/tags/q--v`) | `qReconciledAgainst` |
 | Each doc pack | its pin in the project's `package.json`; the framework pack's, in a pack-authoring repo, lives in the authored pack's own manifest (source: q conventions/doc-packs.md) | `version` in `node_modules/<pack>/package.json` | `npm view <pack> version` | its `docsReconciledAgainst` entry |
 
-Alongside the versions, hold each third-party pack's framework declaration — its `@lab43/q-conventions` devDependency (source: q conventions/doc-packs.md) — against the project's framework pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating the framework here; one behind closes only by a pack release.
+Alongside the versions, hold each third-party pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/doc-packs.md) — against the project's framework pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating the framework here; one behind closes only by a pack release.
 
 An artifact with no pin and no watermark entry has nothing to update — propose `/q:install` for it and stop.
 

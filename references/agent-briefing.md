@@ -15,9 +15,9 @@ If the session's skill list has no `/q:` skills, this machine is missing the q p
 
 When another session is already working this repo, take a worktree rather than sharing the checkout.
 
-Conventions come in two tiers: the installed doc packs' (pinned in `package.json`, the q framework's `@lab43/q-conventions` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q conventions/documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+Conventions come in two tiers: the installed doc packs' (pinned in `package.json`, the q framework's `@lab43/q` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q conventions/documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-Doc-pack paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates the `@lab43/q-conventions` pack: `q conventions/principles.md` is `node_modules/@lab43/q-conventions/conventions/principles.md` (source: q conventions/documentation.md, Pack doc paths).
+Doc-pack paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates the `@lab43/q` pack: `q conventions/principles.md` is `node_modules/@lab43/q/conventions/principles.md` (source: q conventions/documentation.md, Pack doc paths).
 
 Installed doc packs:
 

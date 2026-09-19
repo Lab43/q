@@ -47,10 +47,11 @@ git fetch origin && git checkout -b <plan-name> origin/<default-branch>
 
 ```bash
 git fetch origin
-gh stack init <plan-name>/01-<group-slug> --base origin/<default-branch>
+git rev-parse <default-branch> origin/<default-branch>
+gh stack init <plan-name>/01-<group-slug> --base <default-branch>
 ```
 
-(`--base` takes an origin ref, never a local branch — a stale local silently becomes the stack's base.) Each later group's branch is created in Step 4 as work reaches it; only the first group's is created here. When the run lives in a worktree, the whole stack lives in that one worktree — later layers as branches inside it, never new worktrees.
+`--base` takes a branch name. `gh stack` records it verbatim and hands it to GitHub as every layer's PR base, and GitHub rejects a remote-tracking ref: `--base origin/main` pushes the branches and then fails each PR with "Base ref must be a branch". That is why the `rev-parse` above runs first — it must print the same SHA twice, because a local branch behind its remote silently becomes the stack's base. Fast-forward it before initializing when it isn't. Each later group's branch is created in Step 4 as work reaches it; only the first group's is created here. When the run lives in a worktree, the whole stack lives in that one worktree — later layers as branches inside it, never new worktrees.
 
 Either way, in ship mode record the group-start SHA (`git rev-parse HEAD`) as soon as the branch exists, before anything commits to it. It scopes this PR's final review in Step 5. Each later group records its own when its branch opens in Step 4.
 
@@ -84,7 +85,11 @@ When a group's last phase lands, finish that PR before starting the next group:
 2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local review. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 3. **Local review's gate**: run the gate over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
 4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local review this flip rides the approval just given. That is a deliberate exception to the gate: the approval already covers this bookkeeping. Don't ask again.
-5. **Open the PR**, so the user can start reviewing while later groups build. Stacked: `gh stack submit --auto --open` pushes the layers built so far and opens the new PR ready for review — GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. Single PR: `git push -u origin <plan-name>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
+5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: q conventions/pull-requests.md).
+
+   Single PR: `git push -u origin <plan-name>`, then `gh pr create`.
+
+   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven. It names the PR from the branch and writes no body. Write the title and body with `gh pr edit`, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body is written.
 
 ## Step 6: Report
 
