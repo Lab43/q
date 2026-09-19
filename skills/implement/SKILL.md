@@ -1,11 +1,11 @@
 ---
-name: tackle
+name: implement
 description: Take on unplanned work — an issue, a bug, a task at any fidelity. Ground it in the code, then route it on the user's go-ahead — fix it here in a single adversarially reviewed PR, escalate to /q:create-plan when it's plan-worthy, or show with evidence that nothing needs doing. The expected entry point for work without a plan; planned work runs under /q:implement-plan.
 ---
 
-# Tackle
+# Implement
 
-The work comes from the invocation, at any fidelity — an issue number or URL, a pasted error, a phrase ("the export button 404s"); given nothing, ask what to tackle.
+The work comes from the invocation, at any fidelity — an issue number or URL, a pasted error, a phrase ("the export button 404s"); given nothing, ask what the work is.
 
 ## Ground rules
 
@@ -38,13 +38,13 @@ The routes:
 
 ## Step 3: Branch
 
-Settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). A tackle item is its own delivery unit, so the call is a fresh branch. Require a clean working tree first — if anything is uncommitted, stop and show the user. Branch, unless the contract's peer check already put this run on a worktree's branch:
+Settle the branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The work item is its own delivery unit, so the call is a fresh branch. Require a clean working tree first — if anything is uncommitted, stop and show the user. Branch, unless the contract's peer check already put this run on a worktree's branch:
 
 ```bash
 git fetch origin && git checkout -b <work-slug> origin/<default-branch>
 ```
 
-## Step 4: Implement
+## Step 4: Build
 
 1. Implement the agreed fix, following the governing conventions and matching surrounding code.
 2. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). When the change produced a newly drivable surface — an endpoint, a screen — drive it through `/q:drive`, naming that surface as what to exercise.
