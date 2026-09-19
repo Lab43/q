@@ -5,7 +5,8 @@
   "files": ["conventions", "skills", "agents", "hooks", "references", ".claude-plugin"],
   "scripts": {
     "prepare": "husky",
-    "check": "npm run check-plugin && npm run check-versions && npm run check-markdown && npm run check-frontmatter",
+    "check": "npm run check-plugin && npm run check-versions && npm run check-markdown && npm run check-frontmatter && npm test",
+    "test": "node --test 'test/*.test.mjs'",
     "check-plugin": "claude plugin validate --strict . && claude plugin validate --strict skills && claude plugin validate --strict agents",
     "check-versions": "node scripts/check-versions.mjs",
     "check-markdown": "markdownlint-cli2",
