@@ -12,9 +12,10 @@ What the `@lab43/q` package ships is framework payload — `conventions/`, the s
 
 - `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
 - When the `q:` skills don't load here, the repair is in `docs/guides/driving-manual.md`.
-- Before considering any structural change done: `claude plugin validate --strict .` (the marketplace manifest), `claude plugin validate --strict skills` and `claude plugin validate --strict agents` (the components), and `npm run check-versions` (the two manifests carrying a version agree).
+- `npm run check` runs the plugin validator over the marketplace manifest, the skills, and the agents, then checks that the two manifests carrying a version agree. CI runs it on every pull request and on pushes to `main` (source: .github/workflows/checks.yml).
+- `npm install` installs the pre-commit hook that runs `npm run check`. A tree that has not been installed commits without checking anything.
 - PRs never touch a `version`: releasing is the maintainer's act, separate from merging (source: docs/guides/releasing.md).
-- When another session is already working this checkout, take a worktree rather than sharing it. A worktree needs no setup here: the repo has no dependencies to install. `.claude/settings.json` is tracked, so the plugin loads there.
+- When another session is already working this checkout, take a worktree rather than sharing it. Run `npm install` in it (source: @lab43/q references/run-contract.md, The delivery branch). `.claude/settings.json` is tracked, so the plugin loads there.
 
 ## Documentation
 

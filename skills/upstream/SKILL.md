@@ -38,7 +38,7 @@ Then, for each destination with shipped candidates:
 
 1. **Clone and branch**: clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
 2. **Read the checkout's briefing** — `CLAUDE.md` — first and follow it. It governs how the change is made.
-3. **Apply the change set** for the destination. In the q repo, run `claude plugin validate --strict .`. Leave every `version` untouched, in whichever manifests carry one — releasing is the maintainer's act, not the PR's.
+3. **Apply the change set** for the destination. In the q repo, run `npm run check`. Leave every `version` untouched, in whichever manifests carry one — releasing is the maintainer's act, not the PR's.
 4. **Commit**, in ship mode — the review history stays inspectable in git.
 5. **Adversarial review**: validate the change set (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses, run against the checkout. Name q's own rules as the substitute grounding surface in both lenses' launches — every destination shares them, extensions being authored in projects that use q (source: @lab43/q conventions/extensions.md). The checkout's own recorded deviations win where they speak. This project's project-tier rulings never apply.
 6. **Local review's gate**: in local mode, run the gate over the checkout's diff, committing onto its branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate). The gate's own reviewer pass takes the same substitute grounding as item 5's.
