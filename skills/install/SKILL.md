@@ -7,7 +7,7 @@ description: Install q into a project, or add an extension to one. Invoke bare t
 
 The scaffold is deliberately near-empty — this skill creates the structure the other skills expect, not content.
 
-Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation picks the path: a bare run bootstraps q (Steps 3–4); an extension run adds the extension install (Step 5) after them. A run naming `q` or `@lab43/q` is a bare run, because q is the framework rather than an extension (source: q conventions/extensions.md, Identity). Scaffolding brings q's surfaces to the forms in Step 3: create what is absent, correct what has drifted. Any run therefore completes a partially set-up project. Never rewrite what the user owns — each item below marks its own boundary.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation picks the path: a bare run bootstraps q (Steps 3–4); an extension run adds the extension install (Step 5) after them. A run naming `q` or `@lab43/q` is a bare run, because q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity). Scaffolding brings q's surfaces to the forms in Step 3: create what is absent, correct what has drifted. Any run therefore completes a partially set-up project. Never rewrite what the user owns — each item below marks its own boundary.
 
 ## Step 1: Survey current state
 
@@ -38,7 +38,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```markdown
    # Principles
 
-   This project's cross-cutting rules, including any deviations from q's (see: q conventions/principles.md).
+   This project's cross-cutting rules, including any deviations from q's (see: @lab43/q conventions/principles.md).
    ```
 
    `docs/conventions/documentation.md`:
@@ -46,7 +46,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```markdown
    # Documentation
 
-   This project's documentation rulings and deviations (see: q conventions/documentation.md, Three tiers of conventions).
+   This project's documentation rulings and deviations (see: @lab43/q conventions/documentation.md, Three tiers of conventions).
    ```
 
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
@@ -115,9 +115,9 @@ npm install --save-dev --save-exact --ignore-scripts <extension>
 
 If it is, leave the recorded pin alone and make this machine match through `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
-Verify what arrived is an extension: `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package root holds a `conventions/` directory, a `.claude-plugin/` directory, or both (source: q conventions/extensions.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the extension failure in the close.
+Verify what arrived is an extension: `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package root holds a `conventions/` directory, a `.claude-plugin/` directory, or both (source: @lab43/q conventions/extensions.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the extension failure in the close.
 
-An extension shipping `conventions/` gets one briefing index line per doc the index doesn't already carry, under its extensions group and contiguous with any lines it already has: package name plus path from the package root (see: q conventions/documentation.md, Package doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy). One shipping no `conventions/` is watermarked without being indexed, having no docs to index (source: q conventions/extensions.md, Layout).
+An extension shipping `conventions/` gets one briefing index line per doc the index doesn't already carry, under its extensions group and contiguous with any lines it already has: package name plus path from the package root (see: @lab43/q conventions/documentation.md, Package doc paths), blurb restating the doc's intro (source: @lab43/q conventions/documentation.md, Taxonomy). One shipping no `conventions/` is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
 
 When the extension has no `reconciledAgainst` entry, write one from the version in `node_modules/<extension>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — an extension Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not — it is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
@@ -135,7 +135,7 @@ Otherwise: in ship mode, commit first. In both modes, validate the changes (see:
 ## Step 7: Open the PR
 
 1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
 ## Step 8: Report
 
@@ -147,4 +147,4 @@ Close the session by reporting:
 - On an extension run:
   - The extension and version installed, and the index lines added.
   - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-  - Its q declaration — its `@lab43/q` devDependency (source: q conventions/extensions.md) — held against the project's own pin. An extension written against a newer q than the project runs is the signal to suggest `/q:update`. One written against an older q, or carrying no declaration, is noted as-is — no update closes it.
+  - Its q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md) — held against the project's own pin. An extension written against a newer q than the project runs is the signal to suggest `/q:update`. One written against an older q, or carrying no declaration, is noted as-is — no update closes it.

@@ -19,7 +19,7 @@ Two guards:
 - Extract sameness, not resemblance: extract only mechanical duplicates that must change together. Keep code that merely looks similar but diverges in semantics separate (a link styled to mimic a button's visuals is still a link — two components, not one).
 - Don't treat imitating an exemplar as copying: the rule targets verbatim plumbing and scaffolding, not structural similarity to the file a convention doc holds up as the model.
 
-When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight. A plain note, not a `(source:)` marker (see: q conventions/documentation.md, Markers): neither copy is the authority it would name.
+When tooling genuinely forces a copy (an environment that can't import shared modules), mark both copies with a keep-in-sync note so the duplication reads as intent, not oversight. A plain note, not a `(source:)` marker (see: @lab43/q conventions/documentation.md, Markers): neither copy is the authority it would name.
 
 ## Colocate knowledge with its next reader
 
@@ -34,7 +34,7 @@ A comment, in code or in a doc's markup, states what its file cannot show: the c
 What fails the test is the author addressing someone other than that reader, in two shapes:
 
 - **Justification** — defending the chosen design, weighing alternatives, narrating how the solution was arrived at. That addresses the reviewer, and it's noise once merged; git history and the PR carry it.
-- **Pointers to unmaintained artifacts** — plan docs (frozen after merge) (source: q conventions/plans.md, Lifecycle), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
+- **Pointers to unmaintained artifacts** — plan docs (frozen after merge) (source: @lab43/q conventions/plans.md, Lifecycle), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
 
 ## Prefer the strongest enforcement rung
 

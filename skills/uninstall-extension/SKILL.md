@@ -9,11 +9,11 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Take stock
 
-Refuse `q` and `@lab43/q`. q is the framework rather than an extension (source: q conventions/extensions.md, Identity), and no q project can remove it (source: q conventions/documentation.md, Three tiers of conventions).
+Refuse `q` and `@lab43/q`. q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), and no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 
 Confirm the named target is an extension — any of the following identifies it:
 
-- the `q-extension` keyword in `node_modules/<extension>/package.json` (source: q conventions/extensions.md)
+- the `q-extension` keyword in `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md)
 - the same keyword read from the registry (`npm view <extension> keywords`), for one pinned but not installed
 - a `reconciledAgainst` entry (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md)
 
@@ -34,7 +34,7 @@ Remove without asking — each item a no-op when already absent:
 
 ## Step 4: Rule on references
 
-Grep the docs the documentation policy owns (see: q conventions/documentation.md, Taxonomy) for the extension's name. Every hit lost its backing with the extension: an overrides marker's target, a restatement's home, a cross-reference's destination. On a clean grep, skip the step.
+Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name. Every hit lost its backing with the extension: an overrides marker's target, a restatement's home, a cross-reference's destination. On a clean grep, skip the step.
 
 Recommend a resolution for each hit, grounded in the documentation policy, in one AskUserQuestion batch — a conversational stretch. The user rules. Apply the rulings.
 
@@ -45,7 +45,7 @@ In ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_P
 ## Step 6: Open the PR
 
 1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting:
    - The extension removed, or the out-of-band removal reconciled.
    - The index lines and watermark entry dropped, and any lockfile catch-up applied.

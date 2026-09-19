@@ -17,7 +17,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 ## Step 1: Understand
 
 1. Announce the item to the peers before reading it — investigating it is already work a peer should not duplicate (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). A run continued from `/q:triage` arrives with the item already announced. Release it whenever this run stops working the item, whether it turns out unavailable or the verdict is nothing to do.
-2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: q conventions/issue-tracking.md, Respect existing claims).
+2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: @lab43/q conventions/issue-tracking.md, Respect existing claims).
 3. Read the conventions governing the affected territory, found from the agent briefing's docs index.
 4. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
 5. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
@@ -59,5 +59,5 @@ Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Valida
 ## Step 6: Open the PR
 
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: q conventions/pull-requests.md).
-3. Close the session by reporting the PR URL, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
+3. Close the session by reporting the PR URL, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

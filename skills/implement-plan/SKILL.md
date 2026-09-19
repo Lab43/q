@@ -12,7 +12,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
-- **Plan doc amendments**: when execution deviates from the plan or a verification step contradicts it, fold the outcome into the plan doc as a marked amendment per the lifecycle rules (see: q conventions/plans.md, Lifecycle), alongside the work of the phase that surfaced it.
+- **Plan doc amendments**: when execution deviates from the plan or a verification step contradicts it, fold the outcome into the plan doc as a marked amendment per the lifecycle rules (see: @lab43/q conventions/plans.md, Lifecycle), alongside the work of the phase that surfaced it.
 - **Doc updates**: make the doc changes the plan schedules through `/q:update-docs`, alongside the phase that carries them.
 
 ## Step 1: Understand
@@ -81,11 +81,11 @@ For each phase:
 
 When a group's last phase lands, finish that PR before starting the next group:
 
-1. **Verify its work in the running product**: drive what the PR delivers through `/q:drive`, naming the flows to exercise. Derive the scope from the group's content — a judgment that can land on nothing at all, when Step 4's checks fully characterize the work. The final PR is the exception. Drive the plan's Verification section: the integrated state exists now, and its end-to-end proof belongs ahead of this last review. Run the project's full test suite too — the run's only unscoped check. Fix what verification catches and re-verify. In ship mode, commit what this step produced: the fixes, plus anything driving recorded. Record for the PR's Testing section what was exercised and what it demonstrated. The standing suite goes unlisted (source: q conventions/pull-requests.md, Sections).
+1. **Verify its work in the running product**: drive what the PR delivers through `/q:drive`, naming the flows to exercise. Derive the scope from the group's content — a judgment that can land on nothing at all, when Step 4's checks fully characterize the work. The final PR is the exception. Drive the plan's Verification section: the integrated state exists now, and its end-to-end proof belongs ahead of this last review. Run the project's full test suite too — the run's only unscoped check. Fix what verification catches and re-verify. In ship mode, commit what this step produced: the fixes, plus anything driving recorded. Record for the PR's Testing section what was exercised and what it demonstrated. The standing suite goes unlisted (source: @lab43/q conventions/pull-requests.md, Sections).
 2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local review. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 3. **Local review's gate**: run the gate over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
 4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local review this flip rides the approval just given. That is a deliberate exception to the gate: the approval already covers this bookkeeping. Don't ask again.
-5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: q conventions/pull-requests.md).
+5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
    Single PR: `git push -u origin <plan-name>`, then `gh pr create`.
 
@@ -96,4 +96,4 @@ When a group's last phase lands, finish that PR before starting the next group:
 
 Reached once a run: after the only PR, or after the stack's last. Every earlier group returns to Step 4 instead.
 
-Close the session by reporting the PR URL(s), the phase list, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+Close the session by reporting the PR URL(s), the phase list, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

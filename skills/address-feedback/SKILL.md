@@ -33,7 +33,7 @@ description: Work feedback on an open pull request — the reviewer's comments, 
      ```
 
      Skip every thread `isResolved` reports closed — the reviewer ended those. An `isOutdated` thread is still live: it anchors to a line that later commits moved. Skip a thread whose last comment already answers the one before it. An earlier round settled that item, and the reviewer has not written back.
-5. Ignore every comment that raises nothing to settle. A callout explaining the change under review is the common case (see: q conventions/pull-requests.md, Diff comments).
+5. Ignore every comment that raises nothing to settle. A callout explaining the change under review is the common case (see: @lab43/q conventions/pull-requests.md, Diff comments).
 6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own.
 7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits.
 
@@ -95,12 +95,12 @@ Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Val
 
 1. **Local review's gate**: run the gate over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
-3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: q conventions/pull-requests.md).
-4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
+3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
+4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
    gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<reply-file>
    ```
 
    Answer a top-level comment or a review summary with `gh pr comment <n> --body-file <reply-file>`. Never mark a thread resolved — that is the reviewer's call.
-5. Close the session by reporting each item's resolution, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: q conventions/issue-tracking.md, Ask before filing).
+5. Close the session by reporting each item's resolution, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

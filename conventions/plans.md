@@ -55,6 +55,6 @@ Deviations discovered while the implementation runs are recorded as amendments �
 - *(deviation: …)* — reality diverged from the text: a step done differently, a decision or given that shifted mid-run. States what happened instead, and what forced it.
 - *(result: …)* — the outcome of a step the plan could only pose as a question — a check, a measurement, a re-verified fact.
 
-After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (git history) as the recency signal. How grooming treats plans is the documentation policy's rule (see: q conventions/documentation.md, Taxonomy).
+After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (git history) as the recency signal. How grooming treats plans is the documentation policy's rule (see: @lab43/q conventions/documentation.md, Taxonomy).
 
 Rejected: an `archive/` directory for terminal plans (moves break links; status is machine-readable in place) and a `superseded` status (chain-tracking costs more than it returns; a plan implemented then reversed stays `completed` — both plans are accurate history).

@@ -44,5 +44,5 @@ When delivering now, validate the whole diff being delivered (see: ${CLAUDE_PLUG
 
 1. Fixes not delivered now — joining an outstanding change another run owns, or left in the tree — stay uncommitted for the run that delivers them. Skip to the report.
 2. **Local review's gate**: run the gate over the uncommitted fixes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
-3. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: q conventions/pull-requests.md).
+3. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 4. Close the session by reporting: findings and rulings including what was dropped, the check results, the doc entries recorded, and any amendment raised instead of applied, listed on its own. When work was left in the tree, say that it is unvalidated until delivered, and that a later bare `/q:review` reviews and delivers the accumulation.

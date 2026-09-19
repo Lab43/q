@@ -28,4 +28,4 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 - `/q:uninstall-extension` drops the extension's entry as part of reconciling its removal.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 
-An absent file means no record — create it on the first watermark write. The file never ships in an extension: it lives in `.claude/`, outside the `files` whitelist a tarball is built from (source: q conventions/extensions.md).
+An absent file means no record — create it on the first watermark write. The file never ships in an extension: it lives in `.claude/`, outside the `files` whitelist a tarball is built from (source: @lab43/q conventions/extensions.md).
