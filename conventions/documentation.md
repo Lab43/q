@@ -71,7 +71,7 @@ Rejected: abbreviating `@lab43/q` to `q` in the path form. `q` is a different pa
 
 ## Markers
 
-Inline cross-references tying a statement to the doc it depends on. They are the doc surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run.
+Inline cross-references tying a statement to the doc it depends on. They are the documentation surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run.
 
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 

@@ -32,13 +32,13 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 1. **Accuracy, per doc cluster** (conventions docs grouped by area; guides clustered separately, in guide mode): every checkable claim — file paths, symbol names, behavior descriptions, commands — verified against current source. Exemplar references get a deeper check: the file exists and still exhibits the rules its doc attaches to it.
 2. **Duplication sweep**, cross-surface: facts stated in more than one place. For each, name the home — implied by the taxonomy, or assigned by a recorded ruling; where the call is genuinely contestable, flag it for the user, whose decision becomes a new ruling. The sweep also runs **cross-tier**, comparing project docs against q's conventions and every installed extension's: a project statement matching one of their rules in substance is duplication to prune; one differing from such a rule without an overrides marker naming it is drift or an unrecorded deviation — escalate to the user; a marked override whose target updated to agree or disappeared is spent — propose deleting it (source: @lab43/q conventions/documentation.md, Three tiers of conventions). Those docs are read-only: an extension's stale override of a q rule, or two extensions in conflict, can't be edited here — escalate; the remedy is a project ruling or the extension author's.
 3. **Dead references**: every file, symbol, helper, script, and skill named anywhere on the surface exists. Greps must exclude build artifacts (`dist/`, `node_modules/`, and the like) — stale generated files resurrect deleted symbols.
-4. **Consistency**: the agent briefing matches the briefing template (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`); any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve.
+4. **Consistency**: the agent briefing matches the briefing template (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`); any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve. One concept goes by one name across the surface. Report a synonym against the name its home doc establishes (source: @lab43/q conventions/writing.md, One name per concept).
 5. **Organization**: each doc's structure — topic scope, intro, section placement, and splits or merges across docs — conforms to the policy. Findings here become reorganization proposals.
 6. **Plan statuses** (if `docs/plans/` exists): every plan has valid `status` frontmatter (source: @lab43/q conventions/plans.md, Frontmatter); list every `pending` plan with its age (last git commit date).
 
 ## Step 3: Consolidate with the user
 
-Merge the findings into proposed edits, each stating its remedy and citing its finding — a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes).
+Merge the findings into proposed edits, each stating its remedy and citing its finding — in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes).
 
 - Apply autonomously: wording-level fixes, replacing a single restated sentence or bullet with a cross-reference to its home, and dead-reference corrections.
 - **Everything else goes to the user** (AskUserQuestion) — including larger deletions and rewrites, any reorganization, any `pending` plan proposed as `abandoned` (only the user flips a status), and any fact that couldn't be verified either way.
@@ -57,6 +57,6 @@ Validate the applied edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.m
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: run the gate over the uncommitted edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the uncommitted edits (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting: what changed per doc, what was deduped and into where, every autonomous fix, every user decision and its outcome, any upstream-to-q candidates, and anything that couldn't be verified — named explicitly, never silently dropped.

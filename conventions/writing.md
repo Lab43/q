@@ -20,6 +20,14 @@ Never regulate prose with a length target — "keep it short", "a few sentences"
 
 Use the words a reader would use to describe the thing. Write "errors now show a message instead of crashing", not "error handling was hardened with graceful degradation". Jargon and category labels make the reader translate before they can follow.
 
+## One name per concept
+
+Once a concept has an established name, use exactly that name everywhere. A synonym reads as a second concept.
+
+Check whether a plainer word would do before a name becomes established (see: Plain words).
+
+Rejected: a glossary — it either duplicates the definitions the home docs already carry, or becomes the central registry of shared facts the documentation policy rejects (source: @lab43/q conventions/documentation.md, Single source of truth).
+
 ## Instructions are commands
 
 Write an instruction — to a human or an agent — as a command: "commit the fixes", never "the fixes are committed" or "the run commits the fixes". Passives and narration hide who acts. Keep declarative sentences for facts a reader relies on.

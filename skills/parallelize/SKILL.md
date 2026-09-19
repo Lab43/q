@@ -36,7 +36,7 @@ Every entry on the list goes one of two ways:
 
 Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the list, which way each entry goes, and the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits nothing until the user has reviewed the diff.
 
-Answers settle decisions; they are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead — that green light, not the last answer, is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 
 When the agreed isolation won't fit one reviewable PR, continue into `/q:create-plan` in this session on the go-ahead, handing over what Step 1 found and what the batch already settled. This run ends there; the plan carries the build.
 
@@ -60,10 +60,10 @@ Drive what you built through `/q:drive`. What to exercise: each resource the run
 
 ## Step 5: Adversarial review
 
-Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-drive a resource only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
+Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local mode. Per loop round, re-drive a resource only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: run the gate over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting the PR URL, every resource left shared, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

@@ -103,7 +103,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
 ## Step 4: Migration proposals (existing projects only)
 
-On an extension run, skip this step unless Step 3 just bootstrapped a previously q-less project. If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — a conversational stretch. Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
+On an extension run, skip this step unless Step 3 just bootstrapped a previously q-less project. If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
 
 ## Step 5: Install the extension (extension runs only)
 
@@ -134,7 +134,7 @@ Otherwise: in ship mode, commit first. In both modes, validate the changes (see:
 
 ## Step 7: Open the PR
 
-1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
 ## Step 8: Report

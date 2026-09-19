@@ -13,7 +13,7 @@ A run is in one of two modes, depending on whether the user has agreed on what t
 
 Work that will become commits runs in one of two review modes, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled it is never revisited mid-run: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
 
-- **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's approval is what commits it.
+- **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's.
 
 ## The delivery branch
@@ -85,7 +85,7 @@ A question about the state of the work — "anything else to decide?", "does any
 
 ## Batch questions
 
-Questions cost attention: collect them into one AskUserQuestion batch (recommended option first) rather than asking one at a time. Put everything an answer depends on inside the question itself. The go-ahead that closes a conversation is different: ask it in plain text, stating the agreed scope, so the user can green-light it or keep refining. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
+Questions cost attention: collect them into one AskUserQuestion batch (recommended option first) rather than asking one at a time. Put everything an answer depends on inside the question itself. The go-ahead that closes a conversation is different: ask it in plain text, stating the agreed scope, so the user can grant it or keep refining. In a long collaborative phase, keep the running state visible — decisions settled, questions still open — so the user never has to reconstruct it.
 
 ## Corrections become rules
 
@@ -112,6 +112,6 @@ Wait for every reviewer in the round to report before changing anything. Editing
 
 ## The local gate
 
-The procedure local review runs at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
+The procedure a run in local mode follows at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
 
 At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the gate's iteration substantially changed the work, run one `adversarial-reviewer` pass (both lenses) over what changed. Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted.
