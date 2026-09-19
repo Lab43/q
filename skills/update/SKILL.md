@@ -40,7 +40,7 @@ Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md,
 
 For each pin the user agreed to move:
 
-Run `npm install --save-dev --save-exact --ignore-scripts <extension>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q included.
+Run `npm install --save-dev --save-exact --ignore-scripts <extension>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, including q's.
 
 ## Step 4: Reconcile what the diff touched
 

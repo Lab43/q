@@ -15,7 +15,7 @@ If the session's skill list has no `/q:` skills, this machine is missing the q p
 
 When another session is already working this repo, take a worktree rather than sharing the checkout.
 
-Conventions come in two tiers: the installed extensions' conventions (pinned in `package.json`, `@lab43/q` always among them) and this project's `docs/conventions/` (project rules — on conflict, the project wins) (source: q conventions/documentation.md, Two tiers of conventions). Check both tiers before writing code, before design decisions and reviews, and before changing docs; doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+Conventions come in two tiers: the conventions of the installed extensions, and this project's own `docs/conventions/` (source: q conventions/documentation.md, Two tiers of conventions). Extensions are pinned in `package.json`, and `@lab43/q` is always among them. Project rules win on conflict. Check both tiers before writing code, before design decisions and reviews, and before changing docs. Doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
 Extension doc paths are package name plus path from the package root, resolved under `node_modules/`. `q` abbreviates `@lab43/q`: `q conventions/principles.md` is `node_modules/@lab43/q/conventions/principles.md` (source: q conventions/documentation.md, Extension doc paths).
 
