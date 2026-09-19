@@ -18,7 +18,7 @@ Installing an extension runs no code. The install passes `--ignore-scripts`, and
 
 ## Description
 
-`package.json`'s `description` states what the extension's rules govern. A consuming project's briefing heads the extension's group of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). One sentence naming the territory the rules cover serves that session and the registry's readers alike.
+`package.json`'s `description` states what the extension's rules govern. A consuming project's briefing heads the extension's group of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). Name the territory the rules cover, not the package's shape. One sentence serves the session reading that briefing and the registry's readers alike.
 
 ## Layout
 
