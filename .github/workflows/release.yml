@@ -37,9 +37,12 @@ jobs:
           echo "Releases run from main. This dispatch named $REF."
           exit 1
 
+      # The setup through `npm ci` duplicates .github/workflows/checks.yml.
+      # Keep the two in sync, so a release checks what CI checks.
       - uses: actions/checkout@v4
 
-      # lts/* carries npm 11, over the 11.5.1 trusted publishing needs.
+      # lts/* carries an npm new enough for trusted publishing, which needs
+      # 11.5.1 or later. Pinning an older Node would break the publish.
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -84,7 +87,11 @@ jobs:
       - name: Check main has not moved
         run: |
           git fetch --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          if [ "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA" ]; then
+            echo "main advanced during this run, so the push would be rejected."
+            echo "Nothing has been published. Dispatch again."
+            exit 1
+          fi
 
       - run: npm publish --provenance
 
