@@ -44,7 +44,7 @@ Run `npm install --save-dev --save-exact --ignore-scripts <package>@<latest>`, v
 
 ## Step 4: Reconcile what the diff touched
 
-Work only from the diffs. Each package's diff runs from its watermark to its pin as Step 3 left it. What the diff touched decides which of these applies. A diff may touch both:
+Work only from the diffs. Each package's diff runs from its watermark to its pin as Step 3 left it. What the diff touched decides which of these applies. A diff may touch more than one:
 
 - **Changed `conventions/`** — hold the project's docs against each changed rule:
   - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/documentation.md, Three tiers of conventions)
@@ -52,9 +52,10 @@ Work only from the diffs. Each package's diff runs from its watermark to its pin
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; code fixes are out of scope here
 
-  An extension authored in this repo is part of that surface: re-check its docs the same way. The q pin this run moved is also that extension's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: @lab43/q conventions/extensions.md).
+  An extension authored in this repo is part of that surface: re-check its docs and its own `description` the same way. The q pin this run moved is also that extension's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: @lab43/q conventions/extensions.md).
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, a changed intro re-draws its blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
+- **A changed `description`** — re-draw the package's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the description alone.
 - **A changed plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its pinned version.

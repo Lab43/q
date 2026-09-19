@@ -1,7 +1,7 @@
 {
   "name": "@lab43/q",
   "version": "0.4.0",
-  "description": "An agentic coding workflow framework: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs.",
+  "description": "The rules of the q workflow, governing how a project's work gets planned, decided, documented, and shipped.",
   "files": ["conventions", "skills", "agents", "hooks", "references", ".claude-plugin"],
   "scripts": {
     "prepare": "husky",
