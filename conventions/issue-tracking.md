@@ -12,7 +12,16 @@ Picking up a tracker item means assigning it to the user and moving it to the tr
 
 ## Ask before filing
 
-Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch.
+Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch. Each candidate is one piece of work. A bundled item gets half fixed and stays open. Write each agreed item to the authoring rules (see: Write for whoever picks it up).
+
+## Write for whoever picks it up
+
+An item is read by a session holding none of the context that produced it. Hold its prose to the writing rules (see: q conventions/writing.md).
+
+- Name the work the item asks for in the title. A reader deciding what to open sees the title, not the body.
+- Back the item with what can be checked: the error text, the reproduction, the `file:line`.
+- Say what would be true once the item is closed. A closing condition left to guess gets the item closed wrong, or not at all.
+- Leave the fix to the run that takes the item. Where the approach was already decided, state it and say what decided it.
 
 ## Work links back
 
