@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: How much churn this release asks of consuming projects
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+# contents: write pushes the bump commit and the tag. id-token: write mints the
+# OIDC token npm trusted publishing authenticates with, in place of a stored one.
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # A dispatch can name any branch. Releasing from one would publish that
+      # tree and push the bump there.
+      - name: Refuse to release from anywhere but main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Releases run from main. This dispatch named ${{ github.ref }}."
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      # lts/* carries npm 11, over the 11.5.1 trusted publishing needs.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      # Do not pin. These checks must agree with the validator developers run.
+      # A pin would pass on a validator nobody uses.
+      - run: npm install --global @anthropic-ai/claude-code
+
+      # Nothing has been committed yet, so there is no pre-commit hook to install.
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+
+      - name: Bump both manifests
+        id: bump
+        env:
+          LEVEL: ${{ inputs.level }}
+        run: |
+          node scripts/set-version.mjs "$LEVEL"
+          npm install --package-lock-only --ignore-scripts
+          npm run check-versions
+          echo "version=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and tag
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "v$VERSION" package.json package-lock.json .claude-plugin/plugin.json
+          git tag -a "v$VERSION" -m "v$VERSION"
+
+      # Nothing reaches origin until npm carries the version. A failed publish
+      # leaves main untouched, so the release is simply re-dispatched.
+      - run: npm publish --provenance
+
+      - name: Push main and the tag
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          git push origin main
+          git push origin "v$VERSION"
