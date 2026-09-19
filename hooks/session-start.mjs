@@ -11,7 +11,7 @@
 // finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. Two silences are designed. A project
 // that declares no @lab43/q devDependency is not a q project. A devDependency
-// with no watermark entry and no readable keyword is not identifiable as an
+// with no watermark entry and no readable manifest cannot be identified as an
 // extension. Every other missing or unreadable input fails like any other
 // invalid state.
 
@@ -117,10 +117,9 @@ for (const [ext, mark] of Object.entries(recon)) {
 // Reverse direction: a devDependency whose installed manifest carries the
 // q-extension keyword but that has no watermark entry was installed by hand
 // and never indexed. The keyword is readable only from the package's own
-// manifest under node_modules. No lockfile carries it. A devDependency whose
-// manifest is absent or unparseable is therefore skipped rather than
-// reported. A pin that is also unwatermarked escapes both directions of the
-// check until that manifest becomes readable.
+// manifest under node_modules. A devDependency whose manifest is absent or
+// unparseable is therefore skipped here rather than reported. The skip lasts
+// until that manifest becomes readable.
 for (const dep of Object.keys(devDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
