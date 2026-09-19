@@ -1,1 +1,4 @@
+# One line delegating to the check chain. A test could assert only that this
+# file still contains that line, which the line itself already shows.
+# exception: docs/conventions/testing.md, What carries tests
 npm run check

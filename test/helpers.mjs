@@ -117,6 +117,21 @@ export const runHook = ({ proj, root }, { entry = "wrapper", env = {} } = {}) =>
 };
 
 /**
+ * Stage a tree holding real scripts from `scripts/` and the given files. Each
+ * script is copied rather than imported, because they resolve their inputs
+ * relative to themselves.
+ */
+const stageScripts = (prefix, scripts, files) => {
+  const base = mkTmp(prefix);
+  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
+  for (const script of scripts) {
+    fs.copyFileSync(path.join(repoRoot, "scripts", script), path.join(base, "scripts", script));
+  }
+  writeFiles(base, files);
+  return base;
+};
+
+/**
  * Stage a tree holding the real check-frontmatter script and the given
  * markdown files.
  *
@@ -127,12 +142,7 @@ export const runHook = ({ proj, root }, { entry = "wrapper", env = {} } = {}) =>
  * would go untested while appearing to work.
  */
 export const stageFrontmatter = (files) => {
-  const base = mkTmp("q-fm-");
-  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
-  fs.copyFileSync(
-    path.join(repoRoot, "scripts", "check-frontmatter.mjs"),
-    path.join(base, "scripts", "check-frontmatter.mjs"),
-  );
+  const base = stageScripts("q-fm-", ["check-frontmatter.mjs"], files);
 
   const deps = path.join(base, "node_modules");
   fs.mkdirSync(deps, { recursive: true });
@@ -140,9 +150,26 @@ export const stageFrontmatter = (files) => {
     fs.symlinkSync(path.join(repoRoot, "node_modules", entry), path.join(deps, entry));
   }
 
-  writeFiles(base, files);
   return base;
 };
+
+/**
+ * Stage a tree holding the real check-tests script, the executables to
+ * discover, and whatever suites stand beside them under test/.
+ *
+ * The script lands in `scripts/` like any other, so it discovers itself. Its
+ * own suite is staged alongside so it passes, which means every staged tree
+ * holds one tested executable before the case adds any — the counts a case
+ * asserts include it. Staging the script somewhere the walk skips would hide
+ * whether it discovers itself at all.
+ *
+ * No node_modules: the script imports only node builtins.
+ */
+export const stageTests = (files) =>
+  stageScripts("q-chk-", ["check-tests.mjs"], { "test/check-tests.test.mjs": "", ...files });
+
+/** The same tree without that staged suite, to prove the script sees itself. */
+export const stageTestsBare = () => stageScripts("q-chk-", ["check-tests.mjs"], {});
 
 /**
  * Run a staged script from `scripts/`, with whatever arguments it takes.
@@ -176,16 +203,8 @@ export const runScript = (base, script, args = []) => {
  * No node_modules here, unlike stageFrontmatter: these scripts import nothing
  * but node builtins and their sibling module, so there is nothing to resolve.
  */
-export const stageVersions = (script, files) => {
-  const base = mkTmp("q-ver-");
-  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
-  for (const file of [script, "manifests.mjs"]) {
-    fs.copyFileSync(path.join(repoRoot, "scripts", file), path.join(base, "scripts", file));
-  }
-
-  writeFiles(base, files);
-  return base;
-};
+export const stageVersions = (script, files) =>
+  stageScripts("q-ver-", [script, "manifests.mjs"], files);
 
 /** Read a staged file back, to check what a script wrote or left alone. */
 export const stagedFile = (base, file) => fs.readFileSync(path.join(base, file), "utf8");

@@ -4,6 +4,9 @@
 Requires Python Playwright with Chromium:
     pip install playwright && playwright install chromium
 """
+# A test would need a browser CI does not install, and could assert only that
+# two image files appeared. Run this by hand and look at the images.
+# exception: docs/conventions/testing.md, What carries tests
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
