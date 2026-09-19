@@ -71,10 +71,10 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   <tr>
     <th rowspan="8" scope="rowgroup">Workflow</th>
     <td nowrap><samp>/q:triage</samp></td>
-    <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:tackle</code>.</td>
+    <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:implement</code>.</td>
   </tr>
   <tr>
-    <td nowrap><samp>/q:tackle</samp></td>
+    <td nowrap><samp>/q:implement</samp></td>
     <td>Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing.</td>
   </tr>
   <tr>
@@ -123,7 +123,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 <a href="docs/workflow-chart/light.png">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-chart/dark.png">
-    <img alt="The q workflow: work flows from triage and tackle through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions over q — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
+    <img alt="The q workflow: work flows from triage and start through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions over q — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
   </picture>
 </a>
 
