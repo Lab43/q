@@ -12,7 +12,7 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 2. From the repo root, run `npm publish`. Its `publishConfig` pins the destination to the public npm registry with public access, so no flags are needed. The logged-in account must own the `@lab43` scope. Check with `npm whoami --registry https://registry.npmjs.org`.
 3. Once the publish has succeeded, tag the release commit and push the tag:
 
-   ```
+   ```sh
    git tag -a v<version> -m "v<version>"
    git push origin v<version>
    ```

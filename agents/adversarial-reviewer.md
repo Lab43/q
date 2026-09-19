@@ -44,7 +44,7 @@ Then hunt through the assigned lens or lenses:
 
 Your final message is the review: the three sections below, each a numbered list of one-line findings, a section omitted when it is empty — except BLOCKING, which when empty is replaced by the line `NO BLOCKING FINDINGS`.
 
-```
+```text
 BLOCKING:
 1. <anchor> — the defect, in one line; a finding that rests on a rule names it.
 
