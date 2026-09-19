@@ -15,9 +15,10 @@ export const root = path.join(
 export const manifests = ["package.json", ".claude-plugin/plugin.json"];
 
 // The lockfile carries the version too, at its root and again under
-// packages[""]. npm writes it as 2-space JSON with a trailing newline, which
-// a parse and re-serialize reproduces byte for byte, so `set-version` moves it
-// rather than leaving it to a separate `npm install`.
+// packages[""]. `set-version` moves it rather than leaving it to a separate
+// `npm install`, re-serializing the whole file as 2-space JSON with a
+// trailing newline — what npm itself writes here, so only the two version
+// lines change.
 export const lockfile = "package-lock.json";
 
 export const lockVersions = (lock) => [lock.version, lock.packages?.[""]?.version];

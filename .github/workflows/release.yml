@@ -32,13 +32,16 @@ jobs:
       # what CI checks. Two differences are deliberate and load-bearing:
       # fetch-depth above, which the ancestry check needs, and registry-url
       # below, which the publish needs.
+      #
+      # Do not pin node-version. Trusted publishing needs npm 11.5.1 or later,
+      # which lts/* carries; an older Node fails the publish with a bare 401.
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
           cache: npm
 
-      # A release can target any commit, so without this one cut from a side
+      # A release can target any commit. Without this, one cut from a side
       # branch would publish that tree as `latest`.
       - name: Check the release commit is on main
         run: |
