@@ -71,7 +71,7 @@ Rejected: abbreviating `@lab43/q` to `q` in the path form. `q` is a different pa
 
 ## Markers
 
-Inline cross-references tying a statement to the doc it depends on. They are the documentation surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run.
+Inline cross-references tying a statement to the doc it depends on. They are the documentation surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run, and marked exceptions are counted by the rule they name.
 
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
@@ -86,9 +86,9 @@ Four markers, all ordinary language:
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
-- **`(exception: X)`** — excuse. This one site sits outside the named rule, and the rule itself stands (`exception: docs/conventions/testing.md, What carries tests`). Several exceptions against one rule are evidence the rule wants revisiting.
+- **`(exception: X)`** — excuse. This one site sits outside the named rule, and the rule itself stands (`exception: docs/conventions/logging.md, Structured fields`). Several exceptions against one rule are evidence the rule wants revisiting.
 
-An exception always names a section, unlike the other three. A site is excused from a rule, and a whole doc is not a rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing.
+An exception always names a section, unlike the other three. Only a marker naming the rule can be counted against that rule, and the count is what turns a pile of separate excuses into a verdict on the rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing.
 
 ## Code examples in conventions docs
 
