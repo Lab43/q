@@ -4,19 +4,19 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Two tiers of conventions
 
-- **Pack conventions** — the installed doc packs (see: q conventions/doc-packs.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. The framework pack — `@lab43/q` — is always among them: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Extension conventions** — the installed extensions (see: q conventions/extensions.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. `@lab43/q` is the extension every q project installs: it carries the rules of the workflow itself and defines the format the rest follow.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
-**Precedence: on conflict, project conventions win — over any pack's rule, whichever pack carries it.** A project overrides a pack rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
+**Precedence: on conflict, project conventions win — over any extension's rule, whichever extension carries it.** A project overrides an extension's rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
 
 - A deviation is written as an ordinary rule: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces.
 - A deviation is refined in place or deleted as the decision evolves, never appended as a log entry.
 - An override outlived by its target — updated to agree, or gone — is spent and comes out.
 - No other override mechanism exists or is needed — the readers are agents, so a stated deviation is the mechanism.
 
-A refinement that reaches beyond this project — one that would improve a framework rule, or another pack's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
+A refinement that reaches beyond this project — one that would improve a q rule, or another extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-Conventions graduate into a pack when their audience grows beyond one project (source: q conventions/doc-packs.md, Graduation).
+Conventions graduate into an extension when their audience grows beyond one project (source: q conventions/extensions.md, Graduation).
 
 ## Conventions docs
 
@@ -35,7 +35,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored pack's `conventions/` in its authoring repo (source: q conventions/doc-packs.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored extension's `conventions/` in its authoring repo (source: q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
@@ -50,7 +50,7 @@ The intro is the authoritative description of its doc. The briefing index's line
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`CLAUDE.md`** — the always-loaded agent briefing. Rejected: `AGENTS.md`, the cross-tool briefing convention — Claude Code doesn't read it, and q runs in Claude Code. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
   - **The standing instructions** that make the conventions bind: both tiers of conventions apply (see: Two tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
-  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether from an installed pack or the project's own, and every guide. An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
+  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether from an installed extension or the project's own, and every guide. An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
 ## Single source of truth
 
@@ -60,9 +60,9 @@ Every fact has exactly one home; every other doc links to it, never restates it.
 
 Rejected: a standing central registry of all shared facts and their homes. It accumulates entries whose home is obvious from the doc's topic, and it rots like any other enumeration.
 
-## Pack doc paths
+## Extension doc paths
 
-Reference a pack doc by package name plus path from the package root — `@acme/q-docs-x conventions/retries.md`. `q` is the alias for the framework pack, `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the pack's working tree in the repo that authors it. Use the form for every reference to a pack doc across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own pack: a reference must stay unambiguous when its text is quoted away from its file.
+Reference an extension's doc by package name plus path from the package root — `@acme/q-ext-x conventions/retries.md`. `q` is the alias for `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the extension's working tree in the repo that authors it. Use the form for every reference to an extension's doc across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own extension: a reference must stay unambiguous when its text is quoted away from its file.
 
 ## Markers
 
@@ -72,7 +72,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 
 - a heading in the current doc (`see: Markers`)
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
-- a pack doc, by its path form (see: Pack doc paths)
+- an extension's doc, by its path form (see: Extension doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
 
@@ -80,7 +80,7 @@ Three markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a framework rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another pack's rule (`overrides: @acme/q-docs-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 

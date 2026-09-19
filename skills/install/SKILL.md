@@ -127,9 +127,9 @@ npm install --save-dev --save-exact --ignore-scripts <pack>
 
 If it is, leave the recorded pin alone and make this machine match through `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
-Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/doc-packs.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the pack failure in the close.
+Verify what arrived is a doc pack: `node_modules/<pack>/package.json` carries the `q-docs` keyword and the package root a `conventions/` directory (source: q conventions/extensions.md). If not, `npm uninstall` it and report — never index it. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the pack failure in the close.
 
-Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Pack doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
+Add one line per doc in the pack's `conventions/` that the agent briefing's docs index doesn't already carry, under its packs group and contiguous with any lines the pack already has: package name plus path from the package root (see: q conventions/documentation.md, Extension doc paths), blurb restating the doc's intro (source: q conventions/documentation.md, Taxonomy).
 
 When the pack has no `docsReconciledAgainst` entry, write one from the version in `node_modules/<pack>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) — a pack Step 1 found pinned and installed by hand included. Never overwrite a present entry, stale or not — it is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
@@ -157,4 +157,4 @@ Close the session by reporting:
 - On a pack run:
   - The pack and version installed, and the index lines added.
   - Any overrides markers the pack's docs carry against framework rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-  - The pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/doc-packs.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.
+  - The pack's framework declaration — its `@lab43/q` devDependency (source: q conventions/extensions.md) — held against the project's own pin. A pack written against a newer framework than the project runs is the signal to suggest `/q:update`. One written against an older framework, or carrying no declaration, is noted as-is — no update closes it.

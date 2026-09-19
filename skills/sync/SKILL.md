@@ -20,7 +20,7 @@ Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHu
 Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
 
 - the plugin pin — the version named by the `q--v*` ref in `.claude/q-marketplace/.claude-plugin/marketplace.json`, the tag less its `q--v` prefix — against `qReconciledAgainst`
-- each doc pack's pin in `package.json` against its `docsReconciledAgainst` entry, in both directions — the doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/doc-packs.md)
+- each doc pack's pin in `package.json` against its `docsReconciledAgainst` entry, in both directions — the doc packs are the direct `devDependencies` whose own `package.json` carries the `q-docs` keyword (source: q conventions/extensions.md)
 
 Each finding routes to its remedy:
 

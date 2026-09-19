@@ -19,7 +19,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 Build the grooming surface, taking each item only if it exists in this project:
 
 - `docs/conventions/*.md`, `README.md`, `CLAUDE.md` (the agent briefing) — full checks.
-- The `conventions/` of any doc pack this repo authors — a working-tree `package.json` carrying the `q-docs` keyword — full checks, like the project's own conventions (source: q conventions/doc-packs.md).
+- The `conventions/` of any doc pack this repo authors — a working-tree `package.json` carrying the `q-docs` keyword — full checks, like the project's own conventions (source: q conventions/extensions.md).
 - `docs/guides/*.md` — **guide mode**, per the policy's Taxonomy rules.
 - `docs/plans/*.md` — **status check only**, per the policy's `docs/plans/` taxonomy rule.
 
