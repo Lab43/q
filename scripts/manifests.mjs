@@ -1,6 +1,6 @@
 // The manifests carrying q's one version, and the plumbing the version
-// scripts read them with. The list lives here so `check-versions` and
-// `set-version` cannot disagree about which files a release moves.
+// scripts read them with. The list is shared so `check-versions` and
+// `set-version` read the same files.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -14,7 +14,6 @@ export const root = path.join(
 // package.json leads: it is where the current version is read from.
 export const manifests = ["package.json", ".claude-plugin/plugin.json"];
 
-// Each script names itself, so a failure says which one stopped the release.
 export const helpers = (script) => {
   const fail = (message) => {
     console.error(`${script}: ${message}`);

@@ -8,27 +8,43 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 
 ## Making a release
 
-Dispatch the **Release** workflow from the repository's Actions tab, on `main`, choosing a level (see: Choosing the version).
+(source: .github/workflows/release.yml)
 
-The workflow then does the rest (source: .github/workflows/release.yml):
+Dispatch the **Release** workflow from the repository's Actions tab, on `main`. Choose a level (see: Choosing the version).
 
-- Moves the version in all three files.
+The workflow then:
+
+- Bumps the version in both manifests and the lockfile.
 - Runs `npm run check` over the bumped tree.
 - Commits the bump and tags it `v<version>`.
 - Publishes to npm with provenance.
-- Pushes `main` and the tag.
+- Pushes the commit and the tag in one atomic push.
 
-Anything that fails before the publish leaves both npm and `origin` untouched, so the release is simply dispatched again.
+Anything that fails before the publish leaves both npm and `origin` untouched. Dispatch it again.
 
 ## When a release strands
 
-A publish can be neither undone nor repeated, so a failure after it has to be finished by hand. The workflow refuses to publish once `origin/main` has moved under the run, which closes the case that actually comes up. A rejected push or a network failure can still strand a release: npm carries the version while `origin` has neither the bump commit nor the tag, and dispatching again fails because the version already exists.
+(source: .github/workflows/release.yml)
 
-Finish it on `main` yourself. Move both manifests to the version npm already carries, refresh the lockfile with `npm install`, commit, then tag that commit `v<version>` and push.
+A publish can be neither undone nor repeated, so a failure after one has to be finished by hand. The workflow narrows when that can happen. It refuses to publish once `origin/main` has moved under the run, and it pushes the commit and the tag together, so neither can land without the other.
+
+What remains is a run that publishes and then cannot push at all. npm carries the version while `origin` has neither the bump commit nor the tag. Dispatching again fails, because the version already exists.
+
+Finish it on `main` yourself:
+
+1. Bump both manifests to the version npm already carries.
+2. Run `npm install` to refresh the lockfile.
+3. Commit.
+4. Tag that commit `v<version>`.
+5. Push the commit and the tag.
 
 ## Choosing the version
 
-Projects pin exact versions, so no range semantics apply — every bump reaches a project the same way, through `/q:update` diffing the release and reconciling. The version is a signal of expected churn, not a compatibility gate. **Major**: changes that will result in significant churn in consuming projects. **Minor**: changes some consuming projects will have to react to — a moved heading their markers target, an amended rule demanding reconciliation. **Patch**: changes consuming projects won't react to at all — rewordings, typo fixes.
+Projects pin exact versions, so no range semantics apply — every bump reaches a project the same way, through `/q:update` diffing the release and reconciling. The version is a signal of expected churn, not a compatibility gate.
+
+- **Major**: changes that will result in significant churn in consuming projects.
+- **Minor**: changes some consuming projects will have to react to — a moved heading their markers target, an amended rule demanding reconciliation.
+- **Patch**: changes consuming projects won't react to at all — rewordings, typo fixes.
 
 Consuming projects pick up the release with `/q:update`.
 
@@ -37,6 +53,8 @@ Consuming projects pick up the release with `/q:update`.
 Two settings live outside the repository. Both have to be in place before a dispatch can succeed.
 
 - **npm trusted publishing**, configured on the package's settings at npmjs.com against the `Lab43/q` repository and the workflow filename `release.yml`. It is what lets the workflow publish without a stored token. Renaming the workflow file breaks publishing until that setting names the new filename, and npm reports the mismatch only as a bare `401` on publish.
-- **A bypass for `github-actions[bot]`** on `main`'s ruleset. `main` requires the `check` status, and a required status check governs direct pushes as well as merges. The release commit is created inside the workflow run, so no earlier run can have recorded that status against it. The check still gates the release: the workflow runs `npm run check` on the bumped tree before it commits anything.
+- **Bypasses on `main`'s ruleset**, for `github-actions[bot]` and for repository admin. `main` requires the `check` status, and a required status check governs direct pushes as well as merges. The release commit is created inside the workflow run, so no earlier run can have recorded that status against it. The bot's bypass is what lets the workflow push. The admin's is what lets a maintainer finish a stranded release (see: When a release strands).
+
+Bypassing that gate costs nothing here, because the workflow runs `npm run check` on the bumped tree before it commits anything (source: .github/workflows/release.yml).
 
 Neither setting can be tested without a real release. Confirm both before a release day rather than on one.
