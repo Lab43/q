@@ -4,10 +4,20 @@ How q is versioned and released. Releasing is separate from merging and is the m
 
 q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal.
 
+A `v<version>` tag anchors each release to the tree it shipped from. The published tarball can't serve as that anchor, because its `files` whitelist ships only what consumers load.
+
 ## Steps
 
-1. On main, bump `version` in `package.json` and `.claude-plugin/plugin.json`. Run `npm run check-versions`, then commit.
-2. From the repo root, run `npm publish`. Its `publishConfig` pins the destination to the public npm registry with public access, so no flags are needed — but the logged-in account must own the `@lab43` scope; check with `npm whoami --registry https://registry.npmjs.org`.
+1. On main, bump `version` in `package.json` and `.claude-plugin/plugin.json`. Run `npm run check-versions`. Commit, then push to `origin`.
+2. From the repo root, run `npm publish`. Its `publishConfig` pins the destination to the public npm registry with public access, so no flags are needed. The logged-in account must own the `@lab43` scope. Check with `npm whoami --registry https://registry.npmjs.org`.
+3. Once the publish has succeeded, tag the release commit and push the tag:
+
+   ```
+   git tag -a v<version> -m "v<version>"
+   git push origin v<version>
+   ```
+
+   A tag pushed ahead of the publish can end up naming a version npm never carried.
 
 ## Choosing the version
 
