@@ -16,7 +16,7 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
 - Whether an earlier run's scaffold sits uncommitted in the working tree
 - On an extension run: whether the named extension is already pinned, installed, indexed, and watermarked
-- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via https://cli.github.com and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands.
+- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via <https://cli.github.com> and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands.
 
 ## Step 2: Settle delivery
 
@@ -109,7 +109,7 @@ On an extension run, skip this step unless Step 3 just bootstrapped a previously
 
 The named extension is the agreement — install it autonomously. If it is not yet in `devDependencies` (via the project's package manager when it isn't npm):
 
-```
+```sh
 npm install --save-dev --save-exact --ignore-scripts <extension>
 ```
 

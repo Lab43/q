@@ -18,7 +18,7 @@ Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md
 
 ## Step 2: Check the GitHub CLI
 
-Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHub-hosted — q's workflow skills require both. When either fails, report the fix: install via https://cli.github.com and authenticate with `gh auth login` for a missing or unauthenticated CLI; a failing `gh repo view` with an authenticated CLI means `origin` is not GitHub-hosted.
+Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHub-hosted — q's workflow skills require both. When either fails, report the fix: install via <https://cli.github.com> and authenticate with `gh auth login` for a missing or unauthenticated CLI; a failing `gh repo view` with an authenticated CLI means `origin` is not GitHub-hosted.
 
 ## Step 3: Compare pins against watermarks
 
