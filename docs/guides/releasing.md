@@ -10,21 +10,20 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 
 Choose a level first (see: Choosing the version). Then, on `main`:
 
-1. Bump the version and refresh the lockfile:
+1. Move the version in all three files:
 
    ```sh
    node scripts/set-version.mjs <level>
-   npm install
    ```
 
-2. Commit all three files and push to `main`:
+2. Commit those three files and push to `main`:
 
    ```sh
-   git commit -am "Release <version>"
+   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json
    git push origin main
    ```
 
-3. Publish a GitHub release against that commit, tagged `v<version>`.
+3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2. The release ships whatever commit it targets, and the GitHub form defaults to `main`'s tip — so check it, since anything merged since step 2 would otherwise ship unreleased.
 
 Publishing the release is what starts the workflow (source: .github/workflows/release.yml). It checks that the release commit is on `main`, that the tag names the version in `package.json`, and that `npm run check` passes over the tagged tree. Then it publishes to npm with provenance. A release marked pre-release publishes nothing.
 

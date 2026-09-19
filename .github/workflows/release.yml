@@ -13,14 +13,12 @@ permissions:
   # of a stored token.
   id-token: write
 
-# Queue releases. Publishes that overlap can leave npm's `latest` pointing at
-# whichever finished last rather than the higher version.
+# One release at a time. Publishes that overlap can leave npm's `latest`
+# pointing at whichever finished last rather than at the higher version.
 concurrency: release
 
 jobs:
   publish:
-    # A pre-release would otherwise publish under the `latest` dist-tag.
-    if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -31,7 +29,9 @@ jobs:
 
       # checkout, setup-node, the CLI install and `npm ci` duplicate
       # .github/workflows/checks.yml. Keep them in sync, so a release checks
-      # what CI checks. Only registry-url differs, for the publish.
+      # what CI checks. Two differences are deliberate and load-bearing:
+      # fetch-depth above, which the ancestry check needs, and registry-url
+      # below, which the publish needs.
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
