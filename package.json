@@ -4,6 +4,8 @@
   "description": "An agentic coding workflow framework: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs.",
   "files": ["conventions", "skills", "agents", "hooks", "references", ".claude-plugin"],
   "scripts": {
+    "prepare": "husky",
+    "check": "claude plugin validate --strict . && claude plugin validate --strict skills && claude plugin validate --strict agents && npm run check-versions",
     "check-versions": "node scripts/check-versions.mjs"
   },
   "license": "MIT",
@@ -13,5 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/Lab43/q.git"
   },
-  "homepage": "https://github.com/Lab43/q#readme"
+  "homepage": "https://github.com/Lab43/q#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
 }
