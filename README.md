@@ -11,23 +11,30 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 ## Adding q to a project
 
 ```
-claude plugin marketplace add lab43/claude-plugins && claude plugin install q@lab43
+npm install --save-dev --save-exact --ignore-scripts @lab43/q
+claude plugin marketplace add --scope local ./node_modules/@lab43/q
+claude plugin install q@q --scope project
 ```
 
-Then run `/q:install` in the project.
-
-## Joining a project that uses q
-
-Before starting Claude Code in a fresh clone, run both of these — substituting your package manager where the project isn't on npm:
+npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
 
 <!-- source: skills/install/SKILL.md -->
 
+- scaffolds your conventions
+- gives the project its own marketplace, sourcing the q you just installed
+- records the version your docs were reconciled against
+
+## Joining a project that uses q
+
+<!-- source: skills/install/SKILL.md -->
+
+Install the project's dependencies, substituting your package manager where the project isn't on npm:
+
 ```
-npm run q:install
 npm install
 ```
 
-`/q:install` folds these instructions into the project's README, so a q-using repo carries them itself.
+That is the whole of it — q arrives as a pinned dependency, and the project's tracked settings tell Claude Code to load it. `/q:install` folds this into the project's README, so a q-using repo carries it itself.
 
 ## Skills
 
@@ -123,9 +130,9 @@ q's effect on your repo comes from context routing and documentation discipline 
 **Every session starts knowing where the rules are.** `/q:install` puts the routing in place:
 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
-- installs q's framework conventions as the `@lab43/q` npm pack, pinned in your `package.json`
+- installs q as the `@lab43/q` npm package, pinned exactly in your `package.json` — its conventions and its plugin arrive together, at one version
 - indexes both tiers in your agent briefing (`CLAUDE.md`)
-- pins the plugin itself, via a project-owned declaration in `.claude/`, so every teammate's machine runs the q version the repo chose
+- gives your project its own marketplace, sourcing the q it just pinned, so every teammate's machine runs the version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
 
 Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. And every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
