@@ -66,7 +66,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td nowrap><samp>/q:uninstall-extension</samp></td>
-    <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its group in the briefing's docs index, its watermark, and your ruling on each doc that references it.</td>
+    <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its briefing index lines, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
     <th rowspan="8" scope="rowgroup">Workflow</th>

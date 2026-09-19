@@ -1,6 +1,6 @@
 ---
 name: uninstall-extension
-description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its group from the briefing's docs index, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
+description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
 ---
 
 # Uninstall Extension
@@ -29,7 +29,7 @@ Remove without asking — each item a no-op when already absent:
 
 1. When the extension is pinned: `npm uninstall --ignore-scripts <extension>` (via the project's package manager when it isn't npm).
 2. When the pin is already gone: run the package manager's dependency install, catching up any lockfile and `node_modules` remnants the removal left.
-3. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no `conventions/` has no group to remove.
+3. Remove the extension's lines from the agent briefing's docs index. An extension that shipped no `conventions/` has none to remove.
 4. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
 
 ## Step 4: Rule on references

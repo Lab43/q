@@ -16,10 +16,6 @@ q is not an extension but what extensions extend: the framework whose rules they
 
 Installing an extension runs no code. The install passes `--ignore-scripts`, and an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
 
-## Description
-
-`package.json`'s `description` states what the extension's rules govern. A consuming project's briefing heads the extension's group of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). Write it for the session reading that index: one sentence naming the territory the rules cover, not the package's shape. The registry blurb follows from the same field.
-
 ## Layout
 
 The layout is conditional on what the extension carries:
@@ -39,7 +35,7 @@ An extension is authored in a project that itself uses q, with `@lab43/q` pinned
 
 ## Authoring
 
-In its authoring project, an extension's `conventions/` and its description join the documentation surface (see: Description). Both are groomed and reconciled against q's updates like the project's own docs. Moving the q pin asserts that reconciliation happened: the moved pin declares the docs written against the new version (see: Pinning). Don't record a deviation from a convention you ship — edit it. Deviations, overrides, and upstreaming are for rules you consume, not rules you author. In the authoring repo, references to the extension's docs resolve to its working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
+In its authoring project, an extension's `conventions/` joins the documentation surface — groomed and reconciled against q's updates like the project's own docs. Moving the q pin asserts that reconciliation happened: the moved pin declares the docs written against the new version (see: Pinning). Don't record a deviation from a convention you ship — edit it. Deviations, overrides, and upstreaming are for rules you consume, not rules you author. In the authoring repo, references to the extension's docs resolve to its working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
 
 An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 
