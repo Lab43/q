@@ -5,14 +5,17 @@ description: Release q — move the version, push the bump to main, and publish 
 
 # Release
 
-Follow the run contract — `@lab43/q references/run-contract.md`. A release goes straight to `main` and opens no pull request, so this run has no branch and no review mode. The level the user settles in Step 2 and the permission prompt in Step 4 are its gates.
+Follow the run contract — `@lab43/q references/run-contract.md`. Every release runs in ship mode, so never ask which (see: `@lab43/q references/run-contract.md`, Review modes). It commits and pushes without pausing, on `main` rather than a branch of its own, and opens no pull request. Its gates are the level the user settles in Step 2 and the permission prompt in Step 4.
 
 `docs/guides/releasing.md` is the procedure. Read it before Step 1 and take every command from it, so a release never runs a copy that has drifted.
 
 ## Step 1: Check the tree
 
-1. Run `git fetch origin`.
-2. Require the session on `main`, with a clean tree, level with `origin/main`. Stop and show the user whichever of the three fails. Releasing from anywhere else publishes a tree nobody reviewed, and the release workflow rejects a commit that is not on `main` (source: .github/workflows/release.yml).
+Run `git fetch origin`, then require all three of the following. Stop and show the user whichever fails.
+
+- The session is on `main`. The release workflow rejects a commit that is not on it (source: .github/workflows/release.yml).
+- The tree is clean. Anything uncommitted would ship unreviewed or be left behind.
+- `main` is level with `origin/main`.
 
 ## Step 2: Settle the level
 
@@ -27,7 +30,8 @@ The settled level is the agreement. Steps 3 to 5 execute it autonomously.
 
 ## Step 3: Bump and push
 
-Run the guide's steps 1 and 2 without asking again. The commit runs `npm run check` through the pre-commit hook, so a tree that fails a check never reaches `main`.
+1. Run `npm run check`, and stop on a failure. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
+2. Run the guide's steps 1 and 2 without asking again.
 
 ## Step 4: Publish
 
@@ -39,7 +43,7 @@ A declined prompt ends the run with the bump on `main` and nothing published. Sa
 
 ## Step 5: Report
 
-1. Read the run the release started — `gh run list --workflow=release.yml --limit 1 --json databaseId --jq '.[0].databaseId'`.
+1. Find the run this release started, by the SHA it was cut from — `gh run list --workflow=release.yml --json databaseId,headSha --jq "[.[] | select(.headSha == \"<sha>\")][0].databaseId"`. Never take the newest run instead. Publishing dispatches the run, so for a moment the newest one is the previous release's, and watching that reports a finished job as this release's outcome. Keep polling until the SHA matches.
 2. Watch it to its end — `gh run watch <id>`. Pass the id. Bare `gh run watch` asks which run to watch, and fails outright where nothing can answer.
 3. Report the release URL and what the workflow did.
 4. Route a failure to the guide's rules for a failed release, which turn on whether the publish itself had started.
