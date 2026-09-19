@@ -12,6 +12,7 @@ import { manifests, lockfile } from "../scripts/manifests.mjs";
 import {
   FIXTURE_VERSION,
   cleanup,
+  esc,
   jsonFile,
   runScript,
   stageVersions,
@@ -51,7 +52,7 @@ describe("the arithmetic", () => {
       assert.equal(status, 0, `expected success, got:\n${stderr}`);
       assert.match(
         stdout,
-        new RegExp(`${FIXTURE_VERSION} → ${expected} \\(${level}\\)`.replace(/\./g, "\\.")),
+        new RegExp(`${esc(FIXTURE_VERSION)} → ${esc(expected)} \\(${level}\\)`),
       );
 
       for (const file of [...manifests, lockfile]) assert.equal(versionOn(base, file), expected);
@@ -74,19 +75,25 @@ describe("a source it cannot read a version out of", () => {
   const [source] = manifests;
 
   it(`rejects ${source} missing entirely`, () => {
-    assertRejected(stage({ [source]: null }), /cannot read/);
+    assertRejected(stage({ [source]: null }), new RegExp(`cannot read ${esc(source)}`));
   });
 
   it(`rejects ${source} holding invalid JSON`, () => {
-    assertRejected(stage({ [source]: "{ not json" }), /cannot parse/);
+    assertRejected(stage({ [source]: "{ not json" }), new RegExp(`cannot parse ${esc(source)}`));
   });
 
   it(`rejects ${source} naming no version`, () => {
-    assertRejected(stage({ [source]: jsonFile({ name: "q" }) }), /names no version/);
+    assertRejected(
+      stage({ [source]: jsonFile({ name: "q" }) }),
+      new RegExp(`${esc(source)} names no version`),
+    );
   });
 
   it("rejects a version that is not major.minor.patch", () => {
-    assertRejected(stage({ [source]: versionManifest("1.2.3-beta.1") }), /not major\.minor\.patch/);
+    assertRejected(
+      stage({ [source]: versionManifest("1.2.3-beta.1") }),
+      new RegExp(`${esc(source)} names 1\\.2\\.3-beta\\.1, which is not major\\.minor\\.patch`),
+    );
   });
 });
 
@@ -104,7 +111,10 @@ describe("all or nothing", () => {
 
   for (const file of manifests.slice(1)) {
     it(`moves nothing when ${file} has no version field to rewrite`, () => {
-      const base = assertRejected(stage({ [file]: jsonFile({ name: "q" }) }), /no version field to rewrite/);
+      const base = assertRejected(
+        stage({ [file]: jsonFile({ name: "q" }) }),
+        new RegExp(`${esc(file)} has no version field to rewrite`),
+      );
       assertNothingMoved(base, [file]);
     });
   }
@@ -116,12 +126,15 @@ describe("all or nothing", () => {
     // too — excluding it would let a script that wrote the lockfile before
     // this guard pass with the same exit code and message.
     const base = stage({ [lockfile]: jsonFile({ name: "q", version: FIXTURE_VERSION }) });
-    assertRejected(base, /no version to rewrite — run npm install instead/);
+    assertRejected(base, new RegExp(`${esc(lockfile)} has no version to rewrite — run npm install`));
     assertNothingMoved(base);
   });
 
   it("moves nothing when the lockfile is unparseable", () => {
-    const base = assertRejected(stage({ [lockfile]: "{ not json" }), /cannot parse/);
+    const base = assertRejected(
+      stage({ [lockfile]: "{ not json" }),
+      new RegExp(`cannot parse ${esc(lockfile)}`),
+    );
     assertNothingMoved(base, [lockfile]);
   });
 });
@@ -166,7 +179,7 @@ describe("what it writes", () => {
         version: FIXTURE_VERSION,
       }),
     });
-    assertRejected(base, /no version field to rewrite/);
+    assertRejected(base, new RegExp(`${esc(source)} has no version field to rewrite`));
   });
 
   it("leaves a second version field alone when its own comes first", () => {

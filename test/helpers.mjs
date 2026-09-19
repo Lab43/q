@@ -1,8 +1,10 @@
 // Staging helpers for the suites. Every executable these stage runs as the
-// real shipped file, copied into a staged tree rather than imported, because
-// each resolves its inputs from disk relative to itself. Importing one would
-// test a reimplementation of the thing that actually runs. A module written
-// for import is the exception and is imported by its suite directly.
+// real shipped file, copied into a staged tree and spawned rather than
+// imported: the check scripts resolve their inputs relative to themselves,
+// and the hook pair is a bash wrapper around a node script, so neither is
+// reachable in-process. Importing one would test a reimplementation of the
+// thing that actually runs. A module written for import is the exception,
+// and its suite imports it directly.
 //
 // `npm test` names `test/*.test.mjs` explicitly. Node treats every file under a
 // directory called test/ as a suite, so bare discovery reports this file as a
@@ -142,13 +144,20 @@ export const stageFrontmatter = (files) => {
   return base;
 };
 
-/** Run a staged script from `scripts/`, with whatever arguments it takes. */
+/**
+ * Run a staged script from `scripts/`, with whatever arguments it takes.
+ *
+ * Spawned from an empty directory, never the runner's cwd. A script broken to
+ * resolve its root from cwd — which is exactly the deliberate break the
+ * testing rules call for — would otherwise rewrite this checkout's own
+ * manifests instead of the staged copies.
+ */
 export const runScript = (base, script, args = []) => {
   try {
     const stdout = execFileSync(
       process.execPath,
       [path.join(base, "scripts", script), ...args],
-      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], cwd: mkTmp("q-cwd-") },
     );
     return { stdout, stderr: "", status: 0 };
   } catch (e) {
@@ -198,8 +207,11 @@ export const versionLock = (version, packageVersion = version) =>
  * A tree where every version-carrying file agrees, before overrides. Built
  * from the real exports, so a file joining that set joins every case.
  */
-export const versionTree = (overrides = {}) => ({
-  ...Object.fromEntries(manifests.map((file) => [file, versionManifest(FIXTURE_VERSION)])),
-  [lockfile]: versionLock(FIXTURE_VERSION),
+export const versionTree = (overrides = {}, version = FIXTURE_VERSION) => ({
+  ...Object.fromEntries(manifests.map((file) => [file, versionManifest(version)])),
+  [lockfile]: versionLock(version),
   ...overrides,
 });
+
+/** Escape a version or filename for use inside a built RegExp. */
+export const esc = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

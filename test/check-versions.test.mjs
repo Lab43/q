@@ -12,6 +12,7 @@ import { manifests, lockfile } from "../scripts/manifests.mjs";
 import {
   FIXTURE_VERSION,
   cleanup,
+  esc,
   jsonFile,
   runScript,
   stageVersions,
@@ -24,9 +25,6 @@ after(cleanup);
 
 const SCRIPT = "check-versions.mjs";
 const OTHER = "9.9.9";
-
-/** Escape a version or filename for use inside a built RegExp. */
-const esc = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const check = (overrides) =>
   runScript(stageVersions(SCRIPT, versionTree(overrides)), SCRIPT);
@@ -46,14 +44,8 @@ describe("agreement", () => {
   });
 
   it("reports the version it agreed on, not a fixed string", () => {
-    const base = stageVersions(SCRIPT, {
-      ...Object.fromEntries(manifests.map((file) => [file, versionManifest(OTHER)])),
-      [lockfile]: versionLock(OTHER),
-    });
-    assert.match(
-      runScript(base, SCRIPT).stdout,
-      new RegExp(`check-versions: ${esc(OTHER)}`),
-    );
+    const base = stageVersions(SCRIPT, versionTree({}, OTHER));
+    assert.match(runScript(base, SCRIPT).stdout, new RegExp(`check-versions: ${esc(OTHER)}`));
   });
 });
 
@@ -63,13 +55,27 @@ describe("a version that disagrees", () => {
   // manifest-versus-manifest message, which nothing else reaches.
   for (const file of manifests.slice(1)) {
     it(`rejects ${file} carrying a different version`, () => {
-      assertRejected({ [file]: versionManifest(OTHER) }, /release moves both together/);
+      // The whole message, not just its tail: it is the only thing telling a
+      // releaser which manifest to fix and what each one currently says.
+      assertRejected(
+        { [file]: versionManifest(OTHER) },
+        new RegExp(
+          `${esc(manifests[0])} is ${esc(FIXTURE_VERSION)}, ` +
+            `${esc(manifests[1])} is ${esc(OTHER)} — release moves both together`,
+        ),
+      );
     });
   }
 
   it(`rejects ${manifests[0]}, the source, carrying a different version`, () => {
     // Everything is compared against this one, so it disagrees with all of them.
-    assertRejected({ [manifests[0]]: versionManifest(OTHER) }, new RegExp(esc(OTHER)));
+    assertRejected(
+      { [manifests[0]]: versionManifest(OTHER) },
+      new RegExp(
+        `${esc(manifests[0])} is ${esc(OTHER)}, ` +
+          `${esc(manifests[1])} is ${esc(FIXTURE_VERSION)} — release moves both together`,
+      ),
+    );
   });
 
   it("rejects the lockfile's root version disagreeing", () => {
@@ -92,18 +98,20 @@ describe("a version that disagrees", () => {
 
 describe("a file it cannot read a version out of", () => {
   for (const file of [...manifests, lockfile]) {
+    // Each names the file, so one it() per file genuinely distinguishes the
+    // file it covers. These are also what pin helpers(script)'s output.
     it(`rejects ${file} missing entirely`, () => {
-      assertRejected({ [file]: null }, /cannot read/);
+      assertRejected({ [file]: null }, new RegExp(`cannot read ${esc(file)}`));
     });
 
     it(`rejects ${file} holding invalid JSON`, () => {
-      assertRejected({ [file]: "{ not json" }, /cannot parse/);
+      assertRejected({ [file]: "{ not json" }, new RegExp(`cannot parse ${esc(file)}`));
     });
   }
 
   for (const file of manifests) {
     it(`rejects ${file} naming no version`, () => {
-      assertRejected({ [file]: jsonFile({ name: "q" }) }, /names no version/);
+      assertRejected({ [file]: jsonFile({ name: "q" }) }, new RegExp(`${esc(file)} names no version`));
     });
   }
 
