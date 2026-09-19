@@ -49,6 +49,7 @@ Work only from the diffs. Each package's diff runs from its watermark to its pin
 - **Changed `conventions/`** — hold the project's docs against each changed rule:
   - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/documentation.md, Three tiers of conventions)
   - re-check each "(source: …)" restatement against its changed home
+  - re-check each exception against its changed rule, and remove one whose rule moved or disappeared — it no longer names the rule its site is excused from
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; code fixes are out of scope here
 
