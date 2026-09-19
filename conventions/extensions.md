@@ -12,7 +12,7 @@ A q extension is an npm package whose `package.json` carries the `q-extension` k
 
 Nothing without it is an extension — a project's own `docs/conventions/` included.
 
-q is an extension under this definition rather than an exception to it. Its own conventions are discovered, indexed, and reconciled exactly as any other extension's.
+q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: q conventions/documentation.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
 
 Installing an extension runs no code. The install passes `--ignore-scripts`, and an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
 
@@ -37,7 +37,7 @@ An extension is authored in a project that itself uses q, with `@lab43/q` pinned
 
 In its authoring project, an extension's `conventions/` joins the documentation surface — groomed and reconciled against q's updates like the project's own docs. Moving the q pin asserts that reconciliation happened: the moved pin declares the docs written against the new version (see: Pinning). Don't record a deviation from a convention you ship — edit it. Deviations, overrides, and upstreaming are for rules you consume, not rules you author. In the authoring repo, references to the extension's docs resolve to its working tree (source: q conventions/documentation.md, Extension doc paths).
 
-An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: q conventions/documentation.md, Two tiers of conventions).
+An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: q conventions/documentation.md, Three tiers of conventions).
 
 ## Graduation
 

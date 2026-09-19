@@ -1,12 +1,12 @@
 # q — Agent Briefing
 
-q is a Claude Code plugin packaging an agentic coding workflow. This file briefs sessions working **on** q.
+q is an agentic coding workflow for Claude Code. This file briefs sessions working **on** q.
 
 ## Two tiers
 
 (source: docs/conventions/documentation.md, The tier test)
 
-`conventions/` plus everything the plugin routes consumer sessions to are framework payload: the law and workflow that ship to every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
+What the `@lab43/q` package ships is framework payload — `conventions/`, the skills, the hooks, the agents, and the references they read: the law and workflow that reach every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
 
 ## Developing
 
@@ -22,7 +22,7 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates the `@lab43/q` pack (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, the pack's working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 
@@ -41,5 +41,5 @@ This project's own:
 
 Guides:
 
-- `docs/guides/driving-manual.md` — how to bring q up as a loaded plugin and exercise it
+- `docs/guides/driving-manual.md` — how to bring q up in a session and exercise it
 - `docs/guides/releasing.md` — how q is versioned and released

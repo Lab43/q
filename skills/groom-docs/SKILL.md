@@ -7,8 +7,8 @@ description: Audit the project's whole documentation surface against the documen
 
 **Read the rubric first, and follow it over any instinct:**
 
-1. The framework policy (see: q conventions/documentation.md) and the writing rules (see: q conventions/writing.md), plus any other installed pack's doc whose topic governs documentation: pack rules bind like the framework's.
-2. The project's recorded rulings and deviations: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. On conflict with any pack, these win.
+1. q's documentation policy (see: q conventions/documentation.md) and its writing rules (see: q conventions/writing.md), plus any installed extension's doc whose topic governs documentation. An extension's rule beats q's where the two disagree (source: q conventions/documentation.md, Three tiers of conventions).
+2. The project's recorded rulings and deviations: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. These win over both.
 
 If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
 
@@ -19,18 +19,18 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 Build the grooming surface, taking each item only if it exists in this project:
 
 - `docs/conventions/*.md`, `README.md`, `CLAUDE.md` (the agent briefing) — full checks.
-- The `conventions/` of any doc pack this repo authors — a working-tree `package.json` carrying the `q-docs` keyword — full checks, like the project's own conventions (source: q conventions/extensions.md).
+- The `conventions/` of any extension this repo authors — a working-tree `package.json` carrying the `q-extension` keyword — full checks, like the project's own conventions (source: q conventions/extensions.md). Anything else the project's own `documentation.md` puts on the surface joins it, under rubric item 2.
 - `docs/guides/*.md` — **guide mode**, per the policy's Taxonomy rules.
 - `docs/plans/*.md` — **status check only**, per the policy's `docs/plans/` taxonomy rule.
 
-Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Installed doc packs (the framework's included) and the q plugin's skills are read-only — never groomed.
+Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Everything installed under `node_modules/` is read-only, q's conventions and every extension's alike — never groomed.
 
 ## Step 2: Fan out verification (read-only subagents)
 
 Launch read-only subagents in parallel — one per check below, except accuracy, which fans out per doc cluster; the duplication and consistency sweeps each hold the whole surface, since cross-file checks can't be sharded. Each reads the rubric first and returns findings with `file:line` citations:
 
 1. **Accuracy, per doc cluster** (conventions docs grouped by area; guides clustered separately, in guide mode): every checkable claim — file paths, symbol names, behavior descriptions, commands — verified against current source. Exemplar references get a deeper check: the file exists and still exhibits the rules its doc attaches to it.
-2. **Duplication sweep**, cross-surface: facts stated in more than one place. For each, name the home — implied by the taxonomy, or assigned by a recorded ruling; where the call is genuinely contestable, flag it for the user, whose decision becomes a new ruling. The sweep also runs **cross-tier**, comparing project docs against every installed pack's: a project statement matching a pack rule in substance is duplication to prune; one differing from a pack rule without an overrides marker naming it is drift or an unrecorded deviation — escalate to the user; a marked override whose target updated to agree or disappeared is spent — propose deleting it (source: q conventions/documentation.md, Two tiers of conventions). The packs themselves are read-only: a pack's stale override of a framework rule, or two packs in conflict, can't be edited here — escalate; the remedy is a project ruling or the pack author's.
+2. **Duplication sweep**, cross-surface: facts stated in more than one place. For each, name the home — implied by the taxonomy, or assigned by a recorded ruling; where the call is genuinely contestable, flag it for the user, whose decision becomes a new ruling. The sweep also runs **cross-tier**, comparing project docs against q's conventions and every installed extension's: a project statement matching one of their rules in substance is duplication to prune; one differing from such a rule without an overrides marker naming it is drift or an unrecorded deviation — escalate to the user; a marked override whose target updated to agree or disappeared is spent — propose deleting it (source: q conventions/documentation.md, Three tiers of conventions). Those docs are read-only: an extension's stale override of a q rule, or two extensions in conflict, can't be edited here — escalate; the remedy is a project ruling or the extension author's.
 3. **Dead references**: every file, symbol, helper, script, and skill named anywhere on the surface exists. Greps must exclude build artifacts (`dist/`, `node_modules/`, and the like) — stale generated files resurrect deleted symbols.
 4. **Consistency**: the agent briefing matches the briefing template (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`); any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve.
 5. **Organization**: each doc's structure — topic scope, intro, section placement, and splits or merges across docs — conforms to the policy. Findings here become reorganization proposals.
