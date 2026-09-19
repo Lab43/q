@@ -16,7 +16,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 Two worktrees are never candidates. Rule them out first:
 
 - the main worktree, which `git worktree list` names first. Git refuses to remove it.
-- the worktree this session is running in. Compare each path against the session's working directory.
+- the worktree this session is running in, which `git rev-parse --show-toplevel` names. It reports the worktree's root from any depth, so it matches the path `git worktree list` reports however deep the session has moved.
 
 Then establish what each of the rest holds:
 
@@ -34,7 +34,7 @@ A worktree is removable when it holds nothing the remote does not already have:
 - it is not locked
 - no live peer holds it
 
-Removing one costs only the checkout. Its branch survives, and the remote keeps the commits.
+Removing one costs only the checkout. Its branch survives the removal, so the commits do too.
 
 ## Step 2: Agree what goes
 
@@ -43,7 +43,13 @@ Settle the list with the user, in conversational mode (see: `${CLAUDE_PLUGIN_ROO
 - Merged or closed — the work is done with. Recommend removing it.
 - Open, or no pull request at all — the work is still in flight. Offer it, and say so. The user may be coming back to the checkout.
 
-State what is not on the list and why: each worktree that failed the removable test, and each directory git does not list. The user's selection is the agreement.
+State what the list leaves out, and why:
+
+- the worktrees ruled out before probing
+- the worktrees that failed the removable test
+- the directories git does not list
+
+The user's selection is the agreement.
 
 ## Step 3: Clear it
 
