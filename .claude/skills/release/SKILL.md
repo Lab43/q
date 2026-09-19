@@ -30,8 +30,11 @@ The settled level is the agreement. Steps 3 to 5 execute it autonomously.
 
 ## Step 3: Bump and push
 
-1. Run `npm run check`, and stop on a failure. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
-2. Run the guide's steps 1 and 2 without asking again.
+Run the guide's steps 1 and 2 without asking again, with one addition between them.
+
+1. Move the version, per the guide's step 1.
+2. Run `npm run check` over the moved tree, and stop on a failure. Run it here rather than earlier, so it covers the version the release ships rather than the one it replaced. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
+3. Commit and push, per the guide's step 2.
 
 ## Step 4: Publish
 

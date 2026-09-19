@@ -8,7 +8,7 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 
 ## Making a release
 
-`/release` drives this procedure. It settles the level with you, runs steps 1 and 2, then publishes step 3 behind the prompt below. The steps stand on their own for releasing by hand.
+`/release` drives this procedure. It settles the level with you, runs steps 1 and 2, then publishes step 3 behind the permission prompt described next. The steps stand on their own for releasing by hand.
 
 `gh release create` and `npm publish` prompt for a human answer in every session in this repo, whatever else a machine's permission settings allow (source: .claude/settings.json). The rule reaches only sessions that read this repo's settings. A release published through the GitHub web UI never meets it.
 
