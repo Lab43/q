@@ -8,7 +8,7 @@ description: Choose what to work on next from a set of items — a Jira board, G
 ## Ground rules
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
-- **Triage ranks, `/q:implement` grounds**: judge items on what the source says — titles, descriptions, labels, dates — never by exploring the code. Grounding an item against the codebase is the first step of its implement cycle, not a triage cost paid across the whole set.
+- **Ranking is not grounding**: judge items on what the source says — titles, descriptions, labels, dates — never by exploring the code. Grounding an item against the codebase is the first step of its implement cycle, not a triage cost paid across the whole set.
 - **Conventions govern the tracker**: read and follow the issue-tracking conventions (see: @lab43/q conventions/issue-tracking.md), plus any project rulings, which win. Never re-ask what they settle.
 - **Track the session**: keep a scratchpad note of the session's agreements (review mode, write-backs, priority guidelines) and each item's outcome. An outcome is the PR, plan, or nothing-to-do verdict the implement cycle produced, or that the user skipped the item. Ranking and the closing recap read from this note, and it keeps the loop intact when earlier cycles are compacted away.
 
