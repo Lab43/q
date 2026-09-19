@@ -23,12 +23,14 @@ Choose a level first (see: Choosing the version). Then, on `main`:
 2. Check the moved tree, then commit those three files and push to `main`:
 
    ```sh
-   npm run check
-   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json
+   npm run check &&
+   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json &&
    git push origin main
    ```
 
-   Run the check here rather than before step 1, so it covers the version the release ships rather than the one it replaces. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything.
+   The `&&` is load-bearing. A failing check has to stop the commit, and a failing commit the push.
+
+   Run the check here rather than before step 1, so it covers the version the release ships rather than the one it replaces. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
 
 3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2:
 

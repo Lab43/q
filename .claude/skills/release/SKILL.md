@@ -5,7 +5,7 @@ description: Release q — move the version, push the bump to main, and publish 
 
 # Release
 
-Follow the run contract — `@lab43/q references/run-contract.md`. Every release runs in ship mode, so never ask which (see: `@lab43/q references/run-contract.md`, Review modes). Work on `main` rather than a branch of this run's own. Commit and push without pausing, and open no pull request. The level the user settles in Step 2 and the permission prompt in Step 4 are this run's gates.
+Follow the run contract — `@lab43/q references/run-contract.md`. Every release runs in ship mode, so never ask which (see: `@lab43/q references/run-contract.md`, Review modes). Work on `main` rather than a new branch. Commit and push without pausing, and open no pull request. The level the user settles in Step 2 and the permission prompt in Step 4 are this run's gates.
 
 `docs/guides/releasing.md` is the procedure. Read it before Step 1 and take every command from it, so a release never runs a copy that has drifted.
 
