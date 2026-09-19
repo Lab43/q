@@ -4,7 +4,7 @@ Rules for writing q's skills.
 
 ## Naming
 
-Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object — and the noun must be accurate about that object (`update-docs` writes to the whole doc surface; `groom-docs` grooms all of it, not just conventions). Autocomplete makes length free, and explicit names tell users what a skill does at the point of choice. Avoid names that collide with built-in commands or well-known skills (`init`, `help`) even when namespacing would disambiguate — a near-synonym sitting in the same skill list misroutes both humans and models, and distinctiveness beats conformance when a collision looms.
+Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object — and the noun must be accurate about that object (`update-docs` writes to the whole documentation surface; `groom-docs` grooms all of it, not just conventions). Autocomplete makes length free, and explicit names tell users what a skill does at the point of choice. Avoid names that collide with built-in commands or well-known skills (`init`, `help`) even when namespacing would disambiguate — a near-synonym sitting in the same skill list misroutes both humans and models, and distinctiveness beats conformance when a collision looms.
 
 ## Modes
 

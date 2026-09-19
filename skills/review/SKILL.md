@@ -22,7 +22,7 @@ Launch `adversarial-reviewer` subagents over the artifact, passing what the agen
 
 ## Step 3: Rule with the user
 
-A conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Triage the findings:
+In conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes), triage the findings:
 
 - **Fix outright**: a finding that is clearly right, with a fix that reopens nothing. Apply it and present it as applied, where the user can veto it.
 - **Reject outright**: a finding the session's context refutes. Present it with its reason — never drop one silently, since the refuting context may itself be wrong.
@@ -43,6 +43,6 @@ When delivering now, validate the whole diff being delivered (see: ${CLAUDE_PLUG
 ## Step 6: Deliver
 
 1. Fixes not delivered now — joining an outstanding change another run owns, or left in the tree — stay uncommitted for the run that delivers them. Skip to the report.
-2. **Local review's gate**: run the gate over the uncommitted fixes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+2. **The local gate**: run it over the uncommitted fixes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 3. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 4. Close the session by reporting: findings and rulings including what was dropped, the check results, the doc entries recorded, and any amendment raised instead of applied, listed on its own. When work was left in the tree, say that it is unvalidated until delivered, and that a later bare `/q:review` reviews and delivers the accumulation.

@@ -28,7 +28,7 @@ The outcome is a verdict: what the work actually is, whether the item's claims h
 
 Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the verdict and a recommended route, the approach where the fix is genuinely forked, and — when fixing here — the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits nothing until the user has reviewed the diff.
 
-Answers settle decisions; they are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead — that green light, not the last answer, is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 
 The routes:
 
@@ -54,10 +54,10 @@ When implementation reveals the work is deeper than the agreement — a redesign
 
 ## Step 5: Adversarial review
 
-Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Per loop round, re-drive a surface only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
+Validate the diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the agreed scope and the diff scope: `git diff origin/<default-branch>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local mode. Per loop round, re-drive a surface only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: run the gate over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the session's uncommitted work (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: `git push -u origin <work-slug>`, then `gh pr create`, per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting the PR URL, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

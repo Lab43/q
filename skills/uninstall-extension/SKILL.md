@@ -36,7 +36,7 @@ Remove without asking — each item a no-op when already absent:
 
 Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name. Every hit lost its backing with the extension: an overrides marker's target, a restatement's home, a cross-reference's destination. On a clean grep, skip the step.
 
-Recommend a resolution for each hit, grounded in the documentation policy, in one AskUserQuestion batch — a conversational stretch. The user rules. Apply the rulings.
+Recommend a resolution for each hit, grounded in the documentation policy, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — one AskUserQuestion batch. The user rules. Apply the rulings.
 
 ## Step 5: Adversarial review
 
@@ -44,7 +44,7 @@ In ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_P
 
 ## Step 6: Open the PR
 
-1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting:
    - The extension removed, or the out-of-band removal reconciled.
