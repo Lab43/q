@@ -10,10 +10,10 @@
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. Two silences are designed. A project
-// that declares no @lab43/q devDependency is not a q project. A pinned
-// dependency that is neither installed nor watermarked cannot be identified
-// as an extension, for the reason the reverse-direction loop states. Anything
-// else missing or unreadable fails like any other invalid state.
+// that declares no @lab43/q devDependency is not a q project. A devDependency
+// with no watermark entry and no readable keyword is not identifiable as an
+// extension. Every other missing or unreadable input fails like any other
+// invalid state.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -73,7 +73,7 @@ const devDeps =
     ? pkg.devDependencies
     : {};
 
-// Declaring no @lab43/q devDependency is the one designed silence. A pin that
+// Declaring no @lab43/q devDependency is a designed silence. A pin that
 // is declared but is not a version string is an invalid state like any other,
 // and fails the way a malformed pin fails for every extension below.
 if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
@@ -116,12 +116,11 @@ for (const [ext, mark] of Object.entries(recon)) {
 
 // Reverse direction: a devDependency whose installed manifest carries the
 // q-extension keyword but that has no watermark entry was installed by hand
-// and never indexed. A dependency that isn't installed is skipped. The
-// keyword lives in its manifest, and nothing offline substitutes — a lockfile
-// records versions, not keywords. A pin that is neither installed nor
-// watermarked therefore escapes this check, until the next dependency install
-// puts the manifest here. Identifying one ahead of that install takes a
-// registry call on every session start.
+// and never indexed. The keyword is readable only from the package's own
+// manifest under node_modules. No lockfile carries it. A devDependency whose
+// manifest is absent or unparseable is therefore skipped rather than
+// reported. A pin that is also unwatermarked escapes both directions of the
+// check until that manifest becomes readable.
 for (const dep of Object.keys(devDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
