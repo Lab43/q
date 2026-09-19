@@ -12,7 +12,7 @@ Picking up a tracker item means assigning it to the user and moving it to the tr
 
 ## Ask before filing
 
-Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch. Each candidate is one piece of work. A bundled item gets half fixed and stays open.
+Filing a new tracker item — the follow-up work a session surfaces — happens on the user's agreement, given per item rather than once per session. Ask the session's candidates together, in one batch. Each candidate is one piece of work. A bundled item gets half fixed and stays open. Write each agreed item to the authoring rules (see: Write for whoever picks it up).
 
 ## Write for whoever picks it up
 
