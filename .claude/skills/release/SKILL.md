@@ -1,11 +1,11 @@
 ---
 name: release
-description: Release q — move the version, push the bump to main, and publish the GitHub release that triggers the npm publish. Invoke it bare, or name a level (major, minor, patch) to settle that up front. Otherwise it settles the level with the user against what changed since the last tag. Publishing is irreversible. The version number is burned whether or not npm unpublishes it, and answering a permission prompt is what releases it.
+description: Release q — move the version, push the bump to main, and publish the GitHub release that triggers the npm publish. Use when q is ready to ship, or when merged work needs to reach consuming projects. Invoke it bare, or name a level (major, minor, patch) to settle that up front. Otherwise it settles the level with the user against what changed since the last tag. Publishing is irreversible. The version number is burned whether or not npm unpublishes it, and answering a permission prompt is what releases it.
 ---
 
 # Release
 
-Follow the run contract — `@lab43/q references/run-contract.md`. Step 2 is conversational; the level the user settles there is the agreement, and Steps 3 to 5 execute it.
+Follow the run contract — `@lab43/q references/run-contract.md`. A release goes straight to `main` and opens no pull request, so this run has no branch and no review mode. The level the user settles in Step 2 and the permission prompt in Step 4 are its gates.
 
 `docs/guides/releasing.md` is the procedure. Read it before Step 1 and take every command from it, so a release never runs a copy that has drifted.
 
@@ -16,10 +16,14 @@ Follow the run contract — `@lab43/q references/run-contract.md`. Step 2 is con
 
 ## Step 2: Settle the level
 
+Settle it with the user, in conversational mode (see: `@lab43/q references/run-contract.md`, Collaboration modes).
+
 1. Read the last released tag — `git tag --sort=-v:refname | head -1`.
 2. Read what ships — `git log <tag>..HEAD --oneline` and `git diff <tag>..HEAD --stat`.
 3. Stop when nothing has landed since the tag. There is no release to make.
 4. Recommend a level against the guide's rules for choosing one, and say what in the diff puts it there. The user settles it. An invocation that named a level has settled it already — show what ships and go on to Step 3.
+
+The settled level is the agreement. Steps 3 to 5 execute it autonomously.
 
 ## Step 3: Bump and push
 
@@ -35,6 +39,7 @@ A declined prompt ends the run with the bump on `main` and nothing published. Sa
 
 ## Step 5: Report
 
-1. Watch the release workflow to its end — `gh run watch`. It publishes to npm, and its failure modes are the ones worth catching while the session is still open.
-2. Report the release URL and what the workflow did.
-3. Route a failure to the guide's rules for a failed release, which turn on whether the publish itself had started.
+1. Read the run the release started — `gh run list --workflow=release.yml --limit 1 --json databaseId --jq '.[0].databaseId'`.
+2. Watch it to its end — `gh run watch <id>`. Pass the id. Bare `gh run watch` asks which run to watch, and fails outright where nothing can answer.
+3. Report the release URL and what the workflow did.
+4. Route a failure to the guide's rules for a failed release, which turn on whether the publish itself had started.
