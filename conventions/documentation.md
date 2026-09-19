@@ -79,7 +79,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-A marker may sit in a comment, in whatever form its file type offers — an HTML comment in docs rendered for humans (README, guides), a code comment in a script. The comment's own delimiters stand in for the parentheses, so a marker inside one reads `source: docs/conventions/testing.md`. A comment carrying prose as well gives the marker its own line. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
+In docs rendered for humans (README, guides), a marker may sit in an HTML comment. An exception goes further and sits in a code comment too, in any file type, because the site it excuses is as often a script as a passage — the other three stay in the documentation surface, which is the only place anything reads them. The comment's own delimiters stand in for the parentheses, so a marker inside one reads `source: docs/conventions/testing.md`. A comment carrying prose as well gives the marker its own line. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
 Four markers, all ordinary language:
 
@@ -98,7 +98,7 @@ Prose rules carry the conventions; code carries itself:
 
 - Each pattern names a **living exemplar** — a real file in the repo — and says which of its lines are load-bearing for the pattern, so an imitator doesn't copy the incidental along with the essential. Exemplar references and these notes are carved out of the no-code-readable-facts rule as a class; they exist to point *into* the code.
 - Short shape-only snippets are allowed where a rule is illegible without one. Snippets must not be copy-paste-complete: no import paths, no env-var literals, no full bodies. Anything an agent would paste verbatim must come from the exemplar.
-- Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them.
+- Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them. An illustrative path inside a marker example is the exception: it names nothing and stands for any project's own doc.
 
 Rejected: full copy-paste code templates, even compile-checked ones — doc inaccuracies cluster inside template code and code-readable fact restatements, not prose rules, and a stale template actively produces failing code.
 

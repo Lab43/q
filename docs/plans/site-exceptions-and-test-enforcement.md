@@ -135,13 +135,15 @@ Verified by listing every tracked non-documentation file (`git ls-files`) and ma
 
 1. In `conventions/documentation.md`, Markers: change "Three markers, all ordinary language:" to four and add the `(exception: X)` bullet after `(overrides: X)`. State that it excuses this one site from the named rule, that the rule itself stands, and that accumulation against one rule is a signal the rule wants revisiting.
 2. In the same section, record that the exception marker requires its section, unlike the other three, and that its reason is the text it sits in.
-3. Rewrite the HTML-comment sentence at `conventions/documentation.md:82` so it covers a marker in a code comment, in any file type.
+3. Rewrite the HTML-comment sentence at `conventions/documentation.md:82` so it covers a marker in a code comment, in any file type. *(deviation: the code-comment home is granted to the exception marker alone. Granting it to all four would sanction a `(source:)` or `(overrides:)` marker in a script, where nothing reads it — the readers this plan teaches reach code for exceptions only, so the Markers section's promise that a marked restatement is checked against its target would have been false at a location the law itself invited.)*
 4. Rewrite `conventions/documentation.md:16` per Decision 5, so it rules on overriding a rule rather than on every mechanism.
 5. In `conventions/principles.md`, "Comments carry constraints, not justification": add the sentence from Decision 5.
 6. In `conventions/extensions.md`, Authoring: extend the line at `:42` so an extension's own sites may carry an exception to a rule it consumes, while a rule it authors is edited instead.
 7. In `README.md`, add the fourth row to the markers table and extend the intro at `:169`, which names three relationships.
 
 No briefing index line changes: no doc's intro moves in this phase.
+
+*(deviation: review turned up four edits no step names. `conventions/documentation.md` gained the grooming obligation exceptions were owed, the spent-and-retarget lifecycle the readers were acting on without a home, and a carve-out letting a marker example name an illustrative path — the must-exist rule would otherwise report the examples this plan writes as dead references. `docs/conventions/documentation.md`'s "Structure is earned" gate had stated the markers' bar as greppability alone, which is not the bar this marker was judged against.)*
 
 #### Phase 2: Teach the readers
 

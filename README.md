@@ -173,7 +173,7 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
 | `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
 | `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
 | `(overrides: X)` | This rule deliberately replaces the named one — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
-| `(exception: X)` | This one site sits outside the named rule, which still stands everywhere else (`exception: docs/conventions/logging.md, Structured fields`). The reason is the text the marker sits in, in prose or in a code comment. `/q:groom-docs` counts them by rule, so several against one rule surface as a signal the rule wants revisiting. |
+| `(exception: X)` | This one site sits outside the named rule, which still stands everywhere else (`exception: docs/conventions/logging.md, Structured fields`). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a code comment — without either part it excuses nothing. `/q:groom-docs` counts them by rule, so several against one rule surface as a signal the rule wants revisiting. |
 
 ## Developing q
 
