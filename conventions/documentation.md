@@ -61,7 +61,7 @@ Every fact has exactly one home; every other doc links to it, never restates it.
 
 Rejected: a standing central registry of all shared facts and their homes. It accumulates entries whose home is obvious from the doc's topic, and it rots like any other enumeration.
 
-## Extension doc paths
+## Package doc paths
 
 Reference q's docs and an extension's by package name plus path from the package root — `@acme/q-ext-x conventions/retries.md`. `q` is the alias for `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
 
@@ -73,7 +73,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 
 - a heading in the current doc (`see: Markers`)
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
-- one of q's docs or an extension's, by its path form (see: Extension doc paths)
+- one of q's docs or an extension's, by its path form (see: Package doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: q conventions/principles.md, Comments carry constraints, not justification).
 
