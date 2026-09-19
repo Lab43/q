@@ -15,7 +15,7 @@ Read four versions for each extension in scope — the watermarks per `${CLAUDE_
 
 | Pinned | Installed | Latest | Watermark |
 | --- | --- | --- | --- |
-| its pin in the project's `package.json`; in a repo authoring an extension, that extension's own pin lives in its manifest (source: q conventions/extensions.md) | `version` in `node_modules/<extension>/package.json` | `npm view <extension> version` | its `reconciledAgainst` entry |
+| its pin in the project's `package.json`; in a repo authoring an extension, the q pin lives in that extension's own manifest (source: q conventions/extensions.md) | `version` in `node_modules/<extension>/package.json` | `npm view <extension> version` | its `reconciledAgainst` entry |
 
 Alongside the versions, hold each third-party extension's q declaration — its `@lab43/q` devDependency (source: q conventions/extensions.md) — against the project's own q pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating q here; one behind closes only by that extension's release.
 
@@ -40,7 +40,7 @@ Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md,
 
 For each pin the user agreed to move:
 
-Run `npm install --save-dev --save-exact --ignore-scripts <extension>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q's included.
+Run `npm install --save-dev --save-exact --ignore-scripts <extension>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q included.
 
 ## Step 4: Reconcile what the diff touched
 
