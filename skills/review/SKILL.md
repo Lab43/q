@@ -34,7 +34,7 @@ Fixes to an outstanding change another run owns stay uncommitted with it — don
 
 1. When delivering now, create a branch unless the session is already on one.
 2. The rulings are the agreement — apply the approved fixes autonomously, approved convention amendments included. Fixes and amendments that land in policy-governed docs go through `/q:update-docs`, the documentation surface's single write path. Run the project's checks covering what changed.
-3. Sweep the rulings for lessons the docs should carry: a rejected finding whose reason is a rule nobody wrote down, or a correction the next reviewer would have to re-derive. Each one is a correction to record (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Corrections become rules). A finding rejected because this one site is legitimately outside the rule is recorded as an exception marker at the site, carrying that reason (see: @lab43/q conventions/documentation.md, Markers). In ship mode, commit the fixes and the recordings together.
+3. Sweep the rulings for lessons the docs should carry: a rejected finding whose reason is a rule nobody wrote down, a finding rejected because this one site is legitimately outside the rule, or a correction the next reviewer would have to re-derive. Each one is a correction to record (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Corrections become rules). In ship mode, commit the fixes and the recordings together.
 
 ## Step 5: Adversarial review
 

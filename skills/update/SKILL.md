@@ -49,9 +49,9 @@ Work only from the diffs. Each package's diff runs from its watermark to its pin
 - **Changed `conventions/`** — hold the project's docs, and the exception markers its code carries, against each changed rule:
   - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/documentation.md, Three tiers of conventions)
   - re-check each "(source: …)" restatement against its changed home
-  - re-check each exception against its changed rule — retarget one whose rule moved, and remove one whose rule is gone
+  - re-check each exception against its changed rule — retarget one whose rule moved, and remove one that is spent, its rule gone or changed to admit the site (source: @lab43/q conventions/documentation.md, Markers)
   - prune a project rule the new text now owns — it is duplication now
-  - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; code fixes are out of scope here
+  - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; bringing code back into conformance is out of scope here
 
   An extension authored in this repo is part of that surface: re-check its docs and its own `description` the same way. The q pin this run moved is also that extension's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: @lab43/q conventions/extensions.md).
 
