@@ -44,7 +44,7 @@ An existing local branch is checked out as it stands, which may be behind the re
 
 Never take the branch with `git worktree add --force`. It succeeds, leaving two worktrees on one branch to diverge silently.
 
-Whichever way the worktree was made, install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading the extension conventions under `node_modules/`.
+Whichever way the worktree was made, install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading q's conventions or an extension's under `node_modules/`.
 
 **Working alone, branch in the checkout.** When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run.
 
@@ -95,7 +95,7 @@ Route every recording through `/q:update-docs`. It classifies the lesson and hol
 
 Record a correction in the change that prompted it. The diff at each review point carries its own doc updates, so a user approving the work sees everything the run proposes. A correction that arrives during review joins that iteration. Never defer one to the closing report, and never leave the user trusting that a doc update will follow.
 
-A correction lands in whatever change was in flight, which is often a change whose stated scope does not cover it. Say so where the work is reviewed: the PR body's Callouts, or the closing report when the run delivers no PR (see: q conventions/pull-requests.md, Sections). A reviewer who meets an unexplained edit to standing law reads it as scope creep, and is right to.
+A correction lands in whatever change was in flight, which is often a change whose stated scope does not cover it. Say so where the work is reviewed: the PR body's Callouts, or the closing report when the run delivers no PR (see: q conventions/pull-requests.md, Sections). A reviewer who meets an unexplained edit to standing law reads it as scope creep.
 
 Amendments to existing rules are corrections too. Apply them rather than recommending them. A recommendation the user has to find in the output gets scanned past, while a diff hunk is something they can read and push back on. Raise an amendment instead of applying it when it would put existing code out of conformance: that is a migration, and its scope is the user's.
 

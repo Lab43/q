@@ -1,6 +1,6 @@
 ---
 name: uninstall-extension
-description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Never removes q itself, @lab43/q. The changes ship as a PR.
+description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
 ---
 
 # Uninstall Extension
@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Take stock
 
-Refuse `@lab43/q`. It is the extension every q project installs. It carries the rules of the workflow itself (source: q conventions/documentation.md, Two tiers of conventions).
+Refuse `q` and `@lab43/q`. q is the framework rather than an extension (source: q conventions/extensions.md, Identity), and no q project can remove it (source: q conventions/documentation.md, Three tiers of conventions).
 
 Confirm the named target is an extension — any of the following identifies it:
 

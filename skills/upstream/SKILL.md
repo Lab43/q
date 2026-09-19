@@ -1,26 +1,26 @@
 ---
 name: upstream
-description: Turn session friction and the project's recorded deviations into upstream PRs against the repos that own the rules — q's own, or a third-party extension's. Use when friction with a q skill or an extension's rule surfaces, when upstream candidates were flagged this session or have accumulated in the project's rulings, or to change how the workflow works.
+description: Turn session friction and the project's recorded deviations into upstream PRs against the repos that own the rules — q's own, or a third-party extension's. Use when friction with a q skill, one of q's rules, or an extension's surfaces, when upstream candidates were flagged this session or have accumulated in the project's rulings, or to change how the workflow works.
 ---
 
 # Upstream
 
-Never edits an installed extension in place — changes go through a PR to the repo that owns it.
+Never edits q or an installed extension in place — changes go through a PR to the repo that owns it.
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Gather candidates
 
 1. The prompt — the user may name the improvement outright.
-2. This session's history — friction with a q skill or any extension's rule (an instruction that misfired, a gap, a wrong assumption), and any upstream candidates flagged earlier in the session.
+2. This session's history — friction with a q skill, one of q's rules, or an extension's (an instruction that misfired, a gap, a wrong assumption), and any upstream candidates flagged earlier in the session.
 3. The project's marked overrides — grep `docs/conventions/` for "(overrides:", dropping those that target the project's own docs.
-4. The project's unmarked elaborations — read the project docs whose filenames match an installed extension's, for rulings that build on one of its rules rather than contradict it.
+4. The project's unmarked elaborations — read the project docs whose filenames match one of q's conventions or an installed extension's, for rulings that build on a rule there rather than contradict it.
 
-Partition the candidates by destination: skill friction and "(overrides: q …)" targets belong to the q repo, `Lab43/q`; a candidate targeting another extension's doc belongs to that extension's repo, read from `repository` in `node_modules/<extension>/package.json`. An extension with no repository recorded can't be PRed — carry its candidates to the report for the user to deliver by hand.
+Partition the candidates by destination: skill friction and "(overrides: q …)" targets belong to the q repo, `Lab43/q`; a candidate targeting an extension's doc belongs to that extension's repo, read from `repository` in `node_modules/<extension>/package.json`. An extension with no repository recorded can't be PRed — carry its candidates to the report for the user to deliver by hand.
 
 ## Step 2: Converge with the user
 
-Qualify the candidates against the framework's documentation policy (see: q conventions/documentation.md). An override or elaboration made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
+Qualify the candidates against q's documentation policy (see: q conventions/documentation.md). An override or elaboration made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
 
 Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), a conversational stretch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). In the same batch, ask which review mode — local or ship — the deliveries run under, every destination PR and the project-side deletions alike (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
 

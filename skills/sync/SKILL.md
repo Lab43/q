@@ -24,7 +24,7 @@ Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHu
 
 Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
 
-- each extension's pin in `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: q conventions/extensions.md), `@lab43/q` among them
+- the pin of `@lab43/q` and of each extension in `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: q conventions/extensions.md)
 
 Each finding routes to its remedy:
 

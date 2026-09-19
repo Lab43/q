@@ -2,7 +2,7 @@
 
 How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before running any step here.
 
-q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal. npm is the only channel: a project pins `@lab43/q` in its `package.json` and loads the plugin from `node_modules`.
+q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal.
 
 ## Steps
 

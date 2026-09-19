@@ -1,6 +1,6 @@
 # q — Agent Briefing
 
-q is a Claude Code plugin packaging an agentic coding workflow. This file briefs sessions working **on** q.
+q is an agentic coding workflow for Claude Code. This file briefs sessions working **on** q.
 
 ## Two tiers
 
@@ -22,7 +22,7 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, the extension's working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Extension doc paths) — here resolving to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 
@@ -41,5 +41,5 @@ This project's own:
 
 Guides:
 
-- `docs/guides/driving-manual.md` — how to bring q up as a loaded plugin and exercise it
+- `docs/guides/driving-manual.md` — how to bring q up in a session and exercise it
 - `docs/guides/releasing.md` — how q is versioned and released

@@ -15,7 +15,9 @@ Rejected: shipping the framework conventions at the contract path (`docs/convent
 
 ## Working on the payload
 
-This repo authors the `@lab43/q` extension, so the authoring rules govern its payload here (source: q conventions/extensions.md). The payload joins this repo's documentation surface — editable, groomable, held to the documentation policy like any project's own docs. A workflow-general lesson is edited directly into the doc it refines. There is no deviation to record and no upstream to flag from inside the authoring repo. In this repo the `q` alias resolves to the repo root, the extension's working tree (source: q conventions/documentation.md, Extension doc paths).
+q is the framework, so the extension format does not reach it. The authoring rules an extension follows still govern this repo's payload, by this ruling (see: q conventions/extensions.md, Authoring).
+
+In this repo the `q` alias resolves to the repo root, q's own working tree (source: q conventions/documentation.md, Extension doc paths).
 
 Rejected: seeding the framework tier into consuming projects as editable copies (seed-and-fork) — that loses the update channel and makes framework law indistinguishable from project choice during grooming.
 

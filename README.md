@@ -1,6 +1,6 @@
 # q
 
-A Claude Code plugin packaging an agentic coding workflow: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs that each consuming project builds up over time.
+An agentic coding workflow for Claude Code: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs that each consuming project builds up over time.
 
 Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
@@ -57,7 +57,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td><code>/q:update</code></td>
-    <td>Update the project's installed extensions, q among them: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
+    <td>Update q and the project's installed extensions: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
   </tr>
   <tr>
     <td><code>/q:uninstall-extension</code></td>
@@ -107,7 +107,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td><code>/q:upstream</code></td>
-    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — q's own, or another extension's.</td>
+    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — q's own, or an extension's.</td>
   </tr>
 </table>
 
@@ -118,7 +118,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 <a href="docs/workflow-chart/light.png">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-chart/dark.png">
-    <img alt="The q workflow: work flows from triage and tackle through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
+    <img alt="The q workflow: work flows from triage and tackle through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions over q — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
   </picture>
 </a>
 
@@ -131,11 +131,11 @@ q's effect on your repo comes from context routing and documentation discipline 
 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
 - installs q as the `@lab43/q` npm package, pinned exactly in your `package.json` — its conventions and its plugin arrive together, at one version
-- indexes both tiers in your agent briefing (`CLAUDE.md`)
+- indexes every tier in your agent briefing (`CLAUDE.md`)
 - gives your project its own marketplace, sourcing the q it just pinned, so every teammate's machine runs the version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
 
-Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. And every agent session, whether or not it ever invokes a q skill, is told to check both tiers of conventions — q's and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 
@@ -146,7 +146,7 @@ Every session start validates that installed, pinned, and watermarked versions s
 - Both halves of q install pinned, and pins move only when you approve an update, which reconciles your docs with what changed.
 - Your project's rulings win on conflict — record the disagreement and it stands (see the markers below).
 - Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
-- It's all plain text files in your repo — removing the plugin leaves your docs intact and yours.
+- It's all plain text files in your repo — removing q leaves your docs intact and yours.
 
 ## Markers
 
@@ -159,7 +159,7 @@ q's documentation keeps every fact in exactly one authoritative home, but text s
 | --- | --- |
 | `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
 | `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
-| `(overrides: X)` | This rule deliberately replaces the named one — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
+| `(overrides: X)` | This rule deliberately replaces the named one — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
 
 ## Developing q
 

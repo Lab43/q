@@ -2,19 +2,20 @@
 
 Rules for what belongs in a project's documentation, where it lives, and how it stays accurate. Follow them over any instinct. Every doc this policy governs must stay reviewable by a human: hold every edit to the writing rules (see: q conventions/writing.md).
 
-## Two tiers of conventions
+## Three tiers of conventions
 
-- **Extension conventions** — the installed extensions (see: q conventions/extensions.md), pinned in the project's `package.json`, so rule improvements reach the project on pin updates. `@lab43/q` is the extension every q project installs: it carries the rules of the workflow itself and defines the format the rest follow.
+- **Framework conventions** — `@lab43/q`'s own `conventions/`, pinned in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
+- **Extension conventions** — the installed extensions (see: q conventions/extensions.md), each pinned the same way, so rule improvements reach the project on pin updates. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
-**Precedence: on conflict, project conventions win — over any extension's rule, whichever extension carries it.** A project overrides an extension's rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
+**Precedence: project conventions win over any extension's rule, whichever extension carries it. An extension's rule in turn wins over q's.** A project overrides a rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
 
 - A deviation is written as an ordinary rule: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces.
 - A deviation is refined in place or deleted as the decision evolves, never appended as a log entry.
 - An override outlived by its target — updated to agree, or gone — is spent and comes out.
 - No other override mechanism exists or is needed — the readers are agents, so a stated deviation is the mechanism.
 
-A refinement that reaches beyond this project — one that would improve a q rule, or another extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
+A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
 Conventions graduate into an extension when their audience grows beyond one project (source: q conventions/extensions.md, Graduation).
 
@@ -49,8 +50,8 @@ The intro is the authoritative description of its doc. The briefing index's line
   - **Interface, not internals**: enumerating the product's interface (commands, skills, entry points) serves the reader and belongs; inventorying the repo's internals (directory layout, file lists) restates what browsing already shows — an internal detail earns mention only when it explains something non-obvious.
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`CLAUDE.md`** — the always-loaded agent briefing. Rejected: `AGENTS.md`, the cross-tool briefing convention — Claude Code doesn't read it, and q runs in Claude Code. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
-  - **The standing instructions** that make the conventions bind: both tiers of conventions apply (see: Two tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
-  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether from an installed extension or the project's own, and every guide. An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
+  - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
+  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether q's, an installed extension's, or the project's own, and every guide. An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
 ## Single source of truth
 
@@ -62,7 +63,7 @@ Rejected: a standing central registry of all shared facts and their homes. It ac
 
 ## Extension doc paths
 
-Reference an extension's doc by package name plus path from the package root — `@acme/q-ext-x conventions/retries.md`. `q` is the alias for `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the extension's working tree in the repo that authors it. Use the form for every reference to an extension's doc across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own extension: a reference must stay unambiguous when its text is quoted away from its file.
+Reference q's docs and an extension's by package name plus path from the package root — `@acme/q-ext-x conventions/retries.md`. `q` is the alias for `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
 
 ## Markers
 
@@ -72,7 +73,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 
 - a heading in the current doc (`see: Markers`)
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
-- an extension's doc, by its path form (see: Extension doc paths)
+- one of q's docs or an extension's, by its path form (see: Extension doc paths)
 
 In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way.
 
@@ -80,7 +81,7 @@ Three markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), another extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 
