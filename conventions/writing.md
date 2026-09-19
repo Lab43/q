@@ -1,6 +1,6 @@
 # Writing
 
-Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read. Agents bias toward long, chained, accreting text. These rules are the standing correction.
+Rules for writing prose — docs, plans, PR bodies, anything a human or agent will read.
 
 ## One idea per sentence
 
@@ -41,3 +41,14 @@ In every case, fix the original text where it stands.
 ## Write for the reader, not the edit
 
 Write each edit for the reader who arrives fresh: they see the merged text, never the request or the conversation behind the change. Cut detail that earns its place only against that history — a scope note answering something the discussion raised, a clause defending the choice against an objection, a reassurance that some neighboring case still holds. To the fresh reader it answers a question no one asked. The test: would the sentence survive a from-scratch rewrite of the piece?
+
+## Sign what you post
+
+Text posted under the user's account reads as the user's. Sign anything a reader meets as a message from them, with "— Claude 🤖" on its own line at the end:
+
+- a pull request's body
+- a comment or reply on a pull request, on the diff or at the top level
+- an issue or tracker item you file
+- any comment you post on an issue or tracker item
+
+Text committed to the repo is not a message and carries no signature. Git history records who wrote it.
