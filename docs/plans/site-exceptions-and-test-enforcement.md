@@ -188,6 +188,6 @@ Re-derive the executable inventory before writing anything. Context's list was t
 - `npm run check` passes, with `check-tests` reporting two marked exceptions.
 - Delete `test/check-versions.test.mjs` and confirm `check-tests` names it and fails. Restore it.
 - Strip the section from one of the two exception markers and confirm `check-tests` fails. Restore it.
-- Run `/q:groom-docs` and confirm its accumulation check reports `docs/conventions/testing.md`, What carries tests, as carrying two exceptions.
-- Run `/q:review` over `docs/workflow-chart/screenshot.py` and confirm the conventions lens answers with the marker instead of reporting a missing suite.
-- Strip the reason from that same marker, leaving the marker itself intact, and run `/q:review` again. The conventions lens must report the site rather than accept the marker. Restore the reason.
+- Run `/q:groom-docs` and confirm its accumulation check reports `docs/conventions/testing.md`, What carries tests, as carrying two exceptions. *(deviation: run as the grep Step 2 of the skill now specifies, rather than as a full grooming run. The skill audits the whole documentation surface and ships a pull request of its own, which is past what this plan delivers.)*
+- Run `/q:review` over `docs/workflow-chart/screenshot.py` and confirm the conventions lens answers with the marker instead of reporting a missing suite. *(deviation: run as a `q:adversarial-reviewer` conventions-lens review of the file, which is the machinery the skill delegates to. The skill itself is conversational and ships a pull request of its own.)*
+- Strip the reason from that same marker, leaving the marker itself intact, and run `/q:review` again. The conventions lens must report the site rather than accept the marker. Restore the reason. *(deviation: run the same way as the bullet above.)*
