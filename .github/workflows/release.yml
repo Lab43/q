@@ -1,42 +1,25 @@
 name: Release
 
+# Publishing a GitHub release is what starts a release. The version is already
+# on main by then, and the release's tag names it, so this workflow only has to
+# check the tagged tree and publish it. Nothing here writes to the repository:
+# the publish is irreversible and comes last, so a failed release leaves npm
+# untouched and is recovered by deleting the release and its tag.
 on:
-  workflow_dispatch:
-    inputs:
-      level:
-        description: How much churn this release asks of consuming projects
-        required: true
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
+  release:
+    types: [published]
 
-# contents: write pushes the bump commit and the tag. id-token: write mints the
-# OIDC token npm trusted publishing authenticates with, in place of a stored one.
+# id-token: write mints the OIDC token npm trusted publishing authenticates
+# with, in place of a stored token.
 permissions:
-  contents: write
+  contents: read
   id-token: write
 
-# Two dispatches would compute the same version and race to publish it.
-concurrency: release
-
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # A dispatch can name any branch, and releasing from one would publish
-      # that tree. This catches the accident rather than a deliberate dispatch:
-      # the workflow file itself comes from the ref being dispatched.
-      - name: Refuse to release from anywhere but main
-        if: github.ref != 'refs/heads/main'
-        env:
-          REF: ${{ github.ref }}
-        run: |
-          echo "Releases run from main. This dispatch named $REF."
-          exit 1
-
       # The setup through `npm ci` duplicates .github/workflows/checks.yml.
       # Keep the two in sync, so a release checks what CI checks.
       - uses: actions/checkout@v4
@@ -49,54 +32,25 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
 
+      # Catches a release cut before the version bump reached main, which is
+      # otherwise only caught by npm rejecting a duplicate version.
+      - name: Check the tag names the version being published
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="$(node -p 'require("./package.json").version')"
+          if [ "$TAG" != "v$VERSION" ]; then
+            echo "The release is tagged $TAG, but package.json names $VERSION."
+            echo "Nothing has been published."
+            exit 1
+          fi
+
       # Do not pin. These checks must agree with the validator developers run.
       # A pin would pass on a validator nobody uses.
       - run: npm install --global @anthropic-ai/claude-code
 
-      # --ignore-scripts skips husky's prepare, so no pre-commit hook exists
-      # when this job commits. npm publish runs prepare later, after the commit.
+      # This job never commits, so skip the pre-commit hook's install.
       - run: npm ci --ignore-scripts
-
-      - name: Bump the version
-        id: bump
-        env:
-          LEVEL: ${{ inputs.level }}
-        run: |
-          node scripts/set-version.mjs "$LEVEL"
-          npm install --package-lock-only --ignore-scripts
-          echo "version=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
-
-      # After the bump, so the checks run on the tree being released. This is
-      # the only full check that tree ever gets: the push below uses
-      # GITHUB_TOKEN, which starts no workflow, so checks.yml never sees it.
       - run: npm run check
 
-      - name: Commit and tag
-        env:
-          VERSION: ${{ steps.bump.outputs.version }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Release $VERSION" package.json package-lock.json .claude-plugin/plugin.json
-          git tag -a "v$VERSION" -m "v$VERSION"
-
-      # A publish can be neither undone nor repeated, so refuse one whose commit
-      # could not then be pushed. The checkout is shallow and nothing has re-read
-      # origin since, so main advancing during the run would only surface after
-      # the irreversible step.
-      - name: Check main has not moved
-        run: |
-          git fetch --depth=1 origin main
-          if [ "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA" ]; then
-            echo "main advanced during this run, so the push would be rejected."
-            echo "Nothing has been published. Dispatch again."
-            exit 1
-          fi
-
       - run: npm publish --provenance
-
-      # One atomic push, so a release cannot land the commit without the tag.
-      - name: Push the commit and the tag
-        env:
-          VERSION: ${{ steps.bump.outputs.version }}
-        run: git push --atomic origin HEAD:main "refs/tags/v$VERSION"
