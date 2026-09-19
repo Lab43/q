@@ -1,42 +1,42 @@
 # Releasing
 
-How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before dispatching.
+How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before starting.
 
-q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal. `package-lock.json` carries it as well. A lockfile left at the old version fails `npm ci`, which CI runs.
+q has one version. Three files carry it: `package.json`, `.claude-plugin/plugin.json` and `package-lock.json`. `npm run check-versions` holds all three equal.
 
 A `v<version>` tag anchors each release to the tree it shipped from. The published tarball can't serve as that anchor, because its `files` whitelist ships only what consumers load.
 
 ## Making a release
 
-(source: .github/workflows/release.yml)
+Choose a level first (see: Choosing the version). Then, on `main`:
 
-Dispatch the **Release** workflow from the repository's Actions tab, on `main`. Choose a level (see: Choosing the version).
+1. Move the version in all three files:
 
-The workflow then:
+   ```sh
+   node scripts/set-version.mjs <level>
+   ```
 
-- Bumps the version in both manifests and the lockfile.
-- Runs `npm run check` over the bumped tree.
-- Commits the bump and tags it `v<version>`.
-- Publishes to npm with provenance.
-- Pushes the commit and the tag in one atomic push.
+2. Commit those three files and push to `main`:
 
-Anything that fails before the publish leaves both npm and `origin` untouched. Dispatch it again.
+   ```sh
+   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json
+   git push origin main
+   ```
 
-## When a release strands
+3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2.
 
-(source: .github/workflows/release.yml)
+   Check that target rather than accepting the default. The form offers `main`'s tip. A release ships whatever commit it targets, so anything merged since step 2 would go out under a version that does not account for it.
 
-A publish can be neither undone nor repeated, so a failure after one has to be finished by hand. The workflow narrows when that can happen. It refuses to publish once `origin/main` has moved under the run, and it pushes the commit and the tag together, so neither can land without the other.
+Publishing the release is what starts the workflow (source: .github/workflows/release.yml). It checks that the release commit is on `main`, that the tag names the version in `package.json`, and that `npm run check` passes over the tagged tree. Then it publishes to npm with provenance.
 
-What remains is a run that publishes and then cannot push at all. npm carries the version while `origin` has neither the bump commit nor the tag. Dispatching again fails, because the version already exists.
+## When a release fails
 
-Finish it on `main` yourself:
+Anything that fails before the publish leaves npm untouched.
 
-1. Bump both manifests to the version npm already carries.
-2. Run `npm install` to refresh the lockfile.
-3. Commit.
-4. Tag that commit `v<version>`.
-5. Push the commit and the tag.
+- For a transient failure — a flaky install, or a tag the checkout can't see yet — re-run the job from the Actions tab.
+- For anything else, delete the release and its tag, fix what failed, and release again.
+
+A failure inside the publish itself is the one case neither covers. npm may already hold the version, and it will reject a second attempt at it. Release the next version instead.
 
 ## Choosing the version
 
@@ -48,13 +48,11 @@ Projects pin exact versions, so no range semantics apply — every bump reaches 
 
 Consuming projects pick up the release with `/q:update`.
 
-## What the workflow depends on
+## What a release depends on
 
-Two settings live outside the repository. Both have to be in place before a dispatch can succeed.
+Two settings live outside the repository.
 
-- **npm trusted publishing**, configured on the package's settings at npmjs.com against the `Lab43/q` repository and the workflow filename `release.yml`. It is what lets the workflow publish without a stored token. Renaming the workflow file breaks publishing until that setting names the new filename, and npm reports the mismatch only as a bare `401` on publish.
-- **A ruleset on `main` that replaces its classic branch protection**, carrying bypasses for `github-actions[bot]` and for repository admin. Classic protection has no bypass list, and a ruleset added beside it lifts nothing, because the most restrictive rule wins. The classic rule has to be deleted. `main` requires the `check` status, and a required status check governs direct pushes as well as merges. The release commit is created inside the workflow run, so no earlier run can have recorded that status against it. The bot's bypass is what lets the workflow push. The admin's is what lets a maintainer finish a stranded release (see: When a release strands).
+- **npm trusted publishing**, configured on the package's settings at npmjs.com against the `Lab43/q` repository and the workflow filename `release.yml`. It is what lets the workflow publish without a stored token. Renaming the workflow file breaks publishing until that setting names the new filename. npm reports the mismatch only as a bare `401`.
+- **A bypass for repository admin** on `main`'s ruleset, without which step 2 cannot push. `main` requires the `check` status, and a required status check governs direct pushes as well as merges. A ruleset standing beside classic branch protection lifts nothing, because the most restrictive rule wins — the classic rule has to be deleted.
 
-Bypassing that gate costs nothing here. The workflow runs `npm run check` on the bumped tree before it commits anything, and its own push starts no workflow, so that run is the only full check the release commit gets (source: .github/workflows/release.yml).
-
-Neither setting can be tested without a real release. Confirm both before a release day rather than on one.
+The push in step 2 proves the bypass. Trusted publishing is only exercised by a real release, so confirm it before a release day rather than on one.

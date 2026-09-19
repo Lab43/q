@@ -1,11 +1,19 @@
-// Hold the plugin manifest's version equal to the package's. Two manifests
-// carry it because `claude plugin validate --strict` warns when plugin.json
-// names no version, and that command gates structural changes here. Nothing
-// load-bearing reads plugin.json's copy — sessions load the plugin live and
-// the session-start hook reads npm's record — so drift misleads whoever is
-// diagnosing an install rather than breaking one.
+// Hold every file carrying q's version at the same value. Three do. A second
+// manifest carries it because `claude plugin validate --strict` warns when
+// plugin.json names no version, and that command gates structural changes
+// here. Nothing load-bearing reads plugin.json's copy — sessions load the
+// plugin live and the session-start hook reads npm's record — so drift
+// misleads whoever is diagnosing an install rather than breaking one.
+//
+// The lockfile is checked because nothing else does: `npm ci` validates
+// dependencies and ignores the root version.
 
-import { manifests, helpers } from "./manifests.mjs";
+import {
+  manifests,
+  lockfile,
+  lockVersions,
+  helpers,
+} from "./manifests.mjs";
 
 const { fail, read, parse } = helpers("check-versions");
 
@@ -19,6 +27,12 @@ if (pkg !== plugin) {
   fail(
     `${manifests[0]} is ${pkg}, ${manifests[1]} is ${plugin} — release moves both together`,
   );
+}
+
+for (const value of lockVersions(parse(lockfile, read(lockfile)))) {
+  if (value !== pkg) {
+    fail(`${manifests[0]} is ${pkg}, ${lockfile} is ${value} — run npm install`);
+  }
 }
 
 console.log(`check-versions: ${pkg}`);

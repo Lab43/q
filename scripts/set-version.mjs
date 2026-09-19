@@ -1,5 +1,5 @@
-// Move q's version. Both manifests move together here, before
-// `check-versions` holds them equal.
+// Move q's version. Every file carrying it moves together here, so a release
+// cannot leave one behind for `check-versions` to catch later.
 //
 // Don't reach for `npm version` to do the arithmetic. It rewrites
 // package.json in npm's own formatting, expanding every compact value in the
@@ -13,7 +13,13 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { root, manifests, helpers } from "./manifests.mjs";
+import {
+  root,
+  manifests,
+  lockfile,
+  lockVersions,
+  helpers,
+} from "./manifests.mjs";
 
 const { fail, read, parse } = helpers("set-version");
 
@@ -37,9 +43,11 @@ const next = {
   patch: `${major}.${minor}.${patch + 1}`,
 }[level];
 
-// Every manifest is rewritten and checked before any is written, so one that
+// Every file is rewritten and checked before any is written, so one that
 // cannot take the version leaves the release with none of them moved.
 const rewritten = manifests.map((file) => {
+  // Rewritten in place rather than re-serialized, so a release never reformats
+  // a manifest around the one line it changes.
   const after = read(file).replace(
     /("version"\s*:\s*)"[^"]*"/,
     `$1${JSON.stringify(next)}`,
@@ -51,6 +59,14 @@ const rewritten = manifests.map((file) => {
   }
   return { file, after };
 });
+
+const lock = parse(lockfile, read(lockfile));
+lock.version = next;
+if (lock.packages?.[""]) lock.packages[""].version = next;
+if (lockVersions(lock).some((value) => value !== next)) {
+  fail(`${lockfile} has no version to rewrite — run npm install instead`);
+}
+rewritten.push({ file: lockfile, after: `${JSON.stringify(lock, null, 2)}\n` });
 
 for (const { file, after } of rewritten) {
   fs.writeFileSync(path.join(root, file), after);
