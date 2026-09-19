@@ -1,6 +1,6 @@
 ---
 name: uninstall-extension
-description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its briefing index lines, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
+description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its group from the briefing's docs index, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
 ---
 
 # Uninstall Extension

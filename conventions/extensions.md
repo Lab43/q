@@ -18,7 +18,7 @@ Installing an extension runs no code. The install passes `--ignore-scripts`, and
 
 ## Description
 
-`package.json`'s `description` states what the extension's rules govern. A consuming project's briefing heads the extension's index lines with it, so a session can tell whose rules are whose before opening any of them (see: @lab43/q conventions/documentation.md, Taxonomy). Write it for that reader: one sentence naming the territory the rules cover, not the package's shape. The registry blurb follows from the same field.
+`package.json`'s `description` states what the extension's rules govern. A consuming project's briefing heads the extension's group of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). Write it for that reader: one sentence naming the territory the rules cover, not the package's shape. The registry blurb follows from the same field.
 
 ## Layout
 
@@ -31,7 +31,7 @@ Every extension ships at least one of the two.
 
 An extension with no `conventions/` is watermarked but never indexed, having nothing for a briefing's docs index to carry. Watermarking and indexing are separate for that reason.
 
-Rejected: a `q` metadata key in `package.json` (configurable paths, a per-doc manifest) — every job it would do is already covered by the two directories above, the keyword, the description, and the doc intros, and an enumeration of docs rots against its own contents.
+Rejected: a `q` metadata key in `package.json` (configurable paths, a per-doc manifest) — every job it would do is already covered by the two directories above, the keyword, and the doc intros, and an enumeration of docs rots against its own contents.
 
 ## Pinning
 
