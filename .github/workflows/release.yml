@@ -1,46 +1,63 @@
 name: Release
 
-# Publishing a GitHub release is what starts a release. The version is already
-# on main by then, and the release's tag names it, so this workflow only has to
-# check the tagged tree and publish it. Nothing here writes to the repository:
-# the publish is irreversible and comes last, so a failed release leaves npm
-# untouched and is recovered by deleting the release and its tag.
+# Nothing may be added after the publish: it can be neither undone nor retried.
+# Nothing here may write to the repository either — GITHUB_TOKEN cannot push to
+# main past its required check, so a release arrives already bumped.
 on:
   release:
     types: [published]
 
-# id-token: write mints the OIDC token npm trusted publishing authenticates
-# with, in place of a stored token.
 permissions:
   contents: read
+  # Mints the OIDC token npm trusted publishing authenticates with, in place
+  # of a stored token.
   id-token: write
+
+# Queue releases. Publishes that overlap can leave npm's `latest` pointing at
+# whichever finished last rather than the higher version.
+concurrency: release
 
 jobs:
   publish:
+    # A pre-release would otherwise publish under the `latest` dist-tag.
+    if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # The setup through `npm ci` duplicates .github/workflows/checks.yml.
-      # Keep the two in sync, so a release checks what CI checks.
+      # Full history, so the ancestry check below can reach origin/main.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # lts/* carries an npm new enough for trusted publishing, which needs
-      # 11.5.1 or later. Pinning an older Node would break the publish.
+      # checkout, setup-node, the CLI install and `npm ci` duplicate
+      # .github/workflows/checks.yml. Keep them in sync, so a release checks
+      # what CI checks. Only registry-url differs, for the publish.
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
           cache: npm
 
-      # Catches a release cut before the version bump reached main, which is
-      # otherwise only caught by npm rejecting a duplicate version.
+      # A release can target any commit, so without this one cut from a side
+      # branch would publish that tree as `latest`.
+      - name: Check the release commit is on main
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "This release does not point at a commit on main."
+            echo "Nothing has been published."
+            exit 1
+          fi
+
+      # Catches a release cut before the version bump reached main, which npm
+      # would otherwise catch only by rejecting a duplicate version.
       - name: Check the tag names the version being published
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
           VERSION="$(node -p 'require("./package.json").version')"
           if [ "$TAG" != "v$VERSION" ]; then
-            echo "The release is tagged $TAG, but package.json names $VERSION."
+            echo "This release is tagged $TAG, but package.json names $VERSION."
             echo "Nothing has been published."
             exit 1
           fi
@@ -49,7 +66,8 @@ jobs:
       # A pin would pass on a validator nobody uses.
       - run: npm install --global @anthropic-ai/claude-code
 
-      # This job never commits, so skip the pre-commit hook's install.
+      # `npm publish` runs prepare and installs the hook regardless. Skipping
+      # it here keeps the install itself from doing so.
       - run: npm ci --ignore-scripts
       - run: npm run check
 

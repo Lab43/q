@@ -14,6 +14,12 @@ export const root = path.join(
 // package.json leads: it is where the current version is read from.
 export const manifests = ["package.json", ".claude-plugin/plugin.json"];
 
+// The lockfile carries the version too, in two places, but `npm install`
+// rewrites it rather than `set-version`. Nothing else catches it left behind:
+// `npm ci` validates dependencies and ignores the root version.
+export const lockfile = "package-lock.json";
+export const lockfileVersions = (lock) => [lock.version, lock.packages?.[""]?.version];
+
 export const helpers = (script) => {
   const fail = (message) => {
     console.error(`${script}: ${message}`);

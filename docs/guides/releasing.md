@@ -2,7 +2,7 @@
 
 How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before starting.
 
-q has one version. Two manifests carry it — `package.json` and `.claude-plugin/plugin.json` — and `npm run check-versions` holds them equal. `package-lock.json` carries it as well. A lockfile left at the old version fails `npm ci`, which CI runs.
+q has one version. Three files carry it: `package.json`, `.claude-plugin/plugin.json` and `package-lock.json`. `npm run check-versions` holds all three equal.
 
 A `v<version>` tag anchors each release to the tree it shipped from. The published tarball can't serve as that anchor, because its `files` whitelist ships only what consumers load.
 
@@ -10,16 +10,32 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 
 Choose a level first (see: Choosing the version). Then, on `main`:
 
-```sh
-node scripts/set-version.mjs <level>
-npm install
-```
+1. Bump the version and refresh the lockfile:
 
-Commit both manifests and the lockfile, and push to `main`.
+   ```sh
+   node scripts/set-version.mjs <level>
+   npm install
+   ```
 
-Then publish a GitHub release against that commit, tagged `v<version>`. Publishing the release is what releases q (source: .github/workflows/release.yml). The workflow confirms the tag names the version in `package.json`, runs `npm run check` over the tagged tree, and publishes to npm with provenance.
+2. Commit all three files and push to `main`:
 
-Nothing reaches npm until both pass, and nothing happens after the publish. A release that fails anywhere leaves npm untouched: delete the release and its tag, fix what failed, and release again.
+   ```sh
+   git commit -am "Release <version>"
+   git push origin main
+   ```
+
+3. Publish a GitHub release against that commit, tagged `v<version>`.
+
+Publishing the release is what starts the workflow (source: .github/workflows/release.yml). It checks that the release commit is on `main`, that the tag names the version in `package.json`, and that `npm run check` passes over the tagged tree. Then it publishes to npm with provenance. A release marked pre-release publishes nothing.
+
+## When a release fails
+
+Anything that fails before the publish leaves npm untouched.
+
+- For a transient failure — a flaky install, or a tag the checkout can't see yet — re-run the job from the Actions tab.
+- For anything else, delete the release and its tag, fix what failed, and release again.
+
+A failure inside the publish itself is the one case neither covers. npm may already hold the version, and it will reject a second attempt at it. Release the next version instead.
 
 ## Choosing the version
 
@@ -35,5 +51,7 @@ Consuming projects pick up the release with `/q:update`.
 
 Two settings live outside the repository.
 
-- **npm trusted publishing**, configured on the package's settings at npmjs.com against the `Lab43/q` repository and the workflow filename `release.yml`. It is what lets the workflow publish without a stored token. Renaming the workflow file breaks publishing until that setting names the new filename, and npm reports the mismatch only as a bare `401`.
-- **A bypass for repository admin** on `main`'s ruleset. `main` requires the `check` status, and a required status check governs direct pushes as well as merges, so the bump commit cannot be pushed without it.
+- **npm trusted publishing**, configured on the package's settings at npmjs.com against the `Lab43/q` repository and the workflow filename `release.yml`. It is what lets the workflow publish without a stored token. Renaming the workflow file breaks publishing until that setting names the new filename. npm reports the mismatch only as a bare `401`.
+- **A bypass for repository admin** on `main`'s ruleset, without which step 2 cannot push. `main` requires the `check` status, and a required status check governs direct pushes as well as merges. A ruleset standing beside classic branch protection lifts nothing, because the most restrictive rule wins — the classic rule has to be deleted.
+
+The push in step 2 proves the bypass. Trusted publishing is only exercised by a real release, so confirm it before a release day rather than on one.

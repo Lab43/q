@@ -185,5 +185,5 @@ To work on q:
 - When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./` again.
 - `npm run check` runs every check the repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main`.
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree you have not installed commits without checking anything.
-- Releasing is separate from merging, and PRs never touch a `version`; the steps live in `docs/guides/releasing.md`.
+- Releasing is separate from merging, and PRs never touch a `version`. The steps live in `docs/guides/releasing.md`.
 - When another session is already working your checkout, take a worktree rather than sharing it. Run `npm install` in it. `.claude/settings.json` is tracked, so the plugin loads there.
