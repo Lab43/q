@@ -26,7 +26,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 
 ## Step 2: Clarify
 
-Clarify the plan with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — everything asked here is a question the autonomous stretch won't have to stop for. One batch, via AskUserQuestion:
+Clarify the plan with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — everything asked here is a question the run won't have to stop for once it is autonomous. One batch, via AskUserQuestion:
 
 - The ambiguities, plan/codebase conflicts, and scope questions Step 1 surfaced — when none need the user's attention, state your working assumptions instead. If consequential questions keep accumulating, the plan is underspecified — say so and suggest revising it with `/q:create-plan` before implementing.
 - The review mode, always asked (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes): in this run, ship covers every commit (a stacked run's `gh stack` operations included), push, and PR; local commits nothing until the user has reviewed it, each PR's content at that PR's boundary.
@@ -55,7 +55,7 @@ gh stack init <plan-name>/01-<group-slug> --base <default-branch>
 
 Either way, in ship mode record the group-start SHA (`git rev-parse HEAD`) as soon as the branch exists, before anything commits to it. It scopes this PR's final review in Step 5. Each later group records its own when its branch opens in Step 4.
 
-A plan doc not yet in merged history — new, or changed since it merged — becomes the run's first commit, at the bottom of the stack in a stacked run — exactly as planning left it. Material Step 2 clarification answers are folded in as a second commit on top, so the diff between the two records what clarification changed. In local review, hold the commit; when the user's approval starts the committing, the plan doc — clarifications folded in — is committed first, the two-commit split being history local mode gives up.
+A plan doc not yet in merged history — new, or changed since it merged — becomes the run's first commit, at the bottom of the stack in a stacked run — exactly as planning left it. Material Step 2 clarification answers are folded in as a second commit on top, so the diff between the two records what clarification changed. In local mode, hold the commit; when the user's go-ahead starts the committing, the plan doc — clarifications folded in — is committed first, the two-commit split being history local mode gives up.
 
 ## Step 4: Implement in phases
 
@@ -63,7 +63,7 @@ In a stacked run, this step and Step 5 alternate: implement a group's phases her
 
 Derive phases from the plan's Phases section — a boundary problem visible up front was Step 2's to settle and fold in. The plan's breakdown is not yours to redesign; when implementation reveals a phase that can't stand alone as a commit that builds and passes its tests, merge or split at that seam and record the change as a plan amendment.
 
-In local review, commits wait for the user's review at each PR boundary (Step 5): phases accumulate uncommitted, and a phase's adversarial review takes the uncommitted diff plus the phase's file list.
+In local mode, commits wait for the user's review at each PR boundary (Step 5): phases accumulate uncommitted, and a phase's adversarial review takes the uncommitted diff plus the phase's file list.
 
 Then work phase by phase. In a stacked run, a phase that starts a new PR group first opens the group's branch — `gh stack add <plan-name>/<NN>-<group-slug>`, the first group using Step 3's branch — so the group's phases commit to their own branch. A new group records its group-start SHA as Step 3 describes.
 
@@ -74,7 +74,7 @@ For each phase:
 1. **Implement** the phase's steps, following the governing conventions and matching surrounding code.
 2. **Verify**: run the project's checks — lint, typecheck, and the tests covering what the phase touched, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). When the phase produced a newly drivable surface — an endpoint, a screen — drive it through `/q:drive`, naming that surface as what to exercise. This is a cheap incremental check so later phases don't build on something broken, not the full verification pass; fix what it catches before moving on.
 3. **Commit the implementation**, in ship mode, before review — so the review history is inspectable in git.
-4. **Adversarial review**: launch a single `adversarial-reviewer` subagent over the phase's diff with **both lenses** (correctness + conventions). Give it: the plan path, the full derived phase breakdown (which plan steps are in this phase, which came earlier, which are deferred), and the diff scope — `git diff <phase-start-sha>..HEAD` in ship mode; the uncommitted diff plus the phase's file list in local review. One review per phase — there is no per-phase re-review loop; the PR's final review (Step 5) is the backstop that verifies the fixes.
+4. **Adversarial review**: launch a single `adversarial-reviewer` subagent over the phase's diff with **both lenses** (correctness + conventions). Give it: the plan path, the full derived phase breakdown (which plan steps are in this phase, which came earlier, which are deferred), and the diff scope — `git diff <phase-start-sha>..HEAD` in ship mode; the uncommitted diff plus the phase's file list in local mode. One review per phase — there is no per-phase re-review loop; the PR's final review (Step 5) is the backstop that verifies the fixes.
 5. **Fix**: fix all BLOCKING findings (apply your judgment on NITS), re-run the checks covering the fixed code — re-driving the phase's surface only when a fix could change what driving showed — and, in ship mode, commit the fixes. A review with no accepted findings gets no commit.
 
 ## Step 5: Wrap up each PR
@@ -82,9 +82,9 @@ For each phase:
 When a group's last phase lands, finish that PR before starting the next group:
 
 1. **Verify its work in the running product**: drive what the PR delivers through `/q:drive`, naming the flows to exercise. Derive the scope from the group's content — a judgment that can land on nothing at all, when Step 4's checks fully characterize the work. The final PR is the exception. Drive the plan's Verification section: the integrated state exists now, and its end-to-end proof belongs ahead of this last review. Run the project's full test suite too — the run's only unscoped check. Fix what verification catches and re-verify. In ship mode, commit what this step produced: the fixes, plus anything driving recorded. Record for the PR's Testing section what was exercised and what it demonstrated. The standing suite goes unlisted (source: @lab43/q conventions/pull-requests.md, Sections).
-2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local review. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
-3. **Local review's gate**: run the gate over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
-4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local review this flip rides the approval just given. That is a deliberate exception to the gate: the approval already covers this bookkeeping. Don't ask again.
+2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local mode. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
+3. **The local gate**: run it over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
+4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local mode this flip rides the go-ahead just given. That is a deliberate exception to the gate: the go-ahead already covers this bookkeeping. Don't ask again.
 5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
    Single PR: `git push -u origin <plan-name>`, then `gh pr create`.

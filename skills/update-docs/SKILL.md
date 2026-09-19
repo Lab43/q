@@ -31,11 +31,11 @@ Read q's principles (see: @lab43/q conventions/principles.md), plus any installe
 3. **Is prose the right rung?** A rule that a component or lint could hold shouldn't settle for documentation (source: @lab43/q conventions/principles.md, Prefer the strongest enforcement rung). If a stronger rung exists, propose *that* as the fix (or schedule it), with the rationale colocated in the component or lint rule.
 4. **Which tier?** A lesson about the project's code belongs in its `docs/conventions/`. A lesson that seems to belong elsewhere — about the q workflow itself, or a topic an installed extension owns — is recorded in the project's `docs/conventions/` too, as a marked project deviation where it contradicts that rule, and flagged to the user in the session as an upstream candidate — suggest `/q:upstream`. Workflow-general versus project-specific is hard to call from inside one project: record and flag, don't withhold (source: @lab43/q conventions/documentation.md, Three tiers of conventions). The exception is an extension this repo authors: a lesson its docs own is edited directly into them — the author changes the rule; overrides and upstreaming are the consumer's mechanism (source: @lab43/q conventions/extensions.md).
 
-A lesson through the gates gets a home: the topically-owning doc — grep the surface first, q's conventions and every installed extension's included: a project rule may already exist to refine, and a rule q or an extension already carries is already law — record it only as a marked deviation if the lesson disagrees, never as a copy. A new doc only when no existing topic owns the rule, arriving with its intro and briefing-index line in the same change (source: @lab43/q conventions/documentation.md, Conventions docs).
+A lesson through the gates gets a home: the topically-owning doc — grep the surface first, q's conventions and every installed extension's included: a project rule may already exist to refine, and a rule q or an extension already carries is already law — record it only as a marked deviation if the lesson disagrees, never as a copy. A new doc only when no existing topic owns the rule, arriving with its intro and briefing index line in the same change (source: @lab43/q conventions/documentation.md, Conventions docs).
 
 ## Step 4: Confirm the scope
 
-Confirm what the session derived, in a conversational stretch — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
+Confirm what the session derived, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
 
 In a run invoked directly by the user, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), even when a spelled-out change skips the rest of this step.
 
@@ -49,6 +49,6 @@ Changes made for a calling skill end at Step 5: they join the calling run's chan
 
 ## Step 7: Open the PR
 
-1. **Local review's gate**: run the gate over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 3. Close the session by reporting each change and its home, plus anything swept but not recorded and why.

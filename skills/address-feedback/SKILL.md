@@ -74,7 +74,7 @@ Ask one batch, carrying only what the user has to rule on:
 - whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR.
 - the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits nothing until the user has reviewed the diff.
 
-Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That green light, not the last answer, is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 
 An item beyond this PR is not resolved here. Settle the rest of the round, and take it to `/q:create-plan` or to the tracker on the user's call.
 
@@ -89,11 +89,11 @@ When the agreed fixes turn out to need a redesign, or more change than this PR c
 
 ## Step 5: Adversarial review
 
-Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. The round is the product, so its diff runs from Step 4's recorded SHA: `git diff <recorded-sha>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local review. Hand the reviewers the agreed dispositions as the scope. Per loop round, re-drive a surface only when a fix could change what driving showed.
+Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. The round is the product, so its diff runs from Step 4's recorded SHA: `git diff <recorded-sha>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local mode. Hand the reviewers the agreed dispositions as the scope. Per loop round, re-drive a surface only when a fix could change what driving showed.
 
 ## Step 6: Deliver to the PR
 
-1. **Local review's gate**: run the gate over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
+1. **The local gate**: run it over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
 3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
 4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
