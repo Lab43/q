@@ -13,7 +13,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 - A deviation is written as an ordinary rule: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces.
 - A deviation is refined in place or deleted as the decision evolves, never appended as a log entry.
 - An override outlived by its target — updated to agree, or gone — is spent and comes out.
-- No other override mechanism exists or is needed — the readers are agents, so a stated deviation is the mechanism.
+- Overriding a rule needs no other mechanism — the readers are agents, so stating the deviation is enough.
 
 A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
@@ -79,13 +79,16 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
+A marker may sit in a comment, in whatever form its file type offers — an HTML comment in docs rendered for humans (README, guides), a code comment in a script. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
-Three markers, all ordinary language:
+Four markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(exception: X)`** — excuse. This one site sits outside the named rule, and the rule itself stands (`exception: docs/conventions/testing.md, What carries tests`). Several exceptions against one rule are evidence the rule wants revisiting.
+
+An exception always names a section, unlike the other three. A site is excused from a rule, and a whole doc is not a rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing.
 
 ## Code examples in conventions docs
 
