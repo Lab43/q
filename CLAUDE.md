@@ -22,17 +22,17 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `q` abbreviates `@lab43/q` (source: q conventions/documentation.md, Package doc paths) — here resolving to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `@lab43/q` resolves here to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
 
 Framework payload (ships to consumers):
 
-- `q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
-- `q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
-- `q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
-- `q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
-- `q conventions/pull-requests.md` — rules for authoring a pull request
-- `q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read
-- `q conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
+- `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+- `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
+- `@lab43/q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
+- `@lab43/q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
+- `@lab43/q conventions/pull-requests.md` — rules for authoring a pull request
+- `@lab43/q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read
+- `@lab43/q conventions/principles.md` — cross-cutting rules for design decisions, plans, and reviews
 
 This project's own:
 

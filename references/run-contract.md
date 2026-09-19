@@ -7,7 +7,7 @@ How every q skill run operates, from invocation to finish. Skills reference this
 A run is in one of two modes, depending on whether the user has agreed on what to do yet:
 
 - **Conversational** — nothing agreed yet: converge with the user. Present candidates with trade-offs and a recommendation, decide at the right altitude (see: Decide at the right altitude), and proceed to execution only on the user's go-ahead. The conversation ends in an agreement — a plan doc, a confirmed scope, a converged approach.
-- **Autonomous** — an agreement exists: execute it without asking. Interrupt only when the work would step outside what was agreed — a conflict discovered mid-run, an architectural fork, scope the agreement doesn't cover. Small calls inside the agreement stay autonomous: choose what is most consistent with the agreement, the conventions, and the surrounding code, and flag the calls a reviewer would question where the output gets reviewed: the PR body (see: q conventions/pull-requests.md), or the end-of-run report when the run delivers no PR. When the agreement is exhausted or must be reopened, the run is conversational again.
+- **Autonomous** — an agreement exists: execute it without asking. Interrupt only when the work would step outside what was agreed — a conflict discovered mid-run, an architectural fork, scope the agreement doesn't cover. Small calls inside the agreement stay autonomous: choose what is most consistent with the agreement, the conventions, and the surrounding code, and flag the calls a reviewer would question where the output gets reviewed: the PR body (see: @lab43/q conventions/pull-requests.md), or the end-of-run report when the run delivers no PR. When the agreement is exhausted or must be reopened, the run is conversational again.
 
 ## Review modes
 
@@ -100,7 +100,7 @@ Route every recording through `/q:update-docs`. It classifies the lesson and hol
 
 Record a correction in the change that prompted it. The diff at each review point carries its own doc updates, so a user approving the work sees everything the run proposes. A correction that arrives during review joins that iteration. Never defer one to the closing report, and never leave the user trusting that a doc update will follow.
 
-A correction lands in whatever change was in flight, which is often a change whose stated scope does not cover it. Say so where the work is reviewed: the PR body's Callouts, or the closing report when the run delivers no PR (see: q conventions/pull-requests.md, Sections). A reviewer who meets an unexplained edit to standing law reads it as scope creep.
+A correction lands in whatever change was in flight, which is often a change whose stated scope does not cover it. Say so where the work is reviewed: the PR body's Callouts, or the closing report when the run delivers no PR (see: @lab43/q conventions/pull-requests.md, Sections). A reviewer who meets an unexplained edit to standing law reads it as scope creep.
 
 Amendments to existing rules are corrections too. Apply them rather than recommending them. A recommendation the user has to find in the output gets scanned past, while a diff hunk is something they can read and push back on. Raise an amendment instead of applying it when it would put existing code out of conformance: that is a migration, and its scope is the user's.
 

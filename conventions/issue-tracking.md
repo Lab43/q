@@ -1,6 +1,6 @@
 # Issue Tracking
 
-Rules for working a project's issue tracker — the shared source of work items — from any session. Sign every item you file and every comment you post: "— Claude 🤖" (source: q conventions/writing.md, Sign what you post).
+Rules for working a project's issue tracker — the shared source of work items — from any session. Sign every item you file and every comment you post: "— Claude 🤖" (source: @lab43/q conventions/writing.md, Sign what you post).
 
 ## Respect existing claims
 
@@ -16,7 +16,7 @@ Filing a new tracker item — the follow-up work a session surfaces — happens 
 
 ## Write for whoever picks it up
 
-An item is read by a session holding none of the context that produced it. Hold its prose to the writing rules (see: q conventions/writing.md).
+An item is read by a session holding none of the context that produced it. Hold its prose to the writing rules (see: @lab43/q conventions/writing.md).
 
 - Name the work the item asks for in the title. A reader deciding what to open sees the title, not the body.
 - Back the item with what can be checked: the error text, the reproduction, the `file:line`.

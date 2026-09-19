@@ -1,11 +1,11 @@
 # Documentation Policy
 
-Rules for what belongs in a project's documentation, where it lives, and how it stays accurate. Follow them over any instinct. Every doc this policy governs must stay reviewable by a human: hold every edit to the writing rules (see: q conventions/writing.md).
+Rules for what belongs in a project's documentation, where it lives, and how it stays accurate. Follow them over any instinct. Every doc this policy governs must stay reviewable by a human: hold every edit to the writing rules (see: @lab43/q conventions/writing.md).
 
 ## Three tiers of conventions
 
 - **Framework conventions** — `@lab43/q`'s own `conventions/`, pinned in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
-- **Extension conventions** — the installed extensions (see: q conventions/extensions.md), each pinned the same way, so rule improvements reach the project on pin updates. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
+- **Extension conventions** — the installed extensions (see: @lab43/q conventions/extensions.md), each pinned the same way, so rule improvements reach the project on pin updates. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: project conventions win over any extension's rule, whichever extension carries it. An extension's rule in turn wins over q's.** A project overrides a rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
@@ -17,7 +17,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-Conventions graduate into an extension when their audience grows beyond one project (source: q conventions/extensions.md, Graduation).
+Conventions graduate into an extension when their audience grows beyond one project (source: @lab43/q conventions/extensions.md, Graduation).
 
 ## Conventions docs
 
@@ -32,18 +32,18 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 - Record decisions and rejected alternatives only when they're highly likely to come up again: the alternative is the first thing a reader would reach for, or something deliberately ignored reads as an oversight. Each rejection names the alternative and the reason, nothing more.
 - The rationale stands inline — never cite the repo's issues or PRs as provenance; git history is the paper trail. Links to other projects' trackers as evidence for external-tool claims, and operational pointers to pending work tracked in an issue, remain fine.
 
-**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule, and it arrives complete in one change: its intro (see: Taxonomy) plus its line in the agent briefing's index.
+**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: @lab43/q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule, and it arrives complete in one change: its intro (see: Taxonomy) plus its line in the agent briefing's index.
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored extension's `conventions/` in its authoring repo (source: q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored extension's `conventions/` in its authoring repo (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
 The intro is the authoritative description of its doc. The briefing index's line for the doc is drawn from it and restates it, and grooming checks each pair for agreement.
 
 - **`docs/conventions/`** — the project's conventions docs (see: Conventions docs).
-- **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
+- **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: @lab43/q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
 - **`docs/guides/`** — guides: instructions for using and operating the product, not for writing its code (deployment walkthroughs, feature guides, operational procedures). Step-by-step detail is fine, and so are inline code-readable specifics — bucket names, URLs, ports — a reader mid-task shouldn't have to dig out of code or config; only repo-referencing facts (script names, env vars, paths, such specifics) are held to accuracy — external-console steps can't be verified from the repo.
 - **`README.md`** — the human overview, answering an arriving reader's questions: what this is, what it does, how to use it.
   - **Summarizing facts owned elsewhere is its normal mode**, not a violation — the obligation is checkability: a summary that mirrors one identifiable home carries a source marker; free-form overview prose is held accurate against the things it describes by grooming. Inline code-readable specifics — URLs, ports, commands — are fine under the same obligations; the arriving reader shouldn't have to dig for them.
@@ -63,7 +63,11 @@ Rejected: a standing central registry of all shared facts and their homes. It ac
 
 ## Package doc paths
 
-Reference q's docs and an extension's by package name plus path from the package root — `@acme/q-ext-x conventions/retries.md`. `q` is the alias for `@lab43/q`: `q conventions/documentation.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
+`q` names the workflow itself — in prose, in the plugin and marketplace a project publishes, and as what a user types to name it. `@lab43/q` is the npm package: use it wherever npm has to recognize the name — a path into the package, an install command, a `package.json` field.
+
+Reference q's docs and an extension's by package name plus path from the package root — `@lab43/q conventions/documentation.md`, `@acme/q-ext-x conventions/retries.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
+
+Rejected: abbreviating `@lab43/q` to `q` in the path form. `q` is a different package on the public registry, so the abbreviated reference resolves to whatever `node_modules/q/` holds.
 
 ## Markers
 
@@ -75,13 +79,13 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: q conventions/principles.md, Comments carry constraints, not justification).
+In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
 Three markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 
 ## Code examples in conventions docs
 
@@ -95,5 +99,5 @@ Rejected: full copy-paste code templates, even compile-checked ones — doc inac
 
 ## Documentation is the last rung
 
-Documentation is the weakest enforcement rung (source: q conventions/principles.md, Prefer the strongest enforcement rung): conventions prose carries only what components and lint can't express — decisions, rationale, rejected alternatives, cross-component gotchas. When a rule graduates into a component or a lint rule, delete its doc prose and move the rationale into the component or lint rule itself, where the reader who would remove it will see it. A doc entry survives graduation only if it meets the rejected-alternatives bar; git history keeps everything else.
+Documentation is the weakest enforcement rung (source: @lab43/q conventions/principles.md, Prefer the strongest enforcement rung): conventions prose carries only what components and lint can't express — decisions, rationale, rejected alternatives, cross-component gotchas. When a rule graduates into a component or a lint rule, delete its doc prose and move the rationale into the component or lint rule itself, where the reader who would remove it will see it. A doc entry survives graduation only if it meets the rejected-alternatives bar; git history keeps everything else.
 
