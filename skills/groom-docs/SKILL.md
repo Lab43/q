@@ -8,7 +8,7 @@ description: Audit the project's whole documentation surface against the documen
 **Read the rubric first, and follow it over any instinct:**
 
 1. q's documentation policy (see: @lab43/q conventions/documentation.md) and its writing rules (see: @lab43/q conventions/writing.md), plus any installed extension's doc whose topic governs documentation. An extension's rule beats q's where the two disagree (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
-2. The project's recorded rulings and deviations: `docs/conventions/documentation.md`, plus any "(overrides: …)" markers across `docs/conventions/` and any "(exception: …)" markers across the whole repo — grep for both. An exception can sit in a code file, so its grep is not confined to the docs. These win over both.
+2. The project's recorded rulings and deviations: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. These win over both. An exception marker is a recorded ruling too, excusing its one site rather than replacing a rule (see: @lab43/q conventions/documentation.md, Markers). Honour one where you meet it; the accumulation check is what counts them.
 
 If the project has no `docs/conventions/` directory, or `node_modules/@lab43/q/` is absent (a fresh clone may just need `npm install`), stop and suggest the fix — without both there is no surface or rubric to groom against.
 
@@ -35,7 +35,7 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 4. **Consistency**: the agent briefing matches the briefing template (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`); any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve. One concept goes by one name across the surface. Report a synonym against the name its home doc establishes (source: @lab43/q conventions/writing.md, One name per concept).
 5. **Organization**: each doc's structure — topic scope, intro, section placement, and splits or merges across docs — conforms to the policy. Findings here become reorganization proposals.
 6. **Plan statuses** (if `docs/plans/` exists): every plan has valid `status` frontmatter (source: @lab43/q conventions/plans.md, Frontmatter); list every `pending` plan with its age (last git commit date).
-7. **Exception accumulation**: grep the whole repo for "(exception:" and group the hits by the rule each names. Report every rule carrying more than one, for the user's ruling — several exceptions against one rule are evidence the rule wants revisiting (source: @lab43/q conventions/documentation.md, Markers). Report a marker carrying no reason, and one whose reason no longer holds. This is a targeted grep, not a grooming pass over code: a file outside the surface is read for its markers and nothing else.
+7. **Exception accumulation**: grep the repo for "(exception:", excluding `node_modules/` and build artifacts, and group the hits by the rule each names. Report every rule carrying more than one, for the user's ruling — several exceptions against one rule are evidence the rule wants revisiting (source: @lab43/q conventions/documentation.md, Markers). Report a marker naming no section, one carrying no reason, and one whose reason the surrounding code or doc no longer bears out. A file outside the grooming surface joins the run for its exceptions alone: nothing else in it is groomed.
 
 ## Step 3: Consolidate with the user
 
