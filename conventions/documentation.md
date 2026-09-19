@@ -79,7 +79,7 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-A marker may sit in a comment, in whatever form its file type offers — an HTML comment in docs rendered for humans (README, guides), a code comment in a script. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
+A marker may sit in a comment, in whatever form its file type offers — an HTML comment in docs rendered for humans (README, guides), a code comment in a script. The comment's own delimiters stand in for the parentheses, so a marker inside one reads `source: docs/conventions/testing.md`. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
 Four markers, all ordinary language:
 
@@ -88,7 +88,7 @@ Four markers, all ordinary language:
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 - **`(exception: X)`** — excuse. This one site sits outside the named rule, and the rule itself stands (`exception: docs/conventions/logging.md, Structured fields`). Several exceptions against one rule are evidence the rule wants revisiting.
 
-An exception always names a section, unlike the other three. Only a marker naming the rule can be counted against that rule, and the count is what turns a pile of separate excuses into a verdict on the rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing.
+An exception names both a doc and a section, unlike the other three, and a heading in the current doc is not a target it can take. Only a marker naming the rule can be counted against that rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing, and neither does one naming no section.
 
 ## Code examples in conventions docs
 

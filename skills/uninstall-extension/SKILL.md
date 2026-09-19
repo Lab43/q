@@ -34,7 +34,7 @@ Remove without asking — each item a no-op when already absent:
 
 ## Step 4: Rule on references
 
-Grep the repo for the extension's name, excluding `node_modules/` and build artifacts — the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy), and the code files too, because an exception marker can sit in one. Every hit lost its backing with the extension: an overrides marker's target, an exception marker's target, a restatement's home, a cross-reference's destination. On a clean grep, skip the step.
+Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name, and grep the project's code for exception markers naming it, excluding `node_modules/` and build artifacts. Every hit lost its backing with the extension: an overrides marker's target, an exception marker's target, a restatement's home, a cross-reference's destination. On a clean grep, skip the step.
 
 Recommend a resolution for each hit, grounded in the documentation policy, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — one AskUserQuestion batch. The user rules. Apply the rulings.
 
