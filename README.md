@@ -70,7 +70,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
     <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its group in the briefing's docs index, its watermark, and your ruling on each doc that references it.</td>
   </tr>
   <tr>
-    <th rowspan="8" scope="rowgroup">Workflow</th>
+    <th rowspan="9" scope="rowgroup">Workflow</th>
     <td nowrap><samp>/q:triage</samp></td>
     <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:implement</code>.</td>
   </tr>
@@ -101,6 +101,10 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   <tr>
     <td nowrap><samp>/q:parallelize</samp></td>
     <td>Give parallel sessions their own copies of what they contend over while driving — ports, databases, caches, devices. Isolates what it can, and names what sessions must take turns over instead.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>/q:clean-worktrees</samp></td>
+    <td>Clear the git worktrees that finished parallel sessions leave behind. Reports what each one holds and whether that work has reached the remote. You rule on the list before anything is removed.</td>
   </tr>
   <tr>
     <th rowspan="3" scope="rowgroup">Docs</th>
