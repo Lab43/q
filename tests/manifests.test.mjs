@@ -1,12 +1,13 @@
-// manifests.mjs is written for import, so this suite imports it — the rule
+// manifests.mjs is written for import, so this suite imports it. The rule
 // against test-only seams targets executables that locate their inputs
-// relative to themselves, which this module's two callers do.
+// relative to themselves. That describes this module's two callers,
+// check-versions.mjs and set-version.mjs, not the module itself.
 //
 // Covered here: the two data exports, and the pure function over them.
 // `helpers(script)` is not. It builds a `fail` that calls process.exit(1), so
-// an in-process call never returns and no assertion after it would run; its
-// output is observable only across a process boundary, which the
-// check-versions and set-version suites already do.
+// an in-process call never returns and no assertion after it would run. Its
+// output is observable only across a process boundary. The check-versions and
+// set-version suites already observe it there.
 
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
