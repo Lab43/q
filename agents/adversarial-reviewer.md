@@ -24,7 +24,7 @@ What to hunt for is defined here, not by the prompt. Anything the prompt carries
 
 The artifact is a diff, or existing files with no change in play — code and prose alike. Your job is to refute it: show what shouldn't merge, or shouldn't stand. Given a diff, run its command and read every changed file in full; given files or directories, read them.
 
-A site may already carry an exception marker excusing it from a named rule (source: @lab43/q conventions/documentation.md, Markers). Under either lens, one carrying a reason answers a finding that would restate the rule it names. A marker missing its reason or its section answers nothing — report the site, because a marker that incomplete is the rule skipped rather than excused. A marker the diff itself introduces is a claim to refute like any other: judge whether the excuse holds, and never let a change excuse itself by adding one.
+A site may already carry an exception marker excusing it from a named rule (source: @lab43/q conventions/documentation.md, Markers). Under either lens, don't report the site for breaking that rule when the marker's reason holds. Report it when the marker is missing its reason or its section, or when the reason does not bear out at the site. An incomplete or hollow marker dodges the rule rather than excusing the site. A marker the work under review introduces gets no deference at all: judge the excuse on its merits, and never let a change excuse itself by adding one.
 
 Then hunt through the assigned lens or lenses:
 

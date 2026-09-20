@@ -39,7 +39,7 @@ An extension is authored in a project that itself uses q, with `@lab43/q` pinned
 
 ## Authoring
 
-In its authoring project, an extension's `conventions/` and its description join the documentation surface (see: Description). Both are groomed and reconciled against q's updates like the project's own docs. Moving the q pin asserts that reconciliation happened: the moved pin declares the docs written against the new version (see: Pinning). Don't record a deviation from a convention you ship — edit it. Deviations, overrides, exceptions, and upstreaming are for rules you consume, not rules you author. In the authoring repo, references to the extension's docs resolve to its working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
+In its authoring project, an extension's `conventions/` and its description join the documentation surface (see: Description). Both are groomed and reconciled against q's updates like the project's own docs. Moving the q pin asserts that reconciliation happened: the moved pin declares the docs written against the new version (see: Pinning). Don't record a deviation from a convention you ship — edit it. Deviations, overrides, and upstreaming are for rules you consume, not rules you author. In the authoring repo, references to the extension's docs resolve to its working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
 
 An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 

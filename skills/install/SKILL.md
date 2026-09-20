@@ -147,5 +147,4 @@ Close the session by reporting:
 - On an extension run:
   - The extension and version installed, and the index lines added.
   - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-  - Any exception markers the installed package carries against q's rules — grep the whole package, not only its `conventions/` (source: @lab43/q conventions/documentation.md, Markers). These are single sites of the extension's own that sit outside a rule the project otherwise follows. The project cannot edit them, and grooming's count never reaches them.
   - Its q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md) — held against the project's own pin. An extension written against a newer q than the project runs is the signal to suggest `/q:update`. One written against an older q, or carrying no declaration, is noted as-is — no update closes it.

@@ -71,7 +71,7 @@ Rejected: abbreviating `@lab43/q` to `q` in the path form. `q` is a different pa
 
 ## Markers
 
-Inline cross-references tying a statement to the doc it depends on. They are the documentation surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run, and marked exceptions are counted by the rule they name.
+Inline cross-references tying a statement to the doc it depends on. They are the documentation surface's own routing, and must suffice for a reader arriving with no skill running — the skills reinforce the routing but can't be assumed. Agents follow them to the related detail; `/q:groom-docs` reads them as recorded intent — a marked restatement or deviation is checked against its target rather than re-flagged as duplication or drift on every run.
 
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
@@ -79,16 +79,24 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-In docs rendered for humans (README, guides), a marker may sit in an HTML comment. An exception goes further and sits in a code comment too, in any file type, because the site it excuses is as often a script as a passage — the other three stay in the documentation surface, which is the only place anything reads them. The comment's own delimiters stand in for the parentheses, so a marker inside one reads `source: docs/conventions/testing.md`. A comment carrying prose as well gives the marker its own line. Agents and grep read the raw file either way. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
+A marker may sit in a comment rather than in running prose:
+
+- In docs rendered for humans (README, guides), it sits in an HTML comment.
+- Outside the documentation surface it sits in whatever comment syntax the file uses.
+- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: docs/conventions/testing.md -->`.
+
+A comment carrying prose as well gives the marker its own line. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
 Four markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
-- **`(exception: X)`** — excuse. This one site sits outside the named rule, and the rule itself stands (`exception: docs/conventions/logging.md, Structured fields`). Several exceptions against one rule are evidence the rule wants revisiting.
+- **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
 
-An exception names both a doc and a section, unlike the other three, and a heading in the current doc is not a target it can take. Only a marker naming the rule can be counted against that rule. Its reason is the text the marker sits in — the sentence in a doc, or the comment in a code file. A marker carrying no reason excuses nothing, and neither does one naming no section.
+`(see:)`, `(source:)`, and `(overrides:)` live in the documentation surface, the only place anything reads them. An exception may sit in any file, because the site it excuses is as often a line of code or config as a passage of prose.
+
+An exception must name a section, because only a marker that identifies the rule can be counted against it. It must also carry a reason, which is the text the marker sits in: the sentence in a doc, or the comment in any other file. A marker missing either part excuses nothing.
 
 An exception is spent once its site no longer needs excusing: the rule is gone, or it changed to admit the site. A spent exception comes out. One whose rule merely moved is retargeted, because the site still needs it.
 
@@ -98,7 +106,7 @@ Prose rules carry the conventions; code carries itself:
 
 - Each pattern names a **living exemplar** — a real file in the repo — and says which of its lines are load-bearing for the pattern, so an imitator doesn't copy the incidental along with the essential. Exemplar references and these notes are carved out of the no-code-readable-facts rule as a class; they exist to point *into* the code.
 - Short shape-only snippets are allowed where a rule is illegible without one. Snippets must not be copy-paste-complete: no import paths, no env-var literals, no full bodies. Anything an agent would paste verbatim must come from the exemplar.
-- Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them. An illustrative path inside a marker example is the exception: it names nothing and stands for any project's own doc.
+- Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them.
 
 Rejected: full copy-paste code templates, even compile-checked ones — doc inaccuracies cluster inside template code and code-readable fact restatements, not prose rules, and a stale template actively produces failing code.
 
