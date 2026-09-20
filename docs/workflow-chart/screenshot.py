@@ -4,8 +4,8 @@
 Requires Python Playwright with Chromium:
     pip install playwright && playwright install chromium
 """
-# The only assertion available is that two files appeared, which says nothing
-# about whether the chart rendered. Run this by hand and look at the images.
+# Pinning what this renders needs Chromium, which nothing in this repo
+# installs. Run it by hand and look at the images.
 # exception: docs/conventions/testing.md, What carries tests
 from pathlib import Path
 
