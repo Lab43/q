@@ -11,9 +11,9 @@ A run is in one of two modes, depending on whether the user has agreed on what t
 
 ## Review modes
 
-Work that will become commits runs in one of two review modes, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled it is never revisited mid-run: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
+A run puts out two things: commits, and text posted under the user's account, which reads as the user's (source: @lab43/q conventions/writing.md, Sign what you post). One review mode governs both, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled it is never revisited mid-run: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
 
-- **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
+- **Local** — nothing is committed or posted unreviewed. Work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it. Posted text appears in no diff, so show the user the words themselves and post them at their go-ahead. Agreeing that a run posts at all settles the act, never the wording.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's.
 
 ## The delivery branch
