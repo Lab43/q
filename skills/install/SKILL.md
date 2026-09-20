@@ -54,9 +54,10 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 2. **The q dependency** — q installs as one pinned npm package, carrying its conventions and its plugin together:
    - Ensure a root `package.json` — create `{"private": true}` if the project has none.
    - If the manifest Step 1 located already declares `@lab43/q` in `devDependencies`, leave the recorded pin alone.
-   - Otherwise install it into that manifest: `npm install --save-dev --save-exact --ignore-scripts @lab43/q`, via the project's package manager when it isn't npm. Add `-w <workspace>` when Step 1 located a workspace of the root manifest, and run the install from the package's own directory when it is not a workspace. Step 1 locating nothing means the root manifest takes the pin.
+   - Otherwise install it into that manifest: `npm install --save-dev --save-exact --ignore-scripts @lab43/q`, via the project's package manager when it isn't npm. Add `-w <workspace>` when Step 1 located a workspace of the root manifest, and run the install from the package's own directory when it is not a workspace. Step 1 locating nothing means the root manifest takes the pin. Install the version the root already pins, where it pins one — relocating a pin must not move it, because the version is a recorded decision and only the user moves it.
+   - Then drop a root pin left standing beside a located one: `npm uninstall @lab43/q` at the root. A project that adopts q and grows an extension afterwards arrives in this state, and one field is what keeps the pin and the extension's shipped declaration from drifting apart (source: @lab43/q conventions/extensions.md, Pinning).
 
-   That pin is the only place a q version appears. Never add a second one beside it. Moving it and installing is the whole of an update.
+   That pin is the only place a q version appears. Never leave a second one beside it. Moving it and installing is the whole of an update.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
 4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules`. Two files hold it, created if missing.
 

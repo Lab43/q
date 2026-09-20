@@ -33,7 +33,7 @@ Each finding routes to its remedy:
 
 - A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
 - An entry for an extension no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension.
-- `@lab43/q` declared in `package.json` as well as in a located manifest → two pins to drift apart (source: @lab43/q conventions/extensions.md, Pinning). Report both locations and stop there. No skill removes a pin, so which one goes is the user's call.
+- `@lab43/q` declared in `package.json` as well as in a located manifest → two pins to drift apart (source: @lab43/q conventions/extensions.md, Pinning) → `/q:install`, invoked bare once. It relocates the pin to the manifest that should hold it.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other pinned extension that has no entry, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).

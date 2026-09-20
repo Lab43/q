@@ -84,8 +84,8 @@ if (pkg === undefined) fail();
 const rootDevDeps = devDepsOf(pkg);
 
 // Where q's pin lives. The state file's `manifest` field names the manifest
-// holding it, relative to the project root; absent, the pin is the root
-// manifest's. A repo authoring an extension pins q in that extension's own
+// holding it, as a path from the project root. With no field, the pin is the
+// root manifest's. A repo authoring an extension pins q in that extension's own
 // manifest, where the pin doubles as the written-against declaration the
 // extension ships, so its root manifest names no q. Extension pins are the
 // root's either way — a devDependency of the authored extension would ship in
