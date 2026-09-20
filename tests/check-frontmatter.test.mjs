@@ -5,12 +5,15 @@
 
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { cleanup, runFrontmatter, stageFrontmatter } from "./helpers.mjs";
+import { cleanup, runScript, stageFrontmatter } from "./helpers.mjs";
+
+const SCRIPT = "check-frontmatter.mjs";
 
 after(cleanup);
 
 /** Run the checker over a single staged markdown file. */
-const check = (contents) => runFrontmatter(stageFrontmatter({ "doc.md": contents }));
+const check = (contents) =>
+  runScript(stageFrontmatter({ "doc.md": contents }), SCRIPT);
 
 const assertRejected = (contents, expected) => {
   const { status, stderr } = check(contents);
@@ -134,22 +137,22 @@ describe("directories it must not walk", () => {
 
   it("ignores markdown inside node_modules", () => {
     const base = stageFrontmatter({ "node_modules/some-dep/README.md": broken });
-    assert.equal(runFrontmatter(base).status, 0);
+    assert.equal(runScript(base, SCRIPT).status, 0);
   });
 
   it("ignores markdown inside .git", () => {
     const base = stageFrontmatter({ ".git/notes.md": broken });
-    assert.equal(runFrontmatter(base).status, 0);
+    assert.equal(runScript(base, SCRIPT).status, 0);
   });
 
   it("ignores markdown inside another worktree", () => {
     const base = stageFrontmatter({ ".claude/worktrees/other/doc.md": broken });
-    assert.equal(runFrontmatter(base).status, 0);
+    assert.equal(runScript(base, SCRIPT).status, 0);
   });
 
   it("still walks .claude outside worktrees", () => {
     const base = stageFrontmatter({ ".claude/doc.md": broken });
-    assert.equal(runFrontmatter(base).status, 1, "only worktrees are excluded, not all of .claude");
+    assert.equal(runScript(base, SCRIPT).status, 1, "only worktrees are excluded, not all of .claude");
   });
 });
 
@@ -165,7 +168,7 @@ describe("reporting", () => {
       "without.md": "# No frontmatter\n",
       "nested/also.md": "---\nkey: value\n---\n\n# X\n",
     });
-    const { stdout, status } = runFrontmatter(base);
+    const { stdout, status } = runScript(base, SCRIPT);
     assert.equal(status, 0);
     assert.match(stdout, /2 frontmatter blocks, 3 markdown files/);
   });
@@ -175,7 +178,7 @@ describe("reporting", () => {
       "one.md": "---\na: bare: colon\n---\n\n# X\n",
       "two.md": "---\nb: bare: colon\n---\n\n# X\n",
     });
-    const { stderr, status } = runFrontmatter(base);
+    const { stderr, status } = runScript(base, SCRIPT);
     assert.equal(status, 1);
     assert.match(stderr, /one\.md:2/);
     assert.match(stderr, /two\.md:2/);

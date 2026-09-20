@@ -165,12 +165,14 @@ No briefing index line changes: no doc's intro moves in this phase.
 
 Closes issue #94.
 
-1. Add a staging helper to `test/helpers.mjs` on the model of `stageFrontmatter` (`:122-138`): copy the real script and `scripts/manifests.mjs` into a temporary tree, and write the manifests the case needs. Keep the real-directory `node_modules` treatment and the comment explaining it.
+1. Add a staging helper to `test/helpers.mjs` on the model of `stageFrontmatter` (`:122-138`): copy the real script and `scripts/manifests.mjs` into a temporary tree, and write the manifests the case needs. Keep the real-directory `node_modules` treatment and the comment explaining it. *(deviation: the helper stages no `node_modules`. All three scripts import nothing but node builtins and their sibling module, so there is nothing to resolve — `stageFrontmatter` needs it for js-yaml. The comment explaining the real-directory treatment stays where it is, on the helper that does it.)*
 2. Write `test/check-versions.test.mjs`. Cover every version-carrying file agreeing, each one disagreeing in turn, one missing, one holding invalid JSON, one naming no version, and the lockfile disagreeing at either of its two version fields. The missing and unparseable cases are also what pin `helpers(script)`'s failure output, since the script names itself in every message it prints.
 3. Write `test/set-version.test.mjs`. Cover each of major, minor and patch, a target that is missing, a target that is unparseable, a version that is not `major.minor.patch`, and the all-or-nothing property — every version-carrying file moves, or none does.
 4. Write `test/manifests.test.mjs`, importing the module. Cover `lockVersions` against a lockfile carrying both fields and against one missing `packages[""]`. Leave `helpers(script)`'s failure output to steps 2 and 3, which observe it across a process boundary, per Decision 8.
 5. Write each suite against however many files carry the version, never against a count.
-6. Break each script deliberately and confirm the suite goes red, once per branch the suite claims to cover (source: docs/conventions/testing.md, Show the suite failing). Mutate the staging helper too.
+6. Break each script deliberately and confirm the suite goes red, once per branch the suite claims to cover (source: docs/conventions/testing.md, Show the suite failing). Mutate the staging helper too. *(result: 29 mutations, all caught. Eight pin branches an earlier revision left green: a lockfile written before the guard that rejects it, the version rewrite made global, a disagreement message naming the wrong field or swapping the two manifests, and four messages naming a fixed file rather than the one at fault. Four mutate the harness.)*
+
+*(deviation: `runFrontmatter` was generalized into `runScript` rather than copied for the version scripts, which edits `test/check-frontmatter.test.mjs`, a file no step names. The new runner would have been that one with its argv changed, and copying is the signal to extract.)*
 
 ### Pull request 3 — the check
 
