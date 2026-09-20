@@ -9,6 +9,7 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **Feedback is not a work order**: every item opens a discussion, the ones phrased as directives included. Never implement feedback you believe is wrong. Answer every question the feedback asks. A code change never stands in place of that answer (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Questions are probes).
+- **The round is the unit**: feedback arrives as a batch, or item by item from a reviewer in the session. The agenda stays open while that reviewer is still adding to it, and Steps 2 to 4 run over each item as it arrives. Validation and delivery run once, over the closed round.
 - **The PR under review is the boundary**: the round's fixes land on its branch as new commits. Never rebase that branch and never force-push over it — the reviewer's inline comments anchor to the commits they read, and rewriting the history strands them. Never open a second PR. Work the feedback opens that this PR can't hold goes to a plan or the tracker instead.
 - **Track resolutions**: keep a scratchpad note of each item — where it came from, its agreed disposition, and how it resolved. It feeds the replies and the closing report.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
@@ -34,8 +35,8 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 
      Skip every thread `isResolved` reports closed — the reviewer ended those. An `isOutdated` thread is still live: it anchors to a line that later commits moved. Skip a thread whose last comment already answers the one before it. An earlier round settled that item, and the reviewer has not written back.
 5. Ignore every comment that raises nothing to settle. A callout explaining the change under review is the common case (see: @lab43/q conventions/pull-requests.md, Diff comments).
-6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own.
-7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits.
+6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own. Ask whether that is all of it, because a user reading the PR as the run goes has more to add.
+7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits. Leave the agenda open when the user has more coming, and add each new item to it as it arrives.
 
 ## Step 2: Take a position on each item
 
@@ -74,7 +75,7 @@ Ask one batch, carrying only what the user has to rule on:
 - whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR.
 - the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits nothing until the user has reviewed the diff.
 
-Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. A go-ahead given while the agenda is open settles the item it names and nothing more. Close the round by summarizing the agreed scope over a closed agenda and asking for the go-ahead. That go-ahead, not the last answer and not an item's, is what makes the rest of the run autonomous.
 
 An item beyond this PR is not resolved here. Settle the rest of the round, and take it to `/q:create-plan` or to the tracker on the user's call.
 
@@ -89,7 +90,9 @@ When the agreed fixes turn out to need a redesign, or more change than this PR c
 
 ## Step 5: Adversarial review
 
-Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. The round is the product, so its diff runs from Step 4's recorded SHA: `git diff <recorded-sha>...HEAD` in ship mode, or the uncommitted diff plus the changed-file list in local mode. Hand the reviewers the agreed dispositions as the scope. Per loop round, re-drive a surface only when a fix could change what driving showed.
+Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. Run this step once, over a closed agenda. Settling one item while the agenda is still open is iteration, so never launch reviewers over it.
+
+The round is the product, so its diff runs from Step 4's recorded SHA: `git diff <recorded-sha>`, which holds the round's work whether or not it is committed. Name any file the round added and left untracked, which no diff shows. Hand the reviewers the agreed dispositions as the scope. Per loop round, re-drive a surface only when a fix could change what driving showed.
 
 ## Step 6: Deliver to the PR
 
