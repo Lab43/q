@@ -4,7 +4,7 @@
 
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { cleanup, runScript, stageTests, stageTestsBare } from "./helpers.mjs";
+import { cleanup, runScript, stageTests } from "./helpers.mjs";
 
 after(cleanup);
 
@@ -58,6 +58,11 @@ describe("pairing an executable with its suite", () => {
     assert.match(stderr, /scripts\/two\.sh:1/);
     // Three discovered: these two, and the script itself, which passes.
     assert.match(stderr, /2 of 3 executables failed/);
+    // Sorted, so the report does not reorder itself between runs.
+    assert.ok(
+      stderr.indexOf("hooks/one.mjs") < stderr.indexOf("scripts/two.sh"),
+      "failures are reported in sorted order",
+    );
   });
 });
 
@@ -141,8 +146,8 @@ describe("the exception marker", () => {
   });
 
   it("does not read the marker out of a string literal", () => {
-    // check-tests itself carries this very text. A pattern matching the bare
-    // word would excuse any script that merely talks about markers.
+    // A pattern matching the bare word would excuse any script that merely
+    // talks about markers — check-tests itself names the rule in a constant.
     assertRejected(
       { "src/thing.mjs": `const rule = "exception: ${RULE}, What carries tests";\n` },
       /no test\/thing\.test\.mjs/,
@@ -176,7 +181,7 @@ describe("reporting", () => {
     // Without its staged suite the script fails on itself. That is what makes
     // every other case's pass meaningful.
     const { status, stderr } = runScript(
-      stageTestsBare(),
+      stageTests({ "test/check-tests.test.mjs": null }),
       SCRIPT,
     );
     assert.equal(status, 1);

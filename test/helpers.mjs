@@ -161,15 +161,14 @@ export const stageFrontmatter = (files) => {
  * own suite is staged alongside so it passes, which means every staged tree
  * holds one tested executable before the case adds any — the counts a case
  * asserts include it. Staging the script somewhere the walk skips would hide
- * whether it discovers itself at all.
+ * whether it discovers itself at all; passing null for that suite drops it,
+ * which is how a case checks that it does.
  *
  * No node_modules: the script imports only node builtins.
  */
 export const stageTests = (files) =>
   stageScripts("q-chk-", ["check-tests.mjs"], { "test/check-tests.test.mjs": "", ...files });
 
-/** The same tree without that staged suite, to prove the script sees itself. */
-export const stageTestsBare = () => stageScripts("q-chk-", ["check-tests.mjs"], {});
 
 /**
  * Run a staged script from `scripts/`, with whatever arguments it takes.

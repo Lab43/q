@@ -51,8 +51,10 @@ const walk = (dir) => {
 walk(root);
 
 // The marker's parentheses are dropped inside a comment, where the comment's
-// own delimiters stand in for them, so it is matched on its own line.
-const MARKER = /^\s*(?:#|\/\/|<!--)\s*exception:\s*([^,]+?)\s*(?:,\s*(.*?))?\s*(?:-->)?\s*$/;
+// own delimiters stand in for them, so it is matched on its own line. Only the
+// two comment forms the discovered file types use: nothing here opens markdown,
+// so the HTML form documentation.md also sanctions is unreachable.
+const MARKER = /^\s*(?:#|\/\/)\s*exception:\s*([^,]+?)\s*(?:,\s*(.*?))?\s*$/;
 
 /**
  * What the file says about being outside the rule: an excuse naming a section,

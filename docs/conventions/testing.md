@@ -4,13 +4,11 @@ Rules for testing q's own executables.
 
 ## What carries tests
 
-`npm run check` holds every executable this repo carries to having a suite, so the obligation is not a matter of prose any more. What is left to judgement is what that suite has to exercise, and when a file is genuinely outside the rule.
+Every executable this repo runs has committed tests, or an exception marker naming this section and carrying the reason (see: @lab43/q conventions/documentation.md, Markers). Two grounds excuse a file. The only test available would pin nothing. Or writing a real one would bend the design around the tooling (see: @lab43/q conventions/principles.md, Tooling limitations never dictate content). That the test would be awkward to write is not a ground, and neither is a gap in the tooling, which is the thing to fix.
 
-A suite that exists but pins nothing satisfies the check and satisfies nothing else. Cover the behaviour the file is relied on for, not the lines it happens to have.
+A suite that exists but pins nothing satisfies nothing. Cover the behavior the file is relied on for, not the lines it happens to have.
 
 Verification that does not survive the session does not count. A scratch script shows the code worked once and binds nothing afterwards.
-
-A file legitimately outside the rule carries an exception marker naming this section, with the reason beside it (see: @lab43/q conventions/documentation.md, Markers). The bar is that testing it would bend the design around the tooling (see: @lab43/q conventions/principles.md, Tooling limitations never dictate content) — never that writing the test is awkward.
 
 ## Test the shipped file, not a copy of its logic
 
