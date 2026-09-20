@@ -77,7 +77,7 @@ Ask one batch, carrying only what the user has to rule on:
 
 Ask the batch's round-wide questions at the first item and carry the answers forward. A later item reopens the batch only for the fork it turns on.
 
-Answers settle decisions. They are not the agreement. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to the agenda. Ask for the round's go-ahead once the agenda is closed, summarizing the agreed scope. That go-ahead is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to Step 2 with the next one. Ask for the round's go-ahead once the agenda is closed, summarizing the agreed scope. That go-ahead is what makes the rest of the run autonomous.
 
 An item beyond this PR is not resolved here. Settle the rest of the round, and take it to `/q:create-plan` or to the tracker on the user's call.
 
@@ -91,7 +91,7 @@ When the agreed fixes turn out to need a redesign, or more change than this PR c
 
 ## Step 5: Adversarial review
 
-Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. Run this step once, over a closed agenda. Settling one item while the agenda is still open is iteration, so never launch reviewers over it.
+Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Validation) with the **correctness** and **conventions** lenses. Enter this step once, over a closed agenda. Settling one item while the agenda is still open is iteration, so never launch reviewers over it.
 
 The round is the product, so its diff runs from Step 1's recorded SHA: `git diff <recorded-sha>`, which holds the round's work whether or not it is committed. Name any file the round added and left untracked, which no diff shows. Hand the reviewers the agreed dispositions as the scope. In each pass of the validation loop, re-drive a surface only when a fix could change what driving showed.
 
