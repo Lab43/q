@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 delivery: stacked
 tracks:
   - https://github.com/Lab43/q/issues/91
