@@ -9,7 +9,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Enforce the pins
 
-Locate q's pin first. `.claude/q-state.json` names the manifest holding it in its `manifest` key (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). With no such key, and with no state file at all, the pin is the project's own `package.json`.
+Locate q's pin first. `.claude/q-state.json` names the manifest holding it in its `manifest` key, and the pin is the project's own `package.json` wherever that key is absent (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). A project with no state file at all has no key either, so its pin is the root manifest's too.
 
 Two states have nothing to sync yet. Propose `/q:install` and stop for either:
 

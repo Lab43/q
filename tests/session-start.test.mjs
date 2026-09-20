@@ -457,9 +457,11 @@ describe("a state file with no pin to find", () => {
 
 describe("the wrapper", () => {
   it("emits the message when node is unavailable", () => {
-    const staged = stageHook({ project: agreeing() });
-    // grep stays available so the wrapper's pin gate runs for real and the only
-    // thing missing is node.
+    // No state file, so the wrapper's pin gate runs for real rather than being
+    // carried past it. grep stays available, leaving node the only thing missing.
+    const staged = stageHook({
+      project: { "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN } }) },
+    });
     assertLoud(runHook(staged, { env: { PATH: pathWith(["grep"]) } }));
   });
 
