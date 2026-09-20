@@ -27,7 +27,7 @@ Mandated structure — a required field, a fixed format, a grammar, a registry, 
 
 ## Table cells that must not wrap
 
-A markdown table gives no way to set attributes on the cells it generates. A column whose values have to stay on one line is written as a raw `<table>` instead, fenced with `<!-- markdownlint-disable MD033 -->` and re-enabled after it. `README.md`'s Skills and Markers tables are the living examples, and their load-bearing lines are the `<td nowrap><samp>…</samp></td>` cells.
+A markdown table gives no way to set attributes on the cells it generates. A column whose values have to stay on one line is written as a raw `<table>` instead, fenced with `<!-- markdownlint-disable MD033 -->` and re-enabled after it. `README.md`'s Skills and Markers tables are the living examples. Their load-bearing lines are the `<td nowrap><samp>…</samp></td>` cells.
 
 - Put `nowrap` on the cell.
 - Put the value in `<samp>`.
