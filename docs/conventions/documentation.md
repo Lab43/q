@@ -23,4 +23,4 @@ Rejected: seeding the framework tier into consuming projects as editable copies 
 
 ## Structure is earned
 
-Mandated structure — a required field, a fixed format, a grammar, a registry, a status taxonomy, a new marker — is added to q only for a demonstrated need, never because thoroughness seems to call for it. Agents bias toward inventing process; the burden is on the structure to do work plain prose cannot (the markers earn their keep by making deviations and sanctioned copies greppable — that is the bar). Until a plain-prose version demonstrably fails, ship the plain-prose version.
+Mandated structure — a required field, a fixed format, a grammar, a registry, a status taxonomy, a new marker — is added to q only for a demonstrated need, never because thoroughness seems to call for it. Agents bias toward inventing process; the burden is on the structure to do work plain prose cannot (the markers earn their keep by making deviations, sanctioned copies, and excused sites greppable and countable — that is the bar). Until a plain-prose version demonstrably fails, ship the plain-prose version.

@@ -166,13 +166,14 @@ Every session start validates that installed, pinned, and watermarked versions s
 <!-- source: @lab43/q conventions/documentation.md, Markers -->
 <!-- source: @lab43/q conventions/documentation.md, Single source of truth -->
 
-q's documentation keeps every fact in exactly one authoritative home, but text still needs to point at, copy, or disagree with facts that live elsewhere. Markers declare which of those relationships is in play — making them visible to readers and checkable by grep, with no central list to maintain:
+q's documentation keeps every fact in exactly one authoritative home. Text still has to point at, copy, or disagree with what lives elsewhere, and one site sometimes has to sit outside a rule the rest of the project follows. A marker declares which of those is in play — making it visible to readers and checkable by grep, with no central list to maintain:
 
 | Marker | Meaning |
 | --- | --- |
 | `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
 | `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
 | `(overrides: X)` | This rule deliberately replaces the named one — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
+| `(exception: X)` | This site is exempt from the named rule, which still stands everywhere else (`exception: docs/conventions/logging.md, Structured fields`). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a comment — without either part it excuses nothing. `/q:groom-docs` counts them by rule, so several against one rule surface as a signal the rule wants revisiting. |
 
 ## Developing q
 

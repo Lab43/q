@@ -13,7 +13,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 - A deviation is written as an ordinary rule: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces.
 - A deviation is refined in place or deleted as the decision evolves, never appended as a log entry.
 - An override outlived by its target — updated to agree, or gone — is spent and comes out.
-- No other override mechanism exists or is needed — the readers are agents, so a stated deviation is the mechanism.
+- Overriding a rule needs no other mechanism — the readers are agents, so stating the deviation is enough.
 
 A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
@@ -79,19 +79,32 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-In docs rendered for humans (README, guides), the marker may sit in an HTML comment — agents and grep read the raw file either way. A doc's comments are otherwise ordinary comments (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
-
-Three markers, all ordinary language:
+Four markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
+
+`(see:)`, `(source:)`, and `(overrides:)` live in the documentation surface, the only place anything reads them. An exception may sit in any file, because the site it excuses is as often a line of code or config as a passage of prose.
+
+A marker may sit in a comment rather than in running prose:
+
+- In docs rendered for humans (README, guides), it sits in an HTML comment.
+- In any other file, which only an exception reaches, it sits in that file's own comment syntax.
+- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: docs/conventions/testing.md -->`.
+
+A comment carrying prose as well gives the marker its own line. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
+
+An exception must name a section, because only a marker that identifies the rule can be counted against it. It must also carry a reason, which is the text the marker sits in: the sentence in a doc, or the comment in any other file. A marker missing either part excuses nothing.
+
+An exception is spent once its site no longer needs excusing: the rule is gone, or it changed to admit the site. A spent exception comes out. One whose rule merely moved is retargeted, because the site still needs it.
 
 ## Code examples in conventions docs
 
 Prose rules carry the conventions; code carries itself:
 
-- Each pattern names a **living exemplar** — a real file in the repo — and says which of its lines are load-bearing for the pattern, so an imitator doesn't copy the incidental along with the essential. Exemplar references and these notes are a sanctioned exception to the no-code-readable-facts rule; they exist to point *into* the code.
+- Each pattern names a **living exemplar** — a real file in the repo — and says which of its lines are load-bearing for the pattern, so an imitator doesn't copy the incidental along with the essential. Exemplar references and these notes are carved out of the no-code-readable-facts rule as a class; they exist to point *into* the code.
 - Short shape-only snippets are allowed where a rule is illegible without one. Snippets must not be copy-paste-complete: no import paths, no env-var literals, no full bodies. Anything an agent would paste verbatim must come from the exemplar.
 - Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them.
 
