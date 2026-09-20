@@ -19,6 +19,8 @@ q is the framework, so the extension format does not reach it. The authoring rul
 
 In this repo, `@lab43/q` in a path reference resolves to the repo root, q's own working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
 
+The payload joins this project's documentation surface. `conventions/` get the full checks, like `docs/conventions/`. `references/` are not conventions law (see: docs/conventions/skills.md, Body), so they are groomed as guides are (see: @lab43/q conventions/documentation.md, Taxonomy).
+
 Rejected: seeding the framework tier into consuming projects as editable copies (seed-and-fork) — that loses the update channel and makes framework law indistinguishable from project choice during grooming.
 
 ## Structure is earned
