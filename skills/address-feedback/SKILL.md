@@ -71,8 +71,8 @@ State those for the user to veto rather than asking them (see: `${CLAUDE_PLUGIN_
 Ask one batch, carrying only what the user has to rule on:
 
 - the fork a disposition turns on, wherever an item has materially different resolutions, each with a recommendation
-- whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR.
-- the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits nothing until the user has reviewed the diff.
+- whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR. The answer settles whether to reply. What the replies say is the review mode's (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes).
+- the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit, push, and everything posted to the PR. Local commits and posts nothing the user has not reviewed.
 
 Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 
@@ -95,7 +95,7 @@ Validate the round (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Val
 
 1. **The local gate**: run it over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
-3. **Bring the PR body up to date** wherever the round changed what it claims, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
+3. **Bring the PR body and title up to date** wherever the round changed what they claim, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
 4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
