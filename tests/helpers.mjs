@@ -5,11 +5,6 @@
 // reachable in-process. Importing one would test a reimplementation of the
 // thing that actually runs. A module written for import is the exception,
 // and its suite imports it directly.
-//
-// `npm test` names `test/*.test.mjs` explicitly. Node treats every file under a
-// directory called test/ as a suite, so bare discovery reports this file as a
-// trivially passing one — and a later top-level throw here would surface as a
-// failing "test/helpers.mjs" instead of pointing at the real suite.
 
 import fs from "node:fs";
 import os from "node:os";
@@ -155,7 +150,7 @@ export const stageFrontmatter = (files) => {
 
 /**
  * Stage a tree holding the real check-tests script, the executables to
- * discover, and whatever suites stand beside them under test/.
+ * discover, and whatever suites stand beside them under tests/.
  *
  * The script lands in `scripts/` like any other, so it discovers itself. Its
  * own suite is staged alongside so it passes, which means every staged tree
@@ -167,7 +162,7 @@ export const stageFrontmatter = (files) => {
  * No node_modules: the script imports only node builtins.
  */
 export const stageTests = (files) =>
-  stageScripts("q-chk-", ["check-tests.mjs"], { "test/check-tests.test.mjs": "", ...files });
+  stageScripts("q-chk-", ["check-tests.mjs"], { "tests/check-tests.test.mjs": "", ...files });
 
 /**
  * Run a staged script from `scripts/`, with whatever arguments it takes.

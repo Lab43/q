@@ -31,11 +31,11 @@ const assertRejected = (files, expected) => {
 
 describe("pairing an executable with its suite", () => {
   it("accepts an executable whose suite exists", () => {
-    assertAccepted({ "hooks/thing.mjs": "", "test/thing.test.mjs": "" });
+    assertAccepted({ "hooks/thing.mjs": "", "tests/thing.test.mjs": "" });
   });
 
   it("rejects an executable with no suite and no marker", () => {
-    assertRejected({ "hooks/thing.mjs": "" }, /hooks\/thing\.mjs:1 — no test\/thing\.test\.mjs/);
+    assertRejected({ "hooks/thing.mjs": "" }, /hooks\/thing\.mjs:1 — no tests\/thing\.test\.mjs/);
   });
 
   it("pairs on the basename, so a pair can share one suite", () => {
@@ -44,7 +44,7 @@ describe("pairing an executable with its suite", () => {
     assertAccepted({
       "hooks/thing.mjs": "",
       "hooks/thing.sh": "",
-      "test/thing.test.mjs": "",
+      "tests/thing.test.mjs": "",
     });
   });
 
@@ -60,7 +60,7 @@ describe("pairing an executable with its suite", () => {
   });
 
   it("does not accept a suite that only looks like the right one", () => {
-    assertRejected({ "hooks/thing.mjs": "", "test/thing.test.js": "" }, /no test\/thing\.test\.mjs/);
+    assertRejected({ "hooks/thing.mjs": "", "tests/thing.test.js": "" }, /no tests\/thing\.test\.mjs/);
   });
 
   it("names every failing executable, not just the first", () => {
@@ -115,7 +115,7 @@ describe("directories it must not walk", () => {
     ".git/hooks/thing.sh",
     ".claude/worktrees/other/scripts/thing.mjs",
     ".github/workflows/thing.sh",
-    "test/fixture.mjs",
+    "tests/fixture.mjs",
   ]) {
     it(`ignores ${where}`, () => {
       assertAccepted({ [where]: "" });
@@ -130,8 +130,8 @@ describe("directories it must not walk", () => {
     assertRejected({ "my_node_modules/thing.mjs": "" }, /my_node_modules\/thing\.mjs:1/);
   });
 
-  it("skips test/ and .github/ by path, so a nested one is still walked", () => {
-    assertRejected({ "docs/tools/test/thing.mjs": "" }, /docs\/tools\/test\/thing\.mjs:1/);
+  it("skips tests/ and .github/ by path, so a nested one is still walked", () => {
+    assertRejected({ "docs/tools/tests/thing.mjs": "" }, /docs\/tools\/tests\/thing\.mjs:1/);
   });
 
   it("skips worktrees by its path, so one elsewhere is still walked", () => {
@@ -161,7 +161,7 @@ describe("the exception marker", () => {
   it("does not let a marker naming another rule excuse a missing suite", () => {
     assertRejected(
       { "src/thing.py": "# exception: docs/conventions/style.md, Magic numbers\n" },
-      /no test\/thing\.test\.mjs/,
+      /no tests\/thing\.test\.mjs/,
     );
   });
 
@@ -174,7 +174,7 @@ describe("the exception marker", () => {
     // talks about markers — check-tests itself names the rule in a constant.
     assertRejected(
       { "src/thing.mjs": `const rule = "exception: ${RULE}, What carries tests";\n` },
-      /no test\/thing\.test\.mjs/,
+      /no tests\/thing\.test\.mjs/,
     );
   });
 
@@ -183,7 +183,7 @@ describe("the exception marker", () => {
     // any line that happens to end with the text excuse the file.
     assertRejected(
       { "src/thing.mjs": `const x = 1; // exception: ${RULE}, What carries tests\n` },
-      /no test\/thing\.test\.mjs/,
+      /no tests\/thing\.test\.mjs/,
     );
   });
 
@@ -191,7 +191,7 @@ describe("the exception marker", () => {
     // The word is not the marker. Only a comment line carrying the shape is.
     assertRejected(
       { "src/thing.py": "# The exception: this file is special.\n" },
-      /no test\/thing\.test\.mjs/,
+      /no tests\/thing\.test\.mjs/,
     );
   });
 });
@@ -202,9 +202,9 @@ describe("reporting", () => {
     // stages a suite for.
     const stdout = assertAccepted({
       "hooks/one.mjs": "",
-      "test/one.test.mjs": "",
+      "tests/one.test.mjs": "",
       "scripts/two.sh": "",
-      "test/two.test.mjs": "",
+      "tests/two.test.mjs": "",
       "src/three.py": `${REASON}\n${MARKER}\n`,
     });
     assert.match(stdout, /check-tests: 3 executables tested, 1 excused/);
@@ -214,7 +214,7 @@ describe("reporting", () => {
     // Without its staged suite the script fails on itself. That is what makes
     // every other case's pass meaningful.
     const { status, stderr } = runScript(
-      stageTests({ "test/check-tests.test.mjs": null }),
+      stageTests({ "tests/check-tests.test.mjs": null }),
       SCRIPT,
     );
     assert.equal(status, 1);

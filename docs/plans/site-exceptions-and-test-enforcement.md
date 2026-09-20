@@ -98,7 +98,7 @@ Verified by listing every tracked non-documentation file (`git ls-files`) and ma
 
    `conventions/principles.md` gets one sentence, not an exemption. An exception's reason passes that doc's own test at `:32`: it stops the next reader removing the deviation. The sentence exists so a reviewer does not cite `:36` against it.
 
-6. **The check discovers what this repo executes locally.** Covered: `.mjs`, `.sh` and `.py` files, plus every file under `.husky/` outside husky's own `.husky/_/`. Skipped: `test/`, `node_modules/`, `.git/`, `.claude/worktrees/` and `.github/`. A file passes when `test/<basename>.test.mjs` exists, or when it carries an exception naming a section of `docs/conventions/testing.md`. Basename matching already reflects how the repo works: `session-start.sh` and `session-start.mjs` share one suite.
+6. **The check discovers what this repo executes locally.** Covered: `.mjs`, `.sh` and `.py` files, plus every file under `.husky/` outside husky's own `.husky/_/`. Skipped: `test/`, `node_modules/`, `.git/`, `.claude/worktrees/` and `.github/`. A file passes when `test/<basename>.test.mjs` exists, or when it carries an exception naming a section of `docs/conventions/testing.md`. Basename matching already reflects how the repo works: `session-start.sh` and `session-start.mjs` share one suite. *(deviation: the suites live in `tests/`, so that is the directory the check skips and the one it pairs against. The rename landed on the pull request below this one, for a reason outside this plan: Node's test runner treats every file under a directory named `test/` as a suite, which made the shared helper a phantom one.)*
 
    `.github/workflows/` is out because GitHub executes those files, not this repo, and no local harness runs one (see: Out of scope).
 
@@ -194,7 +194,7 @@ Re-derive the executable inventory before writing anything. Context's list was t
 ## Verification
 
 - `npm run check` passes, with `check-tests` reporting two marked exceptions.
-- Delete `test/check-versions.test.mjs` and confirm `check-tests` names it and fails. Restore it.
+- Delete `tests/check-versions.test.mjs` and confirm `check-tests` names it and fails. Restore it.
 - Strip the section from one of the two exception markers and confirm `check-tests` fails. Restore it.
 - Run `/q:groom-docs` and confirm its accumulation check reports `docs/conventions/testing.md`, What carries tests, as carrying two exceptions. *(deviation: the run's clarification settled this as the grep Step 2 of the skill specifies, rather than a full grooming run. The skill audits the whole documentation surface and ships a pull request of its own, which is past what this plan delivers.)*
 - Run `/q:review` over `docs/workflow-chart/screenshot.py` and confirm the conventions lens answers with the marker instead of reporting a missing suite. *(deviation: the run's clarification settled this as a `q:adversarial-reviewer` conventions-lens review of the file, which is the machinery the skill delegates to. The skill itself is conversational and ships a pull request of its own.)*

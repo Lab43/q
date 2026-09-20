@@ -23,12 +23,12 @@ const RULE = "docs/conventions/testing.md";
 // Not this repo's code, at any depth.
 const skipNames = new Set(["node_modules", ".git"]);
 // Skipped by path, not by name, so a directory that merely shares a name
-// somewhere else in the tree is still walked: test/ holds the suites
+// somewhere else in the tree is still walked: tests/ holds the suites
 // themselves, .github/ holds workflows GitHub runs rather than this repo,
 // .claude/worktrees/ holds another session's checkout, and .husky/_/ is
 // husky's own directory, which it regenerates.
 const skipPaths = new Set([
-  "test",
+  "tests",
   ".github",
   path.join(".claude", "worktrees"),
   path.join(".husky", "_"),
@@ -90,7 +90,7 @@ for (const file of files.sort()) {
   // session-start.sh and session-start.mjs share one suite, which is how the
   // pair is actually tested.
   const suite = `${path.basename(file, path.extname(file))}.test.mjs`;
-  if (fs.existsSync(path.join(root, "test", suite))) {
+  if (fs.existsSync(path.join(root, "tests", suite))) {
     tested++;
     continue;
   }
@@ -106,7 +106,7 @@ for (const file of files.sort()) {
     continue;
   }
 
-  failures.push(`${where}:1 — no test/${suite}, and no exception naming ${RULE}`);
+  failures.push(`${where}:1 — no tests/${suite}, and no exception naming ${RULE}`);
 }
 
 if (failures.length) {
