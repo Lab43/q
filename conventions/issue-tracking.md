@@ -29,12 +29,12 @@ Name the work the item asks for in the title. The first reader and the last meet
 
 ### Sections
 
-Compose the body from these sections, in order. Most items need only Goal. Add another only when it has something a reader needs. A body carrying only a Goal needs no headings. Head each section once it carries more.
+Compose the body from these sections, in order. Most items need only Goal. Add another only when it has something a reader needs. A body carrying only a Goal needs no headings. Head each section once the body carries more than one.
 
 - **Goal** — what the problem is and why it needs solving. For a bug, the behavior that should hold instead.
-- **Evidence** — what a reader can check: the reproduction, the `file:line`, the rule the behavior contradicts, a link to the error log or dashboard showing it. Paste an error message verbatim as well as linking to it. Whoever hits the same symptom searches for that string, and a log link ages out while the item stays open.
-- **Constraints** — what the work must respect and what is already ruled out: the limits found, the dead ends walked, anything deliberately excluded.
-- **Callouts** — answers to the questions whoever picks it up will ask: an approach noticed but not settled, a question the run will have to answer, a suspected duplicate. Nothing here binds. The run that takes the item rules on all of it. Something nobody would ask about is noise here.
+- **Evidence** — what a reader can check: the reproduction, the `file:line`, the rule the behavior contradicts, a link to the error log or dashboard showing it. Paste an error message verbatim as well as linking to it. Whoever hits the same symptom searches for that string. A log link ages out while the item stays open.
+- **Constraints** — what the work must respect: the limits found, the dead ends walked, anything deliberately excluded, an approach already decided (see: State the goal, not the solution).
+- **Callouts** — what the other sections don't hold and whoever picks it up still needs: an approach noticed but not settled, a question the run will have to answer, a link to a related item. Nothing here binds. The run that takes the item rules on all of it. Something nobody would ask about is noise here.
 - **Closed when** — what is true once the item is closed. A closing condition left to guess gets the item closed wrong, or not at all.
 
 Cut the story of the session that surfaced the item. It belongs to none of these sections.
