@@ -112,6 +112,21 @@ export const runHook = ({ proj, root }, { entry = "wrapper", env = {} } = {}) =>
 };
 
 /**
+ * Stage a tree holding real scripts from `scripts/` and the given files. Each
+ * script is copied rather than imported, because they resolve their inputs
+ * relative to themselves.
+ */
+const stageScripts = (prefix, scripts, files) => {
+  const base = mkTmp(prefix);
+  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
+  for (const script of scripts) {
+    fs.copyFileSync(path.join(repoRoot, "scripts", script), path.join(base, "scripts", script));
+  }
+  writeFiles(base, files);
+  return base;
+};
+
+/**
  * Stage a tree holding the real check-frontmatter script and the given
  * markdown files.
  *
@@ -122,12 +137,7 @@ export const runHook = ({ proj, root }, { entry = "wrapper", env = {} } = {}) =>
  * would go untested while appearing to work.
  */
 export const stageFrontmatter = (files) => {
-  const base = mkTmp("q-fm-");
-  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
-  fs.copyFileSync(
-    path.join(repoRoot, "scripts", "check-frontmatter.mjs"),
-    path.join(base, "scripts", "check-frontmatter.mjs"),
-  );
+  const base = stageScripts("q-fm-", ["check-frontmatter.mjs"], files);
 
   const deps = path.join(base, "node_modules");
   fs.mkdirSync(deps, { recursive: true });
@@ -135,7 +145,6 @@ export const stageFrontmatter = (files) => {
     fs.symlinkSync(path.join(repoRoot, "node_modules", entry), path.join(deps, entry));
   }
 
-  writeFiles(base, files);
   return base;
 };
 
@@ -171,16 +180,8 @@ export const runScript = (base, script, args = []) => {
  * No node_modules here, unlike stageFrontmatter: these scripts import nothing
  * but node builtins and their sibling module, so there is nothing to resolve.
  */
-export const stageVersions = (script, files) => {
-  const base = mkTmp("q-ver-");
-  fs.mkdirSync(path.join(base, "scripts"), { recursive: true });
-  for (const file of [script, "manifests.mjs"]) {
-    fs.copyFileSync(path.join(repoRoot, "scripts", file), path.join(base, "scripts", file));
-  }
-
-  writeFiles(base, files);
-  return base;
-};
+export const stageVersions = (script, files) =>
+  stageScripts("q-ver-", [script, "manifests.mjs"], files);
 
 /** Read a staged file back, to check what a script wrote or left alone. */
 export const stagedFile = (base, file) => fs.readFileSync(path.join(base, file), "utf8");

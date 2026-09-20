@@ -4,7 +4,9 @@ Rules for testing q's own executables.
 
 ## What carries tests
 
-Every executable this repo carries has committed tests.
+Every executable with behavior of its own has committed tests. A file that only invokes another command has none. A test there could assert only that its text still says what it plainly says.
+
+Cover the behavior the file is relied on for, not the lines it happens to have.
 
 Verification that does not survive the session does not count. A scratch script shows the code worked once and binds nothing afterwards.
 
