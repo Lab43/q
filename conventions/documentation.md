@@ -79,14 +79,6 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - one of q's docs or an extension's, by its path form (see: Package doc paths)
 
-A marker may sit in a comment rather than in running prose:
-
-- In docs rendered for humans (README, guides), it sits in an HTML comment.
-- Outside the documentation surface it sits in whatever comment syntax the file uses.
-- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: docs/conventions/testing.md -->`.
-
-A comment carrying prose as well gives the marker its own line. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
-
 Four markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
@@ -95,6 +87,14 @@ Four markers, all ordinary language:
 - **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
 
 `(see:)`, `(source:)`, and `(overrides:)` live in the documentation surface, the only place anything reads them. An exception may sit in any file, because the site it excuses is as often a line of code or config as a passage of prose.
+
+A marker may sit in a comment rather than in running prose:
+
+- In docs rendered for humans (README, guides), it sits in an HTML comment.
+- In any other file, which only an exception reaches, it sits in that file's own comment syntax.
+- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: docs/conventions/testing.md -->`.
+
+A comment carrying prose as well gives the marker its own line. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 
 An exception must name a section, because only a marker that identifies the rule can be counted against it. It must also carry a reason, which is the text the marker sits in: the sentence in a doc, or the comment in any other file. A marker missing either part excuses nothing.
 
