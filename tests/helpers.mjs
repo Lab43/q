@@ -5,11 +5,6 @@
 // reachable in-process. Importing one would test a reimplementation of the
 // thing that actually runs. A module written for import is the exception,
 // and its suite imports it directly.
-//
-// `npm test` names `test/*.test.mjs` explicitly. Node treats every file under a
-// directory called test/ as a suite, so bare discovery reports this file as a
-// trivially passing one — and a later top-level throw here would surface as a
-// failing "test/helpers.mjs" instead of pointing at the real suite.
 
 import fs from "node:fs";
 import os from "node:os";
