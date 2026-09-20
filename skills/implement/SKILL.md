@@ -26,7 +26,7 @@ The outcome is a verdict: what the work actually is, whether the item's claims h
 
 ## Step 2: Agree
 
-Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the verdict and a recommended route, the approach where the fix is genuinely forked, and — when fixing here — the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits nothing until the user has reviewed the diff.
+Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the verdict and a recommended route, the approach where the fix is genuinely forked, and — when fixing here — the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits and posts nothing until the user has reviewed it.
 
 Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 

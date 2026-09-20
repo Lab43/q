@@ -72,7 +72,7 @@ Ask one batch, carrying only what the user has to rule on:
 
 - the fork a disposition turns on, wherever an item has materially different resolutions, each with a recommendation
 - whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR. The answer settles whether to reply. What the replies say is the review mode's (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes).
-- the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits nothing until the user has reviewed the diff.
+- the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits and posts nothing until the user has reviewed it.
 
 Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 
