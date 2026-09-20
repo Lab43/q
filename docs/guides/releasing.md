@@ -8,6 +8,10 @@ A `v<version>` tag anchors each release to the tree it shipped from. The publish
 
 ## Making a release
 
+`/release` drives this procedure. It settles the level with you, runs steps 1 and 2, then publishes step 3 behind the permission prompt described next. The steps stand on their own for releasing by hand.
+
+`gh release create` and `npm publish` prompt for a human answer in every session in this repo, whatever else a machine's permission settings allow (source: .claude/settings.json). The rule reaches only sessions that read this repo's settings. A release published through the GitHub web UI never meets it.
+
 Choose a level first (see: Choosing the version). Then, on `main`:
 
 1. Move the version in all three files:
@@ -16,12 +20,17 @@ Choose a level first (see: Choosing the version). Then, on `main`:
    node scripts/set-version.mjs <level>
    ```
 
-2. Commit those three files and push to `main`:
+2. Check the moved tree, then commit those three files and push to `main`:
 
    ```sh
-   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json
+   npm run check &&
+   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json &&
    git push origin main
    ```
+
+   The `&&` is load-bearing. A failing check has to stop the commit, and a failing commit the push.
+
+   Run the check here rather than before step 1, so it covers the version the release ships rather than the one it replaces. The pre-commit hook runs it too, but only in a checkout where `npm install` has run — an uninstalled tree commits without checking anything (source: CLAUDE.md).
 
 3. Publish a GitHub release tagged `v<version>`, targeting the commit from step 2:
 
