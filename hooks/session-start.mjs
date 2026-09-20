@@ -68,8 +68,8 @@ if (stateText !== null && (state === undefined || typeof state !== "object" || s
   fail();
 }
 
-// Pins: one exact devDependency for q and one per extension. A missing
-// manifest means not a q project, unless a state file says otherwise. One that
+// Pins: one exact devDependency for q and one per extension. A project with
+// neither this manifest nor a state file is not a q project. A manifest that
 // exists but can't be read or parsed fails like any other invalid state.
 let pkgText;
 try {

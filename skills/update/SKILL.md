@@ -15,7 +15,7 @@ Read four versions for each package in scope — the watermarks per `${CLAUDE_PL
 
 | Pinned | Installed | Latest | Watermark |
 | --- | --- | --- | --- |
-| its pin — every extension's in the project's `package.json`, q's in the manifest `.claude/q-state.json` locates (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) | `version` in `node_modules/<package>/package.json` | `npm view <package> version` | its `reconciledAgainst` entry |
+| its pin — every extension's in the project's `package.json`, q's in the manifest `.claude/q-state.json` locates (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) | `version` in `node_modules/<package>/package.json`, read from beside the locating manifest before the project root, since npm need not hoist a workspace's copy | `npm view <package> version` | its `reconciledAgainst` entry |
 
 Alongside the versions, hold each third-party extension's q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md) — against the project's own q pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating q here; one behind closes only by that extension's release.
 
@@ -40,7 +40,7 @@ Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md,
 
 For each pin the user agreed to move:
 
-Run `npm install --save-dev --save-exact --ignore-scripts <package>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q's included. Add `-w <workspace>` when the pin lives in a workspace manifest, so the move lands where Step 1 read the pin rather than adding a second one at the root.
+Run `npm install --save-dev --save-exact --ignore-scripts <package>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q's included. Land the move on the manifest Step 1 read the pin from, never at the root beside it: add `-w <workspace>` when that manifest is a workspace of the root, and run the install from its own directory when it is not.
 
 ## Step 4: Reconcile what the diff touched
 
