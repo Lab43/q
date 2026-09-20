@@ -10,7 +10,7 @@ description: Audit the project's whole documentation surface against the documen
 1. q's documentation policy (see: @lab43/q conventions/documentation.md) and its writing rules (see: @lab43/q conventions/writing.md), plus any installed extension's doc whose topic governs documentation. An extension's rule beats q's where the two disagree (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 2. The project's recorded rulings and deviations, which win over both: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. An exception marker is a recorded ruling of a different kind, excusing its one site rather than replacing a rule (see: @lab43/q conventions/documentation.md, Markers). Honour one where you meet it; the accumulation check is what counts them.
 
-Stop and suggest the fix when the project has no `docs/conventions/` directory, or when q's `conventions/` don't resolve by their path form (see: @lab43/q conventions/documentation.md, Package doc paths). Without both there is no surface or rubric to groom against. A fresh clone missing the rubric may just need `npm install`.
+Stop and suggest the fix when the project has no `docs/conventions/` directory, or when q's `conventions/` don't resolve by their path form (see: @lab43/q conventions/documentation.md, Package doc paths). Without both there is no surface or rubric to groom against. A fresh clone missing q's `conventions/` may just need `npm install`.
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
