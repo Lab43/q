@@ -169,7 +169,6 @@ export const stageFrontmatter = (files) => {
 export const stageTests = (files) =>
   stageScripts("q-chk-", ["check-tests.mjs"], { "test/check-tests.test.mjs": "", ...files });
 
-
 /**
  * Run a staged script from `scripts/`, with whatever arguments it takes.
  *

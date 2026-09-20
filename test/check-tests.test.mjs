@@ -1,6 +1,6 @@
-// check-tests owns three judgements: which files are executables, whether one
-// has a suite, and whether a marker excuses the ones that don't. The cases are
-// split that way — discovery first, then the pairing, then the marker.
+// check-tests owns three judgements: whether an executable has a suite, which
+// files are executables at all, and whether a marker excuses the ones without
+// a suite. The cases below are split that way, in that order.
 
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
@@ -48,6 +48,17 @@ describe("pairing an executable with its suite", () => {
     });
   });
 
+  it("reports failures sorted, not in the order the walk found them", () => {
+    // "-" sorts before "/", so a-b.mjs precedes a/z.mjs — but the walk
+    // descends into a/ first, because readdir hands back "a" before "a-b.mjs".
+    // Only these two shapes tell a sorted report from an unsorted one.
+    const { stderr } = check({ "a/z.mjs": "", "a-b.mjs": "" });
+    assert.ok(
+      stderr.indexOf("a-b.mjs") < stderr.indexOf("a/z.mjs"),
+      `expected a-b.mjs before a/z.mjs, got:\n${stderr}`,
+    );
+  });
+
   it("does not accept a suite that only looks like the right one", () => {
     assertRejected({ "hooks/thing.mjs": "", "test/thing.test.js": "" }, /no test\/thing\.test\.mjs/);
   });
@@ -58,11 +69,7 @@ describe("pairing an executable with its suite", () => {
     assert.match(stderr, /scripts\/two\.sh:1/);
     // Three discovered: these two, and the script itself, which passes.
     assert.match(stderr, /2 of 3 executables failed/);
-    // Sorted, so the report does not reorder itself between runs.
-    assert.ok(
-      stderr.indexOf("hooks/one.mjs") < stderr.indexOf("scripts/two.sh"),
-      "failures are reported in sorted order",
-    );
+
   });
 });
 
@@ -72,6 +79,15 @@ describe("what counts as an executable", () => {
       assertRejected({ [`src/thing.${ext}`]: "" }, new RegExp(`src/thing\\.${ext}:1`));
     });
   }
+
+  it("matches the extension at the end, not anywhere in the name", () => {
+    assertAccepted({ "docs/notes.py.bak": "", "docs/thing.mjs.txt": "" });
+  });
+
+  it("ignores a dotfile under .husky, which is never a hook", () => {
+    // Finder drops .DS_Store there. Failing on it would block every commit.
+    assertAccepted({ ".husky/.DS_Store": "" });
+  });
 
   it("ignores a file with no extension outside .husky", () => {
     assertAccepted({ "docs/LICENSE": "", "src/notes.txt": "" });
@@ -111,7 +127,15 @@ describe("directories it must not walk", () => {
   });
 
   it("still walks a directory whose name merely contains a skipped one", () => {
-    assertRejected({ "testing/thing.mjs": "" }, /testing\/thing\.mjs:1/);
+    assertRejected({ "my_node_modules/thing.mjs": "" }, /my_node_modules\/thing\.mjs:1/);
+  });
+
+  it("skips test/ and .github/ by path, so a nested one is still walked", () => {
+    assertRejected({ "docs/tools/test/thing.mjs": "" }, /docs\/tools\/test\/thing\.mjs:1/);
+  });
+
+  it("skips worktrees by its path, so one elsewhere is still walked", () => {
+    assertRejected({ "docs/worktrees/thing.mjs": "" }, /docs\/worktrees\/thing\.mjs:1/);
   });
 });
 
@@ -150,6 +174,15 @@ describe("the exception marker", () => {
     // talks about markers — check-tests itself names the rule in a constant.
     assertRejected(
       { "src/thing.mjs": `const rule = "exception: ${RULE}, What carries tests";\n` },
+      /no test\/thing\.test\.mjs/,
+    );
+  });
+
+  it("does not read a marker sharing a line with code", () => {
+    // The marker gets its own line. Trailing it after a statement would let
+    // any line that happens to end with the text excuse the file.
+    assertRejected(
+      { "src/thing.mjs": `const x = 1; // exception: ${RULE}, What carries tests\n` },
       /no test\/thing\.test\.mjs/,
     );
   });

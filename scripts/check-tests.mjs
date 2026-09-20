@@ -1,16 +1,16 @@
-// Hold every executable this repo carries to having committed tests. The rule
-// is docs/conventions/testing.md, "What carries tests"; this script is the rung
+// Hold every executable this repo runs to having committed tests. The rule is
+// docs/conventions/testing.md, "What carries tests"; this script is the rung
 // that enforces it, so weakening the script weakens the rule.
 //
-// A file legitimately outside the rule says so where it stands, with an
-// exception marker naming that section. That is the only way past this check:
-// deleting a file's discovery here, or widening a skip set to cover it, hides
-// the gap instead of recording it. Several exceptions against the rule are the
-// signal to revisit the rule itself, and `/q:groom-docs` counts them.
+// A file outside the rule says so where it stands, with an exception marker
+// naming that section. That is the only way past this check. Dropping a file
+// from discovery, or adding a directory to a skip set to get it out of the
+// way, hides the gap instead of recording it. Several exceptions against the
+// rule are the signal to revisit the rule itself, and `/q:groom-docs` counts
+// them.
 //
-// Discovery is the filesystem, not `git ls-files`, so a scratch script in the
-// tree is caught like any other. Tests would otherwise each need a git repo
-// staged around them.
+// Discovery is the filesystem, not `git ls-files`, so a scratch script left in
+// the tree is caught like any other.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -20,19 +20,29 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const RULE = "docs/conventions/testing.md";
 
-// test/ holds the suites themselves. .github/ holds workflows GitHub runs, not
-// this repo, and no local harness runs one. The rest are not this repo's code.
-const skipNames = new Set(["node_modules", ".git", "test", ".github"]);
+// Not this repo's code, at any depth.
+const skipNames = new Set(["node_modules", ".git"]);
+// Skipped by path, not by name, so a directory that merely shares a name
+// somewhere else in the tree is still walked: test/ holds the suites
+// themselves, .github/ holds workflows GitHub runs rather than this repo,
+// .claude/worktrees/ holds another session's checkout, and .husky/_/ is
 // husky's own directory, which it regenerates.
-const skipPaths = new Set([path.join(".claude", "worktrees"), path.join(".husky", "_")]);
+const skipPaths = new Set([
+  "test",
+  ".github",
+  path.join(".claude", "worktrees"),
+  path.join(".husky", "_"),
+]);
 
 const EXTENSIONS = [".mjs", ".sh", ".py"];
 const HUSKY = `.husky${path.sep}`;
 
-// Everything under .husky/ runs as a git hook whatever it is named, and none of
-// them carry an extension.
+// A git hook under .husky/ runs whatever it is named, and none of them carry
+// an extension. Dotfiles there are not hooks — .DS_Store would otherwise fail
+// the check and block every commit until someone deleted it.
 const isExecutable = (where, name) =>
-  where.startsWith(HUSKY) || EXTENSIONS.some((ext) => name.endsWith(ext));
+  (where.startsWith(HUSKY) && !name.startsWith(".")) ||
+  EXTENSIONS.some((ext) => name.endsWith(ext));
 
 const files = [];
 const walk = (dir) => {
@@ -57,16 +67,15 @@ walk(root);
 const MARKER = /^\s*(?:#|\/\/)\s*exception:\s*([^,]+?)\s*(?:,\s*(.*?))?\s*$/;
 
 /**
- * What the file says about being outside the rule: an excuse naming a section,
- * a marker too incomplete to excuse anything, or nothing at all.
+ * What the file says about being outside the rule: a marker naming this rule,
+ * with the section that makes it an excuse, or without it. Null when the file
+ * claims nothing.
  */
 const exceptionIn = (text) => {
-  const lines = text.split(/\r?\n/);
-  for (const [index, line] of lines.entries()) {
+  for (const [index, line] of text.split(/\r?\n/).entries()) {
     const match = MARKER.exec(line);
     if (!match || match[1] !== RULE) continue;
-    if (!match[2]) return { line: index + 1, section: null };
-    return { line: index + 1, section: match[2] };
+    return { line: index + 1, section: match[2] || null };
   }
   return null;
 };
