@@ -41,9 +41,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 <!-- source: skills/ -->
 <!--
   Skill names must not wrap.
-  Keep each name in <samp>. Keep nowrap on its cell.
-  Do not switch a name in this column to <code>. GitHub gives <code> its own white-space: break-spaces. A value set on the element replaces the one inherited from the cell.
-  Do not replace nowrap with a style attribute. GitHub strips style.
+  see: docs/conventions/documentation.md, Table cells that must not wrap
 -->
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -169,8 +167,8 @@ Every session start validates that installed, pinned, and watermarked versions s
 q's documentation keeps every fact in exactly one authoritative home. Text still has to point at, copy, or disagree with what lives elsewhere, and one site sometimes has to sit outside a rule the rest of the project follows. A marker declares which of those is in play — making it visible to readers and checkable by grep, with no central list to maintain:
 
 <!--
-  Marker names must not wrap. Build each cell the way the Skills table's comment requires.
-  see: Skills
+  Markers must not wrap.
+  see: docs/conventions/documentation.md, Table cells that must not wrap
 -->
 <!-- markdownlint-disable MD033 -->
 <table>
