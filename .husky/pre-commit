@@ -1,4 +1,1 @@
-# A test could assert only that this file still contains the line below,
-# which the line itself already shows.
-# exception: docs/conventions/testing.md, What carries tests
 npm run check
