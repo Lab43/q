@@ -168,12 +168,34 @@ Every session start validates that installed, pinned, and watermarked versions s
 
 q's documentation keeps every fact in exactly one authoritative home. Text still has to point at, copy, or disagree with what lives elsewhere, and one site sometimes has to sit outside a rule the rest of the project follows. A marker declares which of those is in play — making it visible to readers and checkable by grep, with no central list to maintain:
 
-| Marker | Meaning |
-| --- | --- |
-| `(see: X)` | Plain cross-reference — nothing copied, the detail lives at X. |
-| `(source: X)` | This text is a copy and X is the authority — `/q:groom-docs` checks that the copy still agrees with X. |
-| `(overrides: X)` | This rule deliberately replaces the named one — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`). `/q:groom-docs` respects it, and `/q:upstream` picks up overrides worth carrying to the rule's owner. |
-| `(exception: X)` | This site is exempt from the named rule, which still stands everywhere else (`exception: docs/conventions/logging.md, Structured fields`). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a comment — without either part it excuses nothing. `/q:groom-docs` counts them by rule, so several against one rule surface as a signal the rule wants revisiting. |
+<!--
+  Marker names must not wrap. Build each cell the way the Skills table's comment requires.
+  see: Skills
+-->
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Marker</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td nowrap><samp>(see: X)</samp></td>
+    <td>Plain cross-reference — nothing copied, the detail lives at X.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>(source: X)</samp></td>
+    <td>This text is a copy and X is the authority — <code>/q:groom-docs</code> checks that the copy still agrees with X.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>(overrides: X)</samp></td>
+    <td>This rule deliberately replaces the named one — a q rule (<code>overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs</code>), an extension's rule (<code>overrides: @acme/q-ext-x conventions/retries.md, Backoff</code>), or a broader project convention (<code>overrides: docs/conventions/style.md, Magic numbers</code>). <code>/q:groom-docs</code> respects it, and <code>/q:upstream</code> picks up overrides worth carrying to the rule's owner.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>(exception: X)</samp></td>
+    <td>This site is exempt from the named rule, which still stands everywhere else (<code>exception: docs/conventions/logging.md, Structured fields</code>). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a comment — without either part it excuses nothing. <code>/q:groom-docs</code> counts them by rule, so several against one rule surface as a signal the rule wants revisiting.</td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
 
 ## Developing q
 
