@@ -10,10 +10,10 @@
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. Two silences are designed. A project
-// that declares no @lab43/q devDependency is not a q project. A devDependency
-// with no watermark entry and no readable manifest cannot be identified as an
-// extension. Fail every other missing or unreadable input like any other
-// invalid state.
+// that declares no @lab43/q devDependency and carries no state file is not a q
+// project. A devDependency with no watermark entry and no readable manifest
+// cannot be identified as an extension. Fail every other missing or unreadable
+// input like any other invalid state.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -54,29 +54,66 @@ const parse = (text) => {
   }
 };
 const installedVersion = (dir) => parse(read(path.join(dir, "package.json")) ?? "")?.version;
+const devDepsOf = (manifest) =>
+  manifest && typeof manifest.devDependencies === "object" && manifest.devDependencies !== null
+    ? manifest.devDependencies
+    : {};
 
-// Pins: one exact devDependency for q and one per extension, in the project's
-// package.json. A missing manifest means not a q project. One that exists but
-// can't be read or parsed fails like any other invalid state.
+// The state file is read first, because it names where q's pin lives. Only a q
+// project carries one, so its presence also decides which of the silences
+// below apply.
+const stateText = read(path.join(proj, ".claude/q-state.json"));
+const state = stateText === null ? null : parse(stateText);
+if (stateText !== null && (state === undefined || typeof state !== "object" || state === null)) {
+  fail();
+}
+
+// Pins: one exact devDependency for q and one per extension. A missing
+// manifest means not a q project, unless a state file says otherwise. One that
+// exists but can't be read or parsed fails like any other invalid state.
 let pkgText;
 try {
   pkgText = fs.readFileSync(path.join(proj, "package.json"), "utf8");
 } catch (e) {
-  if (e.code === "ENOENT" || e.code === "ENOTDIR") process.exit(0);
+  if ((e.code === "ENOENT" || e.code === "ENOTDIR") && state === null) process.exit(0);
   fail();
 }
 const pkg = parse(pkgText);
 if (pkg === undefined) fail();
 
-const devDeps =
-  pkg && typeof pkg.devDependencies === "object" && pkg.devDependencies !== null
-    ? pkg.devDependencies
-    : {};
+const rootDevDeps = devDepsOf(pkg);
 
-// Declaring no @lab43/q devDependency is a designed silence. A pin that
-// is declared but is not a version string is an invalid state like any other,
-// and fails the way a malformed pin fails for every extension below.
-if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
+// Where q's pin lives. The state file's `manifest` field names the manifest
+// holding it, relative to the project root; absent, the pin is the root
+// manifest's. A repo authoring an extension pins q in that extension's own
+// manifest, where the pin doubles as the written-against declaration the
+// extension ships, so its root manifest names no q. Extension pins are the
+// root's either way — a devDependency of the authored extension would ship in
+// its tarball.
+const located = state?.manifest;
+if (located !== undefined && typeof located !== "string") fail();
+
+let devDeps = rootDevDeps;
+let qHome = proj;
+if (located !== undefined) {
+  // A root pin beside the located one is the two-field drift a single pin
+  // exists to prevent.
+  if (Object.hasOwn(rootDevDeps, "@lab43/q")) fail();
+  // A manifest that is absent or unparseable yields no pins, and the missing
+  // pin below is what reports it.
+  devDeps = devDepsOf(parse(read(path.join(proj, located)) ?? ""));
+  qHome = path.dirname(path.join(proj, located));
+}
+
+// Declaring no @lab43/q devDependency is a designed silence for a project
+// carrying no state file. One that carries a state file is a q project whose
+// pin has gone missing. A pin that is declared but is not a version string is
+// an invalid state like any other, and fails the way a malformed pin fails for
+// every extension below.
+if (!Object.hasOwn(devDeps, "@lab43/q")) {
+  if (state === null) process.exit(0);
+  fail();
+}
 const pinned = devDeps["@lab43/q"];
 if (typeof pinned !== "string") fail();
 
@@ -88,11 +125,7 @@ if (typeof loaded !== "string") fail();
 if (loaded !== pinned) fail();
 
 // Watermarks. A pinned project with no state file is unrecorded drift.
-const stateText = read(path.join(proj, ".claude/q-state.json"));
-if (stateText === null) fail();
-
-const state = parse(stateText);
-if (state === undefined || typeof state !== "object" || state === null) fail();
+if (state === null) fail();
 
 const recon = state.reconciledAgainst ?? {};
 if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
@@ -103,13 +136,22 @@ if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
 // doesn't supply either.
 if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
+// npm hoists a workspace's dependencies to the repo root, but need not: a
+// version conflict leaves a copy under the workspace itself. Look for q where
+// its pin lives first, then at the root.
+const installedQ =
+  installedVersion(path.join(qHome, "node_modules/@lab43/q")) ??
+  installedVersion(path.join(proj, "node_modules/@lab43/q"));
+
 for (const [ext, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  const pin = Object.hasOwn(devDeps, ext) ? devDeps[ext] : undefined;
+  const pins = ext === "@lab43/q" ? devDeps : rootDevDeps;
+  const pin = Object.hasOwn(pins, ext) ? pins[ext] : undefined;
   if (typeof pin !== "string") fail(); // removed out of band, never reconciled
   if (pin !== mark) fail();
 
-  const inst = installedVersion(path.join(proj, "node_modules", ext));
+  const inst =
+    ext === "@lab43/q" ? installedQ : installedVersion(path.join(proj, "node_modules", ext));
   if (typeof inst !== "string") fail();
   if (inst !== pin) fail();
 }
@@ -119,7 +161,7 @@ for (const [ext, mark] of Object.entries(recon)) {
 // and never indexed. The keyword is readable only from the package's own
 // manifest under node_modules. A devDependency whose manifest is absent or
 // unparseable is therefore skipped here rather than reported.
-for (const dep of Object.keys(devDeps)) {
+for (const dep of Object.keys(rootDevDeps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const keywords = parse(
     read(path.join(proj, "node_modules", dep, "package.json")) ?? "",

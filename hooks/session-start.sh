@@ -7,17 +7,23 @@
 
 proj="${CLAUDE_PROJECT_DIR:-.}"
 pkg="$proj/package.json"
-[ -f "$pkg" ] || exit 0
-# Match "@lab43/q" in key position only. As a value it is the name of q's own
-# manifest, which pins nothing. This stays a loose pre-filter: it also matches
-# the key under dependencies. session-start.mjs exits silently unless the key
-# is a devDependency.
-grep -qE '"@lab43/q"[[:space:]]*:' "$pkg" 2>/dev/null
-status=$?
-# Exit only on a clean miss: the manifest was read and pins no q. Any other
-# failure means the manifest could not be read, and a project that may well pin
-# q must not be skipped silently — fall through and let the checks report it.
-[ "$status" -eq 1 ] && exit 0
+# Only a q project carries a state file, and it names where the pin lives, so a
+# project holding one gets the checks whatever its root manifest says. A repo
+# authoring an extension pins q in that extension's manifest, leaving the root
+# manifest with no q to match below.
+if [ ! -f "$proj/.claude/q-state.json" ]; then
+  [ -f "$pkg" ] || exit 0
+  # Match "@lab43/q" in key position only. As a value it is the name of q's own
+  # manifest, which pins nothing. This stays a loose pre-filter: it also matches
+  # the key under dependencies. session-start.mjs exits silently unless the key
+  # is a devDependency.
+  grep -qE '"@lab43/q"[[:space:]]*:' "$pkg" 2>/dev/null
+  status=$?
+  # Exit only on a clean miss: the manifest was read and pins no q. Any other
+  # failure means the manifest could not be read, and a project that may well pin
+  # q must not be skipped silently — fall through and let the checks report it.
+  [ "$status" -eq 1 ] && exit 0
+fi
 
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 

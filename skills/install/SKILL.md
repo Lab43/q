@@ -13,6 +13,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 Hold the project against each of Step 3's scaffold items, noting what is absent and what has drifted from its form. Alongside, check:
 
+- Where q is pinned, whenever the project's own `package.json` declares no `@lab43/q` — a working-tree `package.json` carrying the `q-extension` keyword holds the pin in a repo that authors an extension (source: @lab43/q conventions/extensions.md, Pinning)
 - Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
 - Whether an earlier run's scaffold sits uncommitted in the working tree
 - On an extension run: whether the named extension is already pinned, installed, indexed, and watermarked
@@ -52,9 +53,9 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
 2. **The q dependency** — q installs as one pinned npm package, carrying its conventions and its plugin together:
    - Ensure a root `package.json` — create `{"private": true}` if the project has none.
-   - If `@lab43/q` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q` (via the project's package manager when it isn't npm). If it is, leave the recorded pin alone.
+   - If the manifest Step 1 located already declares `@lab43/q` in `devDependencies`, leave the recorded pin alone. Otherwise install it into the root manifest: `npm install --save-dev --save-exact --ignore-scripts @lab43/q` (via the project's package manager when it isn't npm).
 
-   That pin is the only place a q version appears. Moving it and installing is the whole of an update.
+   That pin is the only place a q version appears. Never add a second one beside it. Moving it and installing is the whole of an update.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
 4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules`. Two files hold it, created if missing.
 
@@ -96,7 +97,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    `"q@q": false` retires the bootstrap marketplace the package ships. Its name is the same in every copy of q, so leaving it enabled means loading whichever copy registered that name last. Disabling it is what makes the project's own pin authoritative.
 5. **Enforce the declarations** — make this machine match the pins just declared, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
-6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). Record the `manifest` key when Step 1 located q's pin outside the root manifest, and drop it when the pin is the root manifest's. That key is what the session-start hook and `/q:sync` follow to the pin.
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude-plugin/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.
 8. **README setup instructions** — ensure the README tells a collaborator using Claude Code how to bring up a fresh clone: install the project's dependencies, which is what delivers q. Fold that into the project's existing setup instructions or setup script — a dependency install the project already documents (`npm install`, a pnpm or yarn equivalent, a bootstrap script) covers it, and a README already carrying the information needs nothing. Present the q steps as applying to collaborators who use Claude Code, never as requirements for working in the repo. Create a minimal README with just these instructions when the project has none.
 9. Scaffold nothing else. An empty taxonomy directory arrives when its first document does.

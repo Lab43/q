@@ -280,6 +280,181 @@ describe("watermarked extensions", () => {
   });
 });
 
+describe("a pin located outside the root manifest", () => {
+  const WORKSPACE = "packages/acme-conventions";
+  const MANIFEST = `${WORKSPACE}/package.json`;
+
+  /** A repo authoring an extension: the q pin is the workspace's, not the root's. */
+  const located = (overrides = {}) => ({
+    "package.json": JSON.stringify({ private: true, workspaces: ["packages/*"] }),
+    ".claude/q-state.json": JSON.stringify({
+      manifest: MANIFEST,
+      reconciledAgainst: { "@lab43/q": PIN },
+    }),
+    [MANIFEST]: JSON.stringify({
+      name: "@acme/conventions",
+      keywords: ["q-extension"],
+      devDependencies: { "@lab43/q": PIN },
+    }),
+    "node_modules/@lab43/q/package.json": JSON.stringify({ version: PIN }),
+    ...overrides,
+  });
+
+  // Every loud case here also proves the wrapper fell through: its grep gate
+  // finds no q in the root manifest, so a message means the state file let it past.
+  it("is silent when the located pin, its watermark and the install agree", () => {
+    assertSilent(runHook(stageHook({ project: located() })));
+  });
+
+  it("is silent when q is installed under the workspace rather than hoisted", () => {
+    const staged = stageHook({
+      project: located({
+        "node_modules/@lab43/q/package.json": null,
+        [`${WORKSPACE}/node_modules/@lab43/q/package.json`]: JSON.stringify({ version: PIN }),
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  it("is loud when the locator names a manifest that is not there", () => {
+    assertLoud(runHook(stageHook({ project: located({ [MANIFEST]: null }) })));
+  });
+
+  it("is loud when the locator names an unparseable manifest", () => {
+    assertLoud(runHook(stageHook({ project: located({ [MANIFEST]: "{ not json" }) })));
+  });
+
+  it("is loud when the located manifest declares no @lab43/q devDependency", () => {
+    const staged = stageHook({
+      project: located({ [MANIFEST]: JSON.stringify({ name: "@acme/conventions" }) }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when the locator is not a string", () => {
+    const staged = stageHook({
+      project: located({
+        ".claude/q-state.json": JSON.stringify({
+          manifest: 42,
+          reconciledAgainst: { "@lab43/q": PIN },
+        }),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when a root pin sits beside the located one", () => {
+    const staged = stageHook({
+      project: located({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+          devDependencies: { "@lab43/q": PIN },
+        }),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when the located pin and its watermark disagree", () => {
+    const staged = stageHook({
+      project: located({
+        ".claude/q-state.json": JSON.stringify({
+          manifest: MANIFEST,
+          reconciledAgainst: { "@lab43/q": "0.9.0" },
+        }),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when the installed q differs from the located pin", () => {
+    const staged = stageHook({
+      project: located({ "node_modules/@lab43/q/package.json": JSON.stringify({ version: "0.9.0" }) }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is silent when an extension is pinned in the root manifest beside it", () => {
+    const staged = stageHook({
+      project: located({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+          devDependencies: { "@acme/ext": "2.0.0" },
+        }),
+        ".claude/q-state.json": JSON.stringify({
+          manifest: MANIFEST,
+          reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
+        }),
+        "node_modules/@acme/ext/package.json": JSON.stringify({ version: "2.0.0" }),
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  // The authored extension's own dependencies are not the project's installed
+  // extensions, so the reverse-direction check must not reach them.
+  it("is silent when the located manifest depends on an unwatermarked q-extension", () => {
+    const staged = stageHook({
+      project: located({
+        [MANIFEST]: JSON.stringify({
+          name: "@acme/conventions",
+          devDependencies: { "@lab43/q": PIN, "@acme/other": "2.0.0" },
+        }),
+        "node_modules/@acme/other/package.json": JSON.stringify({
+          version: "2.0.0",
+          keywords: ["q-extension"],
+        }),
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  it("is loud when a watermarked extension is pinned in the located manifest instead", () => {
+    const staged = stageHook({
+      project: located({
+        [MANIFEST]: JSON.stringify({
+          name: "@acme/conventions",
+          devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
+        }),
+        ".claude/q-state.json": JSON.stringify({
+          manifest: MANIFEST,
+          reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
+        }),
+        "node_modules/@acme/ext/package.json": JSON.stringify({ version: "2.0.0" }),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+});
+
+describe("a state file with no pin to find", () => {
+  it("is loud when the root manifest names no q and no locator points elsewhere", () => {
+    const staged = stageHook({
+      project: {
+        "package.json": JSON.stringify({ private: true }),
+        ".claude/q-state.json": JSON.stringify({ reconciledAgainst: { "@lab43/q": PIN } }),
+      },
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when there is no root manifest at all", () => {
+    const staged = stageHook({
+      project: { ".claude/q-state.json": JSON.stringify({ reconciledAgainst: { "@lab43/q": PIN } }) },
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when the state file is unparseable and the root manifest names no q", () => {
+    const staged = stageHook({
+      project: { "package.json": JSON.stringify({ private: true }), ".claude/q-state.json": "{ not json" },
+    });
+    assertLoud(runHook(staged));
+  });
+});
+
 describe("the wrapper", () => {
   it("emits the message when node is unavailable", () => {
     const staged = stageHook({ project: agreeing() });

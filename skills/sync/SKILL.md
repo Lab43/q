@@ -9,10 +9,12 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 ## Step 1: Enforce the pins
 
+Locate q's pin first. `.claude/q-state.json` names the manifest holding it in its `manifest` key (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). With no such key, and with no state file at all, the pin is the project's own `package.json`.
+
 Two states have nothing to sync yet. Propose `/q:install` and stop for either:
 
-- The project declares no `@lab43/q` devDependency. It has no pins to enforce.
-- It declares one but has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run. This is the window between the bootstrap install and the first `/q:install`. It is the state the session-start check reports.
+- That manifest declares no `@lab43/q` devDependency. The project has no pins to enforce, or it authors an extension whose pin was never recorded. `/q:install` settles which, and never adds a pin beside one that already exists.
+- It declares one but the project has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run. This is the window between the bootstrap install and the first `/q:install`. It is the state the session-start check reports.
 
 Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
@@ -24,12 +26,14 @@ Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHu
 
 Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
 
-- the pin of `@lab43/q` and of each extension in `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: @lab43/q conventions/extensions.md)
+- the pin of `@lab43/q`, in the manifest Step 1 located, against its `reconciledAgainst` entry, in both directions
+- the pin of each extension in `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: @lab43/q conventions/extensions.md)
 
 Each finding routes to its remedy:
 
 - A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
 - An entry for an extension no longer in `package.json` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension.
+- `@lab43/q` declared in `package.json` as well as in a located manifest → two pins to drift apart (source: @lab43/q conventions/extensions.md, Pinning). Report both locations and stop there. No skill removes a pin, so which one goes is the user's call.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other pinned extension that has no entry, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
