@@ -35,8 +35,8 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 
      Skip every thread `isResolved` reports closed — the reviewer ended those. An `isOutdated` thread is still live: it anchors to a line that later commits moved. Skip a thread whose last comment already answers the one before it. An earlier round settled that item, and the reviewer has not written back.
 5. Ignore every comment that raises nothing to settle. A callout explaining the change under review is the common case (see: @lab43/q conventions/pull-requests.md, Diff comments).
-6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own. Ask whether more is coming, because a user reading the PR as the run goes adds items later.
-7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits. Leave the agenda open when the user has more coming, and add each new item to it as it arrives.
+6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own. Always ask whether more is coming, because the user may still be reading the PR and add items as they go.
+7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits. Leave the agenda open when the user has more coming, and add each new item to it as it arrives. The agenda closes when the user says nothing more is coming. Ask them rather than reading a pause as the end.
 
 ## Step 2: Take a position on each item
 
@@ -77,7 +77,7 @@ Ask one batch, carrying only what the user has to rule on:
 
 Ask the batch's round-wide questions at the first item and carry the answers forward. A later item reopens the batch only for the fork it turns on.
 
-Answers settle decisions. They are not the agreement. While the agenda is open, a go-ahead settles the item it names and nothing more. Ask for the round's go-ahead once the agenda is closed, summarizing the agreed scope. That go-ahead is what makes the rest of the run autonomous.
+Answers settle decisions. They are not the agreement. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to the agenda. Ask for the round's go-ahead once the agenda is closed, summarizing the agreed scope. That go-ahead is what makes the rest of the run autonomous.
 
 An item beyond this PR is not resolved here. Settle the rest of the round, and take it to `/q:create-plan` or to the tracker on the user's call.
 
