@@ -22,6 +22,7 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 Skip this step in any of these cases:
 
 - A run where Step 1 found nothing missing or drifted beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. Enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` (machine state, not a repo change), then stop with the closing report (Step 7).
+- Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 7): this skill runs no package manager against a named package.
 - Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
@@ -48,7 +49,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```
 
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
-2. **The q dependency** — q arrives as one npm package, its conventions and its plugin together, and the developer installs it. Check that `@lab43/q` sits in `devDependencies` in the `package.json` at the repo root — the only place anything looks for it, whatever else the repo's layout holds (source: @lab43/q conventions/extensions.md, Pinning). Where it is not, report the bootstrap for the developer to run — `npm install --save-dev @lab43/q`, or their package manager's equivalent — and stop: this skill runs no package manager against a named package. Where it is, leave the recorded pin alone.
+2. **The q dependency** — q arrives as one npm package, its conventions and its plugin together, and the developer installs it; Step 2 stopped any run where it is undeclared. Its declaration lives in `devDependencies` in the `package.json` at the repo root — the only place anything looks for it, whatever else the repo's layout holds (source: @lab43/q conventions/extensions.md, Pinning). Leave the recorded pin alone.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
 4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules`. Two files hold it, created if missing.
 
