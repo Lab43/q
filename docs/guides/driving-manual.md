@@ -8,12 +8,18 @@ Exercise a change to the hooks, to `/q:install`, or to the marketplace it scaffo
 
 1. From the checkout, run `npm pack --pack-destination <dir>`.
 2. Give the fixture directory its own `package.json`.
-3. Install the tarball there: `npm install --save-dev --save-exact --ignore-scripts ./lab43-q-<version>.tgz`. q lands at `node_modules/@lab43/q`.
-4. Set the `@lab43/q` devDependency to the literal version by hand. The tarball install records `file:lab43-q-<version>.tgz` instead. That is not an exact version pin, so it never matches the installed version. The session-start hook reports the mismatch, telling every session in the fixture to run `/q:sync`. The package still resolves from `node_modules` after the edit, which is what a session reads. Run no dependency install afterward: the pin now names a version the registry does not have.
-5. Start a session there: `claude --plugin-dir ./node_modules/@lab43/q/q-extension`. That loads q for the session and registers nothing, which is how a consumer's first install reaches it.
-6. Run `/q:install` in that session to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. It does mean the hook's silent branch stays unreachable until this step runs. Exercising a hook change needs it.
+3. Install the tarball there: `npm install --save-dev --ignore-scripts ./lab43-q-<version>.tgz`. q lands at `node_modules/@lab43/q`. The manifest records `file:lab43-q-<version>.tgz`, which nothing minds: the hook reads versions from the lockfile and `node_modules`, and the tarball install writes q's real version to both.
+4. Start a session there: `claude --plugin-dir ./node_modules/@lab43/q/q-extension`. That loads q for the session and registers nothing, which is how a consumer's first install reaches it.
+5. Run `/q:install` in that session to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. Once the run writes the state file, the lockfile, the installed copy and the watermark agree, and the hook falls silent.
 
 q ships no dependencies, so a fixture needs nothing installed beyond the tarball. This checkout is different: `npm install` here installs q's own devDependencies and the pre-commit hook.
+
+A hook change alone needs no session: spawn the hook directly against the fixture and read its stdout. A session shows nothing the hook's own output doesn't.
+
+```sh
+root=<fixture>/node_modules/@lab43/q/q-extension
+CLAUDE_PROJECT_DIR=<fixture> CLAUDE_PLUGIN_ROOT="$root" bash "$root"/hooks/session-start.sh
+```
 
 ## Proving a session loads it
 

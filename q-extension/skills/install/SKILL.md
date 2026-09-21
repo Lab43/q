@@ -23,7 +23,7 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 Skip this step in any of these cases:
 
 - A bare run where Step 1 found nothing missing or drifted beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. Enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` (machine state, not a repo change), then stop with the closing report (Step 8).
-- An extension run where the named extension is already pinned exactly, installed, indexed, and watermarked, Step 1 found nothing missing from the q scaffold, and no install sits uncommitted from an earlier run — report that and stop.
+- An extension run where the named extension is already declared, installed, indexed, and watermarked, Step 1 found nothing missing from the q scaffold, and no install sits uncommitted from an earlier run — report that and stop.
 - Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
@@ -55,8 +55,6 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 2. **The q dependency** — q installs as one pinned npm package, carrying its conventions and its plugin together:
    - Ensure a `package.json` at the repo root — create `{"private": true}` if the project has none. The q pin always lives there, whatever else the repo's layout holds (source: @lab43/q conventions/extensions.md, Pinning).
    - If `@lab43/q` is not yet in `devDependencies`: `npm install --save-dev --save-exact --ignore-scripts @lab43/q` (via the project's package manager when it isn't npm). If it is, leave the recorded pin alone.
-
-   That pin is the only place a q version appears. Moving it and installing is the whole of an update.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
 4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules`. Two files hold it, created if missing.
 
@@ -109,7 +107,7 @@ On an extension run, skip this step unless Step 3 just bootstrapped a previously
 
 The named extension is the agreement — install it autonomously. Whether `dependencies` or `devDependencies` already holds it decides what this step does, so read that first.
 
-1. **Get the package on disk.** When either already holds it, leave the recorded pin exactly as it stands for now. When it is not a dependency at all, install it where Step 2 settled:
+1. **Get the package on disk.** When either already holds it, leave the recorded pin exactly as it stands. When it is not a dependency at all, install it where Step 2 settled:
 
    ```sh
    npm install --save-exact --ignore-scripts <extension>             # dependencies
@@ -119,12 +117,7 @@ The named extension is the agreement — install it autonomously. Whether `depen
    Use the project's package manager when it isn't npm. Where Step 2 was skipped and so settled nothing — another skill invoked this run, or the `gh` check failed — use `devDependencies`, and report the choice in the close. Then make this machine match through `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`, which is what populates `node_modules/` on a fresh clone.
 2. **Verify what arrived is an extension** — both halves of the identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both.
 
-   If it is not, stop this step there. Skip what follows it — no pin edit, no index lines, and above all no watermark, which would record a package q cannot reconcile and leave `/q:sync` reporting it forever. Uninstall it only when this run installed it, which takes the manifest entry back out with it; the project does not yet build on code that arrived a moment ago. A package the project already depended on stays, whatever it turned out not to be, and its pin is untouched because Step 5.3 never ran. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the extension failure in the close.
-3. **Settle the pin**, now that the package is known to be an extension. A pin already exact stays as it is. Narrow a range to the version now installed without asking — an extension carries no valid ranged pin, so this is the install completing, not a choice being overridden (source: @lab43/q conventions/extensions.md, Pinning). Write it back in the map that holds it, and report the narrowing in the close:
-   - a devDependency: `npm install --save-dev --save-exact --ignore-scripts <extension>@<version in node_modules>`
-   - a regular dependency: `npm install --save-exact --ignore-scripts <extension>@<version in node_modules>`
-
-   Never move a regular dependency to `devDependencies`. The project builds on that package's code, and q arrived after npm did.
+   If it is not, stop this step there. Skip what follows it — no index lines, and above all no watermark, which would record a package q cannot reconcile and leave `/q:sync` reporting it forever. Uninstall it only when this run installed it, which takes the manifest entry back out with it; the project does not yet build on code that arrived a moment ago. A package the project already depended on stays, whatever it turned out not to be, its manifest entry untouched. When the run changed nothing else, switch back to the prior branch and delete any branch this run created; when Step 3 bootstrapped the project, keep that scaffold, carry on to Step 6, and report the extension failure in the close.
 
 An extension shipping conventions docs gets its own group in the briefing's docs index, headed by the package name and its `q.description` (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Under that heading goes one line per doc the index doesn't already carry: the doc's path form (see: @lab43/q conventions/documentation.md, Package doc paths), blurb restating the doc's intro (source: @lab43/q conventions/documentation.md, Taxonomy). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
 
@@ -157,4 +150,4 @@ Close the session by reporting:
   - The extension and version installed, whether it went to `dependencies` or `devDependencies`, and the index lines added.
   - A missing `q.description`, if the package ships conventions docs without one (source: @lab43/q conventions/extensions.md, Description). Its group falls back to a heading of the package name alone (source: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Name it as the extension author's to fix, not the installing project's. Install the extension anyway — one missing blurb does not stop rules that otherwise work.
   - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
-  - Its q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md, Pinning) — held against the project's own pin. An extension written against a newer q than the project runs is the signal to suggest `/q:update`. One written against an older q, or carrying no declaration, is noted as-is — no update closes it.
+  - Its q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md, Pinning) — held against the project's own installed q. An extension written against a newer q than the project runs is the signal to suggest `/q:update`. One written against an older q, or carrying no declaration, is noted as-is — no update closes it.

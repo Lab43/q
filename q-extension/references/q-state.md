@@ -4,7 +4,7 @@ Format and writer rules for `.claude/q-state.json`, the consumer-side record of 
 
 ## What the file is
 
-The file holds machine-written version watermarks — never rules, never doc enumerations. Pins stay authoritative where they are: the project's `package.json`, one exact pin for q and one per installed extension. Reconciliation is the work of folding a version change into the project — holding its docs against an extension release's changed rules, or its scaffolded surfaces against a new q version; `/q:update` performs it. A watermark records the version its pin was last reconciled against, so an out-of-band pin move — a hand-run npm install, a teammate's merge, a Dependabot bump — is detectable as pin ≠ watermark. The skills and the session-start hook compare its versions against the pins; nothing consults it for how to behave.
+The file holds machine-written version watermarks — never rules, never doc enumerations. Reconciliation is the work of folding a version change into the project — holding its docs against an extension release's changed rules, or its scaffolded surfaces against a new q version; `/q:update` performs it. A watermark records the version the project was last reconciled against. Drift is the lockfile or the installed version disagreeing with it, however the move arrived — a hand-run npm install, a teammate's merge, a Dependabot bump. The skills and the session-start hook compare its versions against the lockfile and `node_modules`; nothing consults it for how to behave.
 
 ## Format
 
@@ -24,7 +24,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 ## Writer rules
 
 - `/q:install` fills in missing watermarks and never touches present ones — a stale entry is reconciliation's to move. Bootstrapping q, it writes the `@lab43/q` entry; installing an extension, it writes that extension's. Each value is the version just installed, which has no reconciliation debt.
-- `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move.
+- `/q:update` writes the affected watermark after each reconciliation.
 - `/q:uninstall-extension` drops the extension's entry as part of reconciling its removal.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 

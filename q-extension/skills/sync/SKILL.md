@@ -24,13 +24,13 @@ Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHu
 
 Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
 
-- the pin of `@lab43/q` and of each extension in the repo root's `package.json` against its `reconciledAgainst` entry, in both directions — the extensions are the direct dependencies, in `dependencies` and `devDependencies` alike, whose installed copy carries both halves of an extension's identity — the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). A dependency carrying the keyword, shipping no payload, and holding no `reconciledAgainst` entry is not an extension: leave it out of scope rather than reporting a missing record no skill could resolve. A watermarked package stays in scope however it changed, because a record already exists and only reconciliation or removal clears it
+- the version the project's lockfile resolves for `@lab43/q` and for each extension against its `reconciledAgainst` entry, and the version installed under `node_modules/` against the lockfile's, in both directions — the extensions are the direct dependencies, in `dependencies` and `devDependencies` alike, whose installed copy carries both halves of an extension's identity — the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). A dependency carrying the keyword, shipping no payload, and holding no `reconciledAgainst` entry is not an extension: leave it out of scope rather than reporting a missing record no skill could resolve. A watermarked package stays in scope however it changed, because a record already exists and only reconciliation or removal clears it
 
 Each finding routes to its remedy:
 
-- A pin differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
+- A lockfile version differing from its watermark (moved out of band, unreconciled) → `/q:update`, invoked bare once — a bare run covers every such finding.
 - An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension. Read both before reporting this: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed.
-- No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other pinned extension that has no entry, from either, one run per extension. These were installed or scaffolded by hand, never recorded.
+- No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other declared extension that has no entry, from either, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 

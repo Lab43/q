@@ -52,11 +52,11 @@ Rejected: a `q` metadata key in `package.json` naming paths or listing docs — 
 
 ## Pinning
 
-Pin `@lab43/q` as an exact devDependency in the `package.json` at the repo root. That is the only place anything looks for it, whatever else the repo holds — a monorepo pins q at the root, never in a workspace manifest. Keep it a devDependency: q is tooling rather than code a project imports, and a project holding it in `dependencies` goes unvalidated at session start, silently.
+Declare `@lab43/q` as a devDependency in the `package.json` at the repo root. That is the only place anything looks for it, whatever else the repo holds — a monorepo declares q at the root, never in a workspace manifest. Keep it a devDependency: q is tooling rather than code a project imports, and a project holding it in `dependencies` goes unvalidated at session start, silently.
 
-Pin each extension exactly too, in that same root manifest. `dependencies` and `devDependencies` both serve (see: Identity), but no other manifest does — a pin in a workspace package is one nothing reads. Every version comparison q makes is between exact versions, so a ranged pin never reads as reconciled.
+Declare each extension in that same root manifest. `dependencies` and `devDependencies` both serve (see: Identity), but no other manifest does — a declaration in a workspace package is one nothing reads. The specifier's form is the project's own choice: q reads versions from the lockfile and `node_modules`, never from the manifest.
 
-A repo that publishes rules already pins q at its root, like any q project. With the payload at that root, the published package is the repo itself — its `package.json` goes into the tarball, and the pin in it tells consumers which q version the rules were written against.
+A repo that publishes rules already declares q at its root, like any q project, with one requirement of its own: the pin is exact. With the payload at that root, the published package is the repo itself — its `package.json` goes into the tarball, and the pin in it tells consumers which q version the rules were written against. Reconciling the extension holds that declaration against the consuming project's own q as two exact versions; a range would leave nothing to compare.
 
 ## Authoring
 

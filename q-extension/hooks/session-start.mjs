@@ -1,11 +1,13 @@
 // Validate the project's q setup and, when it doesn't validate, tell the
 // session to run /q:sync. Claude Code loads whatever plugin version is on
 // disk, so drift surfaces only if something checks at session start — no
-// other channel runs every session. The checks: the q copy this session
-// loaded vs the project's pin, each watermarked package's pin vs its
-// watermark vs its installed version, and the reverse direction — an
-// installed extension with no watermark entry (installed by hand, never
-// indexed).
+// other channel runs every session. The checks anchor on the lockfile and on
+// node_modules — the lockfile is exact whatever package.json's pin looks
+// like, and npm moves it even when it leaves the pin untouched: the q copy
+// this session loaded vs the lockfile's @lab43/q, each watermarked package's
+// lockfile version vs its watermark vs its installed version, and the
+// reverse direction — an installed extension with no watermark entry
+// (installed by hand, never indexed).
 //
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
@@ -18,6 +20,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { lockedVersion } from "./locked-version.mjs";
 
 const proj = process.env.CLAUDE_PROJECT_DIR || ".";
 const root =
@@ -55,10 +58,11 @@ const parse = (text) => {
 };
 const installedVersion = (dir) => parse(read(path.join(dir, "package.json")) ?? "")?.version;
 
-// Pins: one exact devDependency for q, and one exact pin per extension in
-// dependencies or devDependencies, all in the project's package.json. A missing manifest
-// means not a q project. One that exists but can't be read or parsed fails
-// like any other invalid state.
+// The manifest is read for membership and specifiers, never for versions:
+// @lab43/q in devDependencies is what makes this a q project, and a
+// watermarked package missing from both dependency maps was removed out of
+// band. A missing manifest means not a q project. One that exists but can't
+// be read or parsed fails like any other invalid state.
 let pkgText;
 try {
   pkgText = fs.readFileSync(path.join(proj, "package.json"), "utf8");
@@ -78,25 +82,24 @@ const devDeps = depMap("devDependencies");
 // devDependency check below.
 const deps = { ...depMap("dependencies"), ...devDeps };
 
-// Declaring no @lab43/q devDependency is a designed silence. A pin that
-// is declared but is not a version string is an invalid state like any other,
-// and fails the way a malformed pin fails for every extension below.
+// Declaring no @lab43/q devDependency is a designed silence.
 if (!Object.hasOwn(devDeps, "@lab43/q")) process.exit(0);
-const pinned = devDeps["@lab43/q"];
-if (typeof pinned !== "string") fail();
 
 // The q this session actually loaded. CLAUDE_PLUGIN_ROOT is the directory it
 // was resolved from, and npm wrote that copy's version, so comparing it
-// against the pin also catches a session running some other checkout's q.
+// against the lockfile also catches a session running some other checkout's q.
 //
 // The version sits one level above that directory. The plugin root is the
 // payload directory, and npm requires package.json at the package root holding
 // it, so the two are never the same directory.
 const loaded = installedVersion(path.join(root, ".."));
 if (typeof loaded !== "string") fail();
-if (loaded !== pinned) fail();
+// A missing lockfile, or one that cannot resolve q, reads as undefined and
+// fails this comparison like any other drift.
+const lockedQ = lockedVersion(proj, "@lab43/q", devDeps["@lab43/q"]);
+if (loaded !== lockedQ) fail();
 
-// Watermarks. A pinned project with no state file is unrecorded drift.
+// Watermarks. A project with q declared but no state file is unrecorded drift.
 const stateText = read(path.join(proj, ".claude/q-state.json"));
 if (stateText === null) fail();
 
@@ -106,7 +109,7 @@ if (state === undefined || typeof state !== "object" || state === null) fail();
 const recon = state.reconciledAgainst ?? {};
 if (typeof recon !== "object" || recon === null || Array.isArray(recon)) fail();
 // q is the framework rather than an extension, so it is checked by name: a
-// pinned project with no entry for it is caught here. The reverse-direction
+// declared project with no entry for it is caught here. The reverse-direction
 // loop below cannot stand in. It identifies extensions by a keyword read from
 // node_modules, which q does not carry and which an uninstalled or stale copy
 // doesn't supply either.
@@ -114,13 +117,13 @@ if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
 for (const [ext, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  const pin = Object.hasOwn(deps, ext) ? deps[ext] : undefined;
-  if (typeof pin !== "string") fail(); // removed out of band, never reconciled
-  if (pin !== mark) fail();
-
+  if (!Object.hasOwn(deps, ext)) fail(); // removed out of band, never reconciled
+  if (typeof deps[ext] !== "string") fail(); // not a specifier — invalid state
+  const locked = lockedVersion(proj, ext, deps[ext]);
+  if (locked !== mark) fail(); // moved or unresolvable, never reconciled
   const inst = installedVersion(path.join(proj, "node_modules", ext));
   if (typeof inst !== "string") fail();
-  if (inst !== pin) fail();
+  if (inst !== locked) fail(); // node_modules stale against the lockfile
 }
 
 // Reverse direction: a dependency whose installed copy is an extension but
