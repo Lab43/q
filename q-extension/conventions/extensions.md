@@ -14,7 +14,7 @@ Look for extensions across a project's direct `dependencies` as well as its `dev
 
 q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: @lab43/q conventions/documentation.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
 
-Installing an extension runs no code. The install passes `--ignore-scripts`, and an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
+Installing an extension runs no code: an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
 
 ## Which rules ship
 

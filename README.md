@@ -54,7 +54,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   <tr>
     <th rowspan="2" scope="rowgroup">Setup</th>
     <td nowrap><samp>/q:install</samp></td>
-    <td>Install q into a project, or add an extension to one. Idempotent, safe to re-run on a partially set-up project.</td>
+    <td>Set up q in a project you've already npm-installed it into — the conventions structure, the project's own marketplace pinning q, the briefing, the state file. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:reconcile</samp></td>
