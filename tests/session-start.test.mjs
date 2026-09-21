@@ -237,7 +237,7 @@ describe("the loaded plugin", () => {
     assertSilent(runHook(staged, { from: decoy, pluginRoot: false, entry: "node" }));
   });
 
-  it("is loud when the fallback root's package disagrees with the pin", () => {
+  it("is loud when the fallback root's package disagrees with the lockfile", () => {
     const staged = stageHook({ project: agreeing() });
     assertLoud(runHook(staged, { from: stageDecoy(staged), pluginRoot: false }));
   });

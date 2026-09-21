@@ -29,8 +29,8 @@ Validate the records before sorting. Check that every declared package in scope 
 
 Report the versions, then sort each package by its state:
 
-- **Locked ≠ watermark** → a catch-up: the version moved out of band. Reconciled in Step 3, touching no manifest. This is the common case. Nobody runs a q skill to update a UI library — they run `npm install`, and whatever rules that package ships ride along. Diff the two published versions: `npm pack <package>@<version>` for the watermark and for the locked version into a scratch directory, extract both, and diff the trees. Diff the whole tarball rather than the payload's `conventions/` alone, because a release can change skills, hooks, agents and references too. Step 3's reconciliation and the closing report both read from this diff.
-- **Installed ≠ locked** → machine drift: enforce without asking, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+- **Installed ≠ locked** → machine drift: enforce without asking, now, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` — the catch-up below diffs against what is installed, so enforcement comes first.
+- **Locked ≠ watermark** → a catch-up: the version moved out of band. Reconciled in Step 3, touching no manifest. This is the common case. Nobody runs a q skill to update a UI library — they run `npm install`, and whatever rules that package ships ride along. Diff the two published versions: `npm pack <package>@<version>` for the watermark and for the installed version into a scratch directory, extract both, and diff the trees. Diff the whole tarball rather than the payload's `conventions/` alone, because a release can change skills, hooks, agents and references too. Step 3's reconciliation and the closing report both read from this diff.
 - **Everything agreeing** → in force and reconciled; report and stop.
 
 Then ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). A run finding only machine drift asks nothing — enforce, report, stop. The go-ahead makes the rest of the run autonomous.
