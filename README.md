@@ -52,17 +52,13 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="4" scope="rowgroup">Setup</th>
+    <th rowspan="3" scope="rowgroup">Setup</th>
     <td nowrap><samp>/q:install</samp></td>
     <td>Install q into a project, or add an extension to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
-    <td nowrap><samp>/q:sync</samp></td>
-    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-extension</code> when the project's records don't match its pins.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:update</samp></td>
-    <td>Reconcile the project with q and its installed extensions: catch up any pin that moved out of band, and move pins to the latest releases with your go-ahead. Either way your docs are reconciled with what changed.</td>
+    <td nowrap><samp>/q:reconcile</samp></td>
+    <td>Reconcile the project's records with what npm already did: a version move made out of band is diffed, folded into your docs, and rewatermarked. Also sets up or repairs this machine; an extension's arrival or departure still routes to its own skill.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:uninstall-extension</samp></td>
@@ -147,7 +143,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 - gives your project its own marketplace, sourcing the q it just pinned, so every teammate's machine runs the version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
 
-Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 

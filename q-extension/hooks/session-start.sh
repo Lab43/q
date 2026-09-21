@@ -24,7 +24,7 @@ root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 if ! command -v node >/dev/null; then
   # No node means the checks can't run — same remedy as any other failure.
   # Keep the message in sync with MESSAGE in session-start.mjs.
-  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"The q plugin could not validate this project'"'"'s q setup, so its conventions and tooling may be stale or broken. Run /q:sync to repair it."}}\n'
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"The q plugin could not validate this project'"'"'s q setup, so its conventions and tooling may be stale or broken. Run /q:reconcile to repair it."}}\n'
   exit 0
 fi
 
