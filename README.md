@@ -57,7 +57,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
     <td>Install q into a project, or add an extension to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
-    <td nowrap><samp>/q:sync</samp></td>
+    <td nowrap><samp>/q:reconcile</samp></td>
     <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-extension</code> when the project's records don't match its pins.</td>
   </tr>
   <tr>
@@ -147,7 +147,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 - gives your project its own marketplace, sourcing the q it just pinned, so every teammate's machine runs the version the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
 
-Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:sync`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 

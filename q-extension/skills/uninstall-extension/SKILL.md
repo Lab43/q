@@ -11,7 +11,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 Refuse `q` and `@lab43/q`. q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), and no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 
-Refuse the whole run when the target sits in `dependencies` rather than `devDependencies`. The project builds on that package's code, so removing it is not what was asked. Removing only its records is no better: it leaves a keyword-carrying dependency with no watermark, which the session-start hook reports on every session and `/q:sync` routes straight back to `/q:install`, which re-adds what this run just dropped. Report that and stop. Declining an extension's rules while keeping its code needs a mechanism q does not have yet.
+Refuse the whole run when the target sits in `dependencies` rather than `devDependencies`. The project builds on that package's code, so removing it is not what was asked. Removing only its records is no better: it leaves a keyword-carrying dependency with no watermark, which the session-start hook reports on every session and `/q:reconcile` routes straight back to `/q:install`, which re-adds what this run just dropped. Report that and stop. Declining an extension's rules while keeping its code needs a mechanism q does not have yet.
 
 Confirm the named target is something this project recorded as an extension. Any of the following identifies it, which is looser than what makes a package an extension (see: @lab43/q conventions/extensions.md, Identity) — a run reaching here is undoing records, and a package whose payload has already gone still has records to remove:
 
