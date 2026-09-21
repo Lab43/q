@@ -1,6 +1,6 @@
 ---
 name: update
-description: Update q and the project's installed extensions — move pins to the latest releases with the user's go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band. Invoked bare it covers q and every installed extension; a named target — q, or an extension — scopes the run. Use after a release ships, or whenever pins may be behind. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use sync. A pin move or catch-up ships as a PR.
+description: Reconcile the project with q and its installed extensions — catch up any pin that moved out of band (an npm install, a teammate's merge, a Dependabot bump), and move pins to the latest releases with the user's go-ahead. Either way the project's docs are reconciled with what changed. Invoked bare it covers q and every installed extension; a named target — q, or an extension — scopes the run. Use after `npm install` brings new rules in, after a release ships, or whenever pins may be behind. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use sync. A catch-up or pin move ships as a PR.
 ---
 
 # Update
@@ -9,15 +9,19 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Take stock
 
-Bare invocation covers `@lab43/q` and every installed extension — the direct `devDependencies` whose own `package.json` carries the `q-extension` keyword (source: @lab43/q conventions/extensions.md). A named target scopes the run: `q` means `@lab43/q`; any other name means that extension. Confirm any target you can't identify as an extension before treating it as one. Below, *package* covers both q and an extension.
+Bare invocation covers `@lab43/q` and every installed extension — the direct dependencies, in `dependencies` and `devDependencies` alike, whose installed copy carries both the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity).
+
+It covers every watermarked package too, whatever its installed copy now looks like. A release that stopped shipping a payload is no longer an extension and would otherwise fall out of scope, leaving a watermark nothing can move and a session-start check that never goes quiet. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other. Say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
+
+A named target scopes the run: `q` means `@lab43/q`; any other name means that extension. Confirm any target you can't identify as an extension before treating it as one. Below, *package* covers both q and an extension.
 
 Read four versions for each package in scope — the watermarks per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`:
 
 | Pinned | Installed | Latest | Watermark |
 | --- | --- | --- | --- |
-| its pin in the project's `package.json`; in a repo authoring an extension, the q pin lives in that extension's own manifest (source: @lab43/q conventions/extensions.md) | `version` in `node_modules/<package>/package.json` | `npm view <package> version` | its `reconciledAgainst` entry |
+| its pin in the repo root's `package.json`, which in a repo authoring an extension is also that extension's shipped q declaration (source: @lab43/q conventions/extensions.md, Pinning) | `version` in `node_modules/<package>/package.json` | `npm view <package> version` | its `reconciledAgainst` entry |
 
-Alongside the versions, hold each third-party extension's q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md) — against the project's own q pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating q here; one behind closes only by that extension's release.
+Alongside the versions, hold each third-party extension's q declaration — its `@lab43/q` devDependency (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own q pin, and flag a mismatch either way. A declaration ahead of the pin closes by updating q here; one behind closes only by that extension's release.
 
 A package with no pin and no watermark entry has nothing to update — propose `/q:install` for it and stop.
 
@@ -25,8 +29,8 @@ Validate the records before sorting. Check that every pinned package in scope ca
 
 Report the versions, then sort each package by its state:
 
-- **Pinned behind latest** → a pin move to offer. Diff the two published versions: `npm pack <package>@<version>` for each into a scratch directory, extract both, and diff the trees. Diff the whole tarball rather than `conventions/` alone, because a release can change skills, hooks, agents and references too. Step 4's reconciliation and the closing report both read from this diff. Summarize what changed and what reconciliation it demands. Pins are recorded decisions — only the user moves them.
-- **Pinned ≠ watermark** → a catch-up: the pin moved out of band. Reconciled in Step 4, without moving any pin.
+- **Pinned ≠ watermark** → a catch-up: the pin moved out of band. Reconciled in Step 4, without moving any pin. This is the common case. Nobody runs a q skill to update a UI library — they run `npm install`, and whatever rules that package ships ride along.
+- **Pinned behind latest** → a pin move to offer. Diff the two published versions: `npm pack <package>@<version>` for each into a scratch directory, extract both, and diff the trees. Diff the whole tarball rather than the payload's `conventions/` alone, because a release can change skills, hooks, agents and references too. Step 4's reconciliation and the closing report both read from this diff. Summarize what changed and what reconciliation it demands. Pins are recorded decisions — only the user moves them.
 - **Installed ≠ pinned** → machine drift: enforce without asking, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`. When a pin move is on offer, enforce only after the ask below, so enforcement lands on the pins the run keeps; otherwise enforce now.
 - **Everything agreeing, nothing newer** → in force and reconciled; report and stop.
 
@@ -40,23 +44,28 @@ Pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md,
 
 For each pin the user agreed to move:
 
-Run `npm install --save-dev --save-exact --ignore-scripts <package>@<latest>`, via the project's package manager when it isn't npm. Moving any pin is the same act, q's included.
+Move it in the map that already holds it, via the project's package manager when it isn't npm:
+
+- a devDependency, which q always is: `npm install --save-dev --save-exact --ignore-scripts <package>@<latest>`
+- a regular dependency: `npm install --save-exact --ignore-scripts <package>@<latest>`
+
+`--save-dev` against a package sitting in `dependencies` relocates it, and a project that depends on an extension's code did not ask for that (source: @lab43/q conventions/extensions.md, Pinning).
 
 ## Step 4: Reconcile what the diff touched
 
 Work only from the diffs. Each package's diff runs from its watermark to its pin as Step 3 left it. What the diff touched decides which of these applies. A diff may touch more than one:
 
-- **Changed `conventions/`** — hold the project's docs, and the exception markers its code carries, against each changed rule:
+- **Changed conventions docs** — hold the project's docs, and the exception markers its code carries, against each changed rule:
   - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/documentation.md, Three tiers of conventions)
   - re-check each "(source: …)" restatement against its changed home
   - re-check each exception against its changed rule — retarget one whose rule moved, and remove one that is spent, its rule gone or changed to admit the site (source: @lab43/q conventions/documentation.md, Markers)
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; bringing code back into conformance is out of scope here
 
-  An extension authored in this repo is part of that surface: re-check its docs and its own `description` the same way. The q pin this run moved is also that extension's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: @lab43/q conventions/extensions.md).
+  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The q pin this run moved is also that extension's shipped declaration of which q version its rules were written against (source: @lab43/q conventions/extensions.md, Pinning), so the re-check is what makes the moved declaration true.
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, a changed intro re-draws its blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
-- **A changed extension `description`** — re-draw that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the description alone.
+- **A changed `q.description`** — re-draw that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
 - **A changed plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its pinned version.

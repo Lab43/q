@@ -8,7 +8,7 @@ Names are `verb(-noun)`: a verb, plus a noun whenever it clarifies the object �
 
 ## Modes
 
-The run contract defines the modes a run moves through and the conduct that binds each (see: references/run-contract.md). Every skill references it once, before its first step, and declares each mode inline at the step where its stretch begins, the question that settles the review mode included.
+The run contract defines the modes a run moves through and the conduct that binds each (see: @lab43/q references/run-contract.md). Every skill references it once, before its first step, and declares each mode inline at the step where its stretch begins, the question that settles the review mode included.
 
 The common shape of a run is five stretches: gather, converse, execute, validate, review.
 
@@ -16,7 +16,7 @@ The common shape of a run is five stretches: gather, converse, execute, validate
 - Conversation belongs where the shape is still ambiguous, and ends in the agreement.
 - Execution runs autonomously under that agreement, with a go-ahead gate just before any step that is expensive or hard to reverse.
 - Validation closes execution: the run's product passes the project's checks and an adversarial review before anything is delivered. The contract carries the shared procedure; a skill's own text adds only its bindings (lenses, scope, diff).
-- Review closes the run: the validated work reaches the user under the review mode — paused uncommitted and unposted at the local gate, or pushed and opened as the PR they review on GitHub (source: references/run-contract.md, Review modes).
+- Review closes the run: the validated work reaches the user under the review mode — paused uncommitted and unposted at the local gate, or pushed and opened as the PR they review on GitHub (source: @lab43/q references/run-contract.md, Review modes).
 
 Where an autonomous step looks destructive — a deletion, an overwrite — write the approval into it as a direct imperative ("sync without asking"): a missing one reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
 
@@ -40,10 +40,10 @@ A body instructs the agent executing it: every action gets a command (source: @l
 
 Reference a policy doc whole — never with a parenthetical list of its sections. The list is an enumeration that rots on every reorganization of the target, and the skill reads the doc at run time anyway.
 
-Framework docs are read from the consuming project's `node_modules/@lab43/q/conventions/` — a stable project-relative path. Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.
+Framework docs are read from the consuming project's `node_modules/@lab43/q/q-extension/conventions/` — a stable project-relative path (source: @lab43/q conventions/documentation.md, Package doc paths). Plugin-internal files (the manifest, hooks) are referenced via `${CLAUDE_PLUGIN_ROOT}` — the plugin installs at a different path on every machine, so a literal path breaks everywhere but this checkout.
 
-`${CLAUDE_PLUGIN_ROOT}` resolves only for a skill the plugin loads. A skill under this repo's `.claude/skills/` is not one, so it reaches q's own files by their path form instead — `@lab43/q references/run-contract.md`, which resolves here to the repo root (see: docs/conventions/documentation.md, Working on the payload). A project-local skill that used the variable would read an unresolvable path.
+`${CLAUDE_PLUGIN_ROOT}` resolves only for a skill the plugin loads. A skill under this repo's `.claude/skills/` is not one, so it reaches q's own files by their path form instead — `@lab43/q references/run-contract.md`, where `@lab43/q` resolves here to `q-extension/` (see: docs/conventions/documentation.md, Working on the payload). A project-local skill that used the variable would read an unresolvable path.
 
-Instructions shared across skills may be duplicated in each body or extracted into `references/` at the plugin root, referenced via `${CLAUDE_PLUGIN_ROOT}/references/`. Between skill bodies, duplication is the default — inline text reads in flow, while a reference turns a step into a lookup; extraction earns that lookup when the copies are long, keep drifting apart, or the sharers multiply. An instruction another doc already owns — a conventions doc's, a reference doc's — is the exception: it enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (source: @lab43/q conventions/documentation.md, Single source of truth). Reference files are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in `conventions/` instead.
+Instructions shared across skills may be duplicated in each body or extracted into `references/` at the plugin root, referenced via `${CLAUDE_PLUGIN_ROOT}/references/`. Between skill bodies, duplication is the default — inline text reads in flow, while a reference turns a step into a lookup; extraction earns that lookup when the copies are long, keep drifting apart, or the sharers multiply. An instruction another doc already owns — a conventions doc's, a reference doc's — is the exception: it enters a skill body or a reference doc as a reference, or as a restatement carrying its source marker, never an unmarked copy (source: @lab43/q conventions/documentation.md, Single source of truth). Reference files are on-demand context for skill runs — never conventions law, never indexed in any briefing; a rule that should bind consumer sessions outside a skill belongs in the payload's `conventions/` instead.
 
 A step that launches one of the project's defined agents passes what that agent's description names as its inputs, and nothing beyond them. The description is the caller's side of the contract. Omitting a named input is a defect. So is adding to them. Skill text runs on every invocation, so a hunt-list, a checklist, or an account of what changed shapes every review that step will ever launch. A step that fans out ad-hoc subagents carries no such contract — the prompt is their only instructions.

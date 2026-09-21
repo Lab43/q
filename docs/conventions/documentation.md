@@ -2,24 +2,13 @@
 
 Rules for writing q's docs — the framework payload and this repo's own.
 
-## The tier test
-
-Every rule written in this repo goes to one of two homes:
-
-- **Framework payload** — the law and workflow the `@lab43/q` package ships: `conventions/`, the skills, the hooks, the agents, and the references they read. A rule lands here when it would bind a consuming project: how their docs work, principles their sessions follow. The test: would this change what a session in *someone else's* repo writes or flags?
-- **`docs/conventions/` (this project's tier)** — a rule about developing q itself: its skills, its README, its repo mechanics. Consumers are never bound by these and never routed to them.
-
-**Payload is addressed solely to consumers.** Payload docs never mention q's own repo, development practices, or internal layout; even acknowledging that they might be read from within q muddies them for the audience they speak to. (A skill whose *subject* is the q repo — `/q:upstream` PRs against it — names the repo as its target; that is not mentioning it as "here".) q still follows the payload (it is a consuming project of its own workflow).
-
-Rejected: shipping the framework conventions at the contract path (`docs/conventions/`) for the symmetry of "q uses q" — it conflates payload with q's own project docs, so q's plans and repo rules would read as framework law to consumers.
-
 ## Working on the payload
 
-q is the framework, so the extension format does not reach it. The authoring rules an extension follows still govern this repo's payload, by this ruling (see: @lab43/q conventions/extensions.md, Authoring).
+q is the framework, so the extension format does not reach it. The authoring rules an extension follows still govern this repo's payload, by this ruling (see: @lab43/q conventions/extensions.md, Authoring). The two homes a rule written here can go to, and the test deciding between them, are that same shipped law (see: @lab43/q conventions/extensions.md, Which rules ship).
 
-In this repo, `@lab43/q` in a path reference resolves to the repo root, q's own working tree (source: @lab43/q conventions/documentation.md, Package doc paths).
+In this repo, `@lab43/q` in a path reference resolves to `q-extension/`, q's own payload working tree (source: @lab43/q conventions/documentation.md, Package doc paths). That is the directory every extension puts its payload in (source: @lab43/q conventions/extensions.md, Layout). The name is mildly wrong here, since q is not an extension. Keep it anyway: a name true of q alone would cost a permanent carve-out in every rule and check that resolves a package's payload path.
 
-The payload joins this project's documentation surface. Its `conventions/` get the full checks, like `docs/conventions/`. Its `references/` are not conventions law (source: docs/conventions/skills.md, Body), so they get guide mode instead (see: @lab43/q conventions/documentation.md, Taxonomy).
+The payload joins this project's documentation surface. `q-extension/conventions/` gets the full checks, like `docs/conventions/`. `q-extension/references/` is not conventions law (source: docs/conventions/skills.md, Body), so it gets guide mode instead (see: @lab43/q conventions/documentation.md, Taxonomy).
 
 Rejected: seeding the framework tier into consuming projects as editable copies (seed-and-fork) — that loses the update channel and makes framework law indistinguishable from project choice during grooming.
 

@@ -64,40 +64,80 @@ const writeFiles = (dir, files) => {
 /**
  * Stage a project directory and a plugin root holding the real hook pair.
  *
- * `project` maps relative paths to contents. `pluginManifest` is the plugin
+ * The plugin root is the package's `q-extension/` payload directory, and the
+ * manifest carrying the version sits at the package root above it. Staging
+ * them as one directory would leave the hook's version read untested against
+ * the only layout a consuming project ever has.
+ *
+ * `project` maps relative paths to contents. `packageManifest` is the package
  * root's package.json contents; null omits it, which is how an unreadable
- * plugin manifest is staged.
+ * manifest is staged.
  */
-export const stageHook = ({ project = {}, pluginManifest = '{"version":"1.0.0"}' } = {}) => {
+export const stageHook = ({ project = {}, packageManifest = '{"version":"1.0.0"}' } = {}) => {
   const base = mkTmp("q-hook-");
   const proj = path.join(base, "project");
-  const root = path.join(base, "plugin");
+  const pkg = path.join(base, "package");
+  const root = path.join(pkg, "q-extension");
   fs.mkdirSync(proj, { recursive: true });
   fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
 
   for (const file of ["session-start.sh", "session-start.mjs"]) {
-    fs.copyFileSync(path.join(repoRoot, "hooks", file), path.join(root, "hooks", file));
+    fs.copyFileSync(
+      path.join(repoRoot, "q-extension", "hooks", file),
+      path.join(root, "hooks", file),
+    );
   }
-  if (pluginManifest !== null) fs.writeFileSync(path.join(root, "package.json"), pluginManifest);
+  if (packageManifest !== null) fs.writeFileSync(path.join(pkg, "package.json"), packageManifest);
   writeFiles(proj, project);
 
   return { base, proj, root };
 };
 
 /**
+ * Stage a second copy of the hook pair under its own package root, carrying a
+ * different version. Launching from here with `CLAUDE_PLUGIN_ROOT` still set to
+ * the first root is what separates the variable from the derived path: silence
+ * means the variable won, the message means the file's own location did.
+ */
+export const stageDecoy = ({ base }, packageManifest = '{"version":"0.9.0"}') => {
+  const pkg = path.join(base, "decoy");
+  const root = path.join(pkg, "q-extension");
+  fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
+
+  for (const file of ["session-start.sh", "session-start.mjs"]) {
+    fs.copyFileSync(
+      path.join(repoRoot, "q-extension", "hooks", file),
+      path.join(root, "hooks", file),
+    );
+  }
+  fs.writeFileSync(path.join(pkg, "package.json"), packageManifest);
+
+  return root;
+};
+
+/**
  * Run the hook. `entry` picks the wrapper (the real session-start path) or the
  * node script directly, for the few states the wrapper deliberately shortcuts.
+ *
+ * `from` launches the staged copy at another plugin root while
+ * `CLAUDE_PLUGIN_ROOT` still names `root`. The two are the same directory in
+ * production, so only splitting them can show which one the pair reads.
+ * `pluginRoot: false` unsets the variable, leaving each half to derive the
+ * root from its own location.
  */
-export const runHook = ({ proj, root }, { entry = "wrapper", env = {} } = {}) => {
+export const runHook = (
+  { proj, root },
+  { entry = "wrapper", env = {}, pluginRoot = true, from = root } = {},
+) => {
   const base = {
     CLAUDE_PROJECT_DIR: proj,
-    CLAUDE_PLUGIN_ROOT: root,
     PATH: process.env.PATH,
   };
+  if (pluginRoot) base.CLAUDE_PLUGIN_ROOT = root;
   const [cmd, args] =
     entry === "wrapper"
-      ? [BASH, [path.join(root, "hooks", "session-start.sh")]]
-      : [process.execPath, [path.join(root, "hooks", "session-start.mjs")]];
+      ? [BASH, [path.join(from, "hooks", "session-start.sh")]]
+      : [process.execPath, [path.join(from, "hooks", "session-start.mjs")]];
 
   try {
     const stdout = execFileSync(cmd, args, {
