@@ -4,7 +4,7 @@ Format and writer rules for `.claude/q-state.json`, the consumer-side record of 
 
 ## What the file is
 
-The file holds machine-written version watermarks — never rules, never doc enumerations. Reconciliation is the work of folding a version change into the project — holding its docs against an extension release's changed rules, or its scaffolded surfaces against a new q version; `/q:update` performs it. A watermark records the version the project was last reconciled against. Drift is the lockfile or the installed version disagreeing with it, however the move arrived — a hand-run npm install, a teammate's merge, a Dependabot bump. The skills and the session-start hook compare its versions against the lockfile and `node_modules`; nothing consults it for how to behave.
+The file holds machine-written version watermarks — never rules, never doc enumerations. Reconciliation is the work of folding a version change into the project — holding its docs against an extension release's changed rules, or its scaffolded surfaces against a new q version; `/q:reconcile` performs it. A watermark records the version the project was last reconciled against. Drift is the lockfile or the installed version disagreeing with it, however the move arrived — a hand-run npm install, a teammate's merge, a Dependabot bump. The skills and the session-start hook compare its versions against the lockfile and `node_modules`; nothing consults it for how to behave.
 
 ## Format
 
@@ -24,9 +24,8 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 ## Writer rules
 
 - `/q:install` fills in missing watermarks and never touches present ones — a stale entry is reconciliation's to move. Bootstrapping q, it writes the `@lab43/q` entry; installing an extension, it writes that extension's. Each value is the version just installed, which has no reconciliation debt.
-- `/q:update` writes the affected watermark after each reconciliation.
+- `/q:reconcile` writes the affected watermark after each reconciliation, and writes nothing before one — watermarks certify reconciliation.
 - `/q:uninstall-extension` drops the extension's entry as part of reconciling its removal.
-- `/q:reconcile` reads and compares; it never writes. Watermarks certify reconciliation, and detection performs none.
 
 An absent file means no record — create it on the first watermark write.
 
