@@ -1,8 +1,7 @@
-// The session-start hook decides between two outcomes: silence, or one uniform
-// message routing the session to /q:reconcile. Silence is also the healthy
-// signal,
-// so an input the hook cannot read must still be loud — accidental silence is
-// the failure this suite exists to prevent.
+// The session-start hook decides between two outcomes: silence, or one
+// uniform message routing the session to /q:reconcile. Silence is also the
+// healthy signal, so an input the hook cannot read must still be loud —
+// accidental silence is the failure this suite exists to prevent.
 
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
