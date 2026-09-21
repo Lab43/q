@@ -54,7 +54,7 @@ Declare `@lab43/q` as a devDependency in the `package.json` at the repo root. Th
 
 Declare each extension in that same root manifest. `dependencies` and `devDependencies` both serve (see: Identity), but no other manifest does — a declaration in a workspace package is one nothing reads. The specifier's form is the project's own choice: q reads versions from the lockfile and `node_modules`, never from the manifest.
 
-A repo that publishes rules already declares q at its root, like any q project, with one requirement of its own: the pin is exact. With the payload at that root, the published package is the repo itself — its `package.json` goes into the tarball, and the pin in it tells consumers which q version the rules were written against. Reconciling the extension holds that declaration against the consuming project's own q as two exact versions; a range would leave nothing to compare.
+A repo that publishes rules already declares q at its root, like any q project, with one requirement of its own: the pin is exact. With the payload at that root, the published package is the repo itself — its `package.json` goes into the tarball, and the pin in it tells consumers which q version the rules were written against. That is a fact only an exact version can state, and the manifest is the author's only channel for it: the lockfile that would resolve a range never ships. The declaration stays inert in consumers — npm installs no dependency's devDependencies — so extensions declaring different q versions never collide; the gap is surfaced at reconciliation and closes through releases.
 
 ## Authoring
 

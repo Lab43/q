@@ -1,6 +1,6 @@
 ---
 name: install
-description: Set up q in a project the developer has already npm-installed it into — scaffold the conventions structure, the project's own marketplace pinning q, the briefing, and the state file — or repair a scaffold that has drifted. Invoke bare. Idempotent, safe to re-run on a partially set-up project. Runs no package manager against a named package; an extension's arrival is /q:reconcile's. The changes ship as a PR.
+description: Set up q in a project the developer has already npm-installed it into, or repair a scaffold that has drifted. Invoke bare. Safe to re-run on a partially set-up project. An extension's arrival is /q:reconcile's. The changes ship as a PR.
 ---
 
 # Install
@@ -13,7 +13,8 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 Hold the project against each of Step 3's scaffold items, noting what is absent and what has drifted from its form. Alongside, check:
 
-- Convention-like docs living elsewhere (a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules) — candidates for migration
+- Convention-like docs living elsewhere — a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules
+- Content already in `docs/conventions/` that has drifted from the documentation policy
 - Whether an earlier run's scaffold sits uncommitted in the working tree
 - The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via <https://cli.github.com> and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands.
 
@@ -21,8 +22,8 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 
 Skip this step in any of these cases:
 
-- A run where Step 1 found nothing missing or drifted beyond an unpopulated `node_modules/`, no migration candidates, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. Enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md` (machine state, not a repo change), then stop with the closing report (Step 7).
-- Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev --ignore-scripts @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 7): this skill runs no package manager against a named package.
+- A run where Step 1 found nothing missing or drifted, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. An unpopulated `node_modules/` is machine state rather than drift: a fresh clone nobody has installed on. Enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`, which populates it, then stop with the closing report (Step 5).
+- Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev --save-exact --ignore-scripts @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 5): this skill runs no package manager against a named package.
 - Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
@@ -55,11 +56,11 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    `.claude-plugin/marketplace.json` at the project root is the conventional path for a project publishing a marketplace, so the file is shared territory rather than q's. Merge the `q` entry into an existing manifest: leave every other `plugins` entry and the recorded name untouched. Write the whole file only when creating it.
 
-   The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md). Two projects sharing a name means the second one loads another project's q rather than its own.
+   The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md). Two projects sharing a name means the second one loads another project's q rather than its own.
 
    Name it `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters. It is what keeps the name unique. Read owner and repo from the repo's GitHub origin with `gh repo view --json nameWithOwner`. Use the project directory's name in their place when that command yields nothing. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
 
-   Generate that name only when creating the file. A project that already records one keeps it, whatever it is. Other clones have already registered that name locally. Regenerating it strands them. Keeping a name the project chose gives up guaranteed uniqueness, which is the better trade against renaming a marketplace the project owns.
+   Generate that name only when creating the file. A project that already records one keeps it, whatever it is. Other clones have already registered that name locally. Regenerating it strands them.
 
    ```json
    {
@@ -87,35 +88,46 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    }
    ```
 
-   Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo.
-5. **Enforce the declarations** — make this machine match what the project now declares, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+   Write this settings entry by hand, its `path` the literal `./` shown — producing it with `claude plugin marketplace add` records an absolute path instead, which breaks every other checkout of the repo.
+5. **Enforce the declarations** — make this machine match what the project now declares, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`.
 6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude-plugin/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.
-8. **README setup instructions** — ensure the README tells a collaborator using Claude Code how to bring up a fresh clone: install the project's dependencies, which is what delivers q. Fold that into the project's existing setup instructions or setup script — a dependency install the project already documents (`npm install`, a pnpm or yarn equivalent, a bootstrap script) covers it, and a README already carrying the information needs nothing. Present the q steps as applying to collaborators who use Claude Code, never as requirements for working in the repo. Create a minimal README with just these instructions when the project has none.
+8. **The README's q section** — when the README doesn't mention q, add this section verbatim:
+
+   ```markdown
+   ## Claude Code
+
+   This project uses [q](https://www.npmjs.com/package/@lab43/q), an agentic coding workflow that grounds Claude Code sessions in the project's own conventions. It arrives with the project's dependencies, and Claude Code loads it from the repo's tracked settings.
+
+   The project's rules live in `docs/conventions/`, and q ships rules of its own inside the package. Sessions read both before writing code, and record new decisions into the project's docs as they are made — the docs assemble themselves out of the work.
+
+   A session lists every `/q:` skill. Start with these:
+
+   - `/q:implement` — take on a task or bug
+   - `/q:create-plan`, then `/q:implement-plan` — plan bigger work, then execute the plan
+   - `/q:review` — review anything against the project's conventions
+   ```
+
+   When the README already mentions q, keep its wording; correct only what it says about q that is no longer true. When the project has no README, create a minimal one holding just this section.
 9. Scaffold nothing else. An empty taxonomy directory arrives when its first document does.
 
-## Step 4: Migration proposals (existing projects only)
+## Step 4: Deliver
 
-If Step 1 found convention-like content outside `docs/conventions/` — rules in the briefing that apply only to particular kinds of work, rule-carrying docs elsewhere in `docs/` — read `node_modules/@lab43/q/q-extension/conventions/documentation.md` and propose moving the content per its taxonomy, via AskUserQuestion — in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). Apply approved moves, leaving a one-line pointer behind where the policy calls for one.
-
-## Step 5: Adversarial review
-
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked — every proposal declined on an otherwise complete project — and no earlier run's scaffold awaits delivery: switch back to the prior branch, delete any branch this run created, and report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 7), adding:
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked and no earlier run's scaffold awaits delivery: switch back to the prior branch, delete any branch this run created, and report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 5), adding:
 
 - That the changes stay uncommitted — restate the `gh` fix.
 - That a re-run delivers them once `gh` is in place.
 
-Otherwise: in ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+No adversarial review closes this run — the scaffold is templates and mechanical merges, so a reviewer has nothing to vary, and the user reviews the delivered diff. Otherwise, in ship mode, commit. Then:
 
-## Step 6: Open the PR
-
-1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
+1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate) — minus the adversarial pass the gate otherwise adds after substantial iteration. The no-review ruling above covers the gate's too.
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
-## Step 7: Report
+## Step 5: Report
 
 Close the session by reporting:
 
 - What was created.
 - What already existed and was left untouched.
-- What was proposed, and the user's decisions.
+- Convention-like content Step 1 found outside `docs/conventions/` — migration candidates this run leaves alone. Moving a project's existing docs is its own delivery: suggest `/q:create-plan` for a docs tree, or `/q:implement` for a handful of rules.
+- Content already in `docs/conventions/` that has drifted from the documentation policy — grooming's territory: suggest `/q:groom-docs`.

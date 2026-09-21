@@ -1,6 +1,6 @@
 ---
 name: reconcile
-description: Reconcile the project's records with what npm already did — an extension updated, installed, or removed out of band (an npm install, a teammate's merge, a Dependabot bump). A version move is diffed into the docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with the user ruling on each orphaned reference. The changes ship as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. A project with no q scaffold routes to /q:install instead. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
+description: Reconcile the project's records with what npm already did — q or an extension updated, installed, or removed (your own npm install, a teammate's merge, a Dependabot bump). The changes ship as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. A project with no q scaffold routes to /q:install instead. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
 ---
 
 # Reconcile
@@ -9,12 +9,12 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Enforce the declarations
 
-Two states have nothing to reconcile yet. Propose `/q:install` and stop for either:
+Propose `/q:install` and stop in either of these states — there is nothing to reconcile yet:
 
 - The project declares no `@lab43/q` devDependency. It has nothing to enforce.
-- It declares one but has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run. This is the window between the bootstrap install and the first `/q:install`. It is the state the session-start check reports.
+- It declares one but has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run.
 
-Otherwise enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+Otherwise enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`.
 
 ## Step 2: Check the GitHub CLI
 
@@ -28,16 +28,16 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 
 Each finding routes to its remedy:
 
-- A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it (Step 5). A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
-- An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) — a departure: this run reconciles it (Step 6). Read both before treating it as one: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed. `@lab43/q` is never a departure — q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions), and a project that dropped its q declaration is Step 1's stop.
-- A `reconciledAgainst` map with no `@lab43/q` entry → `/q:install`, invoked bare. The scaffold was never fully recorded, and install's migration proposals need their own conversation. A state file missing altogether never reaches this step — it is Step 1's stop.
+- A lockfile version differing from its watermark (moved, never reconciled) — a version move: this run reconciles it (Step 5). When the release stopped shipping a payload, the rules departed while the code stayed: reconcile it as a departure (Step 6) instead, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
+- An entry for an extension in neither `dependencies` nor `devDependencies` (removed, the removal never reconciled) — a departure: this run reconciles it (Step 6). Read both before treating it as one: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed. `@lab43/q` never routes here — a project that dropped its q declaration is Step 1's stop.
+- A `reconciledAgainst` map with no `@lab43/q` entry → `/q:install`, invoked bare. The scaffold was never fully recorded, and scaffolding is install's to complete. A state file missing altogether never reaches this step — it is Step 1's stop.
 - Any other declared extension with no entry, from either dependency map — an arrival, installed by hand and never recorded: this run reconciles it (Step 7).
 
-Alongside, hold each third-party extension's q declaration — the `@lab43/q` devDependency in its own `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own installed q, and flag a mismatch either way in the close. A declaration ahead of the project's q closes by the developer moving q forward; one behind closes only by that extension's release.
+Alongside, hold each third-party extension's q declaration — the `@lab43/q` devDependency in its own `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own installed q, and flag a mismatch either way in the close. A declaration ahead of the project's q closes by the developer moving q forward; one behind closes only by that extension's release. A ranged q declaration states no version at all — flag it as the extension author's to fix.
 
 ## Step 4: Settle delivery
 
-A run whose findings all route elsewhere, or that found none, skips to Step 10: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
+A run that found nothing to reconcile — no finding at all, or only the `/q:install` hand-off — skips to Step 10: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
 
 ## Step 5: Reconcile each version move
 
@@ -50,11 +50,11 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; bringing code back into conformance is out of scope here
 
-  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. Its root manifest's exact `@lab43/q` pin is also that extension's shipped declaration of which q version its rules were written against (source: @lab43/q conventions/extensions.md, Pinning) — flag it when it no longer names the q the project now runs; moving it is the developer's npm edit.
+  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The exact `@lab43/q` pin in its root `package.json` is also that extension's shipped declaration of which q version its rules were written against — the manifest goes into the published tarball, which makes this the one `package.json` entry still read as a version (source: @lab43/q conventions/extensions.md, Pinning). Flag it when it no longer names the q the project now runs; moving it is the developer's npm edit.
 
-  Then sync the briefing's index lines for the package — a doc added or removed changes the list, a changed intro re-draws its blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
-- **A changed `q.description`** — re-draw that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
-- **A changed plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it.
+  Then sync the briefing's index lines for the package — a doc added or removed changes the list, and a changed intro means rewriting the doc's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
+- **A changed `q.description`** — rewrite that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
+- **q's changed plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. An extension's changed plugin reconciles as nothing — q loads no extension's plugin.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its installed version.
 
@@ -62,7 +62,7 @@ Step 4's go-ahead already covers this reconciliation, the prunes, drops and wate
 
 ## Step 6: Reconcile each departure
 
-The developer already removed the package; this run reconciles the records it left behind. Run the package manager's dependency install once, catching up any lockfile and `node_modules` remnants the removals left — it realizes what the manifest already declares: no named package, no manifest write. Then, for each departed extension, remove without asking — each item a no-op when already absent:
+The developer already removed the package; this run reconciles the records it left behind. Run the package manager's dependency install once, catching up any lockfile and `node_modules` remnants the removals left — it realizes what the manifest already declares: no named package, no manifest write. A package that departed by dropping its payload takes the same treatment minus that install — its code is still installed, and only its records leave. Then, for each departed extension, remove without asking — each item a no-op when already absent:
 
 1. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
 2. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
@@ -74,12 +74,12 @@ Then rule on what the departure orphaned. Grep the docs the documentation policy
 The developer already installed the package; this run records it. For each arrived extension:
 
 1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
-2. An extension shipping conventions docs gets its own group in the briefing's docs index, headed by the package name and its `q.description` (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Under that heading goes one line per doc the index doesn't already carry: the doc's path form (see: @lab43/q conventions/documentation.md, Package doc paths), blurb restating the doc's intro (source: @lab43/q conventions/documentation.md, Taxonomy). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
-3. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not — it is a version move's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+2. An extension shipping conventions docs gets its own group in the briefing's docs index, written to that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
+3. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not: a stale watermark moves only by reconciling the version move behind it (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
-Loading the skills, agents and hooks an extension ships is not yet part of an arrival: q scaffolds only its own marketplace entry.
+An arrival loads none of the skills, agents or hooks an extension ships: q scaffolds only its own marketplace entry.
 
-Report alongside, per arrival:
+Report in the close, per arrival:
 
 - A missing `q.description`, if the package ships conventions docs without one (source: @lab43/q conventions/extensions.md, Description). Its group falls back to a heading of the package name alone (source: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Name it as the extension author's to fix, not the installing project's. Index it anyway — one missing blurb does not stop rules that otherwise work.
 - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.

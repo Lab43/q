@@ -117,7 +117,7 @@ if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
 for (const [ext, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  if (!Object.hasOwn(deps, ext)) fail(); // removed out of band, never reconciled
+  if (!Object.hasOwn(deps, ext)) fail(); // removed, never reconciled
   if (typeof deps[ext] !== "string") fail(); // not a specifier — invalid state
   const locked = lockedVersion(proj, ext, deps[ext]);
   if (locked !== mark) fail(); // moved or unresolvable, never reconciled

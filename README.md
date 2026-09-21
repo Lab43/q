@@ -11,7 +11,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 ## Adding q to a project
 
 ```sh
-npm install --save-dev --ignore-scripts @lab43/q
+npm install --save-dev --save-exact --ignore-scripts @lab43/q
 claude --plugin-dir ./node_modules/@lab43/q/q-extension
 ```
 
@@ -54,11 +54,11 @@ That is the whole of it — q arrives with the project's dependencies, and the p
   <tr>
     <th rowspan="2" scope="rowgroup">Setup</th>
     <td nowrap><samp>/q:install</samp></td>
-    <td>Set up q in a project you've already npm-installed it into — the conventions structure, the project's own marketplace pinning q, the briefing, the state file. Idempotent, safe to re-run on a partially set-up project.</td>
+    <td>Set up q in a project you've already npm-installed it into, or repair a scaffold that has drifted. Safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:reconcile</samp></td>
-    <td>Reconcile the project's records with what npm already did — an extension updated, installed, or removed out of band: a version move is diffed into your docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with your ruling on each orphaned reference. Also sets up or repairs this machine.</td>
+    <td>Reconcile the project's records with what npm already did — q or an extension updated, installed, or removed. Also sets up or repairs this machine.</td>
   </tr>
   <tr>
     <th rowspan="9" scope="rowgroup">Workflow</th>
