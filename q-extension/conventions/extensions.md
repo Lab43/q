@@ -14,8 +14,6 @@ Look for extensions across a project's direct `dependencies` as well as its `dev
 
 q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: @lab43/q conventions/documentation.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
 
-Installing an extension runs no code: an extension declares no lifecycle scripts. An extension may ship executable files — a plugin's hooks run inside a session — but nothing in it runs as a consequence of being installed.
-
 ## Which rules ship
 
 A repo that publishes rules has two homes for a rule it writes, and every rule goes to one of them. A repo that publishes none has one home, `docs/conventions/`, and becoming a publisher is the user's call rather than a session's.
