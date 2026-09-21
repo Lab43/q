@@ -35,7 +35,7 @@ Install the project's dependencies, substituting your package manager where the 
 npm install
 ```
 
-That is the whole of it — q arrives with the project's dependencies, and the project's tracked settings tell Claude Code to load it. `/q:install` folds this into the project's README, so a q-using repo carries it itself.
+That is the whole of it — q arrives with the project's dependencies, and the project's tracked settings tell Claude Code to load it. `/q:install` writes a q section into the project's own README, so contributors meet q without leaving the repo.
 
 ## Skills
 

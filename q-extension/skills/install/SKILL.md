@@ -118,7 +118,7 @@ Invoked from another skill's run, stop here — the changes are that run's to va
 - That the changes stay uncommitted — restate the `gh` fix.
 - That a re-run delivers them once `gh` is in place.
 
-No adversarial review closes this run — the scaffold is templates and mechanical merges, so a reviewer has nothing to vary, and the user reviews the delivered diff. Otherwise, in ship mode, commit. Then:
+Otherwise, in ship mode, commit. No adversarial review closes this run: the scaffold is deliberately deterministic — much of it verbatim templates a reviewer would only second-guess — and the user reviews the delivered diff. Then:
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate) — minus the adversarial pass the gate otherwise adds after substantial iteration. The no-review ruling above covers the gate's too.
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).

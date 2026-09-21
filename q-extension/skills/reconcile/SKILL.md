@@ -28,7 +28,7 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 
 Each finding routes to its remedy:
 
-- A lockfile version differing from its watermark (moved, never reconciled) — a version move: this run reconciles it (Step 5). When the release stopped shipping a payload, the rules departed while the code stayed: reconcile it as a departure (Step 6) instead, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
+- A lockfile version differing from its watermark (moved, never reconciled) — a version move: this run reconciles it (Step 5). When the release stopped shipping a payload, the rules departed while the code stayed: reconcile it as a departure (Step 6) instead.
 - An entry for an extension in neither `dependencies` nor `devDependencies` (removed, the removal never reconciled) — a departure: this run reconciles it (Step 6). Read both before treating it as one: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed. `@lab43/q` never routes here — a project that dropped its q declaration is Step 1's stop.
 - A `reconciledAgainst` map with no `@lab43/q` entry → `/q:install`, invoked bare. The scaffold was never fully recorded, and scaffolding is install's to complete. A state file missing altogether never reaches this step — it is Step 1's stop.
 - Any other declared extension with no entry, from either dependency map — an arrival, installed by hand and never recorded: this run reconciles it (Step 7).
@@ -103,7 +103,7 @@ Close the session by reporting:
 - The GitHub CLI result, with the fix when it failed.
 - Each version move reconciled and what its release changed.
 - Each arrival reconciled — the group and lines indexed, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
-- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling.
+- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. A departure by dropped payload is named as a release that stopped shipping rules, since the project may want the dependency reconsidered.
 - Each flagged q declaration, and what closes it.
 
 Then, where Step 3 found no `@lab43/q` record, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.
