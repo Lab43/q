@@ -4,15 +4,14 @@ How to bring q up and exercise it. q runs inside Claude Code, so driving it mean
 
 ## Driving q as an installed plugin
 
-Exercise a change to the marketplace manifest, the hooks, or `/q:install` against a throwaway fixture rather than this checkout. A fixture gets q the way a consuming project does — from a packed tarball under `node_modules/`.
+Exercise a change to the hooks, to `/q:install`, or to the marketplace it scaffolds against a throwaway fixture rather than this checkout. A fixture gets q the way a consuming project does — from a packed tarball under `node_modules/`.
 
 1. From the checkout, run `npm pack --pack-destination <dir>`.
 2. Give the fixture directory its own `package.json`.
 3. Install the tarball there: `npm install --save-dev --save-exact --ignore-scripts ./lab43-q-<version>.tgz`. q lands at `node_modules/@lab43/q`.
 4. Set the `@lab43/q` devDependency to the literal version by hand. The tarball install records `file:lab43-q-<version>.tgz` instead. That is not an exact version pin, so it never matches the installed version. The session-start hook reports the mismatch, telling every session in the fixture to run `/q:sync`. The package still resolves from `node_modules` after the edit, which is what a session reads. Run no dependency install afterward: the pin now names a version the registry does not have.
-5. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q/q-extension`.
-6. Install the plugin: `claude plugin install q@q --scope project`.
-7. Run `/q:install` in the fixture to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. It does mean the hook's silent branch stays unreachable until this step runs. Exercising a hook change needs it.
+5. Start a session there: `claude --plugin-dir ./node_modules/@lab43/q/q-extension`. That loads q for the session and registers nothing, which is how a consumer's first install reaches it.
+6. Run `/q:install` in that session to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. It does mean the hook's silent branch stays unreachable until this step runs. Exercising a hook change needs it.
 
 q ships no dependencies, so a fixture needs nothing installed beyond the tarball. This checkout is different: `npm install` here installs q's own devDependencies and the pre-commit hook.
 
@@ -20,23 +19,25 @@ q ships no dependencies, so a fixture needs nothing installed beyond the tarball
 
 Run `claude -p` in the target directory and ask it to count the skills whose names start with `q:`. The count to expect is the number of directories in `q-extension/skills/`.
 
-A headless session loads a marketplace the CLI's registry already holds. It will not register one declared only in tracked `.claude/settings.json`, which is something an interactive session does for itself. Run the `marketplace add` above before driving headlessly.
+A headless session loads a marketplace the CLI's registry already holds. It will not register one declared only in tracked `.claude/settings.json`, which is something an interactive session does for itself. Pass `--plugin-dir` to drive a fixture that has not been through `/q:install` yet.
 
-## Taking turns over the marketplace name `q`
+## Taking turns over the marketplace name `q-dev`
 
-The CLI's registry holds one entry per marketplace name, machine-wide. This checkout and every fixture all publish the name `q`, so only one of them owns it at a time. Every session resolving `q@q` follows whichever registered last, this checkout's own sessions included.
+The CLI's registry holds one entry per marketplace name, machine-wide. This checkout and every worktree of it publish the name `q-dev`, so only one of them owns it at a time. Every session resolving `q@q-dev` follows whichever registered last, this checkout's own sessions included. Fixtures contend for nothing: they load q through `--plugin-dir` until `/q:install` gives them a marketplace name of their own.
 
-Announce to peers before repointing it (see: @lab43/q references/run-contract.md, Working alongside a peer). Release it when you are done with the fixture: run `claude plugin marketplace add --scope local ./q-extension` from the checkout.
+Announce to peers before repointing it (see: @lab43/q references/run-contract.md, Working alongside a peer). Release it when you are done: run `claude plugin marketplace add --scope local <path to this checkout>`. Write the main checkout's path in full. A relative `./` resolves against the session's own directory, so a session running in a worktree takes the name for the worktree instead of releasing it.
 
 Nothing else driving q binds. There are no ports, databases, or services to contend over.
 
 ## When a session has no `q:` skills
 
-The registry holds that directory under a name other than `q`, so the `q@q` key in `.claude/settings.json` resolves to nothing. Remove the stale entry with `claude plugin marketplace remove <name>`, then register the directory again.
+The `q@q-dev` key in `.claude/settings.json` resolves to nothing. Run `claude plugin marketplace list` and read the `q-dev` entry to tell which repair applies.
 
-Re-adding on its own does not fix it, because `claude plugin marketplace add` compares the registry by path:
+The entry names a directory that is gone. A removed worktree that held the name leaves this behind. Register this checkout again: `claude plugin marketplace add --scope local <path to this checkout>`. The add repoints the entry, because the name matches.
+
+There is no `q-dev` entry at all, because the registry holds this directory under another name. Remove that entry with `claude plugin marketplace remove <name>`, then register the directory again. `claude plugin marketplace remove` also strips the marketplace from the repo's tracked `.claude/settings.json`, so check that file afterwards and put the declaration back. Re-adding alone does not fix this one, because `claude plugin marketplace add` compares the registry by path:
 
 - An entry whose path matches, under a different name, is left alone.
 - An entry whose name matches, pointing at a different path, is repointed.
 
-That second behavior is what lets the release step above take the name back.
+That second behavior is what lets the release step above take the name back, and what makes the first repair work.

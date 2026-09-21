@@ -1,6 +1,0 @@
-{
-  "name": "q",
-  "description": "Serves q's plugin from the installed package.",
-  "owner": { "name": "Lab43" },
-  "plugins": [{ "name": "q", "source": "./" }]
-}

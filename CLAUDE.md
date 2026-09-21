@@ -10,7 +10,7 @@ Everything under `q-extension/` is framework payload — the law and workflow th
 
 ## Developing
 
-- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>/q-extension` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q-dev` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>/q-extension` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
 - When the `q:` skills don't load here, the repair is in `docs/guides/driving-manual.md`.
 - `npm run check` runs every check this repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main` (source: .github/workflows/checks.yml).
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree that has not been installed commits without checking anything.

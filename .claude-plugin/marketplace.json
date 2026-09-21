@@ -1,0 +1,12 @@
+{
+  "name": "q-dev",
+  "description": "Serves q's plugin from this working tree, for developing q.",
+  "owner": { "name": "Lab43" },
+  "plugins": [
+    {
+      "name": "q",
+      "source": "./q-extension",
+      "description": "The q workflow plugin, loaded from this checkout."
+    }
+  ]
+}

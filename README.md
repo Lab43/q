@@ -12,17 +12,18 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 
 ```sh
 npm install --save-dev --save-exact --ignore-scripts @lab43/q
-claude plugin marketplace add --scope local ./node_modules/@lab43/q/q-extension
-claude plugin install q@q --scope project
+claude --plugin-dir ./node_modules/@lab43/q/q-extension
 ```
 
-npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
+npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. `--plugin-dir` loads q for that one session, which is all it takes to run `/q:install` in it:
 
 <!-- source: @lab43/q skills/install/SKILL.md -->
 
 - scaffolds your conventions
 - gives the project its own marketplace, sourcing the q you just installed
 - records the version your docs were reconciled against
+
+Start every session after that with plain `claude`. The marketplace `/q:install` wrote is the project's own, and your tracked settings point each session at it.
 
 ## Joining a project that uses q
 
@@ -207,8 +208,8 @@ This repo has two conventions directories, by design. `q-extension/` is the payl
 
 To work on q:
 
-- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>/q-extension` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
-- When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./q-extension` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./q-extension` again.
+- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q-dev` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>/q-extension` loads it without registering anything. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- When the `q:` skills don't load in your checkout, read the `q-dev` entry in `claude plugin marketplace list`. An entry naming a directory that is gone — usually a worktree that held the name and was then removed — takes registering your checkout again, with its path written in full. No `q-dev` entry at all means the registry holds your directory under another name: remove that entry with `claude plugin marketplace remove <name>`, then register your checkout again. That remove also strips the marketplace from the repo's tracked `.claude/settings.json`, so check that file afterwards and put the declaration back.
 - `npm run check` runs every check the repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main`.
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree you have not installed commits without checking anything.
 - Releasing is separate from merging, and PRs never touch a `version`. The steps live in `docs/guides/releasing.md`.

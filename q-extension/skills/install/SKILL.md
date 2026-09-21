@@ -90,13 +90,11 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
      "extraKnownMarketplaces": {
        "<marketplace>": { "source": { "source": "directory", "path": "./" } }
      },
-     "enabledPlugins": { "q@<marketplace>": true, "q@q": false }
+     "enabledPlugins": { "q@<marketplace>": true }
    }
    ```
 
    Write the path by hand, relative to the project root — `claude plugin marketplace add` records an absolute path, which breaks every other checkout of the repo.
-
-   `"q@q": false` retires the bootstrap marketplace the package ships. Its name is the same in every copy of q, so leaving it enabled means loading whichever copy registered that name last. Disabling it is what makes the project's own pin authoritative.
 5. **Enforce the declarations** — make this machine match the pins just declared, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude-plugin/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.

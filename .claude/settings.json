@@ -3,14 +3,14 @@
     "ask": ["Bash(gh release create *)", "Bash(npm publish *)"]
   },
   "extraKnownMarketplaces": {
-    "q": {
+    "q-dev": {
       "source": {
         "source": "directory",
-        "path": "./q-extension"
+        "path": "./"
       }
     }
   },
   "enabledPlugins": {
-    "q@q": true
+    "q@q-dev": true
   }
 }
