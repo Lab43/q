@@ -14,6 +14,8 @@ Exercise a change to the hooks, to `/q:install`, or to the marketplace it scaffo
 
 q ships no dependencies, so a fixture needs nothing installed beyond the tarball. This checkout is different: `npm install` here installs q's own devDependencies and the pre-commit hook.
 
+A hook change alone needs no session: spawn the hook directly against the fixture — `CLAUDE_PROJECT_DIR=<fixture> CLAUDE_PLUGIN_ROOT=<fixture>/node_modules/@lab43/q/q-extension bash "$CLAUDE_PLUGIN_ROOT"/hooks/session-start.sh` — and read its stdout. A session shows nothing the hook's own output doesn't.
+
 ## Proving a session loads it
 
 Run `claude -p` in the target directory and ask it to count the skills whose names start with `q:`. The count to expect is the number of directories in `q-extension/skills/`.
