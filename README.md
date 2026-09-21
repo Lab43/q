@@ -129,7 +129,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 <a href="docs/workflow-chart/light.png">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-chart/dark.png">
-    <img alt="The q workflow: work flows from triage and start through plan, implement, and human review to merge, with adversarial review gating plan and implement. Conventions documentation — project docs over the installed extensions over q — grounds each step; gotchas and corrections flow back down as rules on project docs, and rules that belong upstream leave as PRs." src="docs/workflow-chart/light.png">
+    <img alt="The q workflow. Entry points — /q:triage takes a set of work, /q:implement a single task, /q:review existing work — feed one workflow loop: investigate, discuss, execute, adversarial review, then a PR, opened directly in ship mode or after the human's local review in local mode, then human PR review and merge, with requested changes looping back into discuss. Docs ground every step: project docs — conventions, specs, guides, plans — over installed extensions over q, with plans, findings, and new rulings written back as work happens, and upstream PRs carrying overrides to the layers that own them." src="docs/workflow-chart/light.png">
   </picture>
 </a>
 <!-- markdownlint-enable MD033 -->
