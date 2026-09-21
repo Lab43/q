@@ -30,7 +30,7 @@ Each finding routes to its remedy:
 
 - A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it (Step 5). A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
 - An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) — a departure: this run reconciles it (Step 6). Read both before treating it as one: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed. `@lab43/q` is never a departure — q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions), and a project that dropped its q declaration is Step 1's stop.
-- A missing state file, or a missing `@lab43/q` entry → `/q:install`, invoked bare. There is no scaffold to reconcile against, and install's migration proposals need their own conversation.
+- A `reconciledAgainst` map with no `@lab43/q` entry → `/q:install`, invoked bare. The scaffold was never fully recorded, and install's migration proposals need their own conversation. A state file missing altogether never reaches this step — it is Step 1's stop.
 - Any other declared extension with no entry, from either dependency map — an arrival, installed by hand and never recorded: this run reconciles it (Step 7).
 
 Alongside, hold each third-party extension's q declaration — the `@lab43/q` devDependency in its own `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own installed q, and flag a mismatch either way in the close. A declaration ahead of the project's q closes by the developer moving q forward; one behind closes only by that extension's release.
@@ -107,4 +107,4 @@ Close the session by reporting:
 - Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling.
 - Each flagged q declaration, and what closes it.
 
-Then, where Step 3 found no scaffold, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.
+Then, where Step 3 found no `@lab43/q` record, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.
