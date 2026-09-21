@@ -7,7 +7,7 @@ description: Turn session friction and the project's recorded deviations into up
 
 Never edit q or an installed extension in place. The next install overwrites the change, and no other project ever sees it. Open a PR against the repo that owns the rule instead.
 
-Payload docs don't name q's own repo. This one must: a PR needs a destination (exception: @lab43/q conventions/extensions.md, Which rules ship).
+Payload docs don't name q's own repo, its practices or its layout. This skill must: a PR needs a destination, and a change set landing there has to satisfy whatever that repo checks (exception: @lab43/q conventions/extensions.md, Which rules ship).
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 

@@ -257,7 +257,7 @@ describe("watermarked extensions", () => {
       ".claude/q-state.json": JSON.stringify({
         reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
       }),
-      "node_modules/@acme/ext/package.json": JSON.stringify({ version: "2.0.0" }),
+      ...installedExt(),
       ...overrides,
     });
 
@@ -403,6 +403,26 @@ describe("watermarked extensions", () => {
       }),
     });
     assertSilent(runHook(staged));
+  });
+
+  // The payload check stats a path inside node_modules, and stat throws on an
+  // unreadable directory however it is called. The hook reports; it never exits
+  // on a stack trace.
+  it("survives a payload directory it cannot read", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        ...installedExt(),
+      }),
+    });
+    const payload = path.join(staged.proj, "node_modules/@acme/ext/q-extension");
+    fs.chmodSync(payload, 0o000);
+    try {
+      // Unreadable reads as no payload, so this is the keyword-only silence.
+      assertSilent(runHook(staged));
+    } finally {
+      fs.chmodSync(payload, 0o755);
+    }
   });
 
   // A payload directory holding neither conventions/ nor .claude-plugin/ is

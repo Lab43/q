@@ -132,7 +132,15 @@ for (const [ext, mark] of Object.entries(recon)) {
 // Both are readable only from the package's own copy under node_modules, so a
 // dependency whose manifest is absent or unparseable is skipped rather than
 // reported.
-const isDir = (p) => fs.statSync(p, { throwIfNoEntry: false })?.isDirectory() === true;
+// throwIfNoEntry covers a missing path, but stat still throws on an
+// unreadable one, and this hook must never exit on a stack trace.
+const isDir = (p) => {
+  try {
+    return fs.statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
+};
 const hasPayload = (dir) =>
   ["conventions", ".claude-plugin"].some((sub) => isDir(path.join(dir, "q-extension", sub)));
 

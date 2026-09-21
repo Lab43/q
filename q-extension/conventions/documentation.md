@@ -17,7 +17,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-Conventions graduate into an extension when their audience grows beyond one project (source: @lab43/q conventions/extensions.md, Which rules ship).
+Conventions move into what a repo publishes when their audience grows beyond one project, on the user's decision (source: @lab43/q conventions/extensions.md, Which rules ship).
 
 ## Conventions docs
 
@@ -79,7 +79,11 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - a repo file or directory, read from the repo root exactly as written — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - anything a package ships, by its path form (see: Package doc paths)
 
-A leading package name is what separates the last two forms. Use the path form for every target a package ships, wherever the marker sits, because a bare path would be read literally and find nothing.
+A leading package name is what separates the last two forms. Use the path form for every target a package ships, because a bare path would be read literally and find nothing.
+
+A conventions doc always takes the path form, wherever the marker sits. It binds every session, and a session meets it with no skill running, so the marker has to resolve from the documentation surface alone.
+
+`${CLAUDE_PLUGIN_ROOT}` is for the files nothing but a running skill ever opens — a plugin's own references and manifest. It resolves wherever the session loaded that plugin from, including a `--plugin-dir` directory that sits under no `node_modules/` and belongs to no authoring repo.
 
 Four markers, all ordinary language:
 

@@ -62,7 +62,7 @@ Work only from the diffs. Each package's diff runs from its watermark to its pin
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; bringing code back into conformance is out of scope here
 
-  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The q pin this run moved is also that extension's shipped written-against declaration, and the re-check is what makes the moved declaration true (source: @lab43/q conventions/extensions.md, Pinning).
+  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The q pin this run moved is also that extension's shipped declaration of which q version its rules were written against (source: @lab43/q conventions/extensions.md, Pinning), so the re-check is what makes the moved declaration true.
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, a changed intro re-draws its blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
 - **A changed `q.description`** — re-draw that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
