@@ -1,6 +1,6 @@
 ---
 name: reconcile
-description: Reconcile the project's records with what npm already did. A version move made out of band — an npm install, a teammate's merge, a Dependabot bump — is diffed, folded into the project's docs, and rewatermarked, and the change ships as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. An extension's arrival still routes to /q:install and a departure to /q:uninstall-extension. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
+description: Reconcile the project's records with what npm already did. A version move made out of band — an npm install, a teammate's merge, a Dependabot bump — is diffed, folded into the project's docs, and rewatermarked; an extension's removal is reconciled too, its records dropped and its orphaned references ruled on by the user. The changes ship as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. An extension's arrival still routes to /q:install. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
 ---
 
 # Reconcile
@@ -28,15 +28,15 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 
 Each finding routes to its remedy:
 
-- A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it, through Steps 4 to 7. A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
-- An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension. Read both before reporting this: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed.
+- A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it (Step 5). A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
+- An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) — a departure: this run reconciles it (Step 6). Read both before treating it as one: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed. `@lab43/q` is never a departure — q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions), and a project that dropped its q declaration is Step 1's stop.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other declared extension that has no entry, from either, one run per extension. These were installed or scaffolded by hand, never recorded.
 
 Alongside, hold each third-party extension's q declaration — the `@lab43/q` devDependency in its own `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own installed q, and flag a mismatch either way in the close. A declaration ahead of the project's q closes by the developer moving q forward; one behind closes only by that extension's release.
 
 ## Step 4: Settle delivery
 
-A run whose findings all route elsewhere, or that found none, skips to Step 8: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
+A run whose findings all route elsewhere, or that found none, skips to Step 9: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
 
 ## Step 5: Reconcile each version move
 
@@ -59,25 +59,36 @@ After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_RO
 
 Step 4's go-ahead already covers this reconciliation, the prunes, drops and watermark writes included. Apply it without re-asking.
 
-## Step 6: Adversarial review
+## Step 6: Reconcile each departure
+
+The developer already removed the package; this run reconciles the records it left behind. For each departed extension, remove without asking — each item a no-op when already absent:
+
+1. Run the package manager's dependency install, catching up any lockfile and `node_modules` remnants the removal left. It realizes what the manifest already declares — no named package, no manifest write.
+2. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
+3. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
+
+Then rule on what the departure orphaned. Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name, and grep the project's code for exception markers naming it, excluding `node_modules/` and build artifacts. Every hit lost its backing with the extension: an overrides marker's target, an exception marker's target, a restatement's home, a cross-reference's destination. On a clean sweep, skip this. Otherwise recommend a resolution for each hit, grounded in the documentation policy, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — one AskUserQuestion batch. The user rules. Apply the rulings.
+
+## Step 7: Adversarial review
 
 In ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
-## Step 7: Open the PR
+## Step 8: Open the PR
 
 Skip this step when Step 4 found nothing to deliver.
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
-## Step 8: Report, then hand off
+## Step 9: Report, then hand off
 
 Close the session by reporting:
 
 - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
 - The GitHub CLI result, with the fix when it failed.
 - Each version move reconciled and what its release changed.
+- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling.
 - Each finding that routes elsewhere, and where.
 - Each flagged q declaration, and what closes it.
 
-Then make Step 3's arrival and departure hand-offs — each invocation a full run of its own that asks and delivers for itself.
+Then make Step 3's arrival hand-offs — each invocation a full run of its own that asks and delivers for itself.
