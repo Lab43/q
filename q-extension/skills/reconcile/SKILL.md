@@ -1,15 +1,15 @@
 ---
-name: sync
+name: reconcile
 description: Set up or repair this machine for a q-using project, handing off to /q:install, /q:update, or /q:uninstall-extension when the project's records don't match its pins. Use on a fresh clone or a new machine, or whenever the session-start check says the project's q setup did not validate. Never moves pins and never reconciles docs; the only tracked file it may touch is a lockfile a dependency install rewrites.
 ---
 
-# Sync
+# Reconcile
 
-Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation is the agreement — proceed autonomously throughout. Sync delivers no repo change, so there is no branch, review mode, or PR.
+Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. The invocation is the agreement — proceed autonomously throughout. Reconcile delivers no repo change, so there is no branch, review mode, or PR.
 
 ## Step 1: Enforce the pins
 
-Two states have nothing to sync yet. Propose `/q:install` and stop for either:
+Two states have nothing to reconcile yet. Propose `/q:install` and stop for either:
 
 - The project declares no `@lab43/q` devDependency. It has no pins to enforce.
 - It declares one but has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run. This is the window between the bootstrap install and the first `/q:install`. It is the state the session-start check reports.
@@ -32,7 +32,7 @@ Each finding routes to its remedy:
 - An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension. Read both before reporting this: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other declared extension that has no entry, from either, one run per extension. These were installed or scaffolded by hand, never recorded.
 
-Never write the state file — watermarks certify reconciliation, and sync never reconciles (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+Never write the state file — watermarks certify reconciliation, and detection performs none (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 ## Step 4: Report, then hand off
 

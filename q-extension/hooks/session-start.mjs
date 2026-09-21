@@ -1,5 +1,5 @@
 // Validate the project's q setup and, when it doesn't validate, tell the
-// session to run /q:sync. Claude Code loads whatever plugin version is on
+// session to run /q:reconcile. Claude Code loads whatever plugin version is on
 // disk, so drift surfaces only if something checks at session start — no
 // other channel runs every session. The checks anchor on the lockfile and on
 // node_modules — the lockfile is exact whatever package.json's pin looks
@@ -9,8 +9,8 @@
 // reverse direction — an installed extension with no watermark entry
 // (installed by hand, never indexed).
 //
-// The remedy is uniform — /q:sync re-derives the specifics and routes each
-// finding to its remedy — so every failure emits the same message and
+// The remedy is uniform — /q:reconcile re-derives the specifics and routes
+// each finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. Two silences are designed. A project
 // that declares no @lab43/q devDependency is not a q project. A dependency
 // with no watermark entry that cannot be read as an extension is not one to
@@ -29,7 +29,7 @@ const root =
 
 // Keep in sync with the message in session-start.sh (bash can't import it).
 const MESSAGE =
-  "The q plugin could not validate this project's q setup, so its conventions and tooling may be stale or broken. Run /q:sync to repair it.";
+  "The q plugin could not validate this project's q setup, so its conventions and tooling may be stale or broken. Run /q:reconcile to repair it.";
 
 const fail = () => {
   console.log(

@@ -1,6 +1,6 @@
 ---
 name: update
-description: Reconcile the project with q and its installed extensions — catch up any version move the project's dependency tooling already made (an npm install, a teammate's merge, a Dependabot bump), folding the changed rules into the project's docs. Invoked bare it covers q and every installed extension; a named target — q, or an extension — scopes the run. Use after `npm install` brings new rules in, or whenever the session-start check reports drift. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use sync. A catch-up ships as a PR.
+description: Reconcile the project with q and its installed extensions — catch up any version move the project's dependency tooling already made (an npm install, a teammate's merge, a Dependabot bump), folding the changed rules into the project's docs. Invoked bare it covers q and every installed extension; a named target — q, or an extension — scopes the run. Use after `npm install` brings new rules in, or whenever the session-start check reports drift. To audit docs without updating, use groom-docs; to repair this machine without touching docs, use reconcile. A catch-up ships as a PR.
 ---
 
 # Update
@@ -25,7 +25,7 @@ Alongside the versions, hold each third-party extension's q declaration — its 
 
 A package with no declaration and no watermark entry has nothing to update — propose `/q:install` for it and stop.
 
-Validate the records before sorting. Check that every declared package in scope carries its watermark. Check that no watermark outlives its declaration: every watermark on a bare run, the target's on a named run. On any failure, propose `/q:sync` and stop.
+Validate the records before sorting. Check that every declared package in scope carries its watermark. Check that no watermark outlives its declaration: every watermark on a bare run, the target's on a named run. On any failure, propose `/q:reconcile` and stop.
 
 Report the versions, then sort each package by its state:
 

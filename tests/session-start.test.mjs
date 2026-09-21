@@ -1,5 +1,6 @@
 // The session-start hook decides between two outcomes: silence, or one uniform
-// message routing the session to /q:sync. Silence is also the healthy signal,
+// message routing the session to /q:reconcile. Silence is also the healthy
+// signal,
 // so an input the hook cannot read must still be loud — accidental silence is
 // the failure this suite exists to prevent.
 
@@ -16,7 +17,7 @@ after(cleanup);
 // assertion circular: the message is a contract with the session that reads it,
 // so changing it should fail here and be updated deliberately.
 const MESSAGE =
-  "The q plugin could not validate this project's q setup, so its conventions and tooling may be stale or broken. Run /q:sync to repair it.";
+  "The q plugin could not validate this project's q setup, so its conventions and tooling may be stale or broken. Run /q:reconcile to repair it.";
 
 const PIN = "1.0.0";
 

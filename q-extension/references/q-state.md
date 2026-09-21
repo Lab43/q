@@ -12,7 +12,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 
 ```json
 {
-  "note": "Machine state written by q's skills. Never edit by hand; /q:sync reports drift.",
+  "note": "Machine state written by q's skills. Never edit by hand; /q:reconcile reports drift.",
   "reconciledAgainst": {
     "@lab43/q": "0.3.0"
   }
@@ -26,7 +26,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 - `/q:install` fills in missing watermarks and never touches present ones — a stale entry is reconciliation's to move. Bootstrapping q, it writes the `@lab43/q` entry; installing an extension, it writes that extension's. Each value is the version just installed, which has no reconciliation debt.
 - `/q:update` writes the affected watermark after each reconciliation.
 - `/q:uninstall-extension` drops the extension's entry as part of reconciling its removal.
-- `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
+- `/q:reconcile` reads and compares; it never writes. Watermarks certify reconciliation, and detection performs none.
 
 An absent file means no record — create it on the first watermark write.
 
