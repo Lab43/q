@@ -58,7 +58,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td nowrap><samp>/q:reconcile</samp></td>
-    <td>Reconcile the project's records with what npm already did: a version move made out of band is diffed, folded into your docs, and rewatermarked, and an extension's removal is reconciled too — records dropped, your ruling on each orphaned reference. Also sets up or repairs this machine; an extension's arrival still routes to <code>/q:install</code>.</td>
+    <td>Reconcile the project's records with what npm already did — an extension installed, updated, or removed out of band: a version move is diffed into your docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with your ruling on each orphaned reference. Also sets up or repairs this machine.</td>
   </tr>
   <tr>
     <th rowspan="9" scope="rowgroup">Workflow</th>
