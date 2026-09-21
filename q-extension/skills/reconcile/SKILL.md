@@ -57,6 +57,8 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its installed version.
 
+Step 4's go-ahead covered this reconciliation — apply it without re-asking, the prunes, drops and watermark writes included.
+
 ## Step 6: Adversarial review
 
 In ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
