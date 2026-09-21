@@ -62,11 +62,10 @@ Step 4's go-ahead already covers this reconciliation, the prunes, drops and wate
 
 ## Step 6: Reconcile each departure
 
-The developer already removed the package; this run reconciles the records it left behind. For each departed extension, remove without asking — each item a no-op when already absent:
+The developer already removed the package; this run reconciles the records it left behind. Run the package manager's dependency install once, catching up any lockfile and `node_modules` remnants the removals left — it realizes what the manifest already declares: no named package, no manifest write. Then, for each departed extension, remove without asking — each item a no-op when already absent:
 
-1. Run the package manager's dependency install, catching up any lockfile and `node_modules` remnants the removal left. It realizes what the manifest already declares — no named package, no manifest write.
-2. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
-3. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
+1. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
+2. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
 
 Then rule on what the departure orphaned. Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name, and grep the project's code for exception markers naming it, excluding `node_modules/` and build artifacts. Every hit lost its backing with the extension: an overrides marker's target, an exception marker's target, a restatement's home, a cross-reference's destination. On a clean sweep, skip this. Otherwise recommend a resolution for each hit, grounded in the documentation policy, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — one AskUserQuestion batch. The user rules. Apply the rulings.
 
@@ -74,9 +73,9 @@ Then rule on what the departure orphaned. Grep the docs the documentation policy
 
 The developer already installed the package; this run records it. For each arrived extension:
 
-1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
+1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
 2. An extension shipping conventions docs gets its own group in the briefing's docs index, headed by the package name and its `q.description` (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Under that heading goes one line per doc the index doesn't already carry: the doc's path form (see: @lab43/q conventions/documentation.md, Package doc paths), blurb restating the doc's intro (source: @lab43/q conventions/documentation.md, Taxonomy). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
-3. Write its watermark from the version in `node_modules/<extension>/package.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). Never overwrite a present entry, stale or not — it is a version move's to move.
+3. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not — it is a version move's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 Loading the skills, agents and hooks an extension ships is not yet part of an arrival: q scaffolds only its own marketplace entry.
 
