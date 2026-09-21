@@ -66,4 +66,4 @@ They are indexed there too. The authoring repo's briefing gives them a group of 
 
 An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 
-All of this assumes the payload sits at the repo's own root. Publish from a sub-package of a larger repo and consumers install it exactly the same way, but the authoring repo gets none of the above: no group in its briefing, and a root pin that is not the one the package ships (see: Pinning).
+All of this assumes the payload sits at the repo's own root. Publish from a sub-package of a larger repo and consumers install it exactly the same way, but the authoring repo gets none of the above: no group in its briefing, and a root declaration that is not the pin the package ships (see: Pinning).

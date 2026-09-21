@@ -55,7 +55,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    `.claude-plugin/marketplace.json` at the project root is the conventional path for a project publishing a marketplace, so the file is shared territory rather than q's. Merge the `q` entry into an existing manifest: leave every other `plugins` entry and the recorded name untouched. Write the whole file only when creating it.
 
-   The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md). Two projects sharing a name means the second one loads a q version it never pinned.
+   The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md). Two projects sharing a name means the second one loads another project's q rather than its own.
 
    Name it `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters. It is what keeps the name unique. Read owner and repo from the repo's GitHub origin with `gh repo view --json nameWithOwner`. Use the project directory's name in their place when that command yields nothing. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
 
@@ -65,7 +65,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    {
      "name": "<marketplace>",
      "owner": { "name": "this project" },
-     "metadata": { "description": "Pins this project's q version. The name must stay unique to this project. Sharing another project's name makes this one resolve to that project's pinned q." },
+     "metadata": { "description": "Pins the q this project's sessions load. The name must stay unique to this project. Sharing another project's name makes this one resolve to that project's q." },
      "plugins": [
        {
          "name": "q",

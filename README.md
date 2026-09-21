@@ -58,7 +58,7 @@ That is the whole of it — q arrives with the project's dependencies, and the p
   </tr>
   <tr>
     <td nowrap><samp>/q:reconcile</samp></td>
-    <td>Reconcile the project's records with what npm already did — an extension installed, updated, or removed out of band: a version move is diffed into your docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with your ruling on each orphaned reference. Also sets up or repairs this machine.</td>
+    <td>Reconcile the project's records with what npm already did — an extension updated, installed, or removed out of band: a version move is diffed into your docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with your ruling on each orphaned reference. Also sets up or repairs this machine.</td>
   </tr>
   <tr>
     <th rowspan="9" scope="rowgroup">Workflow</th>
