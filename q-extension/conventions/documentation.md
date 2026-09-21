@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Three tiers of conventions
 
-- **Framework conventions** — `@lab43/q`'s own `conventions/`, pinned in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
+- **Framework conventions** — the conventions docs `@lab43/q` ships, pinned in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
 - **Extension conventions** — the installed extensions (see: @lab43/q conventions/extensions.md), each pinned the same way, so rule improvements reach the project on pin updates. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
@@ -17,7 +17,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
 
-Conventions graduate into an extension when their audience grows beyond one project (source: @lab43/q conventions/extensions.md, Graduation).
+Conventions graduate into an extension when their audience grows beyond one project (source: @lab43/q conventions/extensions.md, Which rules ship).
 
 ## Conventions docs
 
@@ -36,7 +36,7 @@ Rules for whoever is about to write or evaluate code — the unit this workflow 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus an authored extension's `conventions/` and its description in its authoring repo (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus, in the repo that authors an extension, its conventions docs and the `q.description` in its `package.json` (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
@@ -51,7 +51,7 @@ The intro is the authoritative description of its doc. The briefing index's line
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`CLAUDE.md`** — the always-loaded agent briefing. Rejected: `AGENTS.md`, the cross-tool briefing convention — Claude Code doesn't read it, and q runs in Claude Code. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
   - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
-  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether q's, an installed extension's, or the project's own, and every guide. Group the lines by where the docs come from. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An installed extension's heading is its description (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
+  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether q's, an installed extension's, this repo's own payload, or the project's own, and every guide. Group the lines by where the docs come from. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An extension's heading pairs its package name with its `q.description`, whether the project installs that extension or authors it (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
 ## Single source of truth
 
@@ -65,7 +65,7 @@ Rejected: a standing central registry of all shared facts and their homes. It ac
 
 `q` names the workflow itself — in prose, in the plugin and marketplace a project publishes, and as what a user types to name it. `@lab43/q` is the npm package: use it wherever npm has to recognize the name — a path into the package, an install command, a `package.json` field.
 
-Reference q's docs and an extension's by package name plus path from the package root — `@lab43/q conventions/documentation.md`, `@acme/q-ext-x conventions/retries.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
+Reference q's docs and an extension's by package name plus path from the package's payload directory — `@lab43/q conventions/documentation.md`, `@acme/q-ext-x conventions/retries.md`. The name resolves to the installed copy in `node_modules/`, or to the package's working tree in the repo that authors it. The payload directory is `q-extension/` at the package root (source: @lab43/q conventions/extensions.md, Layout). The reference never spells that segment: `@lab43/q conventions/documentation.md` is `node_modules/@lab43/q/q-extension/conventions/documentation.md`. Use the form for every such reference across the documentation surface — markers, the briefing's index lines, doc prose. Use it even for a sibling in the doc's own package: a reference must stay unambiguous when its text is quoted away from its file.
 
 Rejected: abbreviating `@lab43/q` to `q` in the path form. `q` is a different package on the public registry, so the abbreviated reference resolves to whatever `node_modules/q/` holds.
 
@@ -76,8 +76,10 @@ Inline cross-references tying a statement to the doc it depends on. They are the
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
 - a heading in the current doc (`see: Markers`)
-- a repo file or directory, by path from the repo root — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
-- one of q's docs or an extension's, by its path form (see: Package doc paths)
+- a repo file or directory, read from the repo root exactly as written — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
+- anything a package ships, by its path form (see: Package doc paths)
+
+A leading package name is what separates the last two forms. Use the path form for every target a package ships, wherever the marker sits, because a bare path would be read literally and find nothing.
 
 Four markers, all ordinary language:
 

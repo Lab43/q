@@ -2,7 +2,7 @@
 
 How q is versioned and released. Releasing is separate from merging and is the maintainer's act: PRs never touch a `version` field, and an agent driving a release confirms the scope — what ships, at which version level — with the user before starting.
 
-q has one version. Three files carry it: `package.json`, `.claude-plugin/plugin.json` and `package-lock.json`. `npm run check-versions` holds all three equal.
+q has one version. Three files carry it: `package.json`, `q-extension/.claude-plugin/plugin.json` and `package-lock.json`. `npm run check-versions` holds all three equal.
 
 A `v<version>` tag anchors each release to the tree it shipped from. The published tarball can't serve as that anchor, because its `files` whitelist ships only what consumers load.
 
@@ -24,7 +24,7 @@ Choose a level first (see: Choosing the version). Then, on `main`:
 
    ```sh
    npm run check &&
-   git commit -m "Release <version>" package.json .claude-plugin/plugin.json package-lock.json &&
+   git commit -m "Release <version>" package.json q-extension/.claude-plugin/plugin.json package-lock.json &&
    git push origin main
    ```
 

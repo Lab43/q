@@ -6,7 +6,7 @@
     "q": {
       "source": {
         "source": "directory",
-        "path": "./"
+        "path": "./q-extension"
       }
     }
   },

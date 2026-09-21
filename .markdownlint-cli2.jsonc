@@ -4,8 +4,9 @@
     // q's prose keeps one paragraph per line, unwrapped. Line length is not a defect here.
     "MD013": false,
     // An agent file is a system prompt rather than a document: it opens with the
-    // instruction and carries no heading. Scoping this to agents/ would need a
-    // config file inside agents/, which ships to consumers in the npm package.
+    // instruction and carries no heading. Scoping this to q-extension/agents/
+    // would need a config file inside q-extension/agents/, which ships to
+    // consumers in the npm package.
     "MD041": false
   },
   "globs": ["**/*.md"],

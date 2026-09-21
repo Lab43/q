@@ -1,6 +1,6 @@
 ---
 name: uninstall-extension
-description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its group from the briefing's docs index, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q. The changes ship as a PR.
+description: Remove a q extension from a project, or reconcile a removal already made out of band — a hand-run npm uninstall, a teammate's merge. Invoke with the extension name. Uninstalls the package, removes its group from the briefing's docs index, drops its watermark, and surfaces the project docs that reference it for the user's ruling. Refuses @lab43/q, and refuses an extension held as a regular dependency rather than a devDependency. The changes ship as a PR.
 ---
 
 # Uninstall Extension
@@ -11,9 +11,11 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 
 Refuse `q` and `@lab43/q`. q is the framework rather than an extension (source: @lab43/q conventions/extensions.md, Identity), and no q project can remove it (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
 
-Confirm the named target is an extension — any of the following identifies it:
+Refuse the whole run when the target sits in `dependencies` rather than `devDependencies`. The project builds on that package's code, so removing it is not what was asked. Removing only its records is no better: it leaves a keyword-carrying dependency with no watermark, which the session-start hook reports on every session and `/q:sync` routes straight back to `/q:install`, which re-adds what this run just dropped. Report that and stop. Declining an extension's rules while keeping its code needs a mechanism q does not have yet.
 
-- the `q-extension` keyword in `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md)
+Confirm the named target is something this project recorded as an extension. Any of the following identifies it, which is looser than what makes a package an extension (see: @lab43/q conventions/extensions.md, Identity) — a run reaching here is undoing records, and a package whose payload has already gone still has records to remove:
+
+- the `q-extension` keyword in `node_modules/<extension>/package.json`
 - the same keyword read from the registry (`npm view <extension> keywords`), for one pinned but not installed
 - a `reconciledAgainst` entry (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md)
 
@@ -29,7 +31,7 @@ Remove without asking — each item a no-op when already absent:
 
 1. When the extension is pinned: `npm uninstall --ignore-scripts <extension>` (via the project's package manager when it isn't npm).
 2. When the pin is already gone: run the package manager's dependency install, catching up any lockfile and `node_modules` remnants the removal left.
-3. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no `conventions/` has no group to remove.
+3. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
 4. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
 
 ## Step 4: Rule on references

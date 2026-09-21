@@ -10,7 +10,7 @@ Exercise a change to the marketplace manifest, the hooks, or `/q:install` agains
 2. Give the fixture directory its own `package.json`.
 3. Install the tarball there: `npm install --save-dev --save-exact --ignore-scripts ./lab43-q-<version>.tgz`. q lands at `node_modules/@lab43/q`.
 4. Set the `@lab43/q` devDependency to the literal version by hand. The tarball install records `file:lab43-q-<version>.tgz` instead. That is not an exact version pin, so it never matches the installed version. The session-start hook reports the mismatch, telling every session in the fixture to run `/q:sync`. The package still resolves from `node_modules` after the edit, which is what a session reads. Run no dependency install afterward: the pin now names a version the registry does not have.
-5. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q`.
+5. Register it: `claude plugin marketplace add --scope local ./node_modules/@lab43/q/q-extension`.
 6. Install the plugin: `claude plugin install q@q --scope project`.
 7. Run `/q:install` in the fixture to finish the setup. Until it does, the fixture has no `.claude/q-state.json`. The session-start hook reports that as drift on every session. That is the hook working rather than a broken fixture. It does mean the hook's silent branch stays unreachable until this step runs. Exercising a hook change needs it.
 
@@ -18,7 +18,7 @@ q ships no dependencies, so a fixture needs nothing installed beyond the tarball
 
 ## Proving a session loads it
 
-Run `claude -p` in the target directory and ask it to count the skills whose names start with `q:`. The count to expect is the number of directories in `skills/`.
+Run `claude -p` in the target directory and ask it to count the skills whose names start with `q:`. The count to expect is the number of directories in `q-extension/skills/`.
 
 A headless session loads a marketplace the CLI's registry already holds. It will not register one declared only in tracked `.claude/settings.json`, which is something an interactive session does for itself. Run the `marketplace add` above before driving headlessly.
 
@@ -26,7 +26,7 @@ A headless session loads a marketplace the CLI's registry already holds. It will
 
 The CLI's registry holds one entry per marketplace name, machine-wide. This checkout and every fixture all publish the name `q`, so only one of them owns it at a time. Every session resolving `q@q` follows whichever registered last, this checkout's own sessions included.
 
-Announce to peers before repointing it (see: references/run-contract.md, Working alongside a peer). Release it when you are done with the fixture: run `claude plugin marketplace add --scope local ./` from the checkout.
+Announce to peers before repointing it (see: @lab43/q references/run-contract.md, Working alongside a peer). Release it when you are done with the fixture: run `claude plugin marketplace add --scope local ./q-extension` from the checkout.
 
 Nothing else driving q binds. There are no ports, databases, or services to contend over.
 

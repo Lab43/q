@@ -3,16 +3,16 @@
 // disk, so drift surfaces only if something checks at session start — no
 // other channel runs every session. The checks: the q copy this session
 // loaded vs the project's pin, each watermarked package's pin vs its
-// watermark vs its installed version, and the reverse direction — a
-// q-extension devDependency with no watermark entry (installed by hand,
-// never indexed).
+// watermark vs its installed version, and the reverse direction — an
+// installed extension with no watermark entry (installed by hand, never
+// indexed).
 //
 // The remedy is uniform — /q:sync re-derives the specifics and routes each
 // finding to its remedy — so every failure emits the same message and
 // the script stops at the first one. Two silences are designed. A project
-// that declares no @lab43/q devDependency is not a q project. A devDependency
-// with no watermark entry and no readable manifest cannot be identified as an
-// extension. Fail every other missing or unreadable input like any other
+// that declares no @lab43/q devDependency is not a q project. A dependency
+// with no watermark entry that cannot be read as an extension is not one to
+// report. Fail every other missing or unreadable input like any other
 // invalid state.
 
 import fs from "node:fs";
@@ -55,9 +55,10 @@ const parse = (text) => {
 };
 const installedVersion = (dir) => parse(read(path.join(dir, "package.json")) ?? "")?.version;
 
-// Pins: one exact devDependency for q and one per extension, in the project's
-// package.json. A missing manifest means not a q project. One that exists but
-// can't be read or parsed fails like any other invalid state.
+// Pins: one exact devDependency for q, and one exact pin per extension in
+// dependencies or devDependencies, all in the project's package.json. A missing manifest
+// means not a q project. One that exists but can't be read or parsed fails
+// like any other invalid state.
 let pkgText;
 try {
   pkgText = fs.readFileSync(path.join(proj, "package.json"), "utf8");
@@ -68,10 +69,14 @@ try {
 const pkg = parse(pkgText);
 if (pkg === undefined) fail();
 
-const devDeps =
-  pkg && typeof pkg.devDependencies === "object" && pkg.devDependencies !== null
-    ? pkg.devDependencies
-    : {};
+const depMap = (field) =>
+  pkg && typeof pkg[field] === "object" && pkg[field] !== null ? pkg[field] : {};
+
+const devDeps = depMap("devDependencies");
+// An extension may be a regular dependency: a package shipping rules can also
+// be one the project builds on. q never is — it is tooling, so it stays a
+// devDependency check below.
+const deps = { ...depMap("dependencies"), ...devDeps };
 
 // Declaring no @lab43/q devDependency is a designed silence. A pin that
 // is declared but is not a version string is an invalid state like any other,
@@ -83,7 +88,11 @@ if (typeof pinned !== "string") fail();
 // The q this session actually loaded. CLAUDE_PLUGIN_ROOT is the directory it
 // was resolved from, and npm wrote that copy's version, so comparing it
 // against the pin also catches a session running some other checkout's q.
-const loaded = installedVersion(root);
+//
+// The version sits one level above that directory. The plugin root is the
+// payload directory, and npm requires package.json at the package root holding
+// it, so the two are never the same directory.
+const loaded = installedVersion(path.join(root, ".."));
 if (typeof loaded !== "string") fail();
 if (loaded !== pinned) fail();
 
@@ -105,7 +114,7 @@ if (!Object.hasOwn(recon, "@lab43/q")) fail();
 
 for (const [ext, mark] of Object.entries(recon)) {
   if (typeof mark !== "string") fail();
-  const pin = Object.hasOwn(devDeps, ext) ? devDeps[ext] : undefined;
+  const pin = Object.hasOwn(deps, ext) ? deps[ext] : undefined;
   if (typeof pin !== "string") fail(); // removed out of band, never reconciled
   if (pin !== mark) fail();
 
@@ -114,15 +123,22 @@ for (const [ext, mark] of Object.entries(recon)) {
   if (inst !== pin) fail();
 }
 
-// Reverse direction: a devDependency whose installed manifest carries the
-// q-extension keyword but that has no watermark entry was installed by hand
-// and never indexed. The keyword is readable only from the package's own
-// manifest under node_modules. A devDependency whose manifest is absent or
-// unparseable is therefore skipped here rather than reported.
-for (const dep of Object.keys(devDeps)) {
+// Reverse direction: a dependency whose installed copy is an extension but
+// that has no watermark entry was installed by hand and never indexed.
+// Identity is both halves — the q-extension keyword, and a payload directory
+// holding conventions/ or .claude-plugin/. Either alone describes a package
+// that is not an extension and has no watermark to be missing.
+//
+// Both are readable only from the package's own copy under node_modules, so a
+// dependency whose manifest is absent or unparseable is skipped rather than
+// reported.
+const isDir = (p) => fs.statSync(p, { throwIfNoEntry: false })?.isDirectory() === true;
+const hasPayload = (dir) =>
+  ["conventions", ".claude-plugin"].some((sub) => isDir(path.join(dir, "q-extension", sub)));
+
+for (const dep of Object.keys(deps)) {
   if (Object.hasOwn(recon, dep)) continue;
-  const keywords = parse(
-    read(path.join(proj, "node_modules", dep, "package.json")) ?? "",
-  )?.keywords;
-  if (Array.isArray(keywords) && keywords.includes("q-extension")) fail();
+  const installed = path.join(proj, "node_modules", dep);
+  const keywords = parse(read(path.join(installed, "package.json")) ?? "")?.keywords;
+  if (Array.isArray(keywords) && keywords.includes("q-extension") && hasPayload(installed)) fail();
 }

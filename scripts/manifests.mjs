@@ -12,7 +12,7 @@ export const root = path.join(
 );
 
 // package.json leads: it is where the current version is read from.
-export const manifests = ["package.json", ".claude-plugin/plugin.json"];
+export const manifests = ["package.json", "q-extension/.claude-plugin/plugin.json"];
 
 // The lockfile carries the version too, at its root and again under
 // packages[""]. `set-version` moves it rather than leaving it to a separate

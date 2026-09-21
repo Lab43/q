@@ -3,7 +3,8 @@
 // relative to themselves. That describes this module's two callers,
 // check-versions.mjs and set-version.mjs, not the module itself.
 //
-// Covered here: the two data exports, and the pure function over them.
+// Covered here: the two data exports, the pure function over them, and the
+// fields of this package's own manifest that nothing else checks.
 // `helpers(script)` is not. It builds a `fail` that calls process.exit(1), so
 // an in-process call never returns and no assertion after it would run. Its
 // output is observable only across a process boundary. The check-versions and
@@ -11,7 +12,9 @@
 
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { lockVersions, manifests, lockfile } from "../scripts/manifests.mjs";
+import fs from "node:fs";
+import path from "node:path";
+import { lockVersions, manifests, lockfile, root } from "../scripts/manifests.mjs";
 
 describe("the manifest list", () => {
   it("names package.json first, which is the source both scripts read", () => {
@@ -26,6 +29,22 @@ describe("the manifest list", () => {
     // The lockfile is rewritten wholesale rather than in place, so it cannot
     // join the list the manifests share.
     assert.ok(!manifests.includes(lockfile));
+  });
+});
+
+// The whole payload ships from one `files` entry, so losing that entry ships a
+// package that announces itself as q and carries none of its rules. npm reports
+// nothing, and no other check here reads `files`.
+describe("what the package ships", () => {
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+
+  it("whitelists the payload directory", () => {
+    assert.ok(pkg.files.includes("q-extension"), "files no longer names q-extension");
+  });
+
+  it("carries the q.description its consumers' briefings are headed with", () => {
+    assert.equal(typeof pkg.q?.description, "string");
+    assert.ok(pkg.q.description.length > 0);
   });
 });
 

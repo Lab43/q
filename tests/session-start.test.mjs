@@ -7,7 +7,7 @@ import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { cleanup, pathWith, repoRoot, runHook, stageHook } from "./helpers.mjs";
+import { cleanup, pathWith, repoRoot, runHook, stageDecoy, stageHook } from "./helpers.mjs";
 
 after(cleanup);
 
@@ -25,6 +25,18 @@ const agreeing = (overrides = {}) => ({
   ".claude/q-state.json": JSON.stringify({ reconciledAgainst: { "@lab43/q": PIN } }),
   [`node_modules/@lab43/q/package.json`]: JSON.stringify({ version: PIN }),
   ...overrides,
+});
+
+/**
+ * An installed extension under the project's node_modules: the keyword in its
+ * manifest plus a payload file, which together are what identifies one.
+ */
+const installedExt = (payload = "q-extension/conventions/rules.md", contents = "# Rules\n") => ({
+  "node_modules/@acme/ext/package.json": JSON.stringify({
+    version: "2.0.0",
+    keywords: ["q-extension"],
+  }),
+  [`node_modules/@acme/ext/${payload}`]: contents,
 });
 
 const assertSilent = (result) => {
@@ -120,23 +132,23 @@ describe("the project manifest", () => {
 });
 
 describe("the loaded plugin", () => {
-  it("is loud when the plugin manifest is missing", () => {
-    const staged = stageHook({ project: agreeing(), pluginManifest: null });
+  it("is loud when the package manifest is missing", () => {
+    const staged = stageHook({ project: agreeing(), packageManifest: null });
     assertLoud(runHook(staged));
   });
 
-  it("is loud when the plugin manifest is unparseable", () => {
-    const staged = stageHook({ project: agreeing(), pluginManifest: "{ not json" });
+  it("is loud when the package manifest is unparseable", () => {
+    const staged = stageHook({ project: agreeing(), packageManifest: "{ not json" });
     assertLoud(runHook(staged));
   });
 
-  it("is loud when the plugin manifest names no version", () => {
-    const staged = stageHook({ project: agreeing(), pluginManifest: '{"name":"@lab43/q"}' });
+  it("is loud when the package manifest names no version", () => {
+    const staged = stageHook({ project: agreeing(), packageManifest: '{"name":"@lab43/q"}' });
     assertLoud(runHook(staged));
   });
 
   it("is loud when the loaded version differs from the pin", () => {
-    const staged = stageHook({ project: agreeing(), pluginManifest: '{"version":"0.9.0"}' });
+    const staged = stageHook({ project: agreeing(), packageManifest: '{"version":"0.9.0"}' });
     assertLoud(runHook(staged));
   });
 
@@ -153,6 +165,50 @@ describe("the loaded plugin", () => {
   it("is loud when q is pinned and watermarked but not installed in the project", () => {
     const staged = stageHook({ project: agreeing({ "node_modules/@lab43/q/package.json": null }) });
     assertLoud(runHook(staged));
+  });
+
+  // CLAUDE_PLUGIN_ROOT names the payload directory, and npm requires the
+  // manifest at the package root above it. A manifest planted inside the
+  // plugin root at a disagreeing version makes the hook loud the moment it
+  // reads the wrong one.
+  it("reads the version from the package root, not the plugin root", () => {
+    const staged = stageHook({ project: agreeing() });
+    fs.writeFileSync(path.join(staged.root, "package.json"), '{"version":"0.9.0"}');
+    assertSilent(runHook(staged));
+  });
+
+  // The plugin root the variable names and the one the running file sits in
+  // are the same directory in production, so each pair of cases below splits
+  // them: a decoy copy of the pair under a package at a disagreeing version.
+  // Without the split, deleting either read leaves every case green.
+  it("reads the plugin root from CLAUDE_PLUGIN_ROOT, not the running file", () => {
+    const staged = stageHook({ project: agreeing() });
+    assertSilent(runHook(staged, { from: stageDecoy(staged) }));
+  });
+
+  it("reads it from the variable through the node script too", () => {
+    const staged = stageHook({ project: agreeing() });
+    assertSilent(runHook(staged, { from: stageDecoy(staged), entry: "node" }));
+  });
+
+  // With the variable unset, each half derives the root from its own location.
+  // The move put the manifest a further level up, so a fallback left pointing
+  // at the old place reads no version.
+  it("falls back to the running file's own package root", () => {
+    const staged = stageHook({ project: agreeing() });
+    const decoy = stageDecoy(staged, JSON.stringify({ version: PIN }));
+    assertSilent(runHook(staged, { from: decoy, pluginRoot: false }));
+  });
+
+  it("falls back through the node script too", () => {
+    const staged = stageHook({ project: agreeing() });
+    const decoy = stageDecoy(staged, JSON.stringify({ version: PIN }));
+    assertSilent(runHook(staged, { from: decoy, pluginRoot: false, entry: "node" }));
+  });
+
+  it("is loud when the fallback root's package disagrees with the pin", () => {
+    const staged = stageHook({ project: agreeing() });
+    assertLoud(runHook(staged, { from: stageDecoy(staged), pluginRoot: false }));
   });
 });
 
@@ -256,13 +312,123 @@ describe("watermarked extensions", () => {
     const staged = stageHook({
       project: agreeing({
         "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        ...installedExt(),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  // An extension may be a regular dependency, because a package shipping rules
+  // can also be one the project builds on.
+  it("is loud when a q-extension dependency carries no watermark", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({
+          devDependencies: { "@lab43/q": PIN },
+          dependencies: { "@acme/ext": "2.0.0" },
+        }),
+        ...installedExt(),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  it("is silent when an extension held as a regular dependency agrees", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({
+          devDependencies: { "@lab43/q": PIN },
+          dependencies: { "@acme/ext": "2.0.0" },
+        }),
+        ".claude/q-state.json": JSON.stringify({
+          reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
+        }),
+        ...installedExt(),
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  it("is loud when an extension held as a regular dependency drifts from its watermark", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({
+          devDependencies: { "@lab43/q": PIN },
+          dependencies: { "@acme/ext": "3.0.0" },
+        }),
+        ".claude/q-state.json": JSON.stringify({
+          reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
+        }),
+        ...installedExt(),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  // The keyword alone is not identity. A package carrying it but shipping no
+  // payload is not an extension, so it has no watermark to be missing and
+  // there is no finding any skill could resolve.
+  it("is silent for a keyword-carrying dependency that ships no payload", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
         "node_modules/@acme/ext/package.json": JSON.stringify({
           version: "2.0.0",
           keywords: ["q-extension"],
         }),
       }),
     });
+    assertSilent(runHook(staged));
+  });
+
+  it("is loud for an unwatermarked extension whose payload is a plugin alone", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        ...installedExt("q-extension/.claude-plugin/plugin.json", '{"name":"ext"}'),
+      }),
+    });
     assertLoud(runHook(staged));
+  });
+
+  // The other half of the conjunction. A payload directory laid down before
+  // the keyword is the natural authoring order, and nothing without the
+  // keyword is an extension.
+  it("is silent for a dependency shipping a payload but no keyword", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        "node_modules/@acme/ext/package.json": JSON.stringify({ version: "2.0.0" }),
+        "node_modules/@acme/ext/q-extension/conventions/rules.md": "# Rules\n",
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  // A payload directory holding neither conventions/ nor .claude-plugin/ is
+  // not one of the two shapes an extension ships.
+  it("is silent for a keyword-carrying dependency whose payload holds neither shape", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        ...installedExt("q-extension/skills/thing/SKILL.md", "# Thing\n"),
+      }),
+    });
+    assertSilent(runHook(staged));
+  });
+
+  // devDependencies wins the merge, which is what keeps q a devDependency
+  // check when a manifest names the package in both.
+  it("reads a pin from devDependencies when both lists name the package", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({
+          devDependencies: { "@lab43/q": PIN },
+          dependencies: { "@lab43/q": "0.9.0" },
+        }),
+      }),
+    });
+    assertSilent(runHook(staged));
   });
 
   it("emits one message when two things are wrong at once", () => {
@@ -289,8 +455,8 @@ describe("the wrapper", () => {
   });
 
   it("keeps its message identical to the node script's", () => {
-    const sh = fs.readFileSync(path.join(repoRoot, "hooks", "session-start.sh"), "utf8");
-    const mjs = fs.readFileSync(path.join(repoRoot, "hooks", "session-start.mjs"), "utf8");
+    const sh = fs.readFileSync(path.join(repoRoot, "q-extension", "hooks", "session-start.sh"), "utf8");
+    const mjs = fs.readFileSync(path.join(repoRoot, "q-extension", "hooks", "session-start.mjs"), "utf8");
 
     assert.ok(mjs.includes(MESSAGE), "session-start.mjs no longer carries the expected message");
     // The wrapper embeds the message in a single-quoted bash string, so each
@@ -306,7 +472,7 @@ describe("the wrapper", () => {
 describe("q's own checkout", () => {
   it("is silent, because q pins no q", () => {
     assertSilent(
-      runHook({ proj: repoRoot, root: repoRoot }),
+      runHook({ proj: repoRoot, root: path.join(repoRoot, "q-extension") }),
     );
   });
 });

@@ -12,13 +12,13 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 
 ```sh
 npm install --save-dev --save-exact --ignore-scripts @lab43/q
-claude plugin marketplace add --scope local ./node_modules/@lab43/q
+claude plugin marketplace add --scope local ./node_modules/@lab43/q/q-extension
 claude plugin install q@q --scope project
 ```
 
 npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. Then run `/q:install` in the project, which:
 
-<!-- source: skills/install/SKILL.md -->
+<!-- source: @lab43/q skills/install/SKILL.md -->
 
 - scaffolds your conventions
 - gives the project its own marketplace, sourcing the q you just installed
@@ -26,7 +26,7 @@ npm delivers q's bytes before Claude Code is involved, so installing q doesn't r
 
 ## Joining a project that uses q
 
-<!-- source: skills/install/SKILL.md -->
+<!-- source: @lab43/q skills/install/SKILL.md -->
 
 Install the project's dependencies, substituting your package manager where the project isn't on npm:
 
@@ -38,7 +38,7 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 
 ## Skills
 
-<!-- source: skills/ -->
+<!-- source: @lab43/q skills/ -->
 <!--
   Skill names must not wrap.
   see: docs/conventions/documentation.md, Table cells that must not wrap
@@ -61,11 +61,11 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
   </tr>
   <tr>
     <td nowrap><samp>/q:update</samp></td>
-    <td>Update q and the project's installed extensions: move pins to the latest releases with your go-ahead, reconcile the project's docs with what each release changed, and catch up any pin that moved out of band.</td>
+    <td>Reconcile the project with q and its installed extensions: catch up any pin that moved out of band, and move pins to the latest releases with your go-ahead. Either way your docs are reconciled with what changed.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:uninstall-extension</samp></td>
-    <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its group in the briefing's docs index, its watermark, and your ruling on each doc that references it.</td>
+    <td>Remove an extension from a project, or reconcile a removal made out of band — the package, its group in the briefing's docs index, its watermark, and your ruling on each doc that references it. Refuses one your project builds on as a regular dependency.</td>
   </tr>
   <tr>
     <th rowspan="9" scope="rowgroup">Workflow</th>
@@ -135,8 +135,8 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
 
 q's effect on your repo comes from context routing and documentation discipline — everything it produces lives in plain text files in your repo, and it works in one loop:
 
-<!-- source: skills/install/SKILL.md -->
-<!-- source: hooks/session-start.mjs -->
+<!-- source: @lab43/q skills/install/SKILL.md -->
+<!-- source: @lab43/q hooks/session-start.mjs -->
 
 **Every session starts knowing where the rules are.** `/q:install` puts the routing in place:
 
@@ -198,17 +198,17 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
 
 ## Developing q
 
-<!-- source: docs/conventions/documentation.md, The tier test -->
+<!-- source: @lab43/q conventions/extensions.md, Which rules ship -->
 
-This repo has two conventions directories, by design. `conventions/` is the framework policy: it ships in the `@lab43/q` npm package and binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships.
+This repo has two conventions directories, by design. `q-extension/` is the payload the `@lab43/q` npm package ships, and its `conventions/` are the framework policy that binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships. Every extension gets the same two homes, and the rule deciding between them ships with the rest.
 
 <!-- source: CLAUDE.md, Developing -->
 <!-- source: docs/guides/driving-manual.md -->
 
 To work on q:
 
-- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
-- When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./` again.
+- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>/q-extension` loads it. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- When the `q:` skills don't load in your checkout, the CLI's registry holds that directory under a name other than `q`, so `q@q` resolves to nothing. `claude plugin marketplace add` matches the registry by path, so re-adding `./q-extension` just reports the stale entry. Remove it with `claude plugin marketplace remove <name>`, then add `./q-extension` again.
 - `npm run check` runs every check the repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main`.
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree you have not installed commits without checking anything.
 - Releasing is separate from merging, and PRs never touch a `version`. The steps live in `docs/guides/releasing.md`.

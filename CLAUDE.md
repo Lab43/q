@@ -4,13 +4,13 @@ q is an agentic coding workflow for Claude Code. This file briefs sessions worki
 
 ## Two tiers
 
-(source: docs/conventions/documentation.md, The tier test)
+(source: @lab43/q conventions/extensions.md, Which rules ship)
 
-What the `@lab43/q` package ships is framework payload — `conventions/`, the skills, the hooks, the agents, and the references they read: the law and workflow that reach every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, apply the tier test in `docs/conventions/documentation.md`.
+Everything under `q-extension/` is framework payload — the law and workflow that reach every consuming project, and that q follows here too, as a consuming project of its own workflow. The payload is *addressed* solely to consumers: it never mentions this repo. `docs/conventions/` is q's own project tier — rules for developing q, including this repo's `documentation.md` mirror. Before adding a rule anywhere, decide which home it belongs in (see: @lab43/q conventions/extensions.md, Which rules ship).
 
 ## Developing
 
-- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
+- `claude` in this checkout auto-loads the working copy of the plugin — the repo declares itself as the `q` marketplace in `.claude/settings.json`. From any other project, `claude --plugin-dir <path to this checkout>/q-extension` loads it ephemerally. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
 - When the `q:` skills don't load here, the repair is in `docs/guides/driving-manual.md`.
 - `npm run check` runs every check this repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main` (source: .github/workflows/checks.yml).
 - `npm install` installs the pre-commit hook that runs `npm run check`. A tree that has not been installed commits without checking anything.
@@ -23,9 +23,9 @@ q's rules live in this repo's documentation. Those rules are conventions: bindin
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
-In path references, `@lab43/q` resolves here to the repo root, q's own working tree (source: docs/conventions/documentation.md, Working on the payload).
+In path references, `@lab43/q` resolves here to `q-extension/`, q's own payload working tree (source: docs/conventions/documentation.md, Working on the payload).
 
-Framework payload (ships to consumers):
+`@lab43/q` — The rules of the q workflow, governing how a project's work gets planned, decided, documented, and shipped.
 
 - `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
 - `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
