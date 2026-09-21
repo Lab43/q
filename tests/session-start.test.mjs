@@ -20,9 +20,21 @@ const MESSAGE =
 
 const PIN = "1.0.0";
 
-/** A project where pinned, loaded and watermarked all agree. */
+/** A package-lock.json (v3) resolving each named direct dependency. */
+const lockOf = (versions) =>
+  JSON.stringify({
+    name: "fixture",
+    version: "1.0.0",
+    lockfileVersion: 3,
+    packages: Object.fromEntries(
+      Object.entries(versions).map(([name, version]) => [`node_modules/${name}`, { version }]),
+    ),
+  });
+
+/** A project where locked, loaded, installed and watermarked all agree. */
 const agreeing = (overrides = {}) => ({
   "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN } }),
+  "package-lock.json": lockOf({ "@lab43/q": PIN }),
   ".claude/q-state.json": JSON.stringify({ reconciledAgainst: { "@lab43/q": PIN } }),
   [`node_modules/@lab43/q/package.json`]: JSON.stringify({ version: PIN }),
   ...overrides,
@@ -63,8 +75,19 @@ describe("designed silences", () => {
     assertSilent(runHook(staged));
   });
 
-  it("is silent when pinned, loaded and watermarked agree", () => {
+  it("is silent when locked, loaded, installed and watermarked agree", () => {
     assertSilent(runHook(stageHook({ project: agreeing() })));
+  });
+
+  // package.json's value is a specifier, never a version the hook enforces:
+  // a ranged pin with an agreeing lockfile and watermark is healthy.
+  it("is silent with a ranged pin when the lockfile and watermark agree", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": "^1.0.0" } }),
+      }),
+    });
+    assertSilent(runHook(staged));
   });
 
   it("is silent when q appears only as a value, as in q's own manifest", () => {
@@ -109,11 +132,6 @@ describe("the project manifest", () => {
     assertLoud(runHook(staged));
   });
 
-  it("is loud when the pin is not a version string", () => {
-    const staged = stageHook({ project: { "package.json": '{"devDependencies":{"@lab43/q":true}}' } });
-    assertLoud(runHook(staged));
-  });
-
   it("is silent when q is a plain dependency rather than a devDependency", () => {
     // The wrapper's grep matches @lab43/q in key position wherever it sits, so
     // this reaches the node script, which drops it for not being a
@@ -129,6 +147,18 @@ describe("the project manifest", () => {
     const asFile = path.join(staged.base, "not-a-dir");
     fs.writeFileSync(asFile, "");
     assertSilent(runHook({ proj: asFile, root: staged.root }, { entry: "node" }));
+  });
+});
+
+describe("the lockfile", () => {
+  it("is loud when a q project has no lockfile", () => {
+    const staged = stageHook({ project: agreeing({ "package-lock.json": null }) });
+    assertLoud(runHook(staged));
+  });
+
+  it("is loud when the lockfile cannot resolve q", () => {
+    const staged = stageHook({ project: agreeing({ "package-lock.json": lockOf({}) }) });
+    assertLoud(runHook(staged));
   });
 });
 
@@ -148,7 +178,7 @@ describe("the loaded plugin", () => {
     assertLoud(runHook(staged));
   });
 
-  it("is loud when the loaded version differs from the pin", () => {
+  it("is loud when the loaded version differs from the lockfile's", () => {
     const staged = stageHook({ project: agreeing(), packageManifest: '{"version":"0.9.0"}' });
     assertLoud(runHook(staged));
   });
@@ -156,14 +186,14 @@ describe("the loaded plugin", () => {
   // q carries a watermark entry, so the extension loop checks the copy under the
   // project's own node_modules as well. That is a different install from the one
   // CLAUDE_PLUGIN_ROOT names, and the cases above leave it agreeing.
-  it("is loud when the project's installed q differs from the pin", () => {
+  it("is loud when the project's installed q differs from the lockfile's", () => {
     const staged = stageHook({
       project: agreeing({ "node_modules/@lab43/q/package.json": JSON.stringify({ version: "0.9.0" }) }),
     });
     assertLoud(runHook(staged));
   });
 
-  it("is loud when q is pinned and watermarked but not installed in the project", () => {
+  it("is loud when q is declared and watermarked but not installed in the project", () => {
     const staged = stageHook({ project: agreeing({ "node_modules/@lab43/q/package.json": null }) });
     assertLoud(runHook(staged));
   });
@@ -214,7 +244,7 @@ describe("the loaded plugin", () => {
 });
 
 describe("the state file", () => {
-  it("is loud when a pinned project has no state file", () => {
+  it("is loud when a q project has no state file", () => {
     const staged = stageHook({ project: agreeing({ ".claude/q-state.json": null }) });
     assertLoud(runHook(staged));
   });
@@ -255,6 +285,7 @@ describe("watermarked extensions", () => {
   const withExt = (overrides) =>
     agreeing({
       "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+      "package-lock.json": lockOf({ "@lab43/q": PIN, "@acme/ext": "2.0.0" }),
       ".claude/q-state.json": JSON.stringify({
         reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
       }),
@@ -266,29 +297,38 @@ describe("watermarked extensions", () => {
     assertSilent(runHook(stageHook({ project: withExt({}) })));
   });
 
-  it("is loud when a watermarked extension is no longer pinned", () => {
+  it("is loud when a watermarked extension is in neither dependency map", () => {
     const staged = stageHook({
       project: withExt({ "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN } }) }),
     });
     assertLoud(runHook(staged));
   });
 
-  it("is loud when an extension's pin is not a version string", () => {
+  it("is loud when the lockfile cannot resolve a watermarked extension", () => {
     const staged = stageHook({
-      project: withExt({
-        "package.json": JSON.stringify({
-          devDependencies: { "@lab43/q": PIN, "@acme/ext": { bad: true } },
-        }),
-      }),
+      project: withExt({ "package-lock.json": lockOf({ "@lab43/q": PIN }) }),
     });
     assertLoud(runHook(staged));
   });
 
-  it("is loud when an extension's pin and watermark disagree", () => {
+  // npm update moves the lockfile and leaves package.json alone, so this is
+  // the shape an unreconciled move arrives in — node_modules not yet caught up.
+  it("is loud when the lockfile moved off the watermark and node_modules is untouched", () => {
+    const staged = stageHook({
+      project: withExt({ "package-lock.json": lockOf({ "@lab43/q": PIN, "@acme/ext": "3.0.0" }) }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  // Same move, node_modules already caught up: only the watermark comparison
+  // can catch it, so this is the case that pins that branch alone.
+  it("is loud when the lockfile and node_modules moved but the watermark did not", () => {
     const staged = stageHook({
       project: withExt({
-        "package.json": JSON.stringify({
-          devDependencies: { "@lab43/q": PIN, "@acme/ext": "3.0.0" },
+        "package-lock.json": lockOf({ "@lab43/q": PIN, "@acme/ext": "3.0.0" }),
+        "node_modules/@acme/ext/package.json": JSON.stringify({
+          version: "3.0.0",
+          keywords: ["q-extension"],
         }),
       }),
     });
@@ -302,7 +342,7 @@ describe("watermarked extensions", () => {
     assertLoud(runHook(staged));
   });
 
-  it("is loud when an extension is installed at a version other than its pin", () => {
+  it("is loud when node_modules is stale against an agreeing lockfile and watermark", () => {
     const staged = stageHook({
       project: withExt({ "node_modules/@acme/ext/package.json": JSON.stringify({ version: "9.9.9" }) }),
     });
@@ -341,6 +381,7 @@ describe("watermarked extensions", () => {
           devDependencies: { "@lab43/q": PIN },
           dependencies: { "@acme/ext": "2.0.0" },
         }),
+        "package-lock.json": lockOf({ "@lab43/q": PIN, "@acme/ext": "2.0.0" }),
         ".claude/q-state.json": JSON.stringify({
           reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
         }),
@@ -357,6 +398,7 @@ describe("watermarked extensions", () => {
           devDependencies: { "@lab43/q": PIN },
           dependencies: { "@acme/ext": "3.0.0" },
         }),
+        "package-lock.json": lockOf({ "@lab43/q": PIN, "@acme/ext": "3.0.0" }),
         ".claude/q-state.json": JSON.stringify({
           reconciledAgainst: { "@lab43/q": PIN, "@acme/ext": "2.0.0" },
         }),
@@ -433,20 +475,6 @@ describe("watermarked extensions", () => {
       project: agreeing({
         "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
         ...installedExt("q-extension/skills/thing/SKILL.md", "# Thing\n"),
-      }),
-    });
-    assertSilent(runHook(staged));
-  });
-
-  // devDependencies wins the merge, which is what keeps q a devDependency
-  // check when a manifest names the package in both.
-  it("reads a pin from devDependencies when both lists name the package", () => {
-    const staged = stageHook({
-      project: agreeing({
-        "package.json": JSON.stringify({
-          devDependencies: { "@lab43/q": PIN },
-          dependencies: { "@lab43/q": "0.9.0" },
-        }),
       }),
     });
     assertSilent(runHook(staged));

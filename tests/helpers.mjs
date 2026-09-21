@@ -88,7 +88,7 @@ export const stageHook = ({ project = {}, packageManifest = '{"version":"1.0.0"}
   fs.mkdirSync(proj, { recursive: true });
   fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
 
-  for (const file of ["session-start.sh", "session-start.mjs"]) {
+  for (const file of ["session-start.sh", "session-start.mjs", "locked-version.mjs"]) {
     fs.copyFileSync(
       path.join(repoRoot, "q-extension", "hooks", file),
       path.join(root, "hooks", file),
@@ -111,7 +111,7 @@ export const stageDecoy = ({ base }, packageManifest = '{"version":"0.9.0"}') =>
   const root = path.join(pkg, "q-extension");
   fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
 
-  for (const file of ["session-start.sh", "session-start.mjs"]) {
+  for (const file of ["session-start.sh", "session-start.mjs", "locked-version.mjs"]) {
     fs.copyFileSync(
       path.join(repoRoot, "q-extension", "hooks", file),
       path.join(root, "hooks", file),
