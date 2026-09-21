@@ -24,7 +24,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 ## Writer rules
 
 - `/q:install` fills in missing watermarks and never touches present ones — a stale entry is reconciliation's to move. Bootstrapping q, it writes the `@lab43/q` entry; installing an extension, it writes that extension's. Each value is the version just installed, which has no reconciliation debt.
-- `/q:update` writes the affected watermark after each reconciliation, whether the run moved a pin or caught up an out-of-band move.
+- `/q:update` writes the affected watermark after each reconciliation.
 - `/q:uninstall-extension` drops the extension's entry as part of reconciling its removal.
 - `/q:sync` reads and compares; it never writes. Watermarks certify reconciliation, and sync never reconciles.
 

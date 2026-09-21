@@ -1,7 +1,5 @@
-// Resolve the version a project's lockfile records for a direct dependency.
-// The session-start hook anchors its version checks here rather than on
-// package.json's pin: the lockfile is exact whatever the pin looks like, and
-// npm update moves it even when it leaves the pin untouched.
+// Resolve the version a project's lockfile records for a direct dependency —
+// the anchor of the session-start hook's version checks.
 //
 // Dependency-free scanning, no YAML library: each reader knows just enough of
 // its format to find a direct dependency's version. Malformed input of any

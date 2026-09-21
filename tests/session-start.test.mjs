@@ -132,6 +132,16 @@ describe("the project manifest", () => {
     assertLoud(runHook(staged));
   });
 
+  // The lockfile agrees throughout, so only the shape guard can catch this:
+  // an entry that is not a string is not a specifier, however healthy the
+  // versions around it look.
+  it("is loud when q's manifest entry is not a string", () => {
+    const staged = stageHook({
+      project: agreeing({ "package.json": '{"devDependencies":{"@lab43/q":true}}' }),
+    });
+    assertLoud(runHook(staged));
+  });
+
   it("is silent when q is a plain dependency rather than a devDependency", () => {
     // The wrapper's grep matches @lab43/q in key position wherever it sits, so
     // this reaches the node script, which drops it for not being a
@@ -300,6 +310,18 @@ describe("watermarked extensions", () => {
   it("is loud when a watermarked extension is in neither dependency map", () => {
     const staged = stageHook({
       project: withExt({ "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN } }) }),
+    });
+    assertLoud(runHook(staged));
+  });
+
+  // Lockfile and versions agree; only the shape guard can catch the entry.
+  it("is loud when an extension's manifest entry is not a string", () => {
+    const staged = stageHook({
+      project: withExt({
+        "package.json": JSON.stringify({
+          devDependencies: { "@lab43/q": PIN, "@acme/ext": { bad: true } },
+        }),
+      }),
     });
     assertLoud(runHook(staged));
   });
