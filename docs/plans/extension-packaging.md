@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 # Extension Packaging
