@@ -151,7 +151,6 @@ const classicVersion = (blocks, name, specifier) => {
  */
 export const lockedVersion = (projDir, name, specifier) => {
   try {
-    if (typeof name !== "string") return undefined;
     const npmText = read(path.join(projDir, "package-lock.json"));
     if (npmText !== null) return npmVersion(npmText, name);
     const pnpmText = read(path.join(projDir, "pnpm-lock.yaml"));
