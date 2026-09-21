@@ -2,8 +2,8 @@
 // session to run /q:reconcile. Claude Code loads whatever plugin version is on
 // disk, so drift surfaces only if something checks at session start — no
 // other channel runs every session. The checks anchor on the lockfile and on
-// node_modules — the lockfile is exact whatever package.json's pin looks
-// like, and npm moves it even when it leaves the pin untouched: the q copy
+// node_modules — the lockfile is exact whatever the manifest's specifier
+// looks like, and npm moves it even when the specifier stays put: the q copy
 // this session loaded vs the lockfile's @lab43/q, each watermarked package's
 // lockfile version vs its watermark vs its installed version, and the
 // reverse direction — an installed extension with no watermark entry
