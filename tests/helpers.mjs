@@ -61,6 +61,13 @@ const writeFiles = (dir, files) => {
   }
 };
 
+/** Stage a bare directory of files, for suites that call a module directly. */
+export const stageDir = (files) => {
+  const base = mkTmp("q-dir-");
+  writeFiles(base, files);
+  return base;
+};
+
 /**
  * Stage a project directory and a plugin root holding the real hook pair.
  *
