@@ -28,7 +28,7 @@ Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) a
 
 Each finding routes to its remedy:
 
-- A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it, through Steps 4 and 5. A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
+- A lockfile version differing from its watermark (moved out of band, unreconciled) — a version move: this run reconciles it, through Steps 4 to 7. A watermarked package whose release stopped shipping a payload is a version move too — it is no longer an extension, and leaving it would strand a watermark nothing can move. Reconcile it as a package whose conventions are gone: drop its index lines and its group, then write its watermark like any other, and say in the close that it stopped shipping rules, since the project may want the dependency reconsidered.
 - An entry for an extension in neither `dependencies` nor `devDependencies` (removed out of band, the removal never reconciled) → `/q:uninstall-extension`, with the extension name, one run per extension. Read both before reporting this: an extension held as a regular dependency is healthy, and reading `devDependencies` alone reports it as removed.
 - No record where one belongs → `/q:install` — bare for a missing state file or a missing `@lab43/q` entry; with the extension name for any other declared extension that has no entry, from either, one run per extension. These were installed or scaffolded by hand, never recorded.
 
@@ -36,7 +36,7 @@ Alongside, hold each third-party extension's q declaration — the `@lab43/q` de
 
 ## Step 4: Settle delivery
 
-A run whose findings all route elsewhere, or that found none, skips to Step 7's close: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
+A run whose findings all route elsewhere, or that found none, skips to Step 8: it asks nothing and delivers nothing, Steps 1 and 2 having changed machine state only. Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). The findings are the agreement — the rest of the run is autonomous. However many packages moved, one run reconciles them into one change: they are the same project catching up with the same npm install.
 
 ## Step 5: Reconcile each version move
 
@@ -63,13 +63,19 @@ In ship mode, commit first. In both modes, validate the changes (see: ${CLAUDE_P
 
 ## Step 7: Open the PR
 
-Skip the PR when Step 4 found nothing to deliver — report and, where Step 3 found arrivals or departures, make those hand-offs, each invocation a full run of its own that asks and delivers for itself. Otherwise:
+Skip this step when Step 4 found nothing to deliver.
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
-3. Close the session by reporting:
-   - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
-   - The GitHub CLI result, with the fix when it failed.
-   - Each version move reconciled and what its release changed.
-   - Each finding routed elsewhere and the hand-off made for it.
-   - Each flagged q declaration, and what closes it.
+
+## Step 8: Report, then hand off
+
+Close the session by reporting:
+
+- What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
+- The GitHub CLI result, with the fix when it failed.
+- Each version move reconciled and what its release changed.
+- Each finding that routes elsewhere, and where.
+- Each flagged q declaration, and what closes it.
+
+Then make Step 3's arrival and departure hand-offs — each invocation a full run of its own that asks and delivers for itself.

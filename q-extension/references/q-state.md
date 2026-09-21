@@ -12,7 +12,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 
 ```json
 {
-  "note": "Machine state written by q's skills. Never edit by hand; /q:reconcile reports drift.",
+  "note": "Machine state written by q's skills. Never edit by hand; /q:reconcile repairs drift.",
   "reconciledAgainst": {
     "@lab43/q": "0.3.0"
   }
