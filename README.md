@@ -11,7 +11,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 ## Adding q to a project
 
 ```sh
-npm install --save-dev @lab43/q
+npm install --save-dev --ignore-scripts @lab43/q
 claude --plugin-dir ./node_modules/@lab43/q/q-extension
 ```
 

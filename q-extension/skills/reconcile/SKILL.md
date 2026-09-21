@@ -1,6 +1,6 @@
 ---
 name: reconcile
-description: Reconcile the project's records with what npm already did — an extension installed, updated, or removed out of band (an npm install, a teammate's merge, a Dependabot bump). A version move is diffed into the docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with the user ruling on each orphaned reference. The changes ship as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. A project with no q scaffold routes to /q:install instead. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
+description: Reconcile the project's records with what npm already did — an extension updated, installed, or removed out of band (an npm install, a teammate's merge, a Dependabot bump). A version move is diffed into the docs and rewatermarked, an arrival indexed and watermarked, a removal's records dropped with the user ruling on each orphaned reference. The changes ship as a PR. Also sets up or repairs this machine for a q-using project — use it on a fresh clone, or whenever the session-start check reports drift. A project with no q scaffold routes to /q:install instead. A run finding nothing to reconcile repairs the machine, asks nothing, and stops.
 ---
 
 # Reconcile

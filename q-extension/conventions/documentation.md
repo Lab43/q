@@ -5,7 +5,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 ## Three tiers of conventions
 
 - **Framework conventions** — the conventions docs `@lab43/q` ships, a dependency in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
-- **Extension conventions** — the installed extensions (see: @lab43/q conventions/extensions.md), dependencies the same way, so rule improvements reach the project as its versions move. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
+- **Extension conventions** — the installed extensions (see: @lab43/q conventions/extensions.md), each a dependency the same way, so rule improvements reach the project as its versions move. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
 - **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
 
 **Precedence: project conventions win over any extension's rule, whichever extension carries it. An extension's rule in turn wins over q's.** A project overrides a rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
