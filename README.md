@@ -11,7 +11,7 @@ Named for Q, the quartermaster who equips James Bond with his gadgets — q outf
 ## Adding q to a project
 
 ```sh
-npm install --save-dev --save-exact --ignore-scripts @lab43/q
+npm install --save-dev @lab43/q
 claude --plugin-dir ./node_modules/@lab43/q/q-extension
 ```
 
@@ -35,7 +35,7 @@ Install the project's dependencies, substituting your package manager where the 
 npm install
 ```
 
-That is the whole of it — q arrives as a pinned dependency, and the project's tracked settings tell Claude Code to load it. `/q:install` folds this into the project's README, so a q-using repo carries it itself.
+That is the whole of it — q arrives with the project's dependencies, and the project's tracked settings tell Claude Code to load it. `/q:install` folds this into the project's README, so a q-using repo carries it itself.
 
 ## Skills
 
@@ -134,12 +134,12 @@ q's effect on your repo comes from context routing and documentation discipline 
 **Every session starts knowing where the rules are.** `/q:install` puts the routing in place:
 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
-- installs q as the `@lab43/q` npm package, pinned exactly in your `package.json` — its conventions and its plugin arrive together, at one version
+- builds on the `@lab43/q` npm package you installed — its conventions and its plugin arrive together, at one version, and the skill scaffolds around it
 - indexes every tier in your agent briefing (`CLAUDE.md`)
-- gives your project its own marketplace, sourcing the q it just pinned, so every teammate's machine runs the version the repo chose
-- records watermarks in a committed `.claude/q-state.json` — the versions those pins were last reconciled against
+- gives your project its own marketplace, sourcing the q you installed, so every teammate's machine runs the version the repo chose
+- records watermarks in a committed `.claude/q-state.json` — the versions your docs were last reconciled against
 
-Every session start validates that installed, pinned, and watermarked versions still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+Every session start validates that your lockfile, the installed copies, and the watermarks still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 
@@ -147,7 +147,7 @@ Every session start validates that installed, pinned, and watermarked versions s
 
 **You stay in charge.**
 
-- Both halves of q install pinned, and pins move only when you approve an update, which reconciles your docs with what changed.
+- Versions are yours to move — npm and your lockfile decide what runs, and `/q:reconcile` folds each move into your docs.
 - Your project's rulings win on conflict — record the disagreement and it stands (see the markers below).
 - Every run that delivers work settles its review mode with you up front. In local mode nothing is committed, and nothing is posted under your name, until you review it — a pull request's body and a reply on one included. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
   <!-- source: @lab43/q references/run-contract.md, Review modes -->

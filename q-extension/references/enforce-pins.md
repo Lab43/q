@@ -1,6 +1,6 @@
 # Enforce Pins
 
-The machine-local enforcement procedure: make this machine match the project's declared pins. Enforce without asking — pins are the project's recorded decisions, and this merely applies them.
+The machine-local enforcement procedure: make this machine match what the project declares. Enforce without asking — the declarations are the project's recorded decisions, and this merely applies them.
 
 1. Check that `node` and `npm` resolve. When either is missing, Node.js is not installed — report that fix. Nothing below runs without it.
 2. When `node_modules/` is missing a declared dependency, or holds a version other than the lockfile's, run the project's package-manager install — `npm install`, or the pnpm or yarn equivalent its lockfile indicates. That install is the whole update mechanism: a session reads q from `node_modules/@lab43/q` as it stands, so nothing else has to reach it.

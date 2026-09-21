@@ -7,14 +7,14 @@ description: Reconcile the project's records with what npm already did — an ex
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
-## Step 1: Enforce the pins
+## Step 1: Enforce the declarations
 
 Two states have nothing to reconcile yet. Propose `/q:install` and stop for either:
 
 - The project declares no `@lab43/q` devDependency. It has nothing to enforce.
 - It declares one but has no `.claude/q-state.json`. q's bytes arrived. The scaffold that records them has not run. This is the window between the bootstrap install and the first `/q:install`. It is the state the session-start check reports.
 
-Otherwise enforce the pins per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
+Otherwise enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`.
 
 ## Step 2: Check the GitHub CLI
 
