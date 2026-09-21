@@ -52,17 +52,13 @@ That is the whole of it — q arrives as a pinned dependency, and the project's 
     <th>What it does</th>
   </tr>
   <tr>
-    <th rowspan="4" scope="rowgroup">Setup</th>
+    <th rowspan="3" scope="rowgroup">Setup</th>
     <td nowrap><samp>/q:install</samp></td>
     <td>Install q into a project, or add an extension to one. Idempotent, safe to re-run on a partially set-up project.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:reconcile</samp></td>
-    <td>Set up or repair this machine for a q-using project, handing off to <code>/q:install</code>, <code>/q:update</code>, or <code>/q:uninstall-extension</code> when the project's records don't match its pins.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:update</samp></td>
-    <td>Reconcile the project with q and its installed extensions: catch up any pin that moved out of band, and move pins to the latest releases with your go-ahead. Either way your docs are reconciled with what changed.</td>
+    <td>Reconcile the project's records with what npm already did: a version move made out of band is diffed, folded into your docs, and rewatermarked. Also sets up or repairs this machine; an extension's arrival or departure still routes to its own skill.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:uninstall-extension</samp></td>

@@ -55,13 +55,13 @@ A failure inside the publish itself is the one case neither covers. npm may alre
 
 ## Choosing the version
 
-Projects pin exact versions, so no range semantics apply — every bump reaches a project the same way, through `/q:update` diffing the release and reconciling. The version is a signal of expected churn, not a compatibility gate.
+The lockfile decides the version a project runs, so no range semantics apply — every bump reaches a project the same way, through `/q:reconcile` diffing the release and reconciling. The version is a signal of expected churn, not a compatibility gate.
 
 - **Major**: changes that will result in significant churn in consuming projects.
 - **Minor**: changes some consuming projects will have to react to — a moved heading their markers target, an amended rule demanding reconciliation.
 - **Patch**: changes consuming projects won't react to at all — rewordings, typo fixes.
 
-Consuming projects pick up the release with `/q:update`.
+Consuming projects pick up a release by installing it and running `/q:reconcile`.
 
 ## What a release depends on
 
