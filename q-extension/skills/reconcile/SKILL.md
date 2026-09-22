@@ -103,7 +103,7 @@ Close the session by reporting:
 - The GitHub CLI result, with the fix when it failed.
 - Each version move reconciled and what its release changed.
 - Each arrival reconciled — the group and lines indexed, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
-- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. A departure by dropped payload is named as a release that stopped shipping rules, since the project may want the dependency reconsidered.
+- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. Name a departure by dropped payload as a release that stopped shipping rules, since the project may want the dependency reconsidered.
 - Each flagged q declaration, and what closes it.
 
 Then, where Step 3 found no `@lab43/q` record, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.
