@@ -10,7 +10,7 @@ Look for extensions across a project's direct `dependencies` as well as its `dev
 
 - discovers the package
 - indexes what it documents
-- registers the plugin it ships, for its sessions to load
+- registers the plugin it ships, for the project's sessions to load
 - reconciles the project against its releases
 
 q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: @lab43/q conventions/documentation.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
