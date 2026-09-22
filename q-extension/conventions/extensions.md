@@ -41,7 +41,7 @@ A package's payload is a `q-extension/` directory at its package root. Everythin
 What it holds depends on what the extension carries:
 
 - `conventions/` when it ships conventions docs, each written to the documentation policy (see: @lab43/q conventions/documentation.md).
-- `.claude-plugin/` when it ships a plugin, beside whatever that plugin loads — its skills, agents and hooks. `q-extension/` is then the plugin root, and `${CLAUDE_PLUGIN_ROOT}` resolves to it. A consuming project loads the plugin from its own marketplace under the `name` in the plugin's `plugin.json`, so that name is the namespace its sessions type: `/<name>:<skill>`. Choose one no other extension is likely to carry. `q` is taken. What else a plugin may hold is Claude Code's to decide; q fixes only where its root sits.
+- `.claude-plugin/` when it ships a plugin, beside whatever that plugin loads — its skills, agents and hooks. `q-extension/` is then the plugin root, and `${CLAUDE_PLUGIN_ROOT}` resolves to it. A consuming project registers the plugin in its own marketplace under the `name` in the plugin's `plugin.json`, so that name is the namespace its sessions type: `/<name>:<skill>`. Choose one no other extension is likely to carry. `q` is taken. What else a plugin may hold is Claude Code's to decide; q fixes only where its root sits.
 
 Every extension ships at least one of the two, which is what identifies a payload (see: Identity). Anything else the package ships for q sits beside them.
 
