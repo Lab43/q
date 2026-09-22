@@ -8,7 +8,7 @@ The plan documents the work, not the conversation that produced it: the reader i
 
 - Every sentence either directs work or prevents a wrong decision — cut anything else.
 - State each fact in one section only; other sections reference it, never restate it.
-- A reference may run forward when the acting section comes later. Treat each forward reference as evidence to weigh: the plan may be presenting information in the wrong order.
+- A reference may run forward when the acting section comes later. Treat a forward reference from any section but Context as evidence to weigh: the plan may be presenting information in the wrong order.
 
 ## Frontmatter
 
@@ -21,7 +21,7 @@ The plan documents the work, not the conversation that produced it: the reader i
 In order. A section with nothing load-bearing to say for this plan is omitted, never padded — and what already binds every session (the conventions docs, the project's standing tooling) goes without saying:
 
 - **Goal** — what the plan delivers and why it's worth doing.
-- **Context** — the givens the plan inherits rather than chooses: what is true today, with `file:line` references, and any constraints the solution must respect — invariants, compatibility, external realities. A fact the code can't witness states how it was verified — the source read, or the check run — as evidence reviewers audit instead of repeating the verification. A given needs no defending rationale; anything that could have gone another way is a Decision instead.
+- **Context** — the givens the plan inherits rather than chooses: what is true today, with `file:line` references, and any constraints the solution must respect — invariants, compatibility, external realities. Head each group of givens by the tension it holds, never by where the facts were read from. A fact the code can't witness states how it was verified — the source read, or the check run — as evidence reviewers audit instead of repeating the verification. Every given says what it bears on: the consequence it has for this plan, or the Decision or step it constrains. A given needs no defending rationale; anything that could have gone another way is a Decision instead.
 - **Decisions** — numbered, each carrying its rationale from the discussion (the why, not just the what) and its rejected alternatives inline. Rationale is the shortest argument that keeps a decision from being reopened. Rejected alternatives appear only when a reviewer would plausibly re-propose them.
 - **Out of scope** — only work a reader would otherwise assume was included, each item marked deferred or declined, with why. Not a parking lot: adjacent ideas the discussion surfaced but the plan doesn't need stay out entirely.
 - **Phases** — the implementation sequence, per Phases below.
