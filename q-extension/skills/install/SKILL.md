@@ -52,9 +52,9 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.
 2. **The q dependency** — q arrives as one npm package, its conventions and its plugin together, and the developer installs it; Step 2 stopped any run where it is undeclared. Its declaration lives in `devDependencies` in the `package.json` at the repo root — the only place anything looks for it, whatever else the repo's layout holds (source: @lab43/q conventions/extensions.md, Pinning). Leave the recorded declaration alone.
 3. **Agent briefing** — ensure the project's briefing carries the section the briefing template defines, adding what is missing and correcting drift, per that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`).
-4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules`. Two files hold it, created if missing.
+4. **Plugin declaration** — the project publishes its own marketplace, sourcing the q it already has in `node_modules` and the plugin of each installed extension that ships one. Two files hold it, created if missing.
 
-   `.claude-plugin/marketplace.json` at the project root is the conventional path for a project publishing a marketplace, so the file is shared territory rather than q's. Merge the `q` entry into an existing manifest: leave every other `plugins` entry and the recorded name untouched. Write the whole file only when creating it.
+   `.claude-plugin/marketplace.json` at the project root is the conventional path for a project publishing a marketplace, so the file is shared territory rather than q's. Merge q's entry and the extensions' into an existing manifest: leave every other `plugins` entry and the recorded name untouched. Write the whole file only when creating it.
 
    The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md). Two projects sharing a name means the second one loads another project's q rather than its own.
 
@@ -77,14 +77,16 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    }
    ```
 
-   Then merge into `.claude/settings.json`, leaving other keys untouched. Key both entries to whatever name the manifest records, and correct either if it has drifted from it:
+   An extension ships a plugin when its payload holds `.claude-plugin/` (source: @lab43/q conventions/extensions.md, Layout). Look for one across the installed extensions — the direct dependencies, in `dependencies` and `devDependencies` alike, whose installed copy carries both halves of an extension's identity (source: @lab43/q conventions/extensions.md, Identity). Each extension shipping a plugin gets an entry beside q's, sourced at `./node_modules/<package>/q-extension` and named by the `name` in its `q-extension/.claude-plugin/plugin.json`, with that manifest's `description` when it carries one. Tell entries apart by `source`, never by name — the name is the author's to choose. Bring an entry whose source is already present to this form in place. An extension whose plugin manifest names no plugin, or names one that another source's entry already holds, gets no entry: report it as the extension author's to fix. An entry already in the manifest keeps its name against a newcomer claiming it. Between two extensions arriving with the same name, neither gets an entry.
+
+   Then merge into `.claude/settings.json`, leaving other keys untouched. Key the marketplace and every plugin entry to whatever name the manifest records, and correct any that has drifted from it:
 
    ```json
    {
      "extraKnownMarketplaces": {
        "<marketplace>": { "source": { "source": "directory", "path": "./" } }
      },
-     "enabledPlugins": { "q@<marketplace>": true }
+     "enabledPlugins": { "q@<marketplace>": true, "<plugin>@<marketplace>": true }
    }
    ```
 
@@ -129,5 +131,6 @@ Close the session by reporting:
 
 - What was created.
 - What already existed and was left untouched.
+- Each shipped plugin left without a marketplace entry, and why.
 - Convention-like content Step 1 found outside `docs/conventions/` — migration candidates this run leaves alone. Moving a project's existing docs is its own delivery: suggest `/q:create-plan` for a docs tree, or `/q:implement` for a handful of rules.
 - Content already in `docs/conventions/` that has drifted from the documentation policy — grooming's territory: suggest `/q:groom-docs`.
