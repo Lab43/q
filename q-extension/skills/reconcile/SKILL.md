@@ -54,7 +54,7 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, and a changed intro means rewriting the doc's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
 - **A changed `q.description`** — rewrite that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
-- **A changed plugin**, q's or an extension's — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. A plugin's changed contents reach sessions from `node_modules/` as they stand; the re-run is what registers a plugin the release started shipping.
+- **A changed plugin**, q's or an extension's — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. A plugin's changed contents reach sessions from `node_modules/` as they stand; the re-run is what registers a plugin the release started shipping. A plugin the release stopped shipping takes the reverse: remove it from the project's marketplace the way Step 6 does for a departed extension.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its installed version.
 
