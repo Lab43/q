@@ -28,4 +28,4 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 
 An absent file means no record — create it on the first watermark write.
 
-What divides this file from `package.json` is who writes it. The manifest is hand-authored and npm's to rewrite, so it carries what a person sets and a consumer reads — the q pin, `q.description`. Watermarks are machine-written, so they live here, where the format stays q's to guarantee and nothing edits them by hand.
+What divides this file from `package.json` is who writes it. The manifest is hand-authored and npm's to rewrite, so it carries what a person sets and a consumer reads — the q declaration, `q.description`. Watermarks are machine-written, so they live here, where the format stays q's to guarantee and nothing edits them by hand.

@@ -44,7 +44,7 @@ An existing local branch is checked out as it stands, which may be behind the re
 
 Never take the branch with `git worktree add --force`. It succeeds, leaving two worktrees on one branch to diverge silently.
 
-Whichever way the worktree was made, install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-pins.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading q's conventions or an extension's under `node_modules/`.
+Whichever way the worktree was made, install the project's dependencies there (see: `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`). A worktree carries tracked files only, so until that install runs nothing works — not the project's checks, not reading q's conventions or an extension's under `node_modules/`.
 
 **Working alone, branch in the checkout.** When the run's work belongs with the session's work in progress, work on that branch. When it does not, branch first — off whatever the work builds on, usually the default branch. Make the call and state it when it is clear: a session on the default branch, or on pushed unrelated work, has nothing in progress to join. Ask when it is not: a session branch that looks connected to the run.
 

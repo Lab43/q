@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 delivery: stacked
 tracks: Lab43/q#116
 ---
@@ -230,4 +230,6 @@ Phases prove themselves. What no single phase proves:
 - `npm uninstall` it and confirm one `/q:reconcile` run de-indexes it, drops its watermark, and puts its orphaned references to the user.
 - Edit the lockfile to a version `node_modules` does not hold, and confirm the hook reports it before any install runs. This is the finding Decision 4 chose the lockfile for, and no phase's unit tests exercise it against a real project.
 - Repeat the arrival case in a pnpm fixture and a yarn fixture, confirming the hook reports and falls silent the same way. Phase 1 tests the readers against staged files; this tests them against lockfiles the managers wrote.
+
+  *(result: yarn classic passed both sides against its manager-written lockfile. pnpm reported the arrival, but records `file:` specifiers as the version for local-tarball installs, so a tarball fixture can never fall silent; the silent side was confirmed after editing the two version fields to the semver a registry install writes — the shape this plan's Context table verified.)*
 - Confirm this repo stays silent at session start throughout, since it declares no `@lab43/q` dependency.
