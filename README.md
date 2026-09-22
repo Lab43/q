@@ -136,7 +136,7 @@ q's effect on your repo comes from context routing and documentation discipline 
 - scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
 - builds on the `@lab43/q` npm package you installed — its conventions and its plugin arrive together, at one version, and the skill scaffolds around it
 - indexes every tier in your agent briefing (`CLAUDE.md`)
-- gives your project its own marketplace, sourcing the q you installed, so every teammate's machine runs the version the repo chose
+- gives your project its own marketplace, sourcing the q you installed and the plugin of any extension that ships one, so every teammate's machine runs the versions the repo chose
 - records watermarks in a committed `.claude/q-state.json` — the versions your docs were last reconciled against
 
 Every session start validates that your lockfile, the installed copies, and the watermarks still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.

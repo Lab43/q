@@ -54,7 +54,7 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, and a changed intro means rewriting the doc's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
 - **A changed `q.description`** — rewrite that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
-- **q's changed plugin** — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. An extension's changed plugin reconciles as nothing — q loads no extension's plugin.
+- **A changed plugin**, q's or an extension's — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. A plugin's changed contents reach sessions from `node_modules/` as they stand; the re-run is what registers a plugin the release started shipping.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its installed version.
 
@@ -66,6 +66,7 @@ The developer already removed the package; this run reconciles the records it le
 
 1. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
 2. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
+3. Remove the extension's plugin from the project's marketplace: the `.claude-plugin/marketplace.json` entry whose `source` is `./node_modules/<extension>/q-extension`, and the `enabledPlugins` key in `.claude/settings.json` naming that entry's plugin at the project's marketplace. Leave every other entry and key alone. An extension that shipped no plugin has neither.
 
 Then rule on what the departure orphaned. Grep the docs the documentation policy owns (see: @lab43/q conventions/documentation.md, Taxonomy) for the extension's name, and grep the project's code for exception markers naming it, excluding `node_modules/` and build artifacts. Every hit lost its backing with the extension: an overrides marker's target, an exception marker's target, a restatement's home, a cross-reference's destination. On a clean sweep, skip this. Otherwise recommend a resolution for each hit, grounded in the documentation policy, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — one AskUserQuestion batch. The user rules. Apply the rulings.
 
@@ -75,12 +76,12 @@ The developer already installed the package; this run records it. For each arriv
 
 1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
 2. An extension shipping conventions docs gets its own group in the briefing's docs index, written to that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
-3. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not: a stale watermark moves only by reconciling the version move behind it (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
-
-An arrival loads none of the skills, agents or hooks an extension ships: q scaffolds only its own marketplace entry.
+3. An extension shipping a plugin gets it registered in the project's marketplace: re-run `/q:install`, scoped to join this run's change. One shipping none has nothing to load.
+4. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not: a stale watermark moves only by reconciling the version move behind it (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 Report in the close, per arrival:
 
+- Any plugin the install re-run left without a marketplace entry, and why.
 - A missing `q.description`, if the package ships conventions docs without one (source: @lab43/q conventions/extensions.md, Description). Its group falls back to a heading of the package name alone (source: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Name it as the extension author's to fix, not the installing project's. Index it anyway — one missing blurb does not stop rules that otherwise work.
 - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
 
@@ -102,8 +103,8 @@ Close the session by reporting:
 - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
 - The GitHub CLI result, with the fix when it failed.
 - Each version move reconciled and what its release changed.
-- Each arrival reconciled — the group and lines indexed, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
-- Each departure reconciled — the records dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. Name a departure by dropped payload as a release that stopped shipping rules, since the project may want the dependency reconsidered.
+- Each arrival reconciled — the group and lines indexed, the plugin registered, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
+- Each departure reconciled — the records and plugin registration dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. Name a departure by dropped payload as a release that stopped shipping rules, since the project may want the dependency reconsidered.
 - Each flagged q declaration, and what closes it.
 
 Then, where Step 3 found no `@lab43/q` record, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.
