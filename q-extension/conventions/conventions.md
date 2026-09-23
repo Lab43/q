@@ -1,6 +1,6 @@
 # Conventions
 
-Rules for a project's conventions docs: the tiers they come in and which tier wins, what a conventions doc holds, and when a rule leaves prose for a stronger enforcement rung.
+Rules for how a project's conventions are tiered, written, and enforced.
 
 ## Three tiers of conventions
 

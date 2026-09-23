@@ -1,6 +1,6 @@
 # Plans
 
-Format, sequencing, and lifecycle rules for `docs/plans/` documents. `/q:create-plan` writes to this rubric and its adversarial plan reviews enforce it; `/q:implement-plan` executes the delivery shape the plan records.
+Rules for how a project's plans are written, sequenced, and carried to completion. `/q:create-plan` writes to this rubric and its adversarial plan reviews enforce it. `/q:implement-plan` executes the delivery shape the plan records.
 
 ## Audience
 
