@@ -46,7 +46,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    ```markdown
    # Documentation
 
-   This project's documentation rulings and deviations (see: @lab43/q conventions/documentation.md, Three tiers of conventions).
+   This project's documentation rulings and deviations (see: @lab43/q conventions/conventions.md, Three tiers of conventions).
    ```
 
    No other conventions doc is scaffolded — `/q:update-docs` creates each topical doc when its first entry is recorded.

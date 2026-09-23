@@ -22,7 +22,7 @@ The marker makes discovery a grep in both directions. To find the specs a change
 
 Rejected: a spec naming the files or tests that enforce it. That enumeration rots when code moves. The marker carries the same fact in the one place that moves with the code.
 
-A statement stays in the spec after a test holds it. That is a carve-out from the last-rung rule, which deletes prose once a stronger rung holds it (see: @lab43/q conventions/documentation.md, Documentation is the last rung). The spec records the intent behind the test, so the test cannot drift from the commitment without the drift being visible.
+A statement stays in the spec after a test holds it. That is a carve-out from the last-rung rule, which deletes prose once a stronger rung holds it (see: @lab43/q conventions/conventions.md, Documentation is the last rung). The spec records the intent behind the test, so the test cannot drift from the commitment without the drift being visible.
 
 ## Disagreement
 

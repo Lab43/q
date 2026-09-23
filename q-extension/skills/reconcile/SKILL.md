@@ -44,7 +44,7 @@ A run that found nothing to reconcile — no finding at all, or only the `/q:ins
 Diff the two published versions: `npm pack <package>@<version>` for the watermark and for the installed version into a scratch directory, extract both, and diff the trees. Diff the whole tarball rather than the payload's `conventions/` alone, because a release can change skills, hooks, agents and references too. Work only from the diff. What it touched decides which of these applies, and a diff may touch more than one:
 
 - **Changed conventions docs** — hold the project's docs, and the exception markers its code carries, against each changed rule:
-  - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/documentation.md, Three tiers of conventions)
+  - remove an override whose target updated to agree or disappeared — it is spent (source: @lab43/q conventions/conventions.md, Three tiers of conventions)
   - re-check each "(source: …)" restatement against its changed home
   - re-check each exception against its changed rule — retarget one whose rule moved, and remove one that is spent, its rule gone or changed to admit the site (source: @lab43/q conventions/documentation.md, Markers)
   - prune a project rule the new text now owns — it is duplication now

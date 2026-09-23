@@ -13,7 +13,7 @@ Look for extensions across a project's direct `dependencies` as well as its `dev
 - registers the plugin it ships, for the project's sessions to load
 - reconciles the project against its releases
 
-q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: @lab43/q conventions/documentation.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
+q is not an extension but what extensions extend: the framework whose rules they add to and whose format they follow (source: @lab43/q conventions/conventions.md, Three tiers of conventions). `@lab43/q` carries no keyword, and is named outright wherever a rule reaches it.
 
 ## Which rules ship
 
@@ -63,7 +63,7 @@ In its authoring project, an extension's conventions docs and its `q.description
 
 They are indexed there too. The authoring repo's briefing gives them a group of their own, shaped like a consumed extension's and headed the same way. The group carries no pin, because a repo does not depend on itself, and no watermark, because a watermark certifies that changed rules have been absorbed and there is nothing to absorb in rules you are editing.
 
-An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/documentation.md, Three tiers of conventions).
+An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/conventions.md, Three tiers of conventions).
 
 The plugin the extension ships loads from the working tree too. Add its entry to the project's own marketplace by hand, beside q's: sourced at `./q-extension` and named by the `name` in its `plugin.json`. Enable it in `.claude/settings.json` the way q's entry is enabled there.
 
