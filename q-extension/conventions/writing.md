@@ -52,11 +52,13 @@ Write each edit for the reader who arrives fresh: they see the merged text, neve
 
 ## Sign what you post
 
-Text posted under the user's account reads as the user's. Sign anything a reader meets as a message from them, with "— Claude 🤖" on its own line at the end:
+Text posted under the user's account reads as the user's. Sign anything a reader meets as a message from them, once, with "— Claude 🤖" on its own line at the end:
 
 - a pull request's body
 - a comment or reply on a pull request, on the diff or at the top level
 - an issue or tracker item you file
 - any comment you post on an issue or tracker item
+
+An attribution the harness appends is the signature. When Claude Code ends a pull request body with its own "Generated with Claude Code" line, add nothing beneath it.
 
 Text committed to the repo is not a message and carries no signature. Git history records who wrote it.

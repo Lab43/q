@@ -11,6 +11,6 @@ The machine-local enforcement procedure: make this machine match what the projec
    - A fresh clone has never registered the marketplace.
    - A declined trust prompt left it unregistered.
    - Another checkout of this repo has repointed the project's name at itself. The machine-global registry holds one entry per marketplace name. The add repoints it back, because an entry whose name matches but whose path differs is updated to the new path.
-4. After any change above, run `/reload-plugins`.
+4. After any change above, ask the user to run `/reload-plugins`. It is a terminal command no session can invoke.
 
 Name any tracked file the enforcement rewrote (a lockfile). That change stays in the tree as the user's.
