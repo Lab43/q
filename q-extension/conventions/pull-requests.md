@@ -1,6 +1,6 @@
 # Pull Requests
 
-Rules for authoring a pull request. Hold its prose to the writing rules (see: @lab43/q conventions/writing.md). Sign the body and every comment or reply on it: "— Claude 🤖" (source: @lab43/q conventions/writing.md, Sign what you post). A project's own PR conventions win over this doc (source: @lab43/q conventions/conventions.md, Three tiers of conventions), and so does a PR template in the repo.
+Rules for authoring a pull request. Hold its prose to the writing rules (see: @lab43/q conventions/writing.md). Sign the body and every comment or reply on it: "— Claude 🤖", except a body Claude Code has already ended with its own attribution line (source: @lab43/q conventions/writing.md, Sign what you post). A project's own PR conventions win over this doc (source: @lab43/q conventions/conventions.md, Three tiers of conventions), and so does a PR template in the repo.
 
 ## Title
 

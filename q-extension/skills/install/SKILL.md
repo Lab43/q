@@ -27,7 +27,7 @@ Skip this step in any of these cases:
 - Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
-Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
+Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Commit the q declaration the bootstrap left uncommitted in the root `package.json` and the lockfile with the scaffold, without asking. It is the input the bootstrap above prescribes, and the scaffold is broken without it (exception: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
 
 ## Step 3: Scaffold
 
