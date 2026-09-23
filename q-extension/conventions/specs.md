@@ -1,6 +1,6 @@
 # Specs
 
-Rules for `docs/specs/` documents: what a spec holds, how it is written, and how the code is held to it. A spec states what the product commits to. Whether a rule is a spec's or a convention's is the taxonomy's call (see: @lab43/q conventions/documentation.md, Taxonomy).
+Rules for how a project's specs are written and how the code is held to them. A spec states what the product commits to. Whether a rule is a spec's or a convention's is the taxonomy's call (see: @lab43/q conventions/documentation.md, Taxonomy).
 
 ## Format
 

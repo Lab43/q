@@ -97,7 +97,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 8. **The README's q section** — when the README doesn't mention q, add this section verbatim:
 
    ```markdown
-   ## Claude Code
+   ## Working with q
 
    This project uses [q](https://www.npmjs.com/package/@lab43/q), an agentic coding workflow that grounds Claude Code sessions in the project's own conventions. It arrives with the project's dependencies, and Claude Code loads it from the repo's tracked settings.
 
