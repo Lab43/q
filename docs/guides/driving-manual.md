@@ -27,6 +27,20 @@ Run `claude -p` in the target directory and ask it to count the skills whose nam
 
 A headless session loads a marketplace the CLI's registry already holds. It will not register one declared only in tracked `.claude/settings.json`, which is something an interactive session does for itself. Pass `--plugin-dir` to drive a fixture that has not been through `/q:install` yet.
 
+## Driving a skill headless
+
+A skill runs in a `claude -p` session, and what it reports is the session's last message.
+
+```sh
+claude -p "/q:review" --plugin-dir <root> --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git *),Bash(npm test*)" < /dev/null
+```
+
+- Put the prompt directly after `-p`, before `--allowedTools`. That flag takes a list, and a prompt placed after it is swallowed into the list. The session then fails with "Input must be provided either through stdin or as a prompt argument".
+- Pass every tool the skill's run needs. A headless session denies what it cannot ask about. A review run needs the reviewer agent's tools, git, and the project's test command for the reviewers' narrow checks. The example grants npm's.
+- A step that asks the user cannot complete headless. The skill reports what it found and stops at the question, which is the evidence a drive wants from it.
+
+To follow edits to the payload as they are made, `npm install <path to this checkout>` in the fixture symlinks q instead of packing it, so every edit reaches the fixture's `@lab43/q` paths without a repack. The tarball is what a consumer gets, so drive the install and the hooks from a tarball (see: Driving q as an installed plugin). A fixture exercising specs needs a `docs/specs/` doc, a site carrying its marker, and a `CLAUDE.md` whose index lists the spec in a Specs group. The reviewer finds specs from that index and from the markers.
+
 ## Taking turns over the marketplace name `q-dev`
 
 The CLI's registry holds one entry per marketplace name, machine-wide. This checkout and every worktree of it publish the name `q-dev`, so only one of them owns it at a time. Every session resolving `q@q-dev` follows whichever registered last, this checkout's own sessions included. Fixtures contend for nothing: they load q through `--plugin-dir` until `/q:install` gives them a marketplace name of their own.

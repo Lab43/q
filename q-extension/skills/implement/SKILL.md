@@ -18,15 +18,15 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 1. Announce the item to the peers before reading it — investigating it is already work a peer should not duplicate (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). A run continued from `/q:triage` arrives with the item already announced. Release it whenever this run stops working the item, whether it turns out unavailable or the verdict is nothing to do.
 2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: @lab43/q conventions/issue-tracking.md, Respect existing claims).
-3. Read the conventions governing the affected territory, found from the agent briefing's docs index.
+3. Read the conventions and specs governing the affected territory, found from the agent briefing's docs index.
 4. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
 5. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
 
-The outcome is a verdict: what the work actually is, whether the item's claims hold against the code, and how big the real change is.
+The outcome is a verdict: what the work actually is, whether the item's claims hold against the code, how big the real change is, and whether it contradicts a spec.
 
 ## Step 2: Agree
 
-Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the verdict and a recommended route, the approach where the fix is genuinely forked, and — when fixing here — the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits and posts nothing the user has not reviewed.
+Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the verdict and a recommended route, the approach where the fix is genuinely forked, the exit when the work contradicts a spec — amend the spec with the change, or reshape the work to honor it (source: @lab43/q conventions/specs.md, Disagreement) — and — when fixing here — the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits and posts nothing the user has not reviewed.
 
 Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 

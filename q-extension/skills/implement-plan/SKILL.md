@@ -19,7 +19,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 
 1. Read the plan in full.
 2. Announce the plan, and the items its `tracks` frontmatter names, before going further (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Release them if the run ends without delivering.
-3. Read the conventions governing the plan's territory, found from the agent briefing's docs index.
+3. Read the conventions and specs governing the plan's territory, found from the agent briefing's docs index.
 4. Explore the affected code — use an Explore subagent for broad reconnaissance.
 5. Plans can predate refactors: check every plan step against the current codebase and note steps that are already done, obsolete, or in conflict with current structure.
 6. The plan's external facts were verified at planning time. If the plan has aged — the dependency manifests, lockfile, or files the plan cites changed since the doc was last written (its last commit, or mtime if uncommitted) — re-verify the load-bearing ones before building on them; a plan executed fresh skips this.
@@ -28,7 +28,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 
 Clarify the plan with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — everything asked here is a question the run won't have to stop for once it is autonomous. One batch, via AskUserQuestion:
 
-- The ambiguities, plan/codebase conflicts, and scope questions Step 1 surfaced — when none need the user's attention, state your working assumptions instead. If consequential questions keep accumulating, the plan is underspecified — say so and suggest revising it with `/q:create-plan` before implementing.
+- The ambiguities, plan/codebase conflicts, scope questions, and any spec the plan's work contradicts without scheduling the amendment, as Step 1 surfaced them — when none need the user's attention, state your working assumptions instead. If consequential questions keep accumulating, the plan is underspecified — say so and suggest revising it with `/q:create-plan` before implementing.
 - The review mode, always asked (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes): in this run, ship covers every commit (a stacked run's `gh stack` operations included), push, and PR; local commits and posts nothing the user has not reviewed, each PR's content at that PR's boundary.
 
 What emerges completes the agreement: the plan, as clarified, authorizes the rest of the run as autonomous.
@@ -55,7 +55,7 @@ gh stack init <plan-name>/01-<group-slug> --base <default-branch>
 
 Either way, in ship mode record the group-start SHA (`git rev-parse HEAD`) as soon as the branch exists, before anything commits to it. It scopes this PR's final review in Step 5. Each later group records its own when its branch opens in Step 4.
 
-A plan doc not yet in merged history — new, or changed since it merged — becomes the run's first commit, at the bottom of the stack in a stacked run — exactly as planning left it. Material Step 2 clarification answers are folded in as a second commit on top, so the diff between the two records what clarification changed. In local mode, hold the commit; when the user's go-ahead starts the committing, the plan doc — clarifications folded in — is committed first, the two-commit split being history local mode gives up.
+A plan doc not yet in merged history — new, or changed since it merged — becomes the run's first commit, at the bottom of the stack in a stacked run — exactly as planning left it. Material Step 2 clarification answers are folded in as a second commit on top, so the diff between the two records what clarification changed. Both commits land in local mode too. The plan as planning left it is already the user's reviewed work, so committing it holds back nothing local mode protects, and every amendment the run adds then shows as a diff against it.
 
 ## Step 4: Implement in phases
 

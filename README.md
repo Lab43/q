@@ -143,6 +143,9 @@ Every session start validates that your lockfile, the installed copies, and the 
 
 **Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
 
+**A convention records practice. A spec records a promise.** A convention says how code here gets written, and it grows out of the decisions you make while working. A spec says what a feature does, and you write it on purpose, before the code or as a deliberate change to it. Break a convention and the code is wrong. Break a spec and the product is wrong, unless you meant to change the promise, in which case the spec changes with it.
+<!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
+
 **Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
 
 **You stay in charge.**
@@ -185,6 +188,10 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
   <tr>
     <td nowrap><samp>(exception: X)</samp></td>
     <td>This site is exempt from the named rule, which still stands everywhere else (<code>exception: docs/conventions/logging.md, Structured fields</code>). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a comment — without either part it excuses nothing. <code>/q:groom-docs</code> counts them by rule, so several against one rule surface as a signal the rule wants revisiting.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>(spec: X)</samp></td>
+    <td>This code enforces the named spec statement (<code>spec: docs/specs/tasks.md, Due dates</code>). It sits only at enforcing code — a test, a validation, a guard — in that file's comment syntax, never in prose, and always names a section. Amending the section means visiting every site marked with it. <code>/q:groom-docs</code> reports a marker naming a doc or section that no longer exists, and a section no marker names.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->

@@ -15,6 +15,7 @@ The target comes from the invocation. Map it to an artifact the adversarial revi
 - **A diff, file, or directory**: as given.
 - **A feature or area named in words**: locate its files (an Explore subagent for breadth) and confirm the file list with the user before reviewing.
 - **A plan doc in `docs/plans/`**: a plan review when its status is `pending`. Review any other plan as prose.
+- **A spec doc in `docs/specs/`**: a work review over the spec itself plus the files carrying its spec markers. Find them by grepping the repo for `spec:` followed by the doc's path, excluding `node_modules/` and build artifacts.
 
 ## Step 2: Launch the review
 

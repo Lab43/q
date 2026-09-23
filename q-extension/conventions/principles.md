@@ -31,7 +31,7 @@ A private note only the agent reads — a memory file, a stored preference — i
 
 A comment, in code or in a doc's markup, states what its file cannot show: the constraint, the gotcha, the reason a workaround must stay. The test: does the comment change how the next reader edits this site? If not, cut it.
 
-An exception marker's reason passes the test (see: @lab43/q conventions/documentation.md, Markers). It stops the next reader pulling the site back into line with a rule it is excused from.
+An exception marker's reason passes the test (see: @lab43/q conventions/documentation.md, Markers). It stops the next reader pulling the site back into line with a rule it is excused from. A spec marker passes it too: it tells the next reader the site enforces a commitment, which they would otherwise remove as an ordinary check.
 
 What fails the test is the author addressing someone other than that reader, in two shapes:
 
