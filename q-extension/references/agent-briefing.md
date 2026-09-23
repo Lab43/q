@@ -15,7 +15,7 @@ If the session's skill list has no `/q:` skills, this machine is missing the q p
 
 When another session is already working this repo, take a worktree rather than sharing the checkout.
 
-Conventions come in three tiers: q's own, the conventions of any installed extensions, and this project's own `docs/conventions/` (source: @lab43/q conventions/documentation.md, Three tiers of conventions). q and the extensions are dependencies in `package.json`. Project rules win over an extension's rule, and an extension's rule wins over q's. Check all three tiers before writing code, before design decisions and reviews, and before changing docs. Doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+Conventions come in three tiers: q's own, the conventions of any installed extensions, and this project's own `docs/conventions/` (source: @lab43/q conventions/conventions.md, Three tiers of conventions). q and the extensions are dependencies in `package.json`. Project rules win over an extension's rule, and an extension's rule wins over q's. Check all three tiers before writing code, before design decisions and reviews, and before changing docs. Doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
 Package doc paths are package name plus path from the package's `q-extension/` payload directory, resolved under `node_modules/`: `@lab43/q conventions/principles.md` is `node_modules/@lab43/q/q-extension/conventions/principles.md` (source: @lab43/q conventions/documentation.md, Package doc paths).
 
@@ -23,6 +23,7 @@ Package doc paths are package name plus path from the package's `q-extension/` p
 
 - `@lab43/q conventions/principles.md` — cross-cutting rules for any design decision, plan, or review
 - `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+- `@lab43/q conventions/conventions.md` — rules for a project's conventions docs: the tiers they come in and which tier wins, what a conventions doc holds, and when a rule leaves prose for a stronger enforcement rung
 - `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
 - `@lab43/q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
 - `@lab43/q conventions/specs.md` — rules for `docs/specs/` documents: what a spec holds, how it is written, and how the code is held to it

@@ -28,6 +28,7 @@ In path references, `@lab43/q` resolves here to `q-extension/`, q's own payload 
 `@lab43/q` — The rules of the q workflow, governing how a project's work gets planned, decided, documented, and shipped.
 
 - `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
+- `@lab43/q conventions/conventions.md` — rules for a project's conventions docs: the tiers they come in and which tier wins, what a conventions doc holds, and when a rule leaves prose for a stronger enforcement rung
 - `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
 - `@lab43/q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
 - `@lab43/q conventions/specs.md` — rules for `docs/specs/` documents: what a spec holds, how it is written, and how the code is held to it

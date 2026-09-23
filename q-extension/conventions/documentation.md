@@ -12,7 +12,7 @@ The intro is the authoritative description of its doc. The briefing index's line
 
 Two doc types carry rules, and they divide by what they govern. A convention governs how code is written, and is recorded as the decision surfaces. A spec governs what a feature does, and is written on purpose: on the user's instruction naming the change, or through a plan the user approved that schedules the edit. Never write or amend a spec on a run's own initiative. A lesson that reads as a product commitment is reported to the user as a spec candidate and left unwritten.
 
-- **`docs/conventions/`** — the project's conventions docs (see: Conventions docs).
+- **`docs/conventions/`** — the project's conventions docs (see: @lab43/q conventions/conventions.md).
 - **`docs/specs/`** — the project's specs: what the product commits to, stated as behavior the code must honor. Format and enforcement rules live in their own doc (see: @lab43/q conventions/specs.md). Grooming gives a spec every check a conventions doc gets, with accuracy reversed: a commitment the code does not honor is reported to the user as unmet, never corrected as a doc, because a spec may run ahead of its code and only the user knows whether the gap is work in progress, work missed, or a regression. Grooming also audits the spec markers (see: Markers), reporting each marker naming a doc or section that does not exist and each spec section no marker names.
 - **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: @lab43/q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
 - **`docs/guides/`** — guides: instructions for using and operating the product, not for writing its code (deployment walkthroughs, feature guides, operational procedures). Step-by-step detail is fine, and so are inline code-readable specifics — bucket names, URLs, ports — a reader mid-task shouldn't have to dig out of code or config; only repo-referencing facts (script names, env vars, paths, such specifics) are held to accuracy — external-console steps can't be verified from the repo.
@@ -21,40 +21,8 @@ Two doc types carry rules, and they divide by what they govern. A convention gov
   - **Interface, not internals**: enumerating the product's interface (commands, skills, entry points) serves the reader and belongs; inventorying the repo's internals (directory layout, file lists) restates what browsing already shows — an internal detail earns mention only when it explains something non-obvious.
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`CLAUDE.md`** — the always-loaded agent briefing. Rejected: `AGENTS.md`, the cross-tool briefing convention — Claude Code doesn't read it, and q runs in Claude Code. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
-  - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
+  - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: @lab43/q conventions/conventions.md, Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
   - **The docs index** — one line per doc, restating its intro: every conventions doc, whether q's, an installed extension's, this repo's own payload, or the project's own, every spec, and every guide. Group the lines by where the docs come from, the specs in a group of their own. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An extension's heading pairs its package name with its `q.description`, whether the project installs that extension or authors it (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
-
-## Three tiers of conventions
-
-- **Framework conventions** — the conventions docs `@lab43/q` ships, a dependency in the project's `package.json`. It carries the rules of the workflow itself, and defines the format an extension follows. Every q project installs it, and none can remove it.
-- **Extension conventions** — the installed extensions (see: @lab43/q conventions/extensions.md), each a dependency the same way, so rule improvements reach the project as its versions move. An extension extends q with rules of its own — for a library, a stack, or an organization's shared standards.
-- **Project conventions** — `docs/conventions/` in the consuming repo (a fixed contract path). Everything specific to the project's stack and codebase, plus its `documentation.md` mirror of this policy, where documentation rulings and deviations are recorded. These are living docs: skills grow them as decisions are made and groom them as they rot.
-
-**Precedence: project conventions win over any extension's rule, whichever extension carries it. An extension's rule in turn wins over q's.** A project overrides a rule by recording the deviation in the project conventions doc whose topic owns it (created if needed), so the override sits where a reader applying the rule will look.
-
-- A deviation is written as an ordinary rule: the decision and the rationale, plus an overrides marker (see: Markers) naming the rule it replaces.
-- A deviation is refined in place or deleted as the decision evolves, never appended as a log entry.
-- An override outlived by its target — updated to agree, or gone — is spent and comes out.
-- Overriding a rule needs no other mechanism — the readers are agents, so stating the deviation is enough.
-
-A refinement that reaches beyond this project — one that would improve a q rule, or an extension's — is a candidate to upstream. Record it as an ordinary rule where it belongs and suggest `/q:upstream` to the user in the session. Never annotate the doc with its upstream candidacy.
-
-Conventions move into what a repo publishes when their audience grows beyond one project, on the user's decision (source: @lab43/q conventions/extensions.md, Which rules ship).
-
-## Conventions docs
-
-Rules for whoever is about to write or evaluate code — the unit this workflow reads and grows.
-
-**One topic per doc, broadly targeted until proven otherwise**: a doc is about "tests", not about "mocking data in Jest". Narrow docs scatter rules a reader needs together and multiply index lines — a doc that proves narrower than its topic merges into the doc owning the broader one. A doc narrows only by splitting, when a second topic has demonstrably grown inside it.
-
-**Every statement is a rule** — something to follow, a constraint to check, or a decision that binds future code, phrased that way. A sentence that wouldn't change what a reader writes or flags gets cut.
-
-- Descriptions of how the system currently works are not conventions — the code and exemplars carry those.
-- Never facts readable from the code: directory listings, dependency lists, schema enumerations, config values, and model/version names rot the moment code moves, and the code already answers them.
-- Record decisions and rejected alternatives only when they're highly likely to come up again: the alternative is the first thing a reader would reach for, or something deliberately ignored reads as an oversight. Each rejection names the alternative and the reason, nothing more.
-- The rationale stands inline — never cite the repo's issues or PRs as provenance; git history is the paper trail. Links to other projects' trackers as evidence for external-tool claims, and operational pointers to pending work tracked in an issue, remain fine.
-
-**A rule lands in the doc whose topic owns it**, integrated into the section it belongs to (see: @lab43/q conventions/writing.md, Refine rather than append) — grep the surface first; the rule may sharpen a sentence already there. A new doc is created only when no existing topic owns the rule.
 
 ## Single source of truth
 
@@ -92,7 +60,7 @@ Five markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 - **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
 - **`(spec: X)`** — enforcement. This code enforces the named spec statement (`spec: docs/specs/tasks.md, Due dates`). Which sites carry it, and what amending the statement obliges, are the specs rules (see: @lab43/q conventions/specs.md, Enforcement).
 
@@ -109,17 +77,3 @@ A comment carrying prose as well gives the marker its own line. Comments are oth
 An exception and a spec marker each must name a section, because only a marker that identifies the rule or the statement can be counted against it. An exception must also carry a reason, which is the text the marker sits in: the sentence in a doc, or the comment in any other file. An exception missing either part excuses nothing.
 
 An exception is spent once its site no longer needs excusing: the rule is gone, or it changed to admit the site. A spent exception comes out. One whose rule merely moved is retargeted, because the site still needs it.
-
-## Code examples in conventions docs
-
-Prose rules carry the conventions; code carries itself:
-
-- Each pattern names a **living exemplar** — a real file in the repo — and says which of its lines are load-bearing for the pattern, so an imitator doesn't copy the incidental along with the essential. Exemplar references and these notes are carved out of the no-code-readable-facts rule as a class; they exist to point *into* the code.
-- Short shape-only snippets are allowed where a rule is illegible without one. Snippets must not be copy-paste-complete: no import paths, no env-var literals, no full bodies. Anything an agent would paste verbatim must come from the exemplar.
-- Symbols, files, and helpers named in prose must exist — `/q:groom-docs` greps for them.
-
-Rejected: full copy-paste code templates, even compile-checked ones — doc inaccuracies cluster inside template code and code-readable fact restatements, not prose rules, and a stale template actively produces failing code.
-
-## Documentation is the last rung
-
-Documentation is the weakest enforcement rung (source: @lab43/q conventions/principles.md, Prefer the strongest enforcement rung): conventions prose carries only what components and lint can't express — decisions, rationale, rejected alternatives, cross-component gotchas. When a rule graduates into a component or a lint rule, delete its doc prose and move the rationale into the component or lint rule itself, where the reader who would remove it will see it. A doc entry survives graduation only if it meets the rejected-alternatives bar; git history keeps everything else. A spec's prose is the one carve-out: it stays after a test holds it, because it records the intent behind the test, and the test cannot drift from the commitment without the drift being visible (source: @lab43/q conventions/specs.md, Enforcement).

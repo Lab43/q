@@ -182,7 +182,7 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
   </tr>
   <tr>
     <td nowrap><samp>(overrides: X)</samp></td>
-    <td>This rule deliberately replaces the named one — a q rule (<code>overrides: @lab43/q conventions/documentation.md, Code examples in conventions docs</code>), an extension's rule (<code>overrides: @acme/q-ext-x conventions/retries.md, Backoff</code>), or a broader project convention (<code>overrides: docs/conventions/style.md, Magic numbers</code>). <code>/q:groom-docs</code> respects it, and <code>/q:upstream</code> picks up overrides worth carrying to the rule's owner.</td>
+    <td>This rule deliberately replaces the named one — a q rule (<code>overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs</code>), an extension's rule (<code>overrides: @acme/q-ext-x conventions/retries.md, Backoff</code>), or a broader project convention (<code>overrides: docs/conventions/style.md, Magic numbers</code>). <code>/q:groom-docs</code> respects it, and <code>/q:upstream</code> picks up overrides worth carrying to the rule's owner.</td>
   </tr>
   <tr>
     <td nowrap><samp>(exception: X)</samp></td>

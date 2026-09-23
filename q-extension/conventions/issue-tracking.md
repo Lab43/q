@@ -1,6 +1,6 @@
 # Issue Tracking
 
-Rules for working a project's issue tracker — the shared source of work items — from any session. Sign every item you file and every comment you post: "— Claude 🤖" (source: @lab43/q conventions/writing.md, Sign what you post). A project's own tracker conventions win over this doc (source: @lab43/q conventions/documentation.md, Three tiers of conventions), and so does an issue template the tracker carries.
+Rules for working a project's issue tracker — the shared source of work items — from any session. Sign every item you file and every comment you post: "— Claude 🤖" (source: @lab43/q conventions/writing.md, Sign what you post). A project's own tracker conventions win over this doc (source: @lab43/q conventions/conventions.md, Three tiers of conventions), and so does an issue template the tracker carries.
 
 ## Respect existing claims
 
