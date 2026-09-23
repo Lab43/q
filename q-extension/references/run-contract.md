@@ -11,11 +11,11 @@ A run is in one of two modes, depending on whether the user has agreed on what t
 
 ## Review modes
 
-A run puts out two things: commits, and text posted under the user's account, which reads as the user's (source: @lab43/q conventions/writing.md, Sign what you post). One review mode governs both, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled, the run never reopens it: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
+Work that will become commits runs in one of two review modes, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled, the run never reopens it: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
 
 The user can still overrule a step: telling a local run to commit now (see: The local gate), or a ship run to hold its push. The ruling spends itself on the step it names — the mode stands for everything after, however much the instruction resembles the other mode's procedure. Name the conflict before complying rather than inferring a switch.
 
-- **Local** — nothing is committed or posted unreviewed. Work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it. Posted text appears in no diff, so show the user the words themselves and post them at their go-ahead. Agreeing that a run posts at all settles the act, never the wording.
+- **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's.
 
 ## The delivery branch
@@ -115,14 +115,6 @@ Wait for every reviewer in the round to report before changing anything. Editing
 
 ## The local gate
 
-The procedure a run in local mode follows at each review point the skill defines. Stop and ask the user to review:
-
-- the uncommitted diff
-- its check results
-- anything else they should weigh
-
-Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
+The procedure a run in local mode follows at each review point the skill defines. Stop and ask the user to review the uncommitted work: the diff, its check results, and anything else they should weigh. Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
 
 At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the gate's iteration substantially changed the work, run one `adversarial-reviewer` pass (both lenses) over what changed, with the prompt Validation prescribes (see: Validation). Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted.
-
-The words the run will post wait until the diff is settled and the user says they are ready for the PR. Draft them then, from the committed work, and show them whole, so the user rules on them as they ruled on the diff. Post the approved text, and post nothing the run has changed since. Drafting the words earlier, to review beside the diff, costs the user a reading before the work is settled, and every change request at the gate makes that reading stale.

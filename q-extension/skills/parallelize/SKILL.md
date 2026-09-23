@@ -34,7 +34,7 @@ Every entry on the list goes one of two ways:
 - **Isolated** — each session gets its own. A port derived per session rather than fixed, a database or schema named per session, a cache or scratch directory keyed per session.
 - **Shared** — there can only be one, so sessions take turns over it. A licensed device, a staging environment, an external account. Say how a session claims it and how it releases it. Something that could be isolated, but not within one reviewable PR, is not shared — that is the escalation below.
 
-Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the list, which way each entry goes, and the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits and posts nothing the user has not reviewed.
+Settle the run with the user, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). One batch: the list, which way each entry goes, and the review mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). In this run, ship covers commit, push, and the PR; local commits nothing until the user has reviewed the diff.
 
 Answers settle decisions. They are not the agreement. Close the conversation by summarizing the agreed scope and asking for the go-ahead. That go-ahead, not the last answer, is what makes the rest of the run autonomous.
 

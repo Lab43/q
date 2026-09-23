@@ -16,7 +16,7 @@ The common shape of a run is five stretches: gather, converse, execute, validate
 - Conversation belongs where the shape is still ambiguous, and ends in the agreement.
 - Execution runs autonomously under that agreement, with a go-ahead gate just before any step that is expensive or hard to reverse.
 - Validation closes execution: the run's product passes the project's checks and an adversarial review before anything is delivered. The contract carries the shared procedure; a skill's own text adds only its bindings (lenses, scope, diff).
-- Review closes the run: the validated work reaches the user under the review mode — paused uncommitted and unposted at the local gate, or pushed and opened as the PR they review on GitHub (source: @lab43/q references/run-contract.md, Review modes).
+- Review closes the run: the validated work reaches the user under the review mode — paused uncommitted at the local gate, or pushed and opened as the PR they review on GitHub (source: @lab43/q references/run-contract.md, Review modes).
 
 Where an autonomous step looks destructive — a deletion, an overwrite — write the approval into it as a direct imperative ("sync without asking"): a missing one reads as "maybe ask", and one stall breaks the mode's no-interruption promise.
 
