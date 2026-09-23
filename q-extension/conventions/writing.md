@@ -59,6 +59,6 @@ Text posted under the user's account reads as the user's. Sign anything a reader
 - an issue or tracker item you file
 - any comment you post on an issue or tracker item
 
-An attribution the harness appends is the signature. When Claude Code ends a pull request body with its own "Generated with Claude Code" line, add nothing beneath it.
+An attribution Claude Code appends is the signature. When it ends a pull request body with its own "Generated with Claude Code" line, add nothing beneath it.
 
 Text committed to the repo is not a message and carries no signature. Git history records who wrote it.
