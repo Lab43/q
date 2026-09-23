@@ -25,6 +25,7 @@ Package doc paths are package name plus path from the package's `q-extension/` p
 - `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
 - `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
 - `@lab43/q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
+- `@lab43/q conventions/specs.md` — rules for `docs/specs/` documents: what a spec holds, how it is written, and how the code is held to it
 - `@lab43/q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
 - `@lab43/q conventions/pull-requests.md` — rules for authoring a pull request
 - `@lab43/q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read
@@ -42,6 +43,10 @@ This project's own:
 - `docs/conventions/principles.md` — cross-cutting rules, including deviations from q's
 - `docs/conventions/documentation.md` — documentation rulings and deviations
 
+Specs:
+
+- `docs/specs/<name>.md` — one line per spec, restating its intro
+
 Guides:
 
 - `docs/guides/<name>.md` — one line per guide, restating its intro
@@ -55,6 +60,6 @@ Guides:
 - **Give the payload this repo ships its own group.** When the repo's own `q-extension/` holds `conventions/`, it ships those rules and consumes them too: index them in the same form as an installed extension's, read from the working tree rather than `node_modules/` (see: @lab43/q conventions/extensions.md, Authoring).
 - **Treat the prose as a floor, not a script.** Carry at least what the template's prose carries. Leave the project's own wording where it says the same thing. Where a statement isn't true of the project — it authors an extension rather than installing one, or loads the plugin some other way — say what is true instead.
 - **Keep what the project put there** — its own standing instructions, notes, and index entries beyond the required ones. Work missing information into what is already written rather than bolting a sentence alongside it. Rewrite freely to do that, but drop nothing the project said.
-- **Drop a group with no entries.** A fresh project has no extensions and no guides, so those groups arrive with the first one of each. The q group is always there.
-- **Index every doc the policy requires, and nothing stale** — every conventions doc, from q, from an installed extension, from this repo's own payload, or the project's own, and every guide (source: @lab43/q conventions/documentation.md, Taxonomy). Drop the line for a doc that is gone. An extension the project no longer installs loses every line and its heading with them. The installed extensions are the direct dependencies — `dependencies` and `devDependencies` alike — whose installed copy carries both the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). An extension shipping no conventions docs contributes no lines, and so no group.
+- **Drop a group with no entries.** A fresh project has no extensions, no specs, and no guides, so those groups arrive with the first one of each. The q group is always there.
+- **Index every doc the policy requires, and nothing stale** — every conventions doc, from q, from an installed extension, from this repo's own payload, or the project's own, every spec, and every guide (source: @lab43/q conventions/documentation.md, Taxonomy). Drop the line for a doc that is gone. An extension the project no longer installs loses every line and its heading with them. The installed extensions are the direct dependencies — `dependencies` and `devDependencies` alike — whose installed copy carries both the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). An extension shipping no conventions docs contributes no lines, and so no group.
 - **Write each line as a path plus a blurb restating the doc's intro** — q's docs, an installed extension's, and this repo's own payload by their path form (see: @lab43/q conventions/documentation.md, Package doc paths), the project's own by repo-relative path.

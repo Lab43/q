@@ -65,6 +65,7 @@ A worktree is what separates two sessions, and not every case gets one. A peer m
 
 - Never switch the branch without announcing first.
 - Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
+- Commit by explicit path too, with `git commit --only <paths>`. A plain commit takes the whole index, and the index may hold staging you did not set: someone marking up a review stages hunks as they read them.
 - Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
@@ -110,19 +111,18 @@ Amendments to existing rules are corrections too. Apply them rather than recomme
 
 Execution closes by validating the run's product before anything is delivered. Run the project's checks covering what changed. Then launch two `adversarial-reviewer` subagents in parallel over the change, one per lens. Hand each its lens, the artifact the skill names, and what the work is meant to deliver: the scope the user agreed to, restated from the run's current state, or the plan plus which of its steps are in scope, which came earlier, and which are deferred. That is the whole prompt. Never add a hunt-list, a checklist, or an account of what changed. A list steers the review toward what the caller listed, and nothing marks the round as compromised. An account of what changed carries details the user has since overruled, which resurface as false findings.
 
-Wait for every reviewer in the round to report before changing anything. Editing the tree under a running review invalidates the diff that review was handed. Then fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering the fixes. Review again — fixes are always re-reviewed, with the same reviewers by default. A round whose fixes were few and small may hand the next round to one reviewer carrying both lenses. In ship mode, commit each round. Loop at most three times. The loop exits when no reviewer reports a BLOCKING finding, and findings that survive the cap are reported as caveats.
+Wait for every reviewer in the round to report before changing anything. Editing the tree under a running review invalidates the diff that review was handed. Then fix the BLOCKING findings, applying judgment on nits. Re-run the checks covering the fixes. Review again — fixes are always re-reviewed, with the same reviewers by default. A round whose fixes were few and small may hand the next round to one reviewer carrying both lenses. In ship mode, commit each round. Loop at most three times. The loop exits when no reviewer reports a BLOCKING finding, and findings that survive the cap are reported as caveats. A spec violation is the exception on both counts. Its two exits are the user's to pick, so it is neither fixed on the run's judgment nor carried as a caveat: the run stops for the ruling (source: @lab43/q conventions/specs.md, Disagreement).
 
 ## The local gate
 
-The procedure a run in local mode follows at each review point the skill defines. Open it by drafting whatever text the run's later steps will post, rather than leaving that to the step that posts it. The user rules on the words and the diff together, so both have to be in hand before either is shown.
-
-Then stop and ask the user to review:
+The procedure a run in local mode follows at each review point the skill defines. Stop and ask the user to review:
 
 - the uncommitted diff
 - its check results
-- the words the run will post
 - anything else they should weigh
 
 Expect change requests. Make them and iterate with the user, running no machinery per exchange. A change request whose reason binds future work is a correction (see: Corrections become rules).
 
-At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the gate's iteration substantially changed the work, run one `adversarial-reviewer` pass (both lenses) over what changed, with the prompt Validation prescribes (see: Validation). Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted. Post the approved text once the gate clears, and post nothing the run has changed since.
+At their go-ahead, commit exactly what they reviewed — onto the work's branch, unless the skill names another target. Then run the checks covering what the session changed. When the gate's iteration substantially changed the work, run one `adversarial-reviewer` pass (both lenses) over what changed, with the prompt Validation prescribes (see: Validation). Never fold the resulting fixes into the reviewed commit. Leave them uncommitted and return to the gate, where the user reviews them as their own diff. Repeat until a go-ahead leaves nothing uncommitted.
+
+The words the run will post wait until the diff is settled and the user says they are ready for the PR. Draft them then, from the committed work, and show them whole, so the user rules on them as they ruled on the diff. Post the approved text, and post nothing the run has changed since. Drafting the words earlier, to review beside the diff, costs the user a reading before the work is settled, and every change request at the gate makes that reading stale.

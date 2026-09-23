@@ -43,7 +43,7 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 Establish ground truth before forming a position:
 
 - the code the item points at, and its history
-- the conventions governing that territory, found from the agent briefing's docs index
+- the conventions and specs governing that territory, found from the agent briefing's docs index
 - the primary source, wherever the item turns on how a dependency or tool behaves — the library's own code, its documentation, its upstream issues
 
 Never agree or push back from memory of an external fact (package versions, library APIs, option names, tool behavior). Run the check whenever running one can settle the question.

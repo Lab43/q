@@ -20,7 +20,7 @@ The idea to plan comes from the invocation, at any fidelity — a phrase ("email
 Before proposing anything, establish current state:
 
 1. The relevant code — use an Explore subagent for breadth; read the load-bearing files yourself.
-2. The conventions governing the affected territory, found from the agent briefing's docs index — plus this workflow's own rubric, the plan format (see: @lab43/q conventions/plans.md).
+2. The conventions and specs governing the affected territory, found from the agent briefing's docs index — plus this workflow's own rubric, the plan format (see: @lab43/q conventions/plans.md).
 3. Prior plans in the same territory (`docs/plans/`, if it exists). Read their decisions and rejected alternatives for the rationale, not the ruling: a rejection whose grounds still hold isn't re-proposed; one whose grounds have shifted is back on the table, with its history. Deferrals are candidates to raise with the user, not inheritances. Status matters: a `pending` plan in the same territory is a possible collision to surface, and an `abandoned` one's decisions never bound anything. Trust newer plans and the code over older ones, and take no format cues — the plan format doc is the only format authority.
 
 ## Step 2: Discuss
@@ -34,7 +34,7 @@ Once the scope, delivery shape, and key design decisions feel settled, ask for t
 
 ## Step 3: Write the plan
 
-Write `docs/plans/<plan-name>.md` according to the plan format (see: @lab43/q conventions/plans.md) and the writing rules (see: @lab43/q conventions/writing.md).
+Write `docs/plans/<plan-name>.md` according to the plan format (see: @lab43/q conventions/plans.md) and the writing rules (see: @lab43/q conventions/writing.md). Cite the spec sections governing the territory in Context, as givens (source: @lab43/q conventions/plans.md, Sections). When the plan changes committed behavior, schedule the spec's amendment in the phase that ships the behavior (source: @lab43/q conventions/specs.md, Disagreement).
 
 ## Step 4: Adversarial review
 

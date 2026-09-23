@@ -263,10 +263,8 @@
           <g text-anchor="middle">
             <text x="85" y="592" font-size="11" font-weight="700" fill="var(--ink)">Conventions</text>
             <text x="85" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/conventions/</text>
-            <g opacity=".55">
-              <text x="208" y="592" font-size="11" font-weight="700" fill="var(--ink)">Specs (WIP)</text>
-              <text x="208" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/specs/</text>
-            </g>
+            <text x="208" y="592" font-size="11" font-weight="700" fill="var(--ink)">Specs</text>
+            <text x="208" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/specs/</text>
             <text x="331" y="592" font-size="11" font-weight="700" fill="var(--ink)">Guides</text>
             <text x="331" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/guides/</text>
             <text x="454" y="592" font-size="11" font-weight="700" fill="var(--ink)">Plans</text>
@@ -311,7 +309,6 @@
     <li><strong>The three loop feeds merge into one bus</strong> before entering investigate: which skill started the run stops mattering once it has.</li>
     <li><strong>Pill chips mark forks:</strong> a pill on an edge names one of the paths a choice can take — quick fix vs plan first out of implement, ship mode vs local mode out of adversarial review (ship drops straight to the PR; local passes the human's local review first, whose revision requests return to discuss). A box whose edges carry pills drops its one-line purpose rather than restate them. The paired short arrows between execute and adversarial review are the fix loop.</li>
     <li><strong>Precedence lives inside the docs panel:</strong> project docs win on conflict, then extensions, then q — the stack order says so, top down.</li>
-    <li><strong>Specs are dimmed</strong> (opacity + "WIP") until the specs surface ships; un-dim the column when it does.</li>
     <li><strong>Deliberate omissions:</strong> the maintenance and setup skills (<code>/q:update-docs</code>, <code>/q:groom-docs</code>, <code>/q:install</code>, <code>/q:sync</code>, <code>/q:update</code>, <code>/q:drive</code>, and friends) — the chart shows the work loop, not the catalog; the entry skills' own conversations (<code>/q:create-plan</code> runs investigate and discuss too, but drawing it into the loop would say it opens PRs).</li>
   </ul>
 </div>

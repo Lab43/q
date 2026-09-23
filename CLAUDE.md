@@ -30,6 +30,7 @@ In path references, `@lab43/q` resolves here to `q-extension/`, q's own payload 
 - `@lab43/q conventions/documentation.md` — what belongs in a project's documentation, where it lives, and how it stays accurate
 - `@lab43/q conventions/extensions.md` — the extension format: rules for authoring and publishing a q extension
 - `@lab43/q conventions/plans.md` — format, sequencing, and lifecycle rules for `docs/plans/` documents
+- `@lab43/q conventions/specs.md` — rules for `docs/specs/` documents: what a spec holds, how it is written, and how the code is held to it
 - `@lab43/q conventions/issue-tracking.md` — rules for working a project's issue tracker from any session
 - `@lab43/q conventions/pull-requests.md` — rules for authoring a pull request
 - `@lab43/q conventions/writing.md` — rules for writing prose: docs, plans, PR bodies, anything a human or agent will read

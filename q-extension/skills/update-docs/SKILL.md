@@ -15,6 +15,7 @@ The change comes from the invocation: named in the prompt, surfaced by the sessi
 
 - **A lesson, pattern, or decision to record — including a decision to change an existing convention** → the conventions path, Step 3.
 - **A fact, instruction, or overview change for the product's readers** → the surface the taxonomy assigns it — a guide, the README, or the briefing, whether or not the invocation named one (see: @lab43/q conventions/documentation.md, Taxonomy).
+- **A spec change — a commitment the product makes, which the invocation names: the user's instruction, or a plan's scheduled step** → the spec path, Step 4. A bare sweep never takes this route: report a swept lesson that reads as a product commitment to the user as a spec candidate, and leave it unwritten (source: @lab43/q conventions/documentation.md, Taxonomy).
 - **A plan change** → the lifecycle's rules — status flips and marked amendments; authoring new plans belongs to `/q:create-plan`, and amendments during an implementation run to `/q:implement-plan`, not here (see: @lab43/q conventions/plans.md, Lifecycle).
 - **A change that belongs in a q skill's instructions** → not a doc change; flag it as an upstream candidate — suggest `/q:upstream`. (A change that belongs in an extension's doc stays on the conventions path — Step 3 records it locally as a deviation first.)
 
@@ -33,21 +34,25 @@ Read q's principles (see: @lab43/q conventions/principles.md), plus any installe
 
 A lesson through the gates gets a home: the topically-owning doc — grep the surface first, q's conventions and every installed extension's included: a project rule may already exist to refine, and a rule q or an extension already carries is already law — record it only as a marked deviation if the lesson disagrees, never as a copy. A new doc is created only when no existing topic owns the rule (source: @lab43/q conventions/documentation.md, Conventions docs). It arrives with its intro and its index line in the same change (source: @lab43/q conventions/documentation.md, Taxonomy).
 
-## Step 4: Confirm the scope
+## Step 4: The spec path — hold each statement
+
+Read the specs rules (see: @lab43/q conventions/specs.md). Hold each statement to the admission test: it belongs when a future change breaking it should stop for the user's ruling, and it is cut otherwise (source: @lab43/q conventions/specs.md, What a spec holds). Put each statement in the spec doc whose feature owns it, or create that doc, arriving with its intro and its index line in the same change (source: @lab43/q conventions/documentation.md, Taxonomy). When the change amends a section, visit every site marked with it (source: @lab43/q conventions/specs.md, Enforcement). A stronger rung is still preferred for the commitment itself: propose the test, the validation, or the constraint that would enforce it, each carrying the spec marker. The statement stays in the spec regardless, because a spec's prose survives a test holding it (source: @lab43/q conventions/specs.md, Enforcement).
+
+## Step 5: Confirm the scope
 
 Confirm what the session derived, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
 
 In a run invoked directly by the user, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), even when a spelled-out change skips the rest of this step.
 
-## Step 5: Apply per policy
+## Step 6: Apply per policy
 
-Act autonomously once the scope is agreed. In a run that delivers here (Steps 6–7), first pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Then edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: @lab43/q conventions/documentation.md, Taxonomy) and the writing rules (see: @lab43/q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed, to the shape the briefing template defines (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). In a delivering run's ship mode, commit.
+Act autonomously once the scope is agreed. In a run that delivers here (Steps 7–8), first pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Then edit the docs directly rather than proposing wording and waiting for approval — the user reviews the applied changes as a git diff. Draft to each surface's own taxonomy rules (see: @lab43/q conventions/documentation.md, Taxonomy) and the writing rules (see: @lab43/q conventions/writing.md). Keep the briefing's docs index in sync if membership or a gloss changed, to the shape the briefing template defines (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). In a delivering run's ship mode, commit.
 
-## Step 6: Adversarial review
+## Step 7: Adversarial review
 
-Changes made for a calling skill end at Step 5: they join the calling run's change, which validates and delivers them. The exception is a caller that asks for full delivery: those changes continue here like a direct run's, under the review mode the calling run settled. Validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+Changes made for a calling skill end at Step 6: they join the calling run's change, which validates and delivers them. The exception is a caller that asks for full delivery: those changes continue here like a direct run's, under the review mode the calling run settled. Validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
-## Step 7: Open the PR
+## Step 8: Open the PR
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
