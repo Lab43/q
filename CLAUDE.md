@@ -19,7 +19,7 @@ Everything under `q-extension/` is framework payload — the law and workflow th
 
 ## Documentation
 
-q's rules live in this repo's documentation. Those rules are conventions: binding decisions about how q's code and docs get written, recorded as they are made. Guides sit alongside them — how to operate q, rather than rules for writing it.
+q's rules live in this repo's documentation. Those rules are conventions: binding decisions about how q's code and docs get written, recorded as they are made. Two other kinds of doc sit alongside them. Specs state what a product commits to, as behavior the code must honor, and are written only on the user's instruction. Guides say how to operate q, rather than how to write it.
 
 Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
@@ -43,7 +43,11 @@ This project's own:
 - `docs/conventions/skills.md` — rules for writing q's skills
 - `docs/conventions/testing.md` — rules for testing q's own executables
 
-Guides:
+Specs — what this product commits to, stated as behavior the code must honor (source: @lab43/q conventions/documentation.md, Taxonomy):
+
+- none yet
+
+Guides — how to use and operate q, rather than how to write its code (source: @lab43/q conventions/documentation.md, Taxonomy):
 
 - `docs/guides/driving-manual.md` — how to bring q up in a session and exercise it
 - `docs/guides/releasing.md` — how q is versioned and released
