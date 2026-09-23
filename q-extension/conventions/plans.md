@@ -10,6 +10,10 @@ The plan documents the work, not the conversation that produced it: the reader i
 - State each fact in one section only; other sections reference it, never restate it.
 - A reference may run forward when the acting section comes later. Treat a forward reference from any section but Context as evidence to weigh: the plan may be presenting information in the wrong order.
 
+## Filename
+
+A plan is `docs/plans/<date>-<plan-name>.md`. The date is the day the plan was created, as `YYYY-MM-DD`, so the directory lists plans in the order they were written. The plan name is the part after the date. It names the plan everywhere else: the branch that implements it, the invocation that runs it.
+
 ## Frontmatter
 
 - `status: pending | completed | abandoned` — when each applies and who flips it are lifecycle rules (see: Lifecycle).
@@ -55,6 +59,6 @@ Deviations discovered while the implementation runs are recorded as amendments �
 - *(deviation: …)* — reality diverged from the text: a step done differently, a decision or given that shifted mid-run. States what happened instead, and what forced it.
 - *(result: …)* — the outcome of a step the plan could only pose as a question — a check, a measurement, a re-verified fact.
 
-After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (git history) as the recency signal. How grooming treats plans is the documentation policy's rule (see: @lab43/q conventions/documentation.md, Taxonomy).
+After merge, a plan's body is frozen history: it describes the world at planning time, and readers treat plan age (see: Filename) as the recency signal. How grooming treats plans is the documentation policy's rule (see: @lab43/q conventions/documentation.md, Taxonomy).
 
 Rejected: an `archive/` directory for terminal plans (moves break links; status is machine-readable in place) and a `superseded` status (chain-tracking costs more than it returns; a plan implemented then reversed stays `completed` — both plans are accurate history).

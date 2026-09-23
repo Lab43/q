@@ -44,7 +44,7 @@ Each of these names a path into the package, or restates how one resolves:
 - `skills/uninstall-extension/SKILL.md:16-18` identifies an extension from `node_modules/<extension>/package.json`, the registry, or a watermark entry, never from a dependency map — so Decision 4 leaves its identification alone. Its Step 3.1 is another matter: it runs `npm uninstall` on the target, which was safe only while an extension was a package nothing imported.
 - `conventions/extensions.md`, Pinning, makes the project's live q pin and the extension's written-against declaration one field — "never two to drift apart". That is what puts the pin in a workspace manifest in a monorepo. `references/q-state.md:7` restates it as "one exact devDependency for q and one per installed extension".
 - `conventions/extensions.md`, Description, makes `package.json`'s `description` the heading a consuming project's briefing gives an extension's index lines: "One sentence serves the session reading that briefing and the registry's readers alike." q itself does not follow it — `package.json:4` is the framework blurb while `references/agent-briefing.md`'s template carries a different heading for q's group, kept in sync by hand, with line 50 carving out why: "q's group takes the heading spelled out above."
-- `conventions/extensions.md`, Identity, rules that q is not an extension and carries no keyword. `docs/plans/single-npm-package-and-extensions.md:103` records why, as an amendment written during implementation: the category "bought no uniformity in practice — the hook still needed a dedicated `@lab43/q` branch, `/q:uninstall-extension` still refused q by name, and Pinning still exempted q from carrying a q pin."
+- `conventions/extensions.md`, Identity, rules that q is not an extension and carries no keyword. `docs/plans/2026-09-18-single-npm-package-and-extensions.md:103` records why, as an amendment written during implementation: the category "bought no uniformity in practice — the hook still needed a dedicated `@lab43/q` branch, `/q:uninstall-extension` still refused q by name, and Pinning still exempted q from carrying a q pin."
 
 ### What has no mechanism
 
@@ -54,7 +54,7 @@ Each of these names a path into the package, or restates how one resolves:
 
 ### Verified Claude Code and npm behavior
 
-Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, because none of it is readable from this repo. `docs/plans/single-npm-package-and-extensions.md:37-52` records the earlier round; these are the facts this plan adds.
+Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, because none of it is readable from this repo. `docs/plans/2026-09-18-single-npm-package-and-extensions.md:37-52` records the earlier round; these are the facts this plan adds.
 
 - A marketplace manifest at a package root whose plugin `source` is a subdirectory passes `claude plugin validate --strict`, and components under that subdirectory validate.
 - `claude plugin marketplace add --scope local` then `claude plugin install --scope project` both succeed against such a plugin, and a session loads its skill under full namespacing — `qfix:hello` from a plugin rooted at `<package>/q-extension`.
@@ -66,7 +66,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 
 - No project outside this repo has q installed (the user's ruling, 2026-09-20). npm carries 0.4.0 and 0.5.0, both published 2026-09-19. No migration or compatibility path is needed.
 - `hooks/hooks.json` invokes `session-start.sh` directly rather than through `bash`, so the file must stay executable in the tarball.
-- `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's source directory (source: `docs/plans/single-npm-package-and-extensions.md:44`). Moving the plugin root moves the variable with it, so no skill's `${CLAUDE_PLUGIN_ROOT}/references/…` reference changes.
+- `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's source directory (source: `docs/plans/2026-09-18-single-npm-package-and-extensions.md:44`). Moving the plugin root moves the variable with it, so no skill's `${CLAUDE_PLUGIN_ROOT}/references/…` reference changes.
 
 ## Decisions
 
@@ -76,7 +76,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 
    npm requires `package.json` at the package root, so the plugin root stops being the package root and sits one level below it. Anything reading one while meaning the other breaks, and the hook's version read is exactly that (Phase 4).
 
-   `docs/plans/single-npm-package-and-extensions.md:66` rejected this: "a package under `packages/q/`. It makes the publish boundary structural rather than declarative, which is a real advantage, but it relocates every skill, hook, agent and reference to buy it." Both grounds have shifted. The advantage it names is now the point, and extensions need a payload directory whether or not q adopts one — uniformity is a new benefit that was not on the table. The cost is also smaller than it reads: skills reach their references through `${CLAUDE_PLUGIN_ROOT}`, which moves with them, so directories move and references do not. That rejection was also about a nested npm package; this is a directory inside the one package, which keeps the single-version property the decision was protecting.
+   `docs/plans/2026-09-18-single-npm-package-and-extensions.md:66` rejected this: "a package under `packages/q/`. It makes the publish boundary structural rather than declarative, which is a real advantage, but it relocates every skill, hook, agent and reference to buy it." Both grounds have shifted. The advantage it names is now the point, and extensions need a payload directory whether or not q adopts one — uniformity is a new benefit that was not on the table. The cost is also smaller than it reads: skills reach their references through `${CLAUDE_PLUGIN_ROOT}`, which moves with them, so directories move and references do not. That rejection was also about a nested npm package; this is a directory inside the one package, which keeps the single-version property the decision was protecting.
 
 2. **The name is `q-extension`, matching the keyword.** `conventions/extensions.md`, Identity, already makes `q-extension` the identity of a package carrying q rules. The directory holding what the keyword promises takes the same name (source: @lab43/q conventions/writing.md, One name per concept).
 
@@ -84,7 +84,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 
    Rejected: a different directory name inside q. It buys a name that is never wrong and costs a permanent `if package is @lab43/q` in every rule and check that resolves a package path, which is the opposite of the uniformity this plan is for.
 
-   Rejected: `package-docs`. It reads as inert, and the directory holds `hooks/session-start.sh`, which executes at every session start. `docs/plans/single-npm-package-and-extensions.md:24` records this repo being caught by that assumption once already: the old rule required "documentation and nothing executable", which line 102 records becoming false once the hook shipped in the package.
+   Rejected: `package-docs`. It reads as inert, and the directory holds `hooks/session-start.sh`, which executes at every session start. `docs/plans/2026-09-18-single-npm-package-and-extensions.md:24` records this repo being caught by that assumption once already: the old rule required "documentation and nothing executable", which line 102 records becoming false once the hook shipped in the package.
 
 3. **A package-prefixed reference resolves under that package's `q-extension/`; a bare path is repo-relative and literal.** `@lab43/q conventions/writing.md` resolves to `node_modules/@lab43/q/q-extension/conventions/writing.md`, or to `q-extension/conventions/writing.md` in the repo authoring it. `docs/conventions/testing.md` means exactly that path from the repo root.
 
@@ -120,7 +120,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 
 8. **Watermarks keep tracking package versions.** With conventions riding in a product package, its version moves for product reasons, so a release touching no rules still moves the pin past the watermark and the hook goes loud until someone runs `/q:update` to find nothing to reconcile.
 
-   That cost is accepted rather than engineered around. A fingerprint of the shipped conventions would remove it, at the price of a watermark no human can read in a diff and something to compute it — either the hook on every session start or a publish-time build step, which `docs/plans/single-npm-package-and-extensions.md:96` already rejected for `plugin.json`'s version. `docs/conventions/documentation.md`, Structure is earned, says to ship the plain version until it demonstrably fails, and with no consumers the failure is hypothetical.
+   That cost is accepted rather than engineered around. A fingerprint of the shipped conventions would remove it, at the price of a watermark no human can read in a diff and something to compute it — either the hook on every session start or a publish-time build step, which `docs/plans/2026-09-18-single-npm-package-and-extensions.md:96` already rejected for `plugin.json`'s version. `docs/conventions/documentation.md`, Structure is earned, says to ship the plain version until it demonstrably fails, and with no consumers the failure is hypothetical.
 
 9. **The tier test becomes framework law, rewritten rather than moved, keeping its heading.** Every extension-authoring repo now has the two homes q has: a payload that ships and binds consumers, and `docs/conventions/` governing work on the repo itself. The rule deciding which home a rule goes to therefore binds consumers, so it belongs in the payload.
 
@@ -164,7 +164,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 
 ## Out of scope
 
-- **Loading the skills, agents and hooks a third-party extension ships** — deferred to issue #115, inherited from `docs/plans/single-npm-package-and-extensions.md`. `conventions/extensions.md`, Layout, lets an extension ship a plugin of its own, but a project's marketplace manifest carries one entry, q's, and `skills/install/SKILL.md:124` says so outright: "Installing an extension's plugin is not yet part of this step." So such an extension is pinned, watermarked and indexed while its skills never load anywhere.
+- **Loading the skills, agents and hooks a third-party extension ships** — deferred to issue #115, inherited from `docs/plans/2026-09-18-single-npm-package-and-extensions.md`. `conventions/extensions.md`, Layout, lets an extension ship a plugin of its own, but a project's marketplace manifest carries one entry, q's, and `skills/install/SKILL.md:124` says so outright: "Installing an extension's plugin is not yet part of this step." So such an extension is pinned, watermarked and indexed while its skills never load anywhere.
 
   This plan touches that gap from both sides without closing it. It makes the gap likelier to be met, because a product package can now be an extension and may ship a skill beside its conventions. It also makes closing it cheaper: the entry such an extension needs points at `./node_modules/<package>/q-extension`, the nested plugin root Decision 1 already establishes and this plan verified.
 - **Precedence among extensions** — deferred and untracked, inherited from the same plan. Nothing here creates the conflict.
@@ -172,7 +172,7 @@ Established with throwaway fixtures against CLI 2.1.236, npm 11 and Node 24, bec
 - **Keeping a package's code while declining its rules** — deferred. Decision 4 lets a package be both a dependency the project builds on and an extension, so "stop consuming these rules" and "remove this package" come apart for the first time. Phase 5 stops `/q:uninstall-extension` doing the second when asked for the first, which is as far as this plan goes. Declining the rules outright needs an opt-out the session-start hook can read: drop the watermark and its reverse-direction check fires on a keyword-carrying dependency with no entry, keep the watermark and the briefing disagrees with the record. That is a mechanism to design, not a step to add.
 - **Extensions published from a sub-package of their authoring repo** — deferred. Publishing one still works; what is missing is q's integration inside that repo (Decision 6). Supporting it means holding each sub-package's declaration equal to the repo's q pin and indexing its conventions in the repo's own briefing, both of which need workspace enumeration that neither the hook nor a shipped script can do well. Adding it later is additive, not a migration.
 - **A fingerprint watermark** — declined, per Decision 8. The cheaper fallback, if the no-op reconciliation run proves painful, is letting `/q:sync` move a watermark when the diff shows the conventions unchanged. That contradicts `references/q-state.md`'s "sync reads and compares; it never writes", so it is a decision to reopen deliberately, not a tweak.
-- **Reopening whether q is an extension** — declined. Decision 2 takes the name without the category, and the amendment at `docs/plans/single-npm-package-and-extensions.md:103` recorded concrete evidence against the category.
+- **Reopening whether q is an extension** — declined. Decision 2 takes the name without the category, and the amendment at `docs/plans/2026-09-18-single-npm-package-and-extensions.md:103` recorded concrete evidence against the category.
 
 ## Phases
 
