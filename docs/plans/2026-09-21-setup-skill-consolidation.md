@@ -108,7 +108,7 @@ npm, pnpm and berry each mark their direct dependencies. Yarn classic does not d
 
 - **Loading the skills, agents and hooks an extension ships** — deferred to issue #115. `skills/install/SKILL.md:133` records that q scaffolds only its own marketplace entry. This plan moves who owns indexing an extension, not what indexing reaches.
 - **Rewriting the README** — deferred to issue #95. Each phase here corrects the README rows and prose its own change falsifies. Nothing more.
-- **Declining an extension's rules while keeping its code** — deferred, per `docs/plans/extension-packaging.md:172`. It needs an opt-out the session-start hook can read, which is a mechanism to design rather than a step to add.
+- **Declining an extension's rules while keeping its code** — deferred, per `docs/plans/2026-09-20-extension-packaging.md:172`. It needs an opt-out the session-start hook can read, which is a mechanism to design rather than a step to add.
 
 ## Phases
 
