@@ -152,8 +152,7 @@ Every session start validates that your lockfile, the installed copies, and the 
 
 - Versions are yours to move — npm and your lockfile decide what runs, and `/q:reconcile` folds each move into your docs.
 - Your project's rulings win on conflict — record the disagreement and it stands (see the markers below).
-- Every run that delivers work settles its review mode with you up front. In local mode nothing is committed, and nothing is posted under your name, until you review it — a pull request's body and a reply on one included. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
-  <!-- source: @lab43/q references/run-contract.md, Review modes -->
+- Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
 - It's all plain text files in your repo — removing q leaves your docs intact and yours.
 
 ## Markers
