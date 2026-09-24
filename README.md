@@ -190,7 +190,7 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
   </tr>
   <tr>
     <td nowrap><samp>(spec: X)</samp></td>
-    <td>This marker heads the file or unit that enforces the named spec (<code>spec: docs/specs/tasks.md</code>). It sits once at the head of enforcing code — a file, a function, a test block — in that file's comment syntax, never in prose, and names the doc alone. Amending a spec means reading every unit marked with it. <code>/q:groom-docs</code> reports a marker naming a doc that no longer exists, and a spec no marker names.</td>
+    <td>This marker heads the file or unit that enforces the named spec (<code>spec: docs/specs/tasks.md, Due dates</code>). It sits once at the head of enforcing code — a file, a function, a test block — in that file's comment syntax, never in prose. It names the section only when that unit enforces one section alone. Amending a section means reading every unit marked with the spec, skipping those marked with another section. <code>/q:groom-docs</code> reports a marker naming a doc or section that no longer exists, and a spec no marker names.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
