@@ -159,6 +159,7 @@ Every session start validates that your lockfile, the installed copies, and the 
 
 <!-- source: @lab43/q conventions/documentation.md, Markers -->
 <!-- source: @lab43/q conventions/documentation.md, Single source of truth -->
+<!-- source: @lab43/q conventions/specs.md, Enforcement -->
 
 q's documentation keeps every fact in exactly one authoritative home. Text still has to point at, copy, or disagree with what lives elsewhere, and one site sometimes has to sit outside a rule the rest of the project follows. A marker declares which of those is in play — making it visible to readers and checkable by grep, with no central list to maintain:
 
@@ -190,7 +191,7 @@ q's documentation keeps every fact in exactly one authoritative home. Text still
   </tr>
   <tr>
     <td nowrap><samp>(spec: X)</samp></td>
-    <td>This code enforces the named spec statement (<code>spec: docs/specs/tasks.md, Due dates</code>). It sits only at enforcing code — a test, a validation, a guard — in that file's comment syntax, never in prose, and always names a section. Amending the section means visiting every site marked with it. <code>/q:groom-docs</code> reports a marker naming a doc or section that no longer exists, and a section no marker names.</td>
+    <td>This marker heads the file or unit that enforces the named spec (<code>spec: docs/specs/tasks.md, Due dates</code>). It sits once at the head of enforcing code — a file, a function, a test block — in that file's comment syntax, never in prose. It names the section only when that unit enforces one section alone. <code>/q:groom-docs</code> reports a marker naming a doc or section that no longer exists, and a spec no marker names.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->

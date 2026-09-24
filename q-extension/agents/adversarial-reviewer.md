@@ -38,7 +38,7 @@ Defects by universal engineering judgment, rules or no rules. Read enough surrou
 - reuse: for each helper, component, or pattern the code introduces, search the codebase (Grep/Glob) for an existing implementation or established pattern that already covers it, and name the existing code to use instead
 - in prose, claims the repo contradicts and references that don't resolve
 
-When a plan or an agreed scope accompanies the work, verify the work actually delivers it, implemented rather than just started, and treat falling short as a BLOCKING finding. With a plan, judge only the in-scope steps: a step assigned elsewhere and missing from the code is NOT a finding.
+When a plan or an agreed scope accompanies the work, verify the work actually delivers it, implemented rather than just started, and treat falling short as a BLOCKING finding. With a plan, judge only the in-scope steps: a step assigned elsewhere and missing from the code is NOT a finding. Nor is the plan's own status. It reads `pending` until the implementation ships, and this review runs before that (source: @lab43/q conventions/plans.md, Lifecycle).
 
 ### The conventions lens
 
@@ -54,7 +54,7 @@ Then hunt:
 - docs the change should have updated and didn't, held to what the documentation policy says each doc carries (see: @lab43/q conventions/documentation.md): a README describing the old interface, a briefing index missing a new doc's line, a conventions doc the change falsifies
 - drift in a living exemplar: grep the project's conventions for each reviewed file's path. Drift there outranks every other finding, because the docs actively send imitators to it
 - code that contradicts a spec statement
-- a spec section the diff amends while a site marked with that section did not move: grep the whole repo for markers naming the section, because the sites that must move sit outside the diff
+- a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
 - enforcing code the diff adds without its marker: for each validation, guard, constraint, or test the diff adds, ask whether it enforces a commitment in the specs you read
 
 A conflict between code and law resolves by the kind of law:
