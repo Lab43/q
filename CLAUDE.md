@@ -19,11 +19,15 @@ Everything under `q-extension/` is framework payload — the law and workflow th
 
 ## Documentation
 
-q's rules live in this repo's documentation. Those rules are conventions: binding decisions about how q's code and docs get written, recorded as they are made. Guides sit alongside them — how to operate q, rather than rules for writing it.
-
-Before writing code, before design decisions and reviews, and before changing docs, check both tiers of conventions (see: Two tiers). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
+q's documentation is indexed below, a subsection per kind of doc (source: @lab43/q conventions/documentation.md, Taxonomy). All doc changes — the README and this briefing itself included — go through `/q:update-docs`.
 
 In path references, `@lab43/q` resolves here to `q-extension/`, q's own payload working tree (source: docs/conventions/documentation.md, Working on the payload).
+
+### Conventions
+
+Binding decisions about how q's code and docs get written, recorded as they are made (source: @lab43/q conventions/documentation.md, Taxonomy).
+
+Check both tiers before writing code, before design decisions and reviews, and before changing docs (see: Two tiers).
 
 `@lab43/q` — The rules of the q workflow, governing how a project's work gets planned, decided, documented, and shipped.
 
@@ -43,7 +47,15 @@ This project's own:
 - `docs/conventions/skills.md` — rules for writing q's skills
 - `docs/conventions/testing.md` — rules for testing q's own executables
 
-Guides:
+### Specs
+
+What q commits to, stated as behavior the code must honor (source: @lab43/q conventions/documentation.md, Taxonomy).
+
+- none yet
+
+### Guides
+
+How to use and operate q, rather than how to write its code (source: @lab43/q conventions/documentation.md, Taxonomy).
 
 - `docs/guides/driving-manual.md` — how to bring q up in a session and exercise it
 - `docs/guides/releasing.md` — how q is versioned and released
