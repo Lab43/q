@@ -77,7 +77,7 @@ Ask one batch, carrying only what the user has to rule on:
 
 Ask the batch's round-wide questions at the first item and carry the answers forward. A later item reopens the batch only for the fork it turns on.
 
-Answers settle decisions. They are not the agreement, however many forks they settled. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to Step 2 with the next one.
+Answers settle the decisions they asked about, never the round. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to Step 2 with the next one.
 
 Once the agenda is closed, ask for the round's go-ahead in plain text and end the turn on it. Restate every item with its disposition, the ones the batch never asked about included, so the user rules on the whole round in one place. A batch answered in the same turn never stands in for this go-ahead: its answers were rulings on forks, and the items stated for veto have had none yet (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Batch questions). That go-ahead is what makes the rest of the run autonomous.
 
