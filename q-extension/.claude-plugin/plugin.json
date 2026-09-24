@@ -2,7 +2,7 @@
   "name": "q",
   "displayName": "q",
   "description": "An agentic coding workflow framework: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs.",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "author": { "name": "Cameron Spencer", "email": "cameron@lab43.com" },
   "license": "MIT"
 }
