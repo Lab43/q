@@ -85,11 +85,18 @@ When a group's last phase lands, finish that PR before starting the next group:
 2. **Final review**: validate the PR's diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses. Hand the reviewers the plan path, which plan steps this PR delivers (and that the rest live in other PRs), and the diff scope — `git diff <group-start-sha>..HEAD` in ship mode; the uncommitted diff plus the group's file list (every file its phases touched) in local mode. Per loop round, re-drive a flow from item 1 only when a fix could change what driving showed. Surviving findings become Caveats in the PR description.
 3. **The local gate**: run it over the PR's uncommitted diff (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate); commits land onto the PR's layer.
 4. **Mark the plan completed** — last or only PR: set `status: completed` in the plan doc's frontmatter and commit it (in a stacked run the lower PRs still show `pending`; the flip lands when the whole stack merges). In local mode this flip rides the go-ahead just given. That is a deliberate exception to the gate: the go-ahead already covers this bookkeeping. Don't ask again.
-5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title and body per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
+5. **Open the PR**, so the user can start reviewing while later groups build. Author every PR's title, body, and diff comments per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
 
-   Single PR: `git push -u origin <plan-name>`, then `gh pr create`.
+   Single PR: `git push -u origin <plan-name>`, then `gh pr create`, then post the diff comments.
 
-   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven. It names the PR from the branch and writes no body. Write the title and body with `gh pr edit`, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body is written.
+   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven. It names the PR from the branch and writes no body. Write the title and body with `gh pr edit`, post the diff comments, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body and diff comments are written.
+
+   Either way, `gh pr create` and `gh pr edit` carry only the title and body. Post each diff comment on its line of the PR's head commit, writing the comment to a file and passing it by path so apostrophes in the prose can't break the command:
+
+   ```bash
+   gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments -F body=@<comment-file> -f commit_id=<head-sha> -f path=<path> -F line=<line>
+   ```
+
 6. **Hand the PR over**: give the user its URL and what it delivers. In a stacked run this hand-off is not the closing report, however much it reads like one. Return to Step 4 and open the next group's branch in the same turn.
 
 ## Step 6: Report

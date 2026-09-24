@@ -77,7 +77,9 @@ Ask one batch, carrying only what the user has to rule on:
 
 Ask the batch's round-wide questions at the first item and carry the answers forward. A later item reopens the batch only for the fork it turns on.
 
-Answers settle decisions. They are not the agreement. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to Step 2 with the next one. Ask for the round's go-ahead once the agenda is closed, summarizing the agreed scope. That go-ahead is what makes the rest of the run autonomous.
+Answers settle the decisions they asked about, never the round. While the agenda is open, a go-ahead authorizes the item it names and nothing beyond it. Implement that item, then return to Step 2 with the next one.
+
+Once the agenda is closed, ask for the round's go-ahead in plain text and end the turn on it. Restate every item with its disposition, the ones the batch never asked about included, so the user rules on the whole round in one place. A batch answered in the same turn never stands in for this go-ahead: its answers were rulings on forks, and the items stated for veto have had none yet (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Batch questions). That go-ahead is what makes the rest of the run autonomous.
 
 An item beyond this PR is not resolved here. Settle the rest of the round, and take it to `/q:create-plan` or to the tracker on the user's call.
 
@@ -99,7 +101,7 @@ The round is the product, so its diff runs from Step 1's recorded SHA: `git diff
 
 1. **The local gate**: run it over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
-3. **Bring the PR body and title up to date** wherever the round changed what they claim, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
+3. **Bring the PR body, title, and diff comments up to date** wherever the round changed what they claim, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
 4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
