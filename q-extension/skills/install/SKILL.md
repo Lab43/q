@@ -108,6 +108,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    - `/q:implement` — take on a task or bug
    - `/q:create-plan`, then `/q:implement-plan` — plan bigger work, then execute the plan
    - `/q:review` — review anything against the project's conventions
+   - `/q:upstream` — when a q rule or skill gets in the way, send the change to q itself
    ```
 
    When the README already mentions q, keep its wording; correct only what it says about q that is no longer true. When the project has no README, create a minimal one holding just this section.
