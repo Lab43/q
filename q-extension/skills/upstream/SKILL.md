@@ -47,7 +47,7 @@ Then, for each destination with shipped candidates:
 
 ## Step 4: Open the PRs
 
-Push each destination branch and open its PR with `gh pr create` against the default branch — the Step 2 agreement covers these PRs. Author the body per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md); the destination's own PR conventions and template win where they speak (source: @lab43/q conventions/pull-requests.md). Carry the provoking context from this session in the body — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: @lab43/q conventions/conventions.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
+Push each destination branch and open its PR with `gh pr create` against the default branch — the Step 2 agreement covers these PRs. Author the body and diff comments per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md); the destination's own PR conventions and template win where they speak (source: @lab43/q conventions/pull-requests.md). Carry the provoking context from this session in the body — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: @lab43/q conventions/conventions.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
 
 ## Step 5: Report
 
