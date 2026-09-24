@@ -89,7 +89,7 @@ When a group's last phase lands, finish that PR before starting the next group:
 
    Single PR: `git push -u origin <plan-name>`, then `gh pr create`.
 
-   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven. It names the PR from the branch and writes no body. Write the title and body with `gh pr edit`, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body is written.
+   Stacked: `gh stack submit --auto` pushes the layers built so far and creates the new PR as a draft. GitHub links the stack, runs CI on every layer as if it targeted the default branch, and cascade-merges bottom-up from whichever PR the user merges. `--auto` is required, because the interactive editor the command otherwise opens cannot be driven. It names the PR from the branch and writes no body. Write the title and body with `gh pr edit`, post the diff comments, then `gh pr ready` to take it out of draft. Never hand the user a PR marked ready before its body and diff comments are written.
 6. **Hand the PR over**: give the user its URL and what it delivers. In a stacked run this hand-off is not the closing report, however much it reads like one. Return to Step 4 and open the next group's branch in the same turn.
 
 ## Step 6: Report
