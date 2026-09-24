@@ -1,6 +1,6 @@
 ---
 name: update-docs
-description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments. The argument can be a spelled-out change (applied as given), a rough topic, or nothing — bare invocation sweeps the session for changes worth recording. Invoked directly, the changes ship as a PR; invoked from another skill's run, they join that run's change unless the caller asks for full delivery. Use for any doc change, including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging.
+description: Create or update any project documentation — conventions, README, guides, the agent briefing, plan amendments — including a lesson or gotcha worth recording mid-session, even mid-investigation or mid-debugging. The argument can be a spelled-out change, a rough topic, or nothing — bare invocation sweeps the session for changes worth recording. Delivers as a PR, or leaves the changes in the working tree for the session's work in flight to carry, at the user's choice.
 ---
 
 # Update Docs
@@ -42,7 +42,7 @@ Read the specs rules (see: @lab43/q conventions/specs.md). Hold each statement t
 
 Confirm what the session derived, in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes) — candidates a sweep surfaced, a genuinely contestable home or treatment: state each change, its home, and its treatment — what gets rewritten, deleted, or added. A change the invocation spelled out — the user's prompt or a calling skill's — is already agreed and skips this step: state its classification's small calls rather than asking.
 
-In a run invoked directly by the user, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), even when a spelled-out change skips the rest of this step.
+In a run invoked directly by the user, ask in the same batch how the changes are delivered, even when a spelled-out change skips the rest of this step: local or ship (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes), or left uncommitted in the working tree for the session's work in flight to carry. Recommend leaving them when the session has other work in flight: the docs change then travels with that work, and the run delivering it validates both.
 
 ## Step 6: Apply per policy
 
@@ -50,10 +50,10 @@ Act autonomously once the scope is agreed. In a run that delivers here (Steps 7�
 
 ## Step 7: Adversarial review
 
-Changes made for a calling skill end at Step 6: they join the calling run's change, which validates and delivers them. The exception is a caller that asks for full delivery: those changes continue here like a direct run's, under the review mode the calling run settled. Validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
+Changes made for a calling skill end at Step 6: they join the calling run's change, which validates and delivers them. Changes the user left in the tree skip to the report (Step 8, item 3), and the run that delivers them validates them (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation). The exception is a caller that asks for full delivery: those changes continue here like a direct run's, under the review mode the calling run settled. Validate the applied changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Validation) with the **correctness** and **conventions** lenses.
 
 ## Step 8: Open the PR
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate).
 2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
-3. Close the session by reporting each change and its home, plus anything swept but not recorded and why.
+3. Close the session by reporting each change and its home, plus anything swept but not recorded and why. When the changes were left in the tree, say that they are unvalidated until delivered.

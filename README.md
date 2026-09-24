@@ -100,7 +100,7 @@ That is the whole of it — q arrives with the project's dependencies, and the p
   <tr>
     <th rowspan="3" scope="rowgroup">Docs</th>
     <td nowrap><samp>/q:update-docs</samp></td>
-    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Invoked directly, the changes ship as a PR.</td>
+    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Ships as a PR, or stays in the working tree with the work in flight.</td>
   </tr>
   <tr>
     <td nowrap><samp>/q:groom-docs</samp></td>
