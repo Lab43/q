@@ -31,9 +31,13 @@ const root =
 const MESSAGE =
   "The q plugin could not validate this project's q setup, so its conventions and tooling may be stale or broken. Run /q:reconcile to repair it.";
 
+// systemMessage reaches the user's terminal at startup. additionalContext
+// reaches the model. Both carry the message, so the user sees the drift
+// before typing anything and the session acts on it once they do.
 const fail = () => {
   console.log(
     JSON.stringify({
+      systemMessage: MESSAGE,
       hookSpecificOutput: {
         hookEventName: "SessionStart",
         additionalContext: MESSAGE,

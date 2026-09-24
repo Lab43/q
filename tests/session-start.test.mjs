@@ -62,6 +62,7 @@ const assertLoud = (result) => {
   const parsed = JSON.parse(result.stdout);
   assert.equal(parsed.hookSpecificOutput.hookEventName, "SessionStart");
   assert.equal(parsed.hookSpecificOutput.additionalContext, MESSAGE);
+  assert.equal(parsed.systemMessage, MESSAGE, "the user sees the message too, not only the model");
   assert.equal(result.status, 0, "the hook always exits 0 — it reports, never blocks");
 };
 
