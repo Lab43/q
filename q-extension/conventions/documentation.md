@@ -62,7 +62,7 @@ Five markers, all ordinary language:
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
 - **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
 - **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
-- **`(spec: X)`** — enforcement. The file or unit this heads enforces the named spec (`spec: docs/specs/tasks.md`). Where it sits, and what amending the spec obliges, are the specs rules (see: @lab43/q conventions/specs.md, Enforcement).
+- **`(spec: X)`** — enforcement. This marker heads the file or unit that enforces the named spec (`spec: docs/specs/tasks.md`). Where it sits, and what amending the spec obliges, are the specs rules (see: @lab43/q conventions/specs.md, Enforcement).
 
 `(see:)`, `(source:)`, and `(overrides:)` live in the documentation surface, the only place anything reads them. An exception may sit in any file, because the site it excuses is as often a line of code or config as a passage of prose. A spec marker never sits in the documentation surface, because what enforces a commitment is code, config, or a test. A doc that restates a commitment carries `source:` instead.
 
