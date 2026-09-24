@@ -38,7 +38,7 @@ Defects by universal engineering judgment, rules or no rules. Read enough surrou
 - reuse: for each helper, component, or pattern the code introduces, search the codebase (Grep/Glob) for an existing implementation or established pattern that already covers it, and name the existing code to use instead
 - in prose, claims the repo contradicts and references that don't resolve
 
-When a plan or an agreed scope accompanies the work, verify the work actually delivers it, implemented rather than just started, and treat falling short as a BLOCKING finding. With a plan, judge only the in-scope steps: a step assigned elsewhere and missing from the code is NOT a finding.
+When a plan or an agreed scope accompanies the work, verify the work actually delivers it, implemented rather than just started, and treat falling short as a BLOCKING finding. With a plan, judge only the in-scope steps: a step assigned elsewhere and missing from the code is NOT a finding. Nor is the plan's own status. It reads `pending` until the implementation ships, and this review runs before that (source: @lab43/q conventions/plans.md, Lifecycle).
 
 ### The conventions lens
 
