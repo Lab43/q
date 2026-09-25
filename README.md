@@ -155,6 +155,34 @@ Every session start validates that your lockfile, the installed copies, and the 
 - Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
 - It's all plain text files in your repo — removing q leaves your docs intact and yours.
 
+## Settings
+
+<!-- source: @lab43/q conventions/pull-requests.md, Draft -->
+<!-- source: @lab43/q conventions/extensions.md, Description -->
+
+q's settings live under the `q` key of your root `package.json`. Everything else about how q behaves in your project is decided in your conventions docs.
+
+<!--
+  Keys must not wrap.
+  see: docs/conventions/documentation.md, Table cells that must not wrap
+-->
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td nowrap><samp>q.draftPullRequests</samp></td>
+    <td>Set it to <code>true</code> and every PR q opens is a draft until you mark it ready. On a team, that lets the author review first, and marking the PR ready is the signal that it is the team's to review.</td>
+  </tr>
+  <tr>
+    <td nowrap><samp>q.description</samp></td>
+    <td>For a repo that publishes a q extension: one sentence naming what its rules govern. A project that installs the extension heads its docs with it in the agent briefing.</td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
 ## Markers
 
 <!-- source: @lab43/q conventions/documentation.md, Markers -->

@@ -47,7 +47,7 @@ Every extension ships at least one of the two, which is what identifies a payloa
 
 An extension shipping no conventions docs is watermarked but never indexed, having nothing for a briefing's docs index to carry. Watermarking and indexing are separate for that reason.
 
-Rejected: a `q` metadata key in `package.json` naming paths or listing docs — the payload directory and the keyword already answer where everything is, and an enumeration of docs rots against its own contents. The key carries the description and nothing else (see: Description).
+Rejected: a `q` metadata key in `package.json` naming paths or listing docs — the payload directory and the keyword already answer where everything is, and an enumeration of docs rots against its own contents.
 
 ## Pinning
 
