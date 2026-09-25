@@ -2,6 +2,16 @@
 
 Rules for authoring a pull request. Hold its prose to the writing rules (see: @lab43/q conventions/writing.md). Sign the body and every comment or reply on it: "— Claude 🤖", except a body Claude Code has already ended with its own attribution line (source: @lab43/q conventions/writing.md, Sign what you post). A project's own PR conventions win over this doc (source: @lab43/q conventions/conventions.md, Three tiers of conventions), and so does a PR template in the repo.
 
+## Draft
+
+Open the PR as a draft when the project's root `package.json` declares it:
+
+```json
+"q": { "draftPullRequests": true }
+```
+
+A team sets it so the author reviews the PR before anyone else does. Marking it ready is the author's signal that the team's review can start, so leave the PR a draft.
+
 ## Title
 
 The title names the work the PR delivers.
