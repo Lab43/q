@@ -9,7 +9,7 @@ description: Give a repo's parallel sessions their own copies of what they conte
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **Isolation is an optimization, never a precondition**: sessions take turns over whatever stays shared, which works in any repo today. A resource left un-isolated is a fact to record, not a failure.
-- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
+- **Keep the run note** (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The run note). Its review resolutions feed the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 
 ## Step 1: Read the repo
