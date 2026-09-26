@@ -46,6 +46,10 @@ describe("designed silences", () => {
     assertSilent(run({ source: "compact", scratchpad_dir: path.join(stageDir({}), "gone") }));
   });
 
+  it("is silent when the scratchpad directory is a file", () => {
+    assertSilent(run({ source: "compact", scratchpad_dir: path.join(stageDir({ pad: "x\n" }), "pad") }));
+  });
+
   it("is silent when the scratchpad holds no note", () => {
     assertSilent(run({ source: "compact", scratchpad_dir: stageDir({ "other.md": "x\n" }) }));
   });
