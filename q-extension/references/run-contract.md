@@ -18,6 +18,23 @@ The user can still overrule a step: telling a local run to commit now (see: The 
 - **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's. When the PR opened as a draft (see: @lab43/q conventions/pull-requests.md, Draft), say so: marking it ready is the user's too.
 
+## The run note
+
+Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. A q hook hands the note back whenever a session starts and finds one, a compaction included. Start it when the agreement is made. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes. A note left behind replays a finished run at the next restart.
+
+Carry what the run could not reconstruct from the repo, and would otherwise re-derive or ask the user again:
+
+- the skill and the step it is on, so the session can read the skill again from there
+- the agreement: the scope as agreed, the review mode, the branch
+- the items announced to peers, so they get released
+- the SHAs a review diff is scoped to, and in local mode the files each review point covers
+- each review round's BLOCKING findings and how each was resolved, fixed or rejected with the reason
+- what verification exercised and what it showed, for the PR's Testing section
+
+Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output.
+
+When the note comes back, read the skill again from the step it names before acting.
+
 ## The delivery branch
 
 Settle the branch before changing anything: work built on one branch and delivered against another invites conflicts. Uncommitted changes the run does not own are the user's call: ask what to do with them before starting. Never mix them into the run's work. Two things then settle the branch — whether another session is working this repo, and which branch the work belongs on.

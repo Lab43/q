@@ -10,7 +10,7 @@ Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
 ## Ground rules
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
-- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
+- **Keep the run note** (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The run note). Its review resolutions feed the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 - **Plan doc amendments**: when execution deviates from the plan or a verification step contradicts it, fold the outcome into the plan doc as a marked amendment per the lifecycle rules (see: @lab43/q conventions/plans.md, Lifecycle), alongside the work of the phase that surfaced it.
 - **Doc updates**: make the doc changes the plan schedules through `/q:update-docs`, alongside the phase that carries them.

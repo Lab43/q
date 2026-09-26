@@ -68,8 +68,17 @@ export const stageDir = (files) => {
   return base;
 };
 
+/** Copy every shipped hook file under a staged plugin root. */
+const copyHooks = (root) => {
+  const src = path.join(repoRoot, "q-extension", "hooks");
+  fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
+  for (const file of fs.readdirSync(src)) {
+    fs.copyFileSync(path.join(src, file), path.join(root, "hooks", file));
+  }
+};
+
 /**
- * Stage a project directory and a plugin root holding the real hook pair.
+ * Stage a project directory and a plugin root holding the real hook files.
  *
  * The plugin root is the package's `q-extension/` payload directory, and the
  * manifest carrying the version sits at the package root above it. Staging
@@ -86,14 +95,7 @@ export const stageHook = ({ project = {}, packageManifest = '{"version":"1.0.0"}
   const pkg = path.join(base, "package");
   const root = path.join(pkg, "q-extension");
   fs.mkdirSync(proj, { recursive: true });
-  fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
-
-  for (const file of ["session-start.sh", "session-start.mjs", "locked-version.mjs"]) {
-    fs.copyFileSync(
-      path.join(repoRoot, "q-extension", "hooks", file),
-      path.join(root, "hooks", file),
-    );
-  }
+  copyHooks(root);
   if (packageManifest !== null) fs.writeFileSync(path.join(pkg, "package.json"), packageManifest);
   writeFiles(proj, project);
 
@@ -109,22 +111,25 @@ export const stageHook = ({ project = {}, packageManifest = '{"version":"1.0.0"}
 export const stageDecoy = ({ base }, packageManifest = '{"version":"0.9.0"}') => {
   const pkg = path.join(base, "decoy");
   const root = path.join(pkg, "q-extension");
-  fs.mkdirSync(path.join(root, "hooks"), { recursive: true });
-
-  for (const file of ["session-start.sh", "session-start.mjs", "locked-version.mjs"]) {
-    fs.copyFileSync(
-      path.join(repoRoot, "q-extension", "hooks", file),
-      path.join(root, "hooks", file),
-    );
-  }
+  copyHooks(root);
   fs.writeFileSync(path.join(pkg, "package.json"), packageManifest);
 
   return root;
 };
 
+const entries = {
+  wrapper: (from) => [BASH, [path.join(from, "hooks", "session-start.sh")]],
+  node: (from) => [process.execPath, [path.join(from, "hooks", "session-start.mjs")]],
+  "run-note": (from) => [process.execPath, [path.join(from, "hooks", "run-note.mjs")]],
+};
+
 /**
- * Run the hook. `entry` picks the wrapper (the real session-start path) or the
- * node script directly, for the few states the wrapper deliberately shortcuts.
+ * Run a hook. `entry` picks the session-start wrapper (the real session-start
+ * path), its node script directly, for the few states the wrapper
+ * deliberately shortcuts, or the run-note hook.
+ *
+ * `input` is the hook's stdin, the JSON Claude Code sends; omitted, stdin is
+ * closed, which the session-start pair never reads.
  *
  * `from` launches the staged copy at another plugin root while
  * `CLAUDE_PLUGIN_ROOT` still names `root`. The two are the same directory in
@@ -134,23 +139,21 @@ export const stageDecoy = ({ base }, packageManifest = '{"version":"0.9.0"}') =>
  */
 export const runHook = (
   { proj, root },
-  { entry = "wrapper", env = {}, pluginRoot = true, from = root } = {},
+  { entry = "wrapper", env = {}, pluginRoot = true, from = root, input } = {},
 ) => {
   const base = {
     CLAUDE_PROJECT_DIR: proj,
     PATH: process.env.PATH,
   };
   if (pluginRoot) base.CLAUDE_PLUGIN_ROOT = root;
-  const [cmd, args] =
-    entry === "wrapper"
-      ? [BASH, [path.join(from, "hooks", "session-start.sh")]]
-      : [process.execPath, [path.join(from, "hooks", "session-start.mjs")]];
+  const [cmd, args] = entries[entry](from);
 
   try {
     const stdout = execFileSync(cmd, args, {
       env: { ...base, ...env },
       encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
+      input,
+      stdio: [input === undefined ? "ignore" : "pipe", "pipe", "pipe"],
     });
     return { stdout, status: 0 };
   } catch (e) {

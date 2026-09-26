@@ -11,7 +11,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 
 - **Follow the run contract** — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 - **One reviewable PR is the boundary**: never stack or split PRs here — PR divisions are designed and reviewed in a plan, not improvised mid-run. Work that won't fit is plan-worthy, whenever that surfaces.
-- **Track resolutions**: keep a scratchpad note of each review round's BLOCKING findings and how each was resolved (fixed / rejected with reason) — it feeds the PR's Callouts and Caveats, stated as facts about the change.
+- **Keep the run note** (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The run note). Its review resolutions feed the PR's Callouts and Caveats, stated as facts about the change.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 
 ## Step 1: Understand
