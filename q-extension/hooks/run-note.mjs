@@ -43,5 +43,5 @@ try {
 }
 
 speak(
-  `This session's context was compacted or resumed mid-run. The run note the run kept follows. Re-read the skill it names from the step it names before acting, and keep the note current.\n\n${text}`,
+  `This session's context restarted mid-run. The run note the run kept follows. Re-read the skill it names from the step it names before acting, and keep the note current.\n\n${text}`,
 );

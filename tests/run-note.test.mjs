@@ -38,6 +38,10 @@ describe("designed silences", () => {
     assertSilent(run({ session_id: "abc", source: "compact" }));
   });
 
+  it("is silent when the scratchpad directory is not a path", () => {
+    assertSilent(run({ session_id: "abc", source: "compact", scratchpad_dir: 42 }));
+  });
+
   it("is silent when the scratchpad directory does not exist", () => {
     assertSilent(run({ source: "compact", scratchpad_dir: path.join(stageDir({}), "gone") }));
   });

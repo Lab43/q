@@ -20,7 +20,7 @@ The user can still overrule a step: telling a local run to commit now (see: The 
 
 ## The run note
 
-Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. q's session-start hook hands the note back whenever a session starts and finds one, a compaction included. Start it when the agreement is made. Remove it when the run closes. A note left behind replays a finished run at the next restart.
+Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. A q hook hands the note back whenever a session starts and finds one, a compaction included. Start it when the agreement is made. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes. A note left behind replays a finished run at the next restart.
 
 Carry what the run could not reconstruct from the repo, and would otherwise re-derive or ask the user again:
 
