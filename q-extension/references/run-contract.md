@@ -20,20 +20,18 @@ The user can still overrule a step: telling a local run to commit now (see: The 
 
 ## The run note
 
-Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. A q hook points the session at the note after every compaction. Start it when the agreement is made. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes. A note left behind resurfaces at the next compaction as a finished run's.
+Keep the run's place and what it has settled in `q-run.md` in the session's scratchpad directory. Start it when the agreement is made. Carry what the run could not reconstruct from the repo, and would otherwise re-derive or ask the user again:
 
-Carry what the run could not reconstruct from the repo, and would otherwise re-derive or ask the user again:
-
-- the skill and the step it is on, so the session can read the skill again from there
+- the skill and the step it is on
 - the agreement: the scope as agreed, the review mode, the branch
 - the items announced to peers, so they get released
 - the SHAs a review diff is scoped to, and in local mode the files each review point covers
 - each review round's BLOCKING findings and how each was resolved, fixed or rejected with the reason
 - what verification exercised and what it showed, for the PR's Testing section
 
-Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output.
+Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output. The note is what the run reads from when it restates the agreed scope for a reviewer, writes the PR's Callouts, Caveats, and Testing, and reports at the close. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes.
 
-When the hook points at the note, read it, then read the skill again from the step it names before acting. The summary decides whether the run is still live. When it shows the run ended or was set aside, remove the note instead.
+The note is also what survives compaction. Compaction replaces the conversation with a summary, and the skill's text, the agreement, and the run's place go with it. A q hook points the session at the note after every compaction. Read it, then read the skill again from the step it names before acting. The summary decides whether the run is still live. When it shows the run ended or was set aside, remove the note instead. A note left behind resurfaces at the next compaction, though its run is over.
 
 ## The delivery branch
 

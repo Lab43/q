@@ -1,4 +1,4 @@
-// The run-note hook decides between silence and handing a note back. Silence
+// The run-note hook decides between silence and pointing at a note. Silence
 // is the healthy outcome for every session with no run in flight, so what
 // exists but cannot be read — the hook input, the note — must speak: silence
 // there would hide a run that lost its place.

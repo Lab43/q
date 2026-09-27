@@ -3,8 +3,8 @@
 // Compaction replaces the conversation with a summary, and the skill's text
 // and the agreement go with it, so a note found afterwards is one the session
 // can no longer see. The note's text stays out of context: the session reads
-// it. hooks.json runs this only on the compact start reason.
-// The script itself reads none. The note is the main thread's, so a subagent
+// it. hooks.json runs this only on the compact start reason. The script reads
+// no start reason itself. The note is the main thread's, so a subagent
 // compacting is silent. Silence is the healthy outcome otherwise too — no
 // scratchpad, no note — and what exists but cannot be read speaks instead:
 // the hook input, and the note itself.
