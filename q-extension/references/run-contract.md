@@ -20,7 +20,7 @@ The user can still overrule a step: telling a local run to commit now (see: The 
 
 ## The run note
 
-Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. A q hook hands the note back after every compaction. Start it when the agreement is made. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes. A note left behind replays a finished run at the next compaction.
+Compaction replaces the conversation with a summary. The skill's text goes with it. So do the agreement and the run's place in the skill. Keep that place in `q-run.md` in the session's scratchpad directory. A q hook points the session at the note after every compaction. Start it when the agreement is made. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes. A note left behind resurfaces at the next compaction as a finished run's.
 
 Carry what the run could not reconstruct from the repo, and would otherwise re-derive or ask the user again:
 
@@ -33,7 +33,7 @@ Carry what the run could not reconstruct from the repo, and would otherwise re-d
 
 Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output.
 
-When the note comes back, read the skill again from the step it names before acting. The summary decides whether the run is still live. When it shows the run ended or was set aside, remove the note instead.
+When the hook points at the note, read it, then read the skill again from the step it names before acting. The summary decides whether the run is still live. When it shows the run ended or was set aside, remove the note instead.
 
 ## The delivery branch
 

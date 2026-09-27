@@ -75,16 +75,19 @@ describe("the wiring", () => {
 });
 
 describe("the note", () => {
-  it("hands the note back verbatim, told to re-read the skill", () => {
-    const context = spoken(run({ source: "compact", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }));
-    assert.ok(context.endsWith(`\n\n${NOTE}`), "the note is not the context's body");
+  it("points at the note and keeps its text out of context", () => {
+    const pad = stageDir({ "q-run.md": NOTE });
+    const context = spoken(run({ source: "compact", scratchpad_dir: pad }));
+    assert.ok(context.includes(path.join(pad, "q-run.md")), "the context does not name the note's path");
+    assert.ok(!context.includes(NOTE.trim()), "the note's text was injected");
     assert.match(context, /re-read the skill the note names from the step it names/);
     assert.match(context, /When the summary shows the run ended or was set aside, remove the note/);
   });
 
   it("leaves the start reason to the matcher in hooks.json", () => {
-    const context = spoken(run({ source: "startup", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }));
-    assert.ok(context.endsWith(`\n\n${NOTE}`));
+    const pad = stageDir({ "q-run.md": NOTE });
+    const context = spoken(run({ source: "startup", scratchpad_dir: pad }));
+    assert.ok(context.includes(path.join(pad, "q-run.md")));
   });
 
   it("speaks when the note exists but cannot be read", () => {
