@@ -5,8 +5,9 @@
 
 import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import path from "node:path";
-import { cleanup, runHook, stageDir, stageHook } from "./helpers.mjs";
+import { cleanup, repoRoot, runHook, stageDir, stageHook } from "./helpers.mjs";
 
 after(cleanup);
 
@@ -53,13 +54,32 @@ describe("designed silences", () => {
   it("is silent when the scratchpad holds no note", () => {
     assertSilent(run({ source: "compact", scratchpad_dir: stageDir({ "other.md": "x\n" }) }));
   });
+
+  it("is silent inside a subagent, whose compaction is not the run's", () => {
+    assertSilent(
+      run({ source: "compact", agent_id: "a1", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }),
+    );
+  });
+});
+
+// The start reason is gated in hooks.json, not in the script, so the wiring
+// is what holds the "only after compaction" guarantee.
+describe("the wiring", () => {
+  it("runs the hook under the compact matcher, and only there", () => {
+    const hooks = JSON.parse(fs.readFileSync(path.join(repoRoot, "q-extension", "hooks", "hooks.json"), "utf8"));
+    const groups = hooks.hooks.SessionStart.filter((g) => g.hooks.some((h) => h.command.includes("run-note.mjs")));
+    assert.equal(groups.length, 1, "expected exactly one SessionStart group to run the hook");
+    assert.equal(groups[0].matcher, "compact");
+    assert.equal(groups[0].hooks.length, 1, "the compact group runs nothing else");
+  });
 });
 
 describe("the note", () => {
   it("hands the note back verbatim, told to re-read the skill", () => {
     const context = spoken(run({ source: "compact", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }));
     assert.ok(context.endsWith(`\n\n${NOTE}`), "the note is not the context's body");
-    assert.match(context, /Re-read the skill it names from the step it names/);
+    assert.match(context, /re-read the skill the note names from the step it names/);
+    assert.match(context, /When the summary shows the run ended or was set aside, remove the note/);
   });
 
   it("leaves the start reason to the matcher in hooks.json", () => {
@@ -71,7 +91,7 @@ describe("the note", () => {
     // A directory in the note's place: it exists, and reading it fails.
     const context = spoken(run({ source: "compact", scratchpad_dir: stageDir({ "q-run.md/inner": "x\n" }) }));
     assert.match(context, /could not read it \(EISDIR\)/);
-    assert.doesNotMatch(context, /Re-read the skill/, "an unreadable note must not be replayed as a note");
+    assert.doesNotMatch(context, /re-read the skill/, "an unreadable note must not be replayed as a note");
   });
 });
 

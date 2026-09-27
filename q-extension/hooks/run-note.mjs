@@ -2,10 +2,11 @@
 // in the session's scratchpad directory, which the hook input names.
 // Compaction replaces the conversation with a summary, and the skill's text
 // and the agreement go with it, so a note found afterwards is one the session
-// can no longer see. hooks.json runs this only on the compact start reason;
-// the script itself reads none. Silence is the healthy outcome — no
-// scratchpad, no note — so what exists but cannot be read speaks instead: the
-// hook input, and the note itself.
+// can no longer see. hooks.json runs this only on the compact start reason.
+// The script itself reads none. The note is the main thread's, so a subagent
+// compacting is silent. Silence is the healthy outcome otherwise too — no
+// scratchpad, no note — and what exists but cannot be read speaks instead:
+// the hook input, and the note itself.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -31,6 +32,9 @@ if (typeof input !== "object" || input === null || Array.isArray(input)) {
   speak(`q could not read the hook input, so a run note in this session's scratchpad was not replayed. Read ${NOTE} there before acting.`);
 }
 
+// Present only when the hook fires inside a subagent.
+if (input.agent_id !== undefined) process.exit(0);
+
 // Absent when the session has no scratchpad: nothing to replay.
 if (typeof input.scratchpad_dir !== "string") process.exit(0);
 
@@ -44,5 +48,5 @@ try {
 }
 
 speak(
-  `This session's context was compacted mid-run. The run note the run kept follows. Re-read the skill it names from the step it names before acting, and keep the note current.\n\n${text}`,
+  `This session's context was compacted. The run note a q run kept follows. The summary decides whether that run is still live: when it is, re-read the skill the note names from the step it names before acting, and keep the note current. When the summary shows the run ended or was set aside, remove the note and carry on.\n\n${text}`,
 );

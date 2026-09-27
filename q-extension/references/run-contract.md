@@ -33,7 +33,7 @@ Carry what the run could not reconstruct from the repo, and would otherwise re-d
 
 Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output.
 
-When the note comes back, read the skill again from the step it names before acting.
+When the note comes back, read the skill again from the step it names before acting. The summary decides whether the run is still live. When it shows the run ended or was set aside, remove the note instead.
 
 ## The delivery branch
 
