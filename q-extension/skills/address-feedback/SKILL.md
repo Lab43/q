@@ -11,7 +11,7 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 - **Feedback is not a work order**: every item opens a discussion, the ones phrased as directives included. Never implement feedback you believe is wrong. Answer every question the feedback asks. A code change never stands in place of that answer (source: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Questions are probes).
 - **The round is the unit**: feedback arrives as a batch, or item by item from the user as they read. The agenda stays open while the user is still adding to it. Take a position on each item and settle it as it arrives, then implement it. Validation and delivery run once, over the closed agenda.
 - **The PR under review is the boundary**: the round's fixes land on its branch as new commits. Never rebase that branch and never force-push over it — the reviewer's inline comments anchor to the commits they read, and rewriting the history strands them. Never open a second PR. Work the feedback opens that this PR can't hold goes to a plan or the tracker instead.
-- **Track resolutions**: keep a scratchpad note of each item — where it came from, its agreed disposition, and how it resolved. It feeds the replies and the closing report.
+- **Keep the run note** (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The run note). Carry each item in it: where it came from, its agreed disposition, and how it resolved. It feeds the replies and the closing report.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
 
 ## Step 1: Gather the feedback
