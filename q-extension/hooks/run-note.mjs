@@ -1,10 +1,11 @@
-// Hand a q run its note back when the session's context restarts. A skill run
-// keeps `q-run.md` in the session's scratchpad directory, which the hook
-// input names. A compaction or a resumption replaces the conversation with a
-// summary, and the skill's text and the agreement go with it, so a note found
-// at any session start is one the session can no longer see. Silence is the
-// healthy outcome — no scratchpad, no note — so what exists but cannot be
-// read speaks instead: the hook input, and the note itself.
+// Hand a q run its note back after compaction. A skill run keeps `q-run.md`
+// in the session's scratchpad directory, which the hook input names.
+// Compaction replaces the conversation with a summary, and the skill's text
+// and the agreement go with it, so a note found afterwards is one the session
+// can no longer see. hooks.json runs this only on the compact start reason;
+// the script itself reads none. Silence is the healthy outcome — no
+// scratchpad, no note — so what exists but cannot be read speaks instead: the
+// hook input, and the note itself.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -43,5 +44,5 @@ try {
 }
 
 speak(
-  `This session's context restarted mid-run. The run note the run kept follows. Re-read the skill it names from the step it names before acting, and keep the note current.\n\n${text}`,
+  `This session's context was compacted mid-run. The run note the run kept follows. Re-read the skill it names from the step it names before acting, and keep the note current.\n\n${text}`,
 );

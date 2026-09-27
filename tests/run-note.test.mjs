@@ -62,8 +62,8 @@ describe("the note", () => {
     assert.match(context, /Re-read the skill it names from the step it names/);
   });
 
-  it("hands it back whatever restarted the context, a resume included", () => {
-    const context = spoken(run({ source: "resume", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }));
+  it("leaves the start reason to the matcher in hooks.json", () => {
+    const context = spoken(run({ source: "startup", scratchpad_dir: stageDir({ "q-run.md": NOTE }) }));
     assert.ok(context.endsWith(`\n\n${NOTE}`));
   });
 
