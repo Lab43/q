@@ -48,5 +48,5 @@ try {
 }
 
 speak(
-  `This session's context was compacted. The run note a q run kept follows. The summary decides whether that run is still live: when it is, re-read the skill the note names from the step it names before acting, and keep the note current. When the summary shows the run ended or was set aside, remove the note and carry on.\n\n${text}`,
+  `This session's context was compacted. The run note a q run kept follows. The summary decides whether that run is still live. When it is, re-read the skill the note names from the step it names before acting, and keep the note current. When the summary shows the run ended or was set aside, remove the note and carry on.\n\n${text}`,
 );
