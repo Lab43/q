@@ -52,6 +52,8 @@ Then hunt:
 
 - violations of those docs, citing the specific doc and rule for every finding
 - docs the change should have updated and didn't, held to what the documentation policy says each doc carries (see: @lab43/q conventions/documentation.md): a README describing the old interface, a briefing index missing a new doc's line, a conventions doc the change falsifies
+- prose the conventions governing a reviewed doc do not let it carry, the documentation policy's rules for its kind included (see: @lab43/q conventions/documentation.md, Taxonomy). Surplus is a defect as much as a gap is
+- a comment that does not change how the next reader edits its site (source: @lab43/q conventions/principles.md, Comments carry constraints, not justification)
 - drift in a living exemplar: grep the project's conventions for each reviewed file's path. Drift there outranks every other finding, because the docs actively send imitators to it
 - code that contradicts a spec statement
 - a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
