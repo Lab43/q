@@ -52,11 +52,11 @@ Then hunt:
 
 - violations of those docs, citing the specific doc and rule for every finding
 - docs the change should have updated and didn't, held to what the documentation policy says each doc carries (see: @lab43/q conventions/documentation.md): a README describing the old interface, a briefing index missing a new doc's line, a conventions doc the change falsifies
-- prose in a reviewed doc that the law says must not stand. Surplus is a defect as much as a gap is, and a doc that reads well is no evidence it is free of it:
+- prose in a reviewed conventions doc that its own rules bar:
   - a statement restating what the code or config shows (source: @lab43/q conventions/conventions.md, Conventions docs)
+  - a rule in a doc whose topic does not own it (source: @lab43/q conventions/conventions.md, Conventions docs)
   - a rule a lint or a component already holds (source: @lab43/q conventions/conventions.md, Documentation is the last rung)
-  - a section outside the doc's topic (source: @lab43/q conventions/conventions.md, Conventions docs)
-  - a restatement of a fact whose home is another doc, carrying no source marker (source: @lab43/q conventions/documentation.md, Single source of truth)
+- in any reviewed doc, a restatement of a fact whose home is another doc, carrying no source marker (source: @lab43/q conventions/documentation.md, Single source of truth)
 - drift in a living exemplar: grep the project's conventions for each reviewed file's path. Drift there outranks every other finding, because the docs actively send imitators to it
 - code that contradicts a spec statement
 - a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
