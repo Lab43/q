@@ -55,13 +55,13 @@ Then hunt:
 - prose a reviewed doc is not let to carry, held to what the documentation policy says each kind of doc carries (see: @lab43/q conventions/documentation.md, Taxonomy):
   - in a conventions doc, a statement restating what the code or config shows (source: @lab43/q conventions/conventions.md, Conventions docs)
   - in a conventions doc, a rule a lint or a component already holds (source: @lab43/q conventions/conventions.md, Documentation is the last rung)
-  - a rule in a doc whose topic does not own it (source: @lab43/q conventions/conventions.md, Conventions docs)
+  - in a conventions doc, a rule whose topic another doc owns (source: @lab43/q conventions/conventions.md, Conventions docs)
   - in a spec, a statement no future change breaking it should stop for (source: @lab43/q conventions/specs.md, What a spec holds)
   - in the README, an inventory of the repo's internals (source: @lab43/q conventions/documentation.md, Taxonomy)
   - in the briefing, a line that does not apply session-wide (source: @lab43/q conventions/documentation.md, Taxonomy)
   - in any doc, a restatement of a fact whose home is another doc, carrying no source marker (source: @lab43/q conventions/documentation.md, Single source of truth)
   - in any prose, detail that earns its place only against the change's history (source: @lab43/q conventions/writing.md, Write for the reader, not the edit)
-- a comment, in code or in a doc's markup, that does not change how the next reader edits its site: justification, narrative, a pointer to a plan, ticket, or PR (source: @lab43/q conventions/principles.md, Comments carry constraints, not justification)
+- a comment, in code or in a doc's markup, that does not change how the next reader edits its site: justification, narrative, a pointer to a plan, a PR, or a ticket tracking no work that will change the site (source: @lab43/q conventions/principles.md, Comments carry constraints, not justification)
 - drift in a living exemplar: grep the project's conventions for each reviewed file's path. Drift there outranks every other finding, because the docs actively send imitators to it
 - code that contradicts a spec statement
 - a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
