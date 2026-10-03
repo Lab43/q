@@ -10,7 +10,7 @@ Specs are the project's own. An extension ships conventions and a plugin, never 
 
 ## What a spec holds
 
-Every statement is a commitment: what the product must do or must never do. A statement belongs when a future change breaking it should stop for the user's ruling. Cut what fails that test. Rationale sits inline wherever a decision would otherwise be reopened. What does not belong is a description of how the implementation works today, the screens, fields, and internals the code already shows. Nor does a feature considered and rejected: a feature the spec never mentions is a product decision for whoever proposes it, and a list the spec states as complete already makes adding to it an amendment.
+Every statement is a commitment: what the product must do or must never do. A statement belongs when a future change breaking it should stop for the user's ruling. Cut what fails that test. Rationale sits inline wherever a decision would otherwise be reopened. What does not belong is a description of how the implementation works today, the screens, fields, and internals the code already shows. Nor does a list of the features considered and rejected. A feature the spec never mentions is a product decision for whoever proposes it. A list the spec states as complete already makes adding to it an amendment. What the product must never do is a commitment, and is stated as one.
 
 ## Enforcement
 
