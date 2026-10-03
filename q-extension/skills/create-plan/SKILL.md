@@ -34,7 +34,7 @@ Once the scope, delivery shape, and key design decisions feel settled, ask for t
 
 ## Step 3: Write the plan
 
-Write `docs/plans/<date>-<plan-name>.md` according to the plan format (see: @lab43/q conventions/plans.md) and the writing rules (see: @lab43/q conventions/writing.md). Cite the spec sections governing the territory in Context, as givens (source: @lab43/q conventions/plans.md, Sections). When the plan changes committed behavior, schedule the spec's amendment in the phase that ships the behavior (source: @lab43/q conventions/specs.md, Disagreement). Before launching the review, read the draft top to bottom as its reader will. Move what fails the format's reading order: a reference whose target comes later, or a given sitting in Context that one decision rests on (source: @lab43/q conventions/plans.md, Audience).
+Write `docs/plans/<date>-<plan-name>.md` according to the plan format (see: @lab43/q conventions/plans.md) and the writing rules (see: @lab43/q conventions/writing.md). Cite the spec sections governing the territory in Context, as givens (source: @lab43/q conventions/plans.md, Sections). When the plan changes committed behavior, schedule the spec's amendment in the phase that ships the behavior (source: @lab43/q conventions/specs.md, Disagreement). Before launching the review, read the draft top to bottom as its reader will. Move what fails the format's reading order: a reference whose target comes later (source: @lab43/q conventions/plans.md, Audience), or a given sitting in Context that one decision rests on (source: @lab43/q conventions/plans.md, Sections).
 
 ## Step 4: Adversarial review
 
