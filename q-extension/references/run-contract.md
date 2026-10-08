@@ -37,13 +37,14 @@ The note is also what survives compaction. Compaction replaces the conversation 
 
 Settle the branch before changing anything: work built on one branch and delivered against another invites conflicts. Uncommitted changes the run does not own are the user's call: ask what to do with them before starting. Never mix them into the run's work. Two things then settle the branch — whether another session is working this repo, and which branch the work belongs on.
 
-**Is a peer working this repo?** `ListAgents` supplies the candidates: take only its rows for other local sessions, because the rest are this session's own subagents and sessions running elsewhere. No row records a repo, so a row is a candidate and never a peer on its own. Read the repo for what it shows:
+**Is a peer working this repo?** `ListAgents` supplies the candidates: take only its rows for other local sessions, because the rest are this session's own subagents and sessions running elsewhere. No row records a repo, so a row is a candidate and never a peer on its own. A candidate is a peer only once it says it is working this repo. Nothing the repo shows establishes that:
 
-- `git worktree list` names the worktrees peers took. A worktree outlives the session that made it, so one is evidence of a peer only while a candidate is live: with no candidates listed, it is leftovers.
-- A candidate that has announced this repo is a peer outright.
-- Uncommitted work this run does not own settles nothing by itself: it is as likely the user's as a peer's. Ask the live candidates whether the work is theirs, because ownership is the one thing looking cannot establish. Ask the user when no candidate claims it.
+- `git worktree list` shows that some session once worked here, not which one or whether it is still live. A worktree outlives the session that made it.
+- Uncommitted work this run does not own is as likely the user's as a peer's. Ask the live candidates whether the work is theirs, because ownership is the one thing looking cannot establish. Ask the user when no candidate claims it.
 
-Where the evidence leaves the call open, ask the user. A listing that reports itself incomplete leaves it open.
+Never take a worktree on a guess. It costs the user: they have to open the project again in their IDE and their git client.
+
+With no candidates listed, work in the checkout. Otherwise, ask each candidate that has not announced this repo whether it is working here. Put the question in the run's announcement of its work. A yes makes that candidate a peer. A no from every candidate leaves the checkout to the run. Silence settles nothing, so ask the user when any candidate has not answered by the time the branch is settled. Ask the user too when the listing reports itself incomplete.
 
 **Found a peer? Take a worktree.** `git fetch origin` first: everything below reads the local remote-tracking refs, which are only as current as the last fetch. Nothing uncommitted follows the session into it, so commit or copy across whatever the run already owns — the plan or doc it was invoked on included. How the worktree is made then depends on whether the run's branch exists yet.
 
