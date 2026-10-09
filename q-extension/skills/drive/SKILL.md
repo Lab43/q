@@ -31,6 +31,8 @@ Bring the target up. Never stop what you didn't start: a stack already running i
 
 Exercise it the way it will really be used: load the page, call the endpoint, run the command, walk the flow.
 
+When what you exercised shows on screen, capture it: a screenshot of each state the change touched, and a recording of each flow it touched (source: @lab43/q conventions/pull-requests.md, Screenshots and recordings). Save the captures in scratch space.
+
 Write whatever harness the driving needs in scratch space — a script, a fixture, a seeded request. Leave it there. Report a harness worth keeping rather than planting it in the project.
 
 Keep a record as you go: the commands you ran, what you saw, and every step the manual didn't tell you.
@@ -42,6 +44,7 @@ Record what cost you time, and what would cost the next session time:
 - what has to be installed or running first — a database, a container stack, local certificates, an MCP server
 - the commands that bring it up, plus the ports, URLs, and credentials they need
 - the path to what you exercised — the route, the seed data, the login
+- how to capture a screenshot or a recording of it
 - what a session may run its own copy of, and what it must take turns over
 - how to claim and release each thing it takes turns over
 - the failure that looks like a bug in the code and isn't
@@ -58,4 +61,4 @@ Make the change through `/q:update-docs`. Deliver nothing here. The change joins
 
 ## Step 4: Report
 
-Report what you exercised and what it demonstrated, claim by claim — the evidence a PR's Testing section carries (source: @lab43/q conventions/pull-requests.md, Sections). Name what changed in the manual, and say whether that change is still uncommitted. Name anything you waited on, and how long it held you. Report what failed and stop there.
+Report what you exercised and what it demonstrated, claim by claim, with the path to each capture — the evidence a PR's Testing section carries (source: @lab43/q conventions/pull-requests.md, Sections). Name what changed in the manual, and say whether that change is still uncommitted. Name anything you waited on, and how long it held you. Report what failed and stop there.

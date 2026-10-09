@@ -27,7 +27,7 @@ Keep the run's place and what it has settled in `q-run.md` in the session's scra
 - the items announced to peers, so they get released
 - the SHAs a review diff is scoped to, and in local mode the files each review point covers
 - each review round's BLOCKING findings and how each was resolved, fixed or rejected with the reason
-- what verification exercised and what it showed, for the PR's Testing section
+- what verification exercised and what it showed, with the path to each capture, for the PR's Testing section
 
 Update it at every step boundary and whenever one of those facts changes. Never copy what the repo shows: the diff, the branch state, the checks' output. The note is what the run reads from when it restates the agreed scope for a reviewer, writes the PR's Callouts, Caveats, and Testing, and reports at the close. A skill another skill invokes keeps its place in the same note. Remove the note when the outermost run closes.
 

@@ -46,9 +46,10 @@ git fetch origin && git checkout -b <work-slug> origin/<default-branch>
 
 ## Step 4: Build
 
-1. Implement the agreed fix, following the governing conventions and matching surrounding code.
-2. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). When the change produced a newly drivable surface — an endpoint, a screen — drive it through `/q:drive`, naming that surface as what to exercise.
-3. In ship mode, commit — before review, so the review history is inspectable in git.
+1. When the work fixes a bug a person sees on screen, drive the bug through `/q:drive` before changing anything, naming the steps that show it as what to exercise. That capture is the PR's "before" (source: @lab43/q conventions/pull-requests.md, Screenshots and recordings).
+2. Implement the agreed fix, following the governing conventions and matching surrounding code.
+3. Verify: run the project's checks — lint, typecheck, and the tests covering what changed, as the project's briefing, conventions, or scripts name them (parallel background subagents are fine). When the change produced a newly drivable surface — an endpoint, a screen — drive it through `/q:drive`, naming that surface as what to exercise. Drive a bug captured in item 1 again through the same steps.
+4. In ship mode, commit — before review, so the review history is inspectable in git.
 
 When implementation reveals the work is deeper than the agreement — a redesign, more than one reviewable PR's worth of change — interrupt: present the discovery and recommend `/q:create-plan`. Planning starts only on the user's go-ahead; what this run learned and built goes into its scope.
 
