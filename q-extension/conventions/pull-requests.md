@@ -46,7 +46,19 @@ Compose the body from these sections, in order. Most PRs need only Summary and T
   Each entry states the question's answer and its reason. A call no reviewer would question is noise here. Callouts also reach the reviewer on the diff itself (see: Diff comments).
 - **Caveats** — the known problems shipping with the change. The reviewer shouldn't spend effort discovering what the author already knows.
 - **Follow-ups** — the work this change obligates: what a reviewer would otherwise ask "doesn't this mean X needs doing?". Link each to its tracker item when one exists — the body informs the reviewer, but nobody returns to a merged body to collect work, so the tracker carries it. Work the session surfaced that this change doesn't obligate goes to the tracker alone.
-- **Testing** — the evidence the diff doesn't carry: what was exercised and what it demonstrated, claim by claim. The project's standing checks prove nothing about this change and go unlisted. When the diff's own tests are the whole proof, say so.
+- **Testing** — the evidence the diff doesn't carry: what was exercised and what it demonstrated, claim by claim, shown as well as told when the change can be seen (see: Screenshots and recordings). The project's standing checks prove nothing about this change and go unlisted. When the diff's own tests are the whole proof, say so.
+
+## Screenshots and recordings
+
+Show a change a person sees on screen in the Testing section:
+
+- a screenshot for a state
+- a recording for a flow, an animation, or an interaction
+- for a bug fix, the same steps before and after: first showing the bug, then not
+
+Show only what the change touched. A change with nothing on screen to see carries none.
+
+Attach each file with `--attach` on `gh pr create` or `gh pr edit`. Reference the file's local path where it belongs in the body, and `gh` replaces the path with the uploaded file's URL. The flag needs `gh` 2.99 or later. On an older `gh`, stop and ask the user to upgrade.
 
 ## Diff comments
 
