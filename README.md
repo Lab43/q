@@ -1,119 +1,61 @@
 # q
 
-An agentic coding workflow for Claude Code: skills for planning, implementing, verifying, and grooming, grounded in per-project conventions docs that each consuming project builds up over time.
+An agentic coding workflow for Claude Code: skills for planning, implementing, verifying, and grooming, grounded in conventions docs that each project builds up over time.
 
 Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
-## Requirements
+## What your agent is missing
 
-[Claude Code](https://claude.com/claude-code), [Node.js](https://nodejs.org) — the conventions install as an npm package — and an authenticated [GitHub CLI](https://cli.github.com) (`gh`).
+An agent starts each session knowing nothing about your project, and it trusts its own work. q supplies what it would otherwise go without:
 
-## Adding q to a project
+<!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
+<!-- source: @lab43/q skills/drive/SKILL.md -->
+<!-- source: @lab43/q conventions/pull-requests.md, Sections -->
+<!-- source: @lab43/q references/run-contract.md, Validation -->
+<!-- source: @lab43/q references/run-contract.md, Working alongside a peer -->
 
-```sh
-npm install --save-dev --save-exact --ignore-scripts @lab43/q
-claude --plugin-dir ./node_modules/@lab43/q/q-extension
-```
-
-npm delivers q's bytes before Claude Code is involved, so installing q doesn't require already having q. `--plugin-dir` loads q for that one session, which is all it takes to run `/q:install` in it:
-
-<!-- source: @lab43/q skills/install/SKILL.md -->
-
-- scaffolds your conventions
-- gives the project its own marketplace, sourcing the q you just installed
-- records the version your docs were reconciled against
-
-Start every session after that with plain `claude`. The marketplace `/q:install` wrote is the project's own, and your tracked settings point each session at it.
-
-## Joining a project that uses q
-
-<!-- source: @lab43/q skills/install/SKILL.md -->
-
-Install the project's dependencies, substituting your package manager where the project isn't on npm:
-
-```sh
-npm install
-```
-
-That is the whole of it — q arrives with the project's dependencies, and the project's tracked settings tell Claude Code to load it. `/q:install` writes a q section into the project's own README, so contributors meet q without leaving the repo.
-
-## Skills
-
-<!-- source: @lab43/q skills/ -->
-<!--
-  Skill names must not wrap.
-  see: docs/conventions/documentation.md, Table cells that must not wrap
--->
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Type</th>
-    <th>Skill</th>
-    <th>What it does</th>
-  </tr>
-  <tr>
-    <th rowspan="2" scope="rowgroup">Setup</th>
-    <td nowrap><samp>/q:install</samp></td>
-    <td>Set up q in a project you've already npm-installed it into, or repair a scaffold that has drifted. Safe to re-run on a partially set-up project.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:reconcile</samp></td>
-    <td>Reconcile the project's records with what npm already did — q or an extension updated, installed, or removed. Also sets up or repairs this machine.</td>
-  </tr>
-  <tr>
-    <th rowspan="9" scope="rowgroup">Workflow</th>
-    <td nowrap><samp>/q:triage</samp></td>
-    <td>Choose what to work on next from a set of items — a Jira board, GitHub issues, a Notion doc — and hand each agreed pick to <code>/q:implement</code>.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:implement</samp></td>
-    <td>Take on unplanned work — ground it in the code, then fix it in a single adversarially reviewed PR, escalate to planning, or show with evidence that nothing needs doing.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:create-plan</samp></td>
-    <td>Collaboratively plan a feature into <code>docs/plans/</code> — grounded in the code, settled with you, hardened by adversarial review. Produces the plan doc, never code.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:implement-plan</samp></td>
-    <td>Execute a plan end-to-end — phased implementation with adversarial review, then the PR (or stacked PRs) the plan calls for.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:review</samp></td>
-    <td>Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer; you rule on the findings, and a finding may fault a convention rather than the work.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:address-feedback</samp></td>
-    <td>Work feedback on a PR — the reviewer's comments, or revisions you raise yourself. Every item gets a position and your ruling, then the agreed fixes are implemented, reviewed, and pushed to the PR, with replies posted when you want them.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:drive</samp></td>
-    <td>Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took, so the next session doesn't rediscover it.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:parallelize</samp></td>
-    <td>Give parallel sessions their own copies of what they contend over while driving — ports, databases, caches, devices. Isolates what it can, and names what sessions must take turns over instead.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:clean-worktrees</samp></td>
-    <td>Clear the git worktrees that finished parallel sessions leave behind. Reports what each one holds and whether that work has reached the remote. You rule on the list before anything is removed.</td>
-  </tr>
-  <tr>
-    <th rowspan="3" scope="rowgroup">Docs</th>
-    <td nowrap><samp>/q:update-docs</samp></td>
-    <td>The single write path for doc changes — record a lesson, fix a guide, amend the briefing. Ships as a PR, or stays in the working tree with the work in flight.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:groom-docs</samp></td>
-    <td>Audit the whole documentation surface against the documentation policy and consolidate what has drifted. Approved edits ship as a PR.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>/q:upstream</samp></td>
-    <td>Turn session friction and recorded deviations into PRs against the repos that own the rules — q's own, or an extension's.</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
+- **Context.** What you're building, and how your team writes code, lives in people's heads, Notion, and Jira, where an agent can't reliably find it. q keeps it in the repo, as conventions, specs, and guides under `docs/`, indexed in the `CLAUDE.md` every session loads. `/q:update-docs` records each decision as you make it, so it binds every session after.
+- **Direction before code.** Once an agent has written code, it's hard to turn. `/q:create-plan` settles a plan with you before any code exists. `/q:implement` grounds smaller work in the code and waits for your go-ahead.
+- **Eyes.** An agent won't look at its work running unless it's told to. `/q:drive` brings the product up and exercises the change. The PR then says what was exercised and what it showed, claim by claim, so "it works" arrives with evidence. `/q:drive` records what launching the product took in a driving manual, so the next session doesn't rediscover it.
+- **Doubt.** An agent is confident about its own output. A q run that delivers work hands it to an adversarial reviewer: a subagent with fresh context, grounded in your conventions, trying to refute it. The run fixes what the reviewer finds and reviews again, up to three rounds, before a human sees it.
+- **Parallel sessions.** Run several tasks in one repo at once without them colliding. q sessions tell each other what work they're taking up, so two never pick up the same task. A session takes its own git worktree when it learns another is working the checkout. `/q:parallelize` gives each session its own ports, databases, and anything else they would otherwise fight over.
+- **Upkeep.** Docs drift as the code changes, and an agent follows stale docs as faithfully as true ones. `/q:groom-docs` checks the whole documentation surface against the code and consolidates what has drifted.
 
 ## How it works
+
+Everything q produces lives in plain text files in your repo.
+
+<!-- source: @lab43/q skills/install/SKILL.md -->
+<!-- source: @lab43/q hooks/session-start.mjs -->
+
+**Every session starts knowing where the rules are.** Your conventions sit in `docs/conventions/`, one doc per topic, beside q's own and those of any extension you install. Your `CLAUDE.md` indexes all of them. Every session is told to check them before writing code, making design decisions, or changing docs, whether or not it invokes a q skill.
+
+**Your docs come in four kinds.** Each has its own directory under `docs/`:
+
+<!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
+
+- **Conventions** (`docs/conventions/`) say how code here gets written. They start nearly empty, because conventions are earned as decisions are made, not pre-written. `/q:update-docs` records each decision as a rule, with one home per fact, placed where its next reader will look. Break a convention and the code is wrong.
+- **Specs** (`docs/specs/`) say what a feature does. You write them on purpose, before the code or as a deliberate change to it. Break a spec and the product is wrong, unless you meant to change the promise, in which case the spec changes with it.
+- **Guides** (`docs/guides/`) say how to use and operate the product, such as how to deploy it.
+- **Plans** (`docs/plans/`) say how a feature will be built, phase by phase. `/q:create-plan` writes them with you, and `/q:implement-plan` carries them out. They stay in the repo after they ship.
+
+**Every task runs the same loop.** Work enters through `/q:implement`, which takes a single task. `/q:triage` feeds it from a set of items, picking one task at a time. `/q:review` starts from work that already exists. From there:
+
+1. Investigate the code and the docs.
+2. Settle the approach with you. Larger work becomes a plan first, through `/q:create-plan`. A plan too big for one PR ships as a stack of PRs.
+3. Do the work.
+4. Put it through adversarial review.
+5. Open a PR. You pick the review mode at the start of each run. In ship mode the PR opens straight away. In local mode nothing is committed until you've reviewed the work.
+6. Review the PR and merge it. Merging is always yours. Changes you request go through `/q:address-feedback`.
+
+**You stay in charge.**
+
+<!-- source: @lab43/q references/run-contract.md, Collaboration modes -->
+
+- Every run talks decisions through with you, and goes ahead only when you agree. Once you have, it does the work without asking. It stops to check with you only when the work would go beyond what you agreed.
+- Your rules beat q's. When one of q's rules doesn't suit your project, write your own in your conventions, and it replaces q's there (see: Markers).
+- q is an npm package, so its version is pinned in your repo like any other dependency. Every teammate runs the same version of q, and it changes only when you upgrade it. When you upgrade, `/q:reconcile` brings your docs in line with the new version.
+- Removing q leaves your docs intact and yours.
 
 <!-- source: docs/workflow-chart/chart.html -->
 <!-- regenerated by docs/workflow-chart/screenshot.py -->
@@ -126,34 +68,55 @@ That is the whole of it — q arrives with the project's dependencies, and the p
 </a>
 <!-- markdownlint-enable MD033 -->
 
-q's effect on your repo comes from context routing and documentation discipline — everything it produces lives in plain text files in your repo, and it works in one loop:
+## Getting started
+
+[Claude Code](https://claude.com/claude-code), [Node.js](https://nodejs.org), and an authenticated [GitHub CLI](https://cli.github.com) (`gh`) are required.
 
 <!-- source: @lab43/q skills/install/SKILL.md -->
-<!-- source: @lab43/q hooks/session-start.mjs -->
 
-**Every session starts knowing where the rules are.** `/q:install` puts the routing in place:
+```sh
+# Add q as a dev dependency, pinned to this exact version.
+npm install --save-dev --save-exact @lab43/q
 
-- scaffolds `docs/conventions/` — your project's conventions, one doc per topic, seeded with a `principles.md` for your cross-cutting rules and a `documentation.md` for your documentation rulings
-- builds on the `@lab43/q` npm package you installed — its conventions and its plugin arrive together, at one version, and the skill scaffolds around it
-- indexes every tier in your agent briefing (`CLAUDE.md`)
-- gives your project its own marketplace, sourcing the q you installed and the plugin of any extension that ships one, so every teammate's machine runs the versions the repo chose
-- records watermarks in a committed `.claude/q-state.json` — the versions your docs were last reconciled against
+# Load q manually the first time.
+claude --plugin-dir ./node_modules/@lab43/q/q-extension
 
-Every session start validates that your lockfile, the installed copies, and the watermarks still agree — drift from any direction, a hand-run npm install or a Dependabot bump included, is flagged with its fix: run `/q:reconcile`. And every agent session, whether or not it ever invokes a q skill, is told to check every tier of conventions — q's, any extensions' you install, and yours — before writing code, making design decisions, or changing docs; your recorded decisions bind future sessions instead of living in one person's head.
+# Within Claude, set up q.
+# This scaffolds the docs and auto-loads the skills in future sessions.
+/q:install
+```
 
-**Decisions become conventions as you make them.** The scaffold is deliberately near-empty, because conventions are earned as decisions are made, not pre-written. When a session hits a decision, lesson, or gotcha worth binding, `/q:update-docs` records it under q's documentation policy — phrased as a rule, one home per fact, placed where its next reader will look.
+You only do this once per project. Any later checkout, yours or a teammate's, just needs `npm install`. q arrives with the project's other dependencies, and Claude Code loads it automatically.
 
-**A convention records practice. A spec records a promise.** A convention says how code here gets written, and it grows out of the decisions you make while working. A spec says what a feature does, and you write it on purpose, before the code or as a deliberate change to it. Break a convention and the code is wrong. Break a spec and the product is wrong, unless you meant to change the promise, in which case the spec changes with it.
-<!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
+## Skills
 
-**Grooming keeps the docs true.** `/q:groom-docs` periodically verifies the whole documentation surface against the code and the policy — accuracy, duplication, dead references — so the docs agents are routed to stay worth trusting, which is what makes the routing worth anything.
+<!-- source: @lab43/q skills/ -->
 
-**You stay in charge.**
+**Everyday work** — the workflow loop:
 
-- Versions are yours to move — npm and your lockfile decide what runs, and `/q:reconcile` folds each move into your docs.
-- Your project's rulings win on conflict — record the disagreement and it stands (see the markers below).
-- Every run that delivers work settles its review mode with you up front. In local mode nothing is committed until you review it. In ship mode the work goes straight to a PR you review on GitHub. Merging is always yours.
-- It's all plain text files in your repo — removing q leaves your docs intact and yours.
+- `/q:implement` — Take on any work — ground it in the code, then fix it in a single adversarially reviewed PR. Escalate to planning for larger work.
+- `/q:triage` — Choose what to work on next from a set of items (a Jira board, GitHub issues, a text doc, etc.) and hand each agreed pick to `/q:implement`.
+- `/q:review` — Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer. You rule on the findings and decide what to change.
+- `/q:create-plan` — Collaboratively write a feature plan and save it to `docs/plans/`.
+- `/q:implement-plan` — Execute a plan end-to-end, in a single PR or stacked PRs.
+- `/q:address-feedback` — Review feedback on a PR. Implement the agreed fixes then push them to the PR, with replies posted when you want them.
+
+**Docs:**
+
+- `/q:update-docs` — Update the docs — record a lesson, fix a guide, update `CLAUDE.md`. Ships as its own PR, or stays in the working tree to go out with the work you're doing.
+- `/q:groom-docs` — Check all your docs against the code and q's documentation rules, and consolidate what has drifted.
+- `/q:upstream` — Turn problems with q's rules, and your overrides of them, into PRs against the repos that own the rules — q's own, or an extension's.
+
+**Local environment:**
+
+- `/q:parallelize` — Give parallel sessions their own copies of what they compete for while running the product — ports, databases, caches, devices. Isolates what it can, and names what sessions must take turns over instead.
+- `/q:drive` — Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took to `docs/guides/driving-manual.md`, so the next session doesn't rediscover it.
+- `/q:clean-worktrees` — Clear the git worktrees that finished parallel sessions leave behind. Reports what each one holds and whether that work has reached the remote.
+
+**Setup and upgrades:**
+
+- `/q:install` — Set up q in a project you've already npm-installed it into, or repair a scaffold that has drifted. Safe to re-run on a partially set-up project.
+- `/q:reconcile` — Reconcile the project's docs with the versions of q and extensions in package.json.
 
 ## Settings
 
@@ -174,11 +137,11 @@ q's settings live under the `q` key of your root `package.json`. Everything else
   </tr>
   <tr>
     <td nowrap><samp>q.draftPullRequests</samp></td>
-    <td>Set it to <code>true</code> and every PR q opens is a draft until you mark it ready. On a team, that lets the author review first, and marking the PR ready is the signal that it is the team's to review.</td>
+    <td>Set to <code>true</code> to open every PR as a draft, so its author reviews it before the team does.</td>
   </tr>
   <tr>
     <td nowrap><samp>q.description</samp></td>
-    <td>For a repo that publishes a q extension: one sentence naming the territory its docs cover. A project that installs the extension heads its docs with it in the agent briefing.</td>
+    <td>Only required for repos that publish a q extension. One sentence saying what the extension's docs cover. Projects that install the extension show it in their agent briefing.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
@@ -186,58 +149,33 @@ q's settings live under the `q` key of your root `package.json`. Everything else
 ## Markers
 
 <!-- source: @lab43/q conventions/documentation.md, Markers -->
-<!-- source: @lab43/q conventions/documentation.md, Single source of truth -->
-<!-- source: @lab43/q conventions/specs.md, Enforcement -->
 
-q's documentation keeps every fact in exactly one authoritative home. Text still has to point at, copy, or disagree with what lives elsewhere, and one site sometimes has to sit outside a rule the rest of the project follows. A marker declares which of those is in play — making it visible to readers and checkable by grep, with no central list to maintain:
+q adds cross-references to your docs to help them stay in sync. Each fact has one home, and a marker records how other text relates to it. Readers can follow a marker to the detail, and `/q:groom-docs` keeps them accurate:
 
-<!--
-  Markers must not wrap.
-  see: docs/conventions/documentation.md, Table cells that must not wrap
--->
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Marker</th>
-    <th>Meaning</th>
-  </tr>
-  <tr>
-    <td nowrap><samp>(see: X)</samp></td>
-    <td>Plain cross-reference — nothing copied, the detail lives at X.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>(source: X)</samp></td>
-    <td>This text is a copy and X is the authority — <code>/q:groom-docs</code> checks that the copy still agrees with X.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>(overrides: X)</samp></td>
-    <td>This rule deliberately replaces the named one — a q rule (<code>overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs</code>), an extension's rule (<code>overrides: @acme/q-ext-x conventions/retries.md, Backoff</code>), or a broader project convention (<code>overrides: docs/conventions/style.md, Magic numbers</code>). <code>/q:groom-docs</code> respects it, and <code>/q:upstream</code> picks up overrides worth carrying to the rule's owner.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>(exception: X)</samp></td>
-    <td>This site is exempt from the named rule, which still stands everywhere else (<code>exception: docs/conventions/logging.md, Structured fields</code>). It always names both a doc and a section, and the reason is the text it sits in, in prose or in a comment — without either part it excuses nothing. <code>/q:groom-docs</code> counts them by rule, so several against one rule surface as a signal the rule wants revisiting.</td>
-  </tr>
-  <tr>
-    <td nowrap><samp>(spec: X)</samp></td>
-    <td>This marker heads the file or unit that enforces the named spec (<code>spec: docs/specs/tasks.md, Due dates</code>). It sits once at the head of enforcing code — a file, a function, a test block — in that file's comment syntax, never in prose. It names the section only when that unit enforces one section alone. <code>/q:groom-docs</code> reports a marker naming a doc or section that no longer exists, and a spec no marker names.</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
+- `(see: X)` — the detail lives at X. Nothing is copied.
+- `(source: X)` — this text copies X, which is the authority.
+- `(overrides: X)` — this rule replaces X, whether X is one of q's rules, an extension's, or a broader rule of your own. `/q:upstream` picks up overrides worth proposing to the rule's owner.
+- `(exception: X)` — this one spot is exempt from rule X, which still holds everywhere else. Several exceptions to one rule suggest the rule needs revisiting.
+- `(spec: X)` — this code enforces spec X. It sits in a comment at the top of the file, function, or test.
+
+The full rules are in [q's documentation policy](q-extension/conventions/documentation.md#markers).
 
 ## Developing q
 
+<!-- source: CLAUDE.md, Developing -->
+
+q is developed with q. To work on it:
+
+1. Clone this repo and run `npm install`.
+2. Start `claude` in your checkout. It loads your working copy of q rather than a published version, and picks up skill edits immediately.
+
 <!-- source: @lab43/q conventions/extensions.md, Which rules ship -->
 
-This repo has two conventions directories, by design. `q-extension/` is the payload the `@lab43/q` npm package ships, and its `conventions/` are the framework policy that binds every consuming project. `docs/conventions/` is q's own project tier — rules for developing q itself (skill authoring, for example) that are not framework law. The split exists because q is a consuming project of its own workflow: it keeps its working docs at the same contract path any consumer would, kept apart from the product it ships. Every extension gets the same two homes, and the rule deciding between them ships with the rest.
+Rules live in two places:
 
-<!-- source: CLAUDE.md, Developing -->
-<!-- source: docs/guides/driving-manual.md -->
+- `q-extension/` is what the `@lab43/q` package ships: the skills, and the conventions every project using q follows.
+- `docs/conventions/` holds the rules for developing q itself. They don't ship.
 
-To work on q:
+<!-- source: .claude/skills/release/SKILL.md -->
 
-- `claude` in your checkout auto-loads your working copy of the plugin (the repo declares itself as the `q-dev` marketplace in `.claude/settings.json`); from any other project, `claude --plugin-dir <path to your checkout>/q-extension` loads it without registering anything. SKILL.md edits apply immediately; `/reload-plugins` picks up hook and agent changes mid-session.
-- When the `q:` skills don't load in your checkout, read the `q-dev` entry in `claude plugin marketplace list`. An entry naming a directory that is gone — usually a worktree that held the name and was then removed — takes registering your checkout again, with its path written in full. No `q-dev` entry at all means the registry holds your directory under another name: remove that entry with `claude plugin marketplace remove <name>`, then register your checkout again. That remove also strips the marketplace from the repo's tracked `.claude/settings.json`, so check that file afterwards and put the declaration back.
-- `npm run check` runs every check the repo has, `npm test` among them. `package.json` names them; this line deliberately doesn't, because a list here goes stale the next time one is added. CI runs it on every pull request and on pushes to `main`.
-- `npm install` installs the pre-commit hook that runs `npm run check`. A tree you have not installed commits without checking anything.
-- Releasing is separate from merging, and PRs never touch a `version`. The steps live in `docs/guides/releasing.md`.
-- When another session is already working your checkout, take a worktree rather than sharing it. Run `npm install` in it. `.claude/settings.json` is tracked, so the plugin loads there.
+To release q, run `/release` in your checkout. It bumps the version, pushes the bump to `main`, and publishes the GitHub release that triggers the npm publish.

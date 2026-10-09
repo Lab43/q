@@ -23,7 +23,7 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 Skip this step in any of these cases:
 
 - A run where Step 1 found nothing missing or drifted, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. An unpopulated `node_modules/` is machine state rather than drift: a fresh clone nobody has installed on. Enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`, which populates it, then stop with the closing report (Step 5).
-- Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev --save-exact --ignore-scripts @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 5): this skill runs no package manager against a named package.
+- Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev --save-exact @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 5): this skill runs no package manager against a named package.
 - Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
