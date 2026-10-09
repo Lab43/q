@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 # Move q's docs root to `q-docs/`
