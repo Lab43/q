@@ -1,6 +1,6 @@
 {
   "name": "@lab43/q",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "An agentic coding workflow for Claude Code: plans, adversarial review, and docs that stay true, all in your repo.",
   "q": {
     "description": "The rules of the q workflow, governing how a project's work gets planned, decided, documented, and shipped."
