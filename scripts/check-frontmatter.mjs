@@ -1,9 +1,9 @@
 // Parse every markdown frontmatter block as strict YAML. Nothing else does.
-// markdownlint ignores frontmatter content. `claude plugin validate` skips
-// docs/plans/ entirely, and tolerates invalid YAML where it does look. A value
-// carrying a bare ": " is the case that matters: it loads fine in a session,
-// while editors and every YAML parser reject it. The defect never surfaces
-// where the work happens, so only a check like this one catches it.
+// markdownlint ignores frontmatter content. `claude plugin validate` never
+// parses a plan's frontmatter, and tolerates invalid YAML where it does look.
+// A value carrying a bare ": " is the case that matters: it loads fine in a
+// session, while editors and every YAML parser reject it. The defect never
+// surfaces where the work happens, so only a check like this one catches it.
 
 import fs from "node:fs";
 import path from "node:path";

@@ -21,7 +21,7 @@ Package doc paths are package name plus path from the package's `q-extension/` p
 
 Binding decisions about how this project's code and docs get written, recorded as they are made (source: @lab43/q conventions/documentation.md, Taxonomy).
 
-Conventions come in three tiers: q's own, the conventions of any installed extensions, and this project's own `docs/conventions/` (source: @lab43/q conventions/conventions.md, Three tiers of conventions). q and the extensions are dependencies in `package.json`. Project rules win over an extension's rule, and an extension's rule wins over q's. Check all three tiers before writing code, before design decisions and reviews, and before changing docs.
+Conventions come in three tiers: q's own, the conventions of any installed extensions, and this project's own `q-docs/conventions/` (source: @lab43/q conventions/conventions.md, Three tiers of conventions). q and the extensions are dependencies in `package.json`. Project rules win over an extension's rule, and an extension's rule wins over q's. Check all three tiers before writing code, before design decisions and reviews, and before changing docs.
 
 `@lab43/q` — <its `q.description`>
 
@@ -45,14 +45,14 @@ Conventions come in three tiers: q's own, the conventions of any installed exten
 
 This project's own:
 
-- `docs/conventions/principles.md` — cross-cutting rules, including deviations from q's
-- `docs/conventions/documentation.md` — documentation rulings and deviations
+- `q-docs/conventions/principles.md` — cross-cutting rules, including deviations from q's
+- `q-docs/conventions/documentation.md` — documentation rulings and deviations
 
 ### Specs
 
 What this product commits to, stated as behavior the code must honor (source: @lab43/q conventions/documentation.md, Taxonomy).
 
-- `docs/specs/<name>.md` — one line per spec, restating its intro
+- `q-docs/specs/<name>.md` — one line per spec, restating its intro
 
 ### Guides
 
@@ -68,7 +68,7 @@ How to use and operate this product, rather than how to write its code (source: 
 
 This project's own:
 
-- `docs/guides/<name>.md` — one line per guide, restating its intro
+- `q-docs/guides/<name>.md` — one line per guide, restating its intro
 ```
 
 ## Maintaining it

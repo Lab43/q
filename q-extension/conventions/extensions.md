@@ -17,18 +17,18 @@ q is not an extension but what extensions extend: the framework whose rules they
 
 ## Which rules ship
 
-A repo that publishes rules has two homes for a rule it writes, and every rule goes to one of them. A repo that publishes none has one home, `docs/conventions/`, and becoming a publisher is the user's call rather than a session's.
+A repo that publishes rules has two homes for a rule it writes, and every rule goes to one of them. A repo that publishes none has one home, `q-docs/conventions/`, and becoming a publisher is the user's call rather than a session's.
 
 - **The payload** — everything under the package's `q-extension/` directory, which is what reaches its consumers (see: Layout).
-- **`docs/conventions/`** — rules for developing the repo itself: its own code, its docs, its repo mechanics. Consumers are never bound by these and never routed to them.
+- **`q-docs/conventions/`** — rules for developing the repo itself: its own code, its docs, its repo mechanics. Consumers are never bound by these and never routed to them.
 
 The test is one question: would this change what a session in a consuming repo writes or flags? Yes puts it in the payload. No keeps it local.
 
-A rule can pass that test later, as its audience outgrows one project — org-wide rules, or rules for code that uses a product. Move it then: out of `docs/conventions/` into the payload, never copied into both, its index line crossing from the project's group to the payload's rather than disappearing (see: Authoring).
+A rule can pass that test later, as its audience outgrows one project — org-wide rules, or rules for code that uses a product. Move it then: out of `q-docs/conventions/` into the payload, never copied into both, its index line crossing from the project's group to the payload's rather than disappearing (see: Authoring).
 
 **Payload is addressed solely to consumers.** Payload docs never name the repo that authors them, its development practices, or its internal layout. Even acknowledging that they might be read from inside that repo muddies them for the audience they speak to. A repo still follows the payload it ships, as a consuming project of its own rules.
 
-Rejected: shipping the payload's conventions at the contract path, `docs/conventions/`, so that one path means conventions everywhere. It conflates what the package ships with the repo's own working rules, so a consumer reading the shipped docs would meet repo-local rulings as law.
+Rejected: shipping the payload's conventions at the contract path, `q-docs/conventions/`, so that one path means conventions everywhere. It conflates what the package ships with the repo's own working rules, so a consumer reading the shipped docs would meet repo-local rulings as law.
 
 ## Description
 

@@ -8,7 +8,7 @@ q is the framework, so the extension format does not reach it. The authoring rul
 
 In this repo, `@lab43/q` in a path reference resolves to `q-extension/`, q's own payload working tree (source: @lab43/q conventions/documentation.md, Package doc paths). That is the directory every extension puts its payload in (source: @lab43/q conventions/extensions.md, Layout). The name is mildly wrong here, since q is not an extension. Keep it anyway: a name true of q alone would cost a permanent carve-out in every rule and check that resolves a package's payload path.
 
-The payload joins this project's documentation surface. `q-extension/conventions/` gets the full checks, like `docs/conventions/`. `q-extension/references/` is not conventions law (source: docs/conventions/skills.md, Body), so it gets guide mode instead (see: @lab43/q conventions/documentation.md, Taxonomy).
+The payload joins this project's documentation surface. `q-extension/conventions/` gets the full checks, like `q-docs/conventions/`. `q-extension/references/` is not conventions law (source: q-docs/conventions/skills.md, Body), so it gets guide mode instead (see: @lab43/q conventions/documentation.md, Taxonomy).
 
 Rejected: seeding the framework tier into consuming projects as editable copies (seed-and-fork) — that loses the update channel and makes framework law indistinguishable from project choice during grooming.
 

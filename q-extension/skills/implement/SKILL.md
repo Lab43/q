@@ -20,7 +20,7 @@ The work comes from the invocation, at any fidelity — an issue number or URL, 
 2. Read the work item at its source — its description, comments, and related items, when the source carries them — and whatever it cites: stack traces, linked discussions, named files. Read it fresh even when a caller just read it: a tracker moves for reasons no peer announces. An item no longer available to pick up goes back to the user before any further work (source: @lab43/q conventions/issue-tracking.md, Respect existing claims).
 3. Read the conventions and specs governing the affected territory, found from the agent briefing's docs index.
 4. Explore the affected code — use an Explore subagent for breadth; read the load-bearing files yourself.
-5. Check `docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
+5. Check `q-docs/plans/` (if it exists) for collisions: surface a `pending` plan in the same territory in Step 2 rather than silently working around it.
 
 The outcome is a verdict: what the work actually is, whether the item's claims hold against the code, how big the real change is, and whether it contradicts a spec.
 

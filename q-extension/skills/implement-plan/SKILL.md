@@ -1,11 +1,11 @@
 ---
 name: implement-plan
-description: Implement a plan from docs/plans end-to-end and open the PR or stacked PRs its delivery call names, with every commit, push, and PR gated by the review mode the user picks up front. Name the plan or give its path.
+description: Implement a plan from q-docs/plans end-to-end and open the PR or stacked PRs its delivery call names, with every commit, push, and PR gated by the review mode the user picks up front. Name the plan or give its path.
 ---
 
 # Implement Plan
 
-Given no plan, list the `pending` plans in `docs/plans/` and ask which one.
+Given no plan, list the `pending` plans in `q-docs/plans/` and ask which one.
 
 ## Ground rules
 

@@ -15,7 +15,7 @@ What to exercise comes from the invocation — a flow, an endpoint, a command, a
 
 ## Step 1: Read the driving manual
 
-Find the project's driving manual from the agent briefing's docs index, or from `docs/guides/` when the index doesn't name it. Read it. Follow what it cites.
+Find the project's driving manual from the agent briefing's docs index, or from `q-docs/guides/` when the index doesn't name it. Read it. Follow what it cites.
 
 Derive how to drive when the project has no manual. Read its scripts, its config, and its README.
 
@@ -55,7 +55,7 @@ Leave out what the scripts and the config already answer. A manual of obvious fa
 
 The manual is a set of directions, not a log. Where its instructions failed you, rewrite them. Never leave a wrong instruction standing next to its correction.
 
-Create the manual when the project has none. Name it `docs/guides/driving-manual.md`, unless the project's own docs layout points somewhere else.
+Create the manual when the project has none. Name it `q-docs/guides/driving-manual.md`, unless the project's own docs layout points somewhere else.
 
 Make the change through `/q:update-docs`. Deliver nothing here. The change joins the calling run's change, or waits uncommitted.
 

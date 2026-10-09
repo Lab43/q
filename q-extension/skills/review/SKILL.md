@@ -14,8 +14,8 @@ The target comes from the invocation. Map it to an artifact the adversarial revi
 - **Nothing given**: the session's outstanding change. That is the uncommitted diff plus the changed-file list, untracked files included — or, with a clean tree, the branch's diff against the default branch. Say which was picked. When both are empty, ask for a target.
 - **A diff, file, or directory**: as given.
 - **A feature or area named in words**: locate its files (an Explore subagent for breadth) and confirm the file list with the user before reviewing.
-- **A plan doc in `docs/plans/`**: a plan review when its status is `pending`. Review any other plan as prose.
-- **A spec doc in `docs/specs/`**: a work review over the spec itself plus the files carrying its spec markers. Find them by grepping the repo for `spec:` followed by the doc's path, excluding `node_modules/` and build artifacts.
+- **A plan doc in `q-docs/plans/`**: a plan review when its status is `pending`. Review any other plan as prose.
+- **A spec doc in `q-docs/specs/`**: a work review over the spec itself plus the files carrying its spec markers. Find them by grepping the repo for `spec:` followed by the doc's path, excluding `node_modules/` and build artifacts.
 
 ## Step 2: Launch the review
 

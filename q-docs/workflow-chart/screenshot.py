@@ -6,7 +6,7 @@ Requires Python Playwright with Chromium:
 """
 # Pinning what this renders needs Chromium, which nothing in this repo
 # installs. Run it by hand and look at the images.
-# exception: docs/conventions/testing.md, What carries tests
+# exception: q-docs/conventions/testing.md, What carries tests
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright

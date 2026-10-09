@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus, in the repo that authors an extension, its conventions docs, its guides, and the `q.description` in its `package.json` (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `q-docs/` directories below, the README, and the briefing — plus, in the repo that authors an extension, its conventions docs, its guides, and the `q.description` in its `package.json` (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `q-docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. A taxonomy directory is read whole, subdirectories included, so a project groups its docs into subdirectories as it likes. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
@@ -12,10 +12,10 @@ The intro is the authoritative description of its doc. The briefing index's line
 
 Two doc types carry rules, and they divide by what they govern. A convention governs how code is written, and is recorded as the decision surfaces. A spec governs what a feature does, and is written on purpose: on the user's instruction naming the change, or through a plan the user approved that schedules the edit. Never write or amend a spec on a run's own initiative. A lesson that reads as a product commitment is reported to the user as a spec candidate and left unwritten.
 
-- **`docs/conventions/`** — the project's conventions docs (see: @lab43/q conventions/conventions.md).
-- **`docs/specs/`** — the project's specs: what the product commits to, stated as behavior the code must honor. Format and enforcement rules live in their own doc (see: @lab43/q conventions/specs.md). Grooming gives a spec every check a conventions doc gets, with accuracy reversed: a commitment the code does not honor is reported to the user as unmet, never corrected as a doc, because a spec may run ahead of its code and only the user knows whether the gap is work in progress, work missed, or a regression. Grooming also audits the spec markers (see: Markers), reporting each marker naming a doc or section that does not exist and each spec no marker names.
-- **`docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: @lab43/q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
-- **`docs/guides/`** — guides: instructions for using and operating the product, not for writing its code (deployment walkthroughs, feature guides, operational procedures). Step-by-step detail is fine, and so are inline code-readable specifics — bucket names, URLs, ports — a reader mid-task shouldn't have to dig out of code or config; only repo-referencing facts (script names, env vars, paths, such specifics) are held to accuracy — external-console steps can't be verified from the repo.
+- **`q-docs/conventions/`** — the project's conventions docs (see: @lab43/q conventions/conventions.md).
+- **`q-docs/specs/`** — the project's specs: what the product commits to, stated as behavior the code must honor. Format and enforcement rules live in their own doc (see: @lab43/q conventions/specs.md). Grooming gives a spec every check a conventions doc gets, with accuracy reversed: a commitment the code does not honor is reported to the user as unmet, never corrected as a doc, because a spec may run ahead of its code and only the user knows whether the gap is work in progress, work missed, or a regression. Grooming also audits the spec markers (see: Markers), reporting each marker naming a doc or section that does not exist and each spec no marker names.
+- **`q-docs/plans/`** — feature plans across their whole lifecycle — upcoming, in flight, and shipped; format and lifecycle rules live in their own doc (see: @lab43/q conventions/plans.md). Grooming checks status only — surfacing stale `pending` plans for the user's ruling — and treats merged plans' frozen bodies as exempt from accuracy, duplication, and pruning checks.
+- **`q-docs/guides/`** — guides: instructions for using and operating the product, not for writing its code (deployment walkthroughs, feature guides, operational procedures). Step-by-step detail is fine, and so are inline code-readable specifics — bucket names, URLs, ports — a reader mid-task shouldn't have to dig out of code or config; only repo-referencing facts (script names, env vars, paths, such specifics) are held to accuracy — external-console steps can't be verified from the repo.
 - **`README.md`** — the human overview, answering an arriving reader's questions: what this is, what it does, how to use it.
   - **Summarizing facts owned elsewhere is its normal mode**, not a violation — the obligation is checkability: a summary that mirrors one identifiable home carries a source marker; free-form overview prose is held accurate against the things it describes by grooming. Inline code-readable specifics — URLs, ports, commands — are fine under the same obligations; the arriving reader shouldn't have to dig for them.
   - **Interface, not internals**: enumerating the product's interface (commands, skills, entry points) serves the reader and belongs; inventorying the repo's internals (directory layout, file lists) restates what browsing already shows — an internal detail earns mention only when it explains something non-obvious.
@@ -24,9 +24,11 @@ Two doc types carry rules, and they divide by what they govern. A convention gov
   - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: @lab43/q conventions/conventions.md, Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
   - **The docs index** — one line per doc, restating its intro: every conventions doc and every guide, whether q's, an installed extension's, this repo's own payload, or the project's own, and every spec. Group the lines by where the docs come from, the specs in a group of their own. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An extension's heading pairs its package name with its `q.description`, whether the project installs that extension or authors it (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
+Rejected: `docs/` as the root, the conventional name, because publishing tools already claim it. GitHub Pages can publish a repo's `docs/` folder, and it renders a markdown file there as a page even without front matter. Outside GitHub Enterprise Cloud, that site is public even when the repo is private. MkDocs builds its site from `docs/` by default. A project using either would publish its plans and conventions with it.
+
 ## Single source of truth
 
-Every fact has exactly one home; every other doc links to it, never restates it. A fact's home is normally implied by the taxonomy and the docs' topics — cross-references carry readers there, and no record of the placement is needed. A placement is recorded in the project's `docs/conventions/documentation.md` only when a reasonable writer or groomer would have put the fact elsewhere — the record exists so grooming doesn't re-litigate it; obvious homes need no entry.
+Every fact has exactly one home; every other doc links to it, never restates it. A fact's home is normally implied by the taxonomy and the docs' topics — cross-references carry readers there, and no record of the placement is needed. A placement is recorded in the project's `q-docs/conventions/documentation.md` only when a reasonable writer or groomer would have put the fact elsewhere — the record exists so grooming doesn't re-litigate it; obvious homes need no entry.
 
 **Restatements**: a doc may restate a rule or fact it operationally depends on — a skill's procedure executing it, the briefing orienting every session with it, a README table presenting it to humans — provided the restatement carries a source marker (see: Markers). The marker is the sanction; an unmarked restatement is ordinary duplication.
 
@@ -47,7 +49,7 @@ Inline cross-references tying a statement to the doc it depends on. They are the
 All share one grammar — `(verb: target)` or `(verb: target, section)`, the section naming a heading within the target. The target is one of:
 
 - a heading in the current doc (`see: Markers`)
-- a repo file or directory, read from the repo root exactly as written — a project doc (`docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
+- a repo file or directory, read from the repo root exactly as written — a project doc (`q-docs/conventions/testing.md`), any other file a fact is read from (`source: config.yml`), or a directory when the text summarizes its files (`source: migrations/`)
 - anything a package ships, by its path form (see: Package doc paths)
 
 A leading package name is what separates the last two forms. Use the path form for every target a package ships, because a bare path would be read literally and find nothing.
@@ -62,9 +64,9 @@ Five markers, all ordinary language:
 
 - **`(see: X)`** — cross-reference. Nothing is copied; detail lives at X. No obligations attach.
 - **`(source: X)`** — provenance. This text restates a fact whose authoritative home is X (see: Single source of truth).
-- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: docs/conventions/style.md, Magic numbers`).
-- **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
-- **`(spec: X)`** — enforcement. This marker heads the file or unit that enforces the named spec (`spec: docs/specs/tasks.md, Due dates`). What it names, where it sits, and what amending the spec obliges are the specs rules (see: @lab43/q conventions/specs.md, Enforcement).
+- **`(overrides: X)`** — precedence. This rule deliberately replaces the named rule — a q rule (`overrides: @lab43/q conventions/conventions.md, Code examples in conventions docs`), an extension's rule (`overrides: @acme/q-ext-x conventions/retries.md, Backoff`), or a broader project convention (`overrides: q-docs/conventions/style.md, Magic numbers`).
+- **`(exception: X)`** — excuse. This site is exempt from the named rule (`exception: q-docs/conventions/logging.md, Structured fields`). The rule still stands everywhere else. Several exceptions against one rule are evidence the rule wants revisiting.
+- **`(spec: X)`** — enforcement. This marker heads the file or unit that enforces the named spec (`spec: q-docs/specs/tasks.md, Due dates`). What it names, where it sits, and what amending the spec obliges are the specs rules (see: @lab43/q conventions/specs.md, Enforcement).
 
 `(see:)`, `(source:)`, and `(overrides:)` live in the documentation surface, the only place anything reads them. An exception may sit in any file, because the site it excuses is as often a line of code or config as a passage of prose. A spec marker never sits in the documentation surface, because what enforces a commitment is code, config, or a test. A doc that restates a commitment carries `source:` instead.
 
@@ -72,7 +74,7 @@ A marker may sit in a comment rather than in running prose:
 
 - In docs rendered for humans (README, guides), it sits in an HTML comment.
 - In any other file, which only an exception or a spec marker reaches, it sits in that file's own comment syntax.
-- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: docs/conventions/testing.md -->`.
+- Either way it drops the parentheses. The comment's own delimiters stand in for them, so it reads `<!-- source: q-docs/conventions/testing.md -->`.
 
 A comment carrying prose as well gives the marker its own line. Comments are otherwise ordinary (see: @lab43/q conventions/principles.md, Comments carry constraints, not justification).
 

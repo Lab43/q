@@ -262,13 +262,13 @@
           <text x="483" y="564" text-anchor="end" font-size="9.5" font-weight="700" fill="var(--accent-ink)">your project's rules — updated as you work</text>
           <g text-anchor="middle">
             <text x="85" y="592" font-size="11" font-weight="700" fill="var(--ink)">Conventions</text>
-            <text x="85" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/conventions/</text>
+            <text x="85" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">q-docs/conventions/</text>
             <text x="208" y="592" font-size="11" font-weight="700" fill="var(--ink)">Specs</text>
-            <text x="208" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/specs/</text>
+            <text x="208" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">q-docs/specs/</text>
             <text x="331" y="592" font-size="11" font-weight="700" fill="var(--ink)">Guides</text>
-            <text x="331" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/guides/</text>
+            <text x="331" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">q-docs/guides/</text>
             <text x="454" y="592" font-size="11" font-weight="700" fill="var(--ink)">Plans</text>
-            <text x="454" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">docs/plans/</text>
+            <text x="454" y="606" font-size="8.5" fill="var(--muted)" font-family="IBM Plex Mono, monospace">q-docs/plans/</text>
           </g>
 
           <rect x="20" y="628" width="350" height="36" rx="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
@@ -301,7 +301,7 @@
 <div class="notes">
   <h2>Notes for the next edit</h2>
   <ul>
-    <li><strong>This page never ships.</strong> The chart gets screenshotted into q's README; the README's prose does the introducing. Everything a cold reader needs must live inside the SVG — nothing on this page around it. After editing, regenerate both README images with <code>docs/workflow-chart/screenshot.py</code>.</li>
+    <li><strong>This page never ships.</strong> The chart gets screenshotted into q's README; the README's prose does the introducing. Everything a cold reader needs must live inside the SVG — nothing on this page around it. After editing, regenerate both README images with <code>q-docs/workflow-chart/screenshot.py</code>.</li>
     <li><strong>Three section panels</strong> (entry points, workflow loop, docs) carry the layout: panels are tinted <code>--bg</code> on the frame's <code>--surface</code>, node boxes are <code>--surface</code> so they pop. Work edges connect boxes and cross panel borders freely; the docs reads and writes attach to panel borders on both sides — whole sections read and write the docs, not one stage or one row. The single exception is upstream PRs, fed by project docs directly, because overrides originate there. Cross-panel labels live in the whitespace between panels, each above its own line.</li>
     <li><strong>Arrow language</strong> (no legend, by choice): solid ink moves work; dashed reads the docs; green writes them. Green is reserved for the docs circuit — the two write edges, project docs' border, and its tag line.</li>
     <li><strong>Two box namespaces:</strong> entry boxes are skills (mono names, one-line purpose); loop boxes are stages, with emojis marking the actor — 🤖 agent, 🧑 human, 🧑↔🤖 both, 🚀 shipping. That is why <code>/q:address-feedback</code> labels its return arc instead of sitting inside the 🧑 PR review box it answers — a skill line inside a human box would misname the actor. Box titles are capitalized; skill names and <code>q</code> stay lowercase.</li>
