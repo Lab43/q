@@ -58,6 +58,16 @@ What this product commits to, stated as behavior the code must honor (source: @l
 
 How to use and operate this product, rather than how to write its code (source: @lab43/q conventions/documentation.md, Taxonomy).
 
+`<package>` — <its `q.description`>
+
+- `<package> guides/<name>.md` — one line per guide, restating its intro
+
+`<this package>` — <its `q.description`>
+
+- `<this package> guides/<name>.md` — one line per guide, restating its intro
+
+This project's own:
+
 - `docs/guides/<name>.md` — one line per guide, restating its intro
 ```
 
@@ -67,9 +77,9 @@ How to use and operate this product, rather than how to write its code (source: 
 - **Conform to the structure**: the section heading, a subsection per kind of doc in the order they run here, the groups in their order, one line per doc. Name each group for what it actually holds.
 - **Open each subsection with what its docs are for**, in the template's words, so a reader crossing from one kind to the next meets the change of kind (source: @lab43/q conventions/documentation.md, Taxonomy).
 - **Head each group with what its docs govern** (source: @lab43/q conventions/documentation.md, Taxonomy). A package's group is headed by its name, an em dash, and the `q.description` from its `package.json`, q's own group included (see: @lab43/q conventions/extensions.md, Description). A package shipping no `q.description` gets a heading of its name alone, never its `description` — that field answers the registry's readers.
-- **Give the payload this repo ships its own group.** When the repo's own `q-extension/` holds `conventions/`, it ships those rules and consumes them too: index them in the same form as an installed extension's, read from the working tree rather than `node_modules/` (see: @lab43/q conventions/extensions.md, Authoring).
+- **Give the payload this repo ships its own groups.** When the repo's own `q-extension/` holds `conventions/` or `guides/`, it ships those docs and consumes them too: index them in the same form as an installed extension's, read from the working tree rather than `node_modules/` (see: @lab43/q conventions/extensions.md, Authoring).
 - **Treat the prose as a floor, not a script.** Carry at least what the template's prose carries. Leave the project's own wording where it says the same thing. Where a statement isn't true of the project — it authors an extension rather than installing one, or loads the plugin some other way — say what is true instead.
 - **Keep what the project put there** — its own standing instructions, notes, and index entries beyond the required ones. Work missing information into what is already written rather than bolting a sentence alongside it. Rewrite freely to do that, but drop nothing the project said.
-- **Drop an extension group with no entries.** A fresh project has no extensions, so those groups arrive with the first one. The q group is always there. So are the three subsections, because a subsection's heading and its statement of purpose are what tell a session and its user that the kind of doc exists and where it goes. When a project has no specs or no guides yet, that subsection's list is the single line `- none yet`.
-- **Index every doc the policy requires, and nothing stale** — every conventions doc, from q, from an installed extension, from this repo's own payload, or the project's own, every spec, and every guide (source: @lab43/q conventions/documentation.md, Taxonomy). Drop the line for a doc that is gone. An extension the project no longer installs loses every line and its heading with them. The installed extensions are the direct dependencies — `dependencies` and `devDependencies` alike — whose installed copy carries both the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). An extension shipping no conventions docs contributes no lines, and so no group.
+- **Drop a group with no entries.** A fresh project has no extensions, so those groups arrive with the first one. Guides holding only the project's own need no group heading. q's conventions group is always there. So are the three subsections, because a subsection's heading and its statement of purpose are what tell a session and its user that the kind of doc exists and where it goes. When a subsection has no docs to index yet, its list is the single line `- none yet`.
+- **Index every doc the policy requires, and nothing stale** — every conventions doc and every guide, from q, from an installed extension, from this repo's own payload, or the project's own, and every spec (source: @lab43/q conventions/documentation.md, Taxonomy). Drop the line for a doc that is gone. An extension the project no longer installs loses every line and its heading with them. The installed extensions are the direct dependencies — `dependencies` and `devDependencies` alike — whose installed copy carries both the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). An extension gets a group only in a subsection it ships docs for.
 - **Write each line as a path plus a blurb restating the doc's intro** — q's docs, an installed extension's, and this repo's own payload by their path form (see: @lab43/q conventions/documentation.md, Package doc paths), the project's own by repo-relative path.

@@ -19,7 +19,7 @@ q is not an extension but what extensions extend: the framework whose rules they
 
 A repo that publishes rules has two homes for a rule it writes, and every rule goes to one of them. A repo that publishes none has one home, `docs/conventions/`, and becoming a publisher is the user's call rather than a session's.
 
-- **The payload** — everything under the package's `q-extension/` directory, which is what binds its consumers (see: Layout).
+- **The payload** — everything under the package's `q-extension/` directory, which is what reaches its consumers (see: Layout).
 - **`docs/conventions/`** — rules for developing the repo itself: its own code, its docs, its repo mechanics. Consumers are never bound by these and never routed to them.
 
 The test is one question: would this change what a session in a consuming repo writes or flags? Yes puts it in the payload. No keeps it local.
@@ -32,7 +32,7 @@ Rejected: shipping the payload's conventions at the contract path, `docs/convent
 
 ## Description
 
-`package.json`'s `q.description` states what the extension's rules govern. A consuming project's briefing heads the extension's group of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). Name the territory the rules cover, not the package's shape.
+`package.json`'s `q.description` states the territory the extension's docs cover. A consuming project's briefing heads each of the extension's groups of index lines with it (source: @lab43/q conventions/documentation.md, Taxonomy). Name that territory, not the package's shape.
 
 ## Layout
 
@@ -41,11 +41,12 @@ A package's payload is a `q-extension/` directory at its package root. Everythin
 What it holds depends on what the extension carries:
 
 - `conventions/` when it ships conventions docs, each written to the documentation policy (see: @lab43/q conventions/documentation.md).
+- `guides/` when it ships guides to using what the package provides. Each is written to the policy's rules for guides (see: @lab43/q conventions/documentation.md, Taxonomy).
 - `.claude-plugin/` when it ships a plugin, beside whatever that plugin loads — its skills, agents and hooks. `q-extension/` is then the plugin root, and `${CLAUDE_PLUGIN_ROOT}` resolves to it. A consuming project registers the plugin in its own marketplace under the `name` in the plugin's `plugin.json`, so that name is the namespace its sessions type: `/<name>:<skill>`. Choose one no other extension is likely to carry. `q` is taken. What else a plugin may hold is Claude Code's to decide; q fixes only where its root sits.
 
-Every extension ships at least one of the two, which is what identifies a payload (see: Identity). Anything else the package ships for q sits beside them.
+Every extension ships at least one of the three, which is what identifies a payload (see: Identity). Anything else the package ships for q sits beside them.
 
-An extension shipping no conventions docs is watermarked but never indexed, having nothing for a briefing's docs index to carry. Watermarking and indexing are separate for that reason.
+An extension shipping a plugin alone is watermarked but never indexed, having nothing for a briefing's docs index to carry. Watermarking and indexing are separate for that reason.
 
 Rejected: a `q` metadata key in `package.json` naming paths or listing docs — the payload directory and the keyword already answer where everything is, and an enumeration of docs rots against its own contents.
 
@@ -59,9 +60,9 @@ A repo that publishes rules already declares q at its root, like any q project, 
 
 ## Authoring
 
-In its authoring project, an extension's conventions docs and its `q.description` join the documentation surface (see: Description). Both are groomed and reconciled against q's updates like the project's own docs.
+In its authoring project, an extension's conventions docs, its guides, and its `q.description` join the documentation surface (see: Description). They are groomed and reconciled against q's updates like the project's own docs.
 
-They are indexed there too. The authoring repo's briefing gives them a group of their own, shaped like a consumed extension's and headed the same way. The group carries no pin, because a repo does not depend on itself, and no watermark, because a watermark certifies that changed rules have been absorbed and there is nothing to absorb in rules you are editing.
+They are indexed there too. The authoring repo's briefing gives them groups of their own, shaped like a consumed extension's and headed the same way. The groups carry no pin, because a repo does not depend on itself, and no watermark, because a watermark certifies that changed rules have been absorbed and there is nothing to absorb in rules you are editing.
 
 An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/conventions.md, Three tiers of conventions).
 
