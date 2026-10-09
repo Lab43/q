@@ -178,7 +178,7 @@ q's settings live under the `q` key of your root `package.json`. Everything else
   </tr>
   <tr>
     <td nowrap><samp>q.description</samp></td>
-    <td>For a repo that publishes a q extension: one sentence naming what its rules govern. A project that installs the extension heads its docs with it in the agent briefing.</td>
+    <td>For a repo that publishes a q extension: one sentence naming the territory its docs cover. A project that installs the extension heads its docs with it in the agent briefing.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->

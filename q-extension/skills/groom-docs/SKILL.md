@@ -21,7 +21,7 @@ Build the grooming surface, taking each item only if it exists in this project. 
 - `docs/conventions/`, `README.md`, `CLAUDE.md` (the agent briefing) — full checks.
 - `docs/specs/` — **spec mode**: the full checks, with accuracy reversed, per the policy's `docs/specs/` taxonomy rule.
 - `q-extension/conventions/` — the conventions in the payload this repo ships, when that directory exists — full checks, like the project's own conventions (source: @lab43/q conventions/extensions.md, Layout). The root manifest's `q.description` joins the surface with them (source: @lab43/q conventions/extensions.md, Description). Anything else the project's own `documentation.md` puts on the surface joins it, under rubric item 2.
-- `docs/guides/` — **guide mode**, per the policy's Taxonomy rules.
+- `docs/guides/`, and `q-extension/guides/` when the payload this repo ships holds guides — **guide mode**, per the policy's Taxonomy rules.
 - `docs/plans/` — **status check only**, per the policy's `docs/plans/` taxonomy rule.
 
 Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Everything installed under `node_modules/` is read-only, q's conventions and every extension's alike — never groomed.

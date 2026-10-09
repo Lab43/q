@@ -457,6 +457,16 @@ describe("watermarked extensions", () => {
     assertLoud(runHook(staged));
   });
 
+  it("is loud for an unwatermarked extension whose payload is guides alone", () => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),
+        ...installedExt("q-extension/guides/migrating.md", "# Migrating\n"),
+      }),
+    });
+    assertLoud(runHook(staged));
+  });
+
   // The other half of the conjunction. A payload directory laid down before
   // the keyword is the natural authoring order, and nothing without the
   // keyword is an extension.
@@ -491,9 +501,9 @@ describe("watermarked extensions", () => {
     }
   });
 
-  // A payload directory holding neither conventions/ nor .claude-plugin/ is
-  // not one of the two shapes an extension ships.
-  it("is silent for a keyword-carrying dependency whose payload holds neither shape", () => {
+  // A payload directory holding none of conventions/, guides/, or
+  // .claude-plugin/ is not a shape an extension ships.
+  it("is silent for a keyword-carrying dependency whose payload holds no shape", () => {
     const staged = stageHook({
       project: agreeing({
         "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "2.0.0" } }),

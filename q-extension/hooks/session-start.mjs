@@ -133,8 +133,8 @@ for (const [ext, mark] of Object.entries(recon)) {
 // Reverse direction: a dependency whose installed copy is an extension but
 // that has no watermark entry was installed by hand and never indexed.
 // Identity is both halves — the q-extension keyword, and a payload directory
-// holding conventions/ or .claude-plugin/. Either alone describes a package
-// that is not an extension and has no watermark to be missing.
+// holding conventions/, guides/, or .claude-plugin/. Either alone describes a
+// package that is not an extension and has no watermark to be missing.
 //
 // Both are readable only from the package's own copy under node_modules, so a
 // dependency whose manifest is absent or unparseable is skipped rather than
@@ -149,7 +149,7 @@ const isDir = (p) => {
   }
 };
 const hasPayload = (dir) =>
-  ["conventions", ".claude-plugin"].some((sub) => isDir(path.join(dir, "q-extension", sub)));
+  ["conventions", "guides", ".claude-plugin"].some((sub) => isDir(path.join(dir, "q-extension", sub)));
 
 for (const dep of Object.keys(deps)) {
   if (Object.hasOwn(recon, dep)) continue;

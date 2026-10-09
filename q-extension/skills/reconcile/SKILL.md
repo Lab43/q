@@ -53,7 +53,8 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
   An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The exact `@lab43/q` pin in its root `package.json` is also that extension's shipped declaration of which q version its rules were written against — the manifest goes into the published tarball, which makes this the one `package.json` entry still read as a version (source: @lab43/q conventions/extensions.md, Pinning). Flag it when it no longer names the q the project now runs; moving it is the developer's npm edit.
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, and a changed intro means rewriting the doc's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
-- **A changed `q.description`** — rewrite that extension's group heading in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
+- **Changed guides** — sync the package's guide lines in the briefing's docs index. A guide added or removed changes the list, and a changed intro means rewriting the guide's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
+- **A changed `q.description`** — rewrite each of that extension's group headings in the briefing's docs index (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). A release can change the blurb alone.
 - **A changed plugin**, q's or an extension's — re-run `/q:install`, scoped to join this run's change: it is idempotent, creating what the new version's scaffold expects and correcting what has drifted from it. A plugin's changed contents reach sessions from `node_modules/` as they stand; the re-run is what registers a plugin the release started shipping. A plugin the release stopped shipping takes the reverse: remove it from the project's marketplace the way Step 6 does for a departed extension.
 
 After each package's reconciliation, write its watermark per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: its `reconciledAgainst` entry to its installed version.
@@ -64,7 +65,7 @@ Step 4's go-ahead already covers this reconciliation, the prunes, drops and wate
 
 The developer already removed the package; this run reconciles the records it left behind. Run the package manager's dependency install once, catching up any lockfile and `node_modules` remnants the removals left — it realizes what the manifest already declares: no named package, no manifest write. A package that departed by dropping its payload takes the same treatment minus that install — its code is still installed, and only its records leave. Then, for each departed extension, remove without asking — each item a no-op when already absent:
 
-1. Remove the extension's group from the agent briefing's docs index — its heading and every line under it. An extension that shipped no conventions docs has no group to remove.
+1. Remove the extension's groups from the agent briefing's docs index — each heading and every line under it. An extension that shipped no conventions docs and no guides has no group to remove.
 2. Drop the extension's `reconciledAgainst` entry, per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`.
 3. Remove the extension's plugin from the project's marketplace. Drop the `.claude-plugin/marketplace.json` entry whose `source` is `./node_modules/<extension>/q-extension`. Then drop the `enabledPlugins` key in `.claude/settings.json` that names the removed entry's plugin at the project's marketplace. Leave every other entry and key alone. An extension that shipped no plugin has neither.
 
@@ -74,14 +75,14 @@ Then rule on what the departure orphaned. Grep the docs the documentation policy
 
 The developer already installed the package; this run records it. For each arrived extension:
 
-1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds `q-extension/conventions/`, `q-extension/.claude-plugin/`, or both. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
-2. An extension shipping conventions docs gets its own group in the briefing's docs index, written to that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). One shipping none is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
+1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds at least one of `q-extension/conventions/`, `q-extension/guides/`, and `q-extension/.claude-plugin/`. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
+2. An extension gets a group in the briefing's docs index for each kind of doc it ships, conventions docs and guides, written to that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). One shipping neither is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
 3. An extension shipping a plugin gets it registered in the project's marketplace: re-run `/q:install`, scoped to join this run's change. One shipping none has nothing to load.
 4. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not: a stale watermark moves only by reconciling the version move behind it (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 
 Report in the close, per arrival:
 
-- A missing `q.description`, if the package ships conventions docs without one (source: @lab43/q conventions/extensions.md, Description). Its group falls back to a heading of the package name alone (source: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Name it as the extension author's to fix, not the installing project's. Index it anyway — one missing blurb does not stop rules that otherwise work.
+- A missing `q.description`, if the package ships docs to index without one (source: @lab43/q conventions/extensions.md, Description). Its group falls back to a heading of the package name alone (source: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). Name it as the extension author's to fix, not the installing project's. Index it anyway — one missing blurb does not stop docs that otherwise work.
 - Any overrides markers its docs carry against q's rules. These are deviations the project now lives under. The project's own rulings still win on conflict.
 
 ## Step 8: Adversarial review

@@ -4,7 +4,7 @@ Rules for what belongs in a project's documentation, where it lives, and how it 
 
 ## Taxonomy
 
-The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus, in the repo that authors an extension, its conventions docs and the `q.description` in its `package.json` (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
+The policy owns what this taxonomy names — the `docs/` directories below, the README, and the briefing — plus, in the repo that authors an extension, its conventions docs, its guides, and the `q.description` in its `package.json` (source: @lab43/q conventions/extensions.md, Authoring). Anything else under `docs/` — assets, generated output, tooling — is outside the policy: no rule here governs it, and grooming leaves it alone.
 
 File names are kebab-case. A taxonomy directory is read whole, subdirectories included, so a project groups its docs into subdirectories as it likes. Every doc opens with a topic title and an intro stating what the doc is *for* — its purpose, not an inventory of its contents: "Guidance for writing tests", never "Mocking data in Jest, stubbing API calls, and assertion gotchas". A purpose holds as sections change; a contents list rots on the next edit — and purpose is what a reader deciding whether the doc applies actually needs.
 
@@ -22,7 +22,7 @@ Two doc types carry rules, and they divide by what they govern. A convention gov
   - **Prose is evergreen**: a sentence describing the current moment ("being migrated to…") rots silently once the moment passes — describe what the product is, and let git history carry the journey.
 - **`CLAUDE.md`** — the always-loaded agent briefing. Rejected: `AGENTS.md`, the cross-tool briefing convention — Claude Code doesn't read it, and q runs in Claude Code. Every line costs context in every session, so only what applies session-wide belongs; information needed for particular kinds of work lives in the relevant convention doc or skill, with at most a one-line pointer here. Two things are required:
   - **The standing instructions** that make the conventions bind: all three tiers of conventions apply (see: @lab43/q conventions/conventions.md, Three tiers of conventions) — check them before writing code, before design decisions and reviews, and before changing docs — and doc changes go through `/q:update-docs`, the README and the briefing itself included.
-  - **The docs index** — one line per doc, restating its intro: every conventions doc, whether q's, an installed extension's, this repo's own payload, or the project's own, every spec, and every guide. Group the lines by where the docs come from, the specs in a group of their own. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An extension's heading pairs its package name with its `q.description`, whether the project installs that extension or authors it (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
+  - **The docs index** — one line per doc, restating its intro: every conventions doc and every guide, whether q's, an installed extension's, this repo's own payload, or the project's own, and every spec. Group the lines by where the docs come from, the specs in a group of their own. Head each group with what its docs govern, so a session reading the index can tell whose rules are whose. An extension's heading pairs its package name with its `q.description`, whether the project installs that extension or authors it (see: @lab43/q conventions/extensions.md, Description). An index line is routing, not content. A guide a session can't act on is still one it should know exists. Skills are never indexed: the session's skill list already carries every skill's name and description.
 
 ## Single source of truth
 
@@ -51,6 +51,8 @@ All share one grammar — `(verb: target)` or `(verb: target, section)`, the sec
 - anything a package ships, by its path form (see: Package doc paths)
 
 A leading package name is what separates the last two forms. Use the path form for every target a package ships, because a bare path would be read literally and find nothing.
+
+A marker in a payload doc never targets a repo file. A consuming repo resolves a bare path against its own root, so the marker names a file its author never saw, or none at all.
 
 A conventions doc always takes the path form, wherever the marker sits. It binds every session, and a session meets it with no skill running, so the marker has to resolve from the documentation surface alone.
 

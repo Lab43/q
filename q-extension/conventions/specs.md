@@ -6,7 +6,7 @@ Rules for how a project's specs are written and how the code is held to them. A 
 
 One feature or domain per doc. Every spec opens with a title and an intro stating the feature's purpose, which is the territory the doc commits to. Sections group commitments. A section heading is what a marker cites, so it names the commitment's subject and stays stable across edits. Refine a spec in place. Delete the spec of a retired feature.
 
-Specs are the project's own. An extension ships conventions and a plugin, never specs. A library's commitments to the code using it are conventions, and the conventions tier already carries them.
+Specs are the project's own. An extension ships conventions, guides, and a plugin, never specs. A library's commitments to the code using it are conventions, and the conventions tier already carries them.
 
 ## What a spec holds
 
