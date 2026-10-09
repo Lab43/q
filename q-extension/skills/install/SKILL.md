@@ -14,7 +14,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`. 
 Hold the project against each of Step 3's scaffold items, noting what is absent and what has drifted from its form. Alongside, check:
 
 - Convention-like docs living elsewhere — a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules
-- Content already in `docs/conventions/` that has drifted from the documentation policy
+- Content already in `q-docs/conventions/` that has drifted from the documentation policy
 - Whether an earlier run's scaffold sits uncommitted in the working tree
 - The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via <https://cli.github.com> and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands.
 
@@ -33,7 +33,7 @@ Otherwise ask which review mode — local or ship — the run delivers under (se
 
 The invocation is the agreement — scaffold autonomously; on a fully set-up, undrifted project the whole step is a no-op:
 
-1. **The two mirror docs** — create each if missing, with exactly this content; if present, leave it untouched. A seeded doc is the user's from creation, intro and entries alike — never corrected on a re-run. `docs/conventions/principles.md`:
+1. **The two mirror docs** — create each if missing, with exactly this content; if present, leave it untouched. A seeded doc is the user's from creation, intro and entries alike — never corrected on a re-run. `q-docs/conventions/principles.md`:
 
    ```markdown
    # Principles
@@ -41,7 +41,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
    This project's cross-cutting rules, including any deviations from q's (see: @lab43/q conventions/principles.md).
    ```
 
-   `docs/conventions/documentation.md`:
+   `q-docs/conventions/documentation.md`:
 
    ```markdown
    # Documentation
@@ -101,7 +101,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    This project uses [q](https://www.npmjs.com/package/@lab43/q), an agentic coding workflow that grounds Claude Code sessions in the project's own conventions. It arrives with the project's dependencies, and Claude Code loads it from the repo's tracked settings.
 
-   The project's rules live in `docs/conventions/`, and q ships rules of its own inside the package. Sessions read both before writing code, and record new decisions into the project's docs as they are made — the docs assemble themselves out of the work.
+   The project's rules live in `q-docs/conventions/`, and q ships rules of its own inside the package. Sessions read both before writing code, and record new decisions into the project's docs as they are made — the docs assemble themselves out of the work.
 
    A session lists every `/q:` skill. Start with these:
 
@@ -133,5 +133,5 @@ Close the session by reporting:
 - What was created.
 - What already existed and was left untouched.
 - Each shipped plugin left without a marketplace entry, and why.
-- Convention-like content Step 1 found outside `docs/conventions/` — migration candidates this run leaves alone. Moving a project's existing docs is its own delivery: suggest `/q:create-plan` for a docs tree, or `/q:implement` for a handful of rules.
-- Content already in `docs/conventions/` that has drifted from the documentation policy — grooming's territory: suggest `/q:groom-docs`.
+- Convention-like content Step 1 found outside `q-docs/conventions/` — migration candidates this run leaves alone. Moving a project's existing docs is its own delivery: suggest `/q:create-plan` for a docs tree, or `/q:implement` for a handful of rules.
+- Content already in `q-docs/conventions/` that has drifted from the documentation policy — grooming's territory: suggest `/q:groom-docs`.

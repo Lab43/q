@@ -15,7 +15,7 @@ Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 1. The prompt — the user may name the improvement outright.
 2. This session's history — friction with a q skill, one of q's rules, or an extension's (an instruction that misfired, a gap, a wrong assumption), and any upstream candidates flagged earlier in the session.
-3. The project's marked overrides — grep `docs/conventions/` for "(overrides:", dropping those that target the project's own docs.
+3. The project's marked overrides — grep `q-docs/conventions/` for "(overrides:", dropping those that target the project's own docs.
 4. The project's unmarked elaborations — read the project docs whose filenames match one of q's conventions or an installed extension's, for rulings that build on a rule there rather than contradict it.
 
 Partition the candidates by destination: skill friction and "(overrides: @lab43/q …)" targets belong to the q repo, `Lab43/q`; a candidate targeting an extension's doc belongs to that extension's repo, read from `repository` in `node_modules/<extension>/package.json`. An extension with no repository recorded can't be PRed — carry its candidates to the report for the user to deliver by hand.

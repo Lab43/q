@@ -8,21 +8,21 @@ description: Audit the project's whole documentation surface against the documen
 **Read the rubric first, and follow it over any instinct:**
 
 1. q's documentation policy (see: @lab43/q conventions/documentation.md), its conventions rules (see: @lab43/q conventions/conventions.md), and its writing rules (see: @lab43/q conventions/writing.md), plus any installed extension's doc whose topic governs documentation. An extension's rule beats q's where the two disagree (source: @lab43/q conventions/conventions.md, Three tiers of conventions).
-2. The project's recorded rulings and deviations, which win over both: `docs/conventions/documentation.md` plus any "(overrides: …)" markers across `docs/conventions/` — grep for them. An exception marker is a recorded ruling of a different kind, excusing its one site rather than replacing a rule (see: @lab43/q conventions/documentation.md, Markers). Honour one where you meet it; the accumulation check is what counts them.
+2. The project's recorded rulings and deviations, which win over both: `q-docs/conventions/documentation.md` plus any "(overrides: …)" markers across `q-docs/conventions/` — grep for them. An exception marker is a recorded ruling of a different kind, excusing its one site rather than replacing a rule (see: @lab43/q conventions/documentation.md, Markers). Honour one where you meet it; the accumulation check is what counts them.
 
-Stop and suggest the fix when the project has no `docs/conventions/` directory, or when q's `conventions/` don't resolve by their path form (see: @lab43/q conventions/documentation.md, Package doc paths). Without both there is no surface or rubric to groom against. A fresh clone missing q's `conventions/` may just need `npm install`.
+Stop and suggest the fix when the project has no `q-docs/conventions/` directory, or when q's `conventions/` don't resolve by their path form (see: @lab43/q conventions/documentation.md, Package doc paths). Without both there is no surface or rubric to groom against. A fresh clone missing q's `conventions/` may just need `npm install`.
 
 Follow the run contract — `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`.
 
 ## Step 1: Inventory
 
-Build the grooming surface, taking each item only if it exists in this project. Read each `docs/` directory whole: every markdown file under it, subdirectories included (source: @lab43/q conventions/documentation.md, Taxonomy).
+Build the grooming surface, taking each item only if it exists in this project. Read each `q-docs/` directory whole: every markdown file under it, subdirectories included (source: @lab43/q conventions/documentation.md, Taxonomy).
 
-- `docs/conventions/`, `README.md`, `CLAUDE.md` (the agent briefing) — full checks.
-- `docs/specs/` — **spec mode**: the full checks, with accuracy reversed, per the policy's `docs/specs/` taxonomy rule.
+- `q-docs/conventions/`, `README.md`, `CLAUDE.md` (the agent briefing) — full checks.
+- `q-docs/specs/` — **spec mode**: the full checks, with accuracy reversed, per the policy's `q-docs/specs/` taxonomy rule.
 - `q-extension/conventions/` — the conventions in the payload this repo ships, when that directory exists — full checks, like the project's own conventions (source: @lab43/q conventions/extensions.md, Layout). The root manifest's `q.description` joins the surface with them (source: @lab43/q conventions/extensions.md, Description). Anything else the project's own `documentation.md` puts on the surface joins it, under rubric item 2.
-- `docs/guides/`, and `q-extension/guides/` when the payload this repo ships holds guides — **guide mode**, per the policy's Taxonomy rules.
-- `docs/plans/` — **status check only**, per the policy's `docs/plans/` taxonomy rule.
+- `q-docs/guides/`, and `q-extension/guides/` when the payload this repo ships holds guides — **guide mode**, per the policy's Taxonomy rules.
+- `q-docs/plans/` — **status check only**, per the policy's `q-docs/plans/` taxonomy rule.
 
 Project-local `.claude/` skills and agents are outside the surface — q doesn't govern them. Everything installed under `node_modules/` is read-only, q's conventions and every extension's alike — never groomed.
 
@@ -35,9 +35,9 @@ Launch read-only subagents in parallel — one per check below, except accuracy,
 3. **Dead references**: every file, symbol, helper, script, and skill named anywhere on the surface exists. Greps must exclude build artifacts (`dist/`, `node_modules/`, and the like) — stale generated files resurrect deleted symbols.
 4. **Consistency**: the agent briefing matches the briefing template (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`); any README skills/conventions table matches its home (skill tables drift-check against `SKILL.md` frontmatter descriptions); cross-references between docs resolve. One concept goes by one name across the surface. Report a synonym against the name its home doc establishes (source: @lab43/q conventions/writing.md, One name per concept).
 5. **Organization**: each doc's structure — topic scope, intro, section placement, and splits or merges across docs — conforms to the policy. Findings here become reorganization proposals.
-6. **Plan statuses** (if `docs/plans/` exists): every plan has valid `status` frontmatter (source: @lab43/q conventions/plans.md, Frontmatter); list every `pending` plan with its age (last git commit date).
+6. **Plan statuses** (if `q-docs/plans/` exists): every plan has valid `status` frontmatter (source: @lab43/q conventions/plans.md, Frontmatter); list every `pending` plan with its age (last git commit date).
 7. **Exception accumulation**: grep the repo for exception markers, excluding `node_modules/` and build artifacts, and group the hits by the rule each names. Match the marker's shape rather than the bare word — `(exception:` where prose carries it, and a comment line beginning `exception:` where a comment does (source: @lab43/q conventions/documentation.md, Markers). Ordinary English use of the word matches neither, and a malformed target still matches, which is what lets the malformations below be seen at all. Skip the text that defines the marker and the examples illustrating it. Report every rule carrying more than one, for the user's ruling — several exceptions against one rule are evidence the rule wants revisiting. Report each of these too: a marker naming no doc or no section, one whose named doc or section does not exist, one carrying no reason, one whose reason the surrounding text no longer bears out, and one whose rule has changed to admit its site, which makes it spent. A file outside the grooming surface joins the run for its exceptions alone: nothing else in it is groomed, and a fix to one goes to the user rather than being applied autonomously.
-8. **Spec markers**: grep the repo for spec markers, excluding `node_modules/` and build artifacts. Match the marker's form, `spec:` followed by a path under `docs/specs/` (source: @lab43/q conventions/documentation.md, Markers). Never match the bare keyword: `spec:` is an ordinary YAML key, at the top of every Kubernetes manifest a project carries, and the path is what no key carries. Skip the text that defines the marker and the examples illustrating it. Report each marker naming a doc or section that does not exist, and each spec no marker names. An unmarked spec is reported and not required: not every commitment is testable.
+8. **Spec markers**: grep the repo for spec markers, excluding `node_modules/` and build artifacts. Match the marker's form, `spec:` followed by a path under `q-docs/specs/` (source: @lab43/q conventions/documentation.md, Markers). Never match the bare keyword: `spec:` is an ordinary YAML key, at the top of every Kubernetes manifest a project carries, and the path is what no key carries. Skip the text that defines the marker and the examples illustrating it. Report each marker naming a doc or section that does not exist, and each spec no marker names. An unmarked spec is reported and not required: not every commitment is testable.
 
 ## Step 3: Consolidate with the user
 
@@ -45,7 +45,7 @@ Merge the findings into proposed edits, each stating its remedy and citing its f
 
 - Apply autonomously: wording-level fixes, replacing a single restated sentence or bullet with a cross-reference to its home, and dead-reference corrections.
 - **Everything else goes to the user** (AskUserQuestion) — including larger deletions and rewrites, any reorganization, any `pending` plan proposed as `abandoned` (only the user flips a status), any fact that couldn't be verified either way, and every spec commitment the code does not honor. Report that one as unmet, never as violated: only the user knows whether it is in progress, missed, or regressed (source: @lab43/q conventions/documentation.md, Taxonomy).
-- When a user ruling sets a precedent, record it in the same run: project-specific rulings go in the project's `docs/conventions/documentation.md`; a ruling that would apply to every q project is recorded as a project deviation and flagged in the report as a candidate to upstream (via `/q:upstream`).
+- When a user ruling sets a precedent, record it in the same run: project-specific rulings go in the project's `q-docs/conventions/documentation.md`; a ruling that would apply to every q project is recorded as a project deviation and flagged in the report as a candidate to upstream (via `/q:upstream`).
 - In the same batch, ask which review mode — local or ship — the delivery runs under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes).
 
 ## Step 4: Apply

@@ -14,7 +14,7 @@ An agent starts each session knowing nothing about your project, and it trusts i
 <!-- source: @lab43/q references/run-contract.md, Validation -->
 <!-- source: @lab43/q references/run-contract.md, Working alongside a peer -->
 
-- **Context.** What you're building, and how your team writes code, lives in people's heads, Notion, and Jira, where an agent can't reliably find it. q keeps it in the repo, as conventions, specs, and guides under `docs/`, indexed in the `CLAUDE.md` every session loads. `/q:update-docs` records each decision as you make it, so it binds every session after.
+- **Context.** What you're building, and how your team writes code, lives in people's heads, Notion, and Jira, where an agent can't reliably find it. q keeps it in the repo, as conventions, specs, and guides under `q-docs/`, indexed in the `CLAUDE.md` every session loads. `/q:update-docs` records each decision as you make it, so it binds every session after.
 - **Direction before code.** Once an agent has written code, it's hard to turn. `/q:create-plan` settles a plan with you before any code exists. `/q:implement` grounds smaller work in the code and waits for your go-ahead.
 - **Eyes.** An agent won't look at its work running unless it's told to. `/q:drive` brings the product up and exercises the change. The PR then says what was exercised and what it showed, claim by claim, so "it works" arrives with evidence. `/q:drive` records what launching the product took in a driving manual, so the next session doesn't rediscover it.
 - **Doubt.** An agent is confident about its own output. A q run that delivers work hands it to an adversarial reviewer: a subagent with fresh context, grounded in your conventions, trying to refute it. The run fixes what the reviewer finds and reviews again, up to three rounds, before a human sees it.
@@ -28,16 +28,16 @@ Everything q produces lives in plain text files in your repo.
 <!-- source: @lab43/q skills/install/SKILL.md -->
 <!-- source: @lab43/q hooks/session-start.mjs -->
 
-**Every session starts knowing where the rules are.** Your conventions sit in `docs/conventions/`, one doc per topic, beside q's own and those of any extension you install. Your `CLAUDE.md` indexes all of them. Every session is told to check them before writing code, making design decisions, or changing docs, whether or not it invokes a q skill.
+**Every session starts knowing where the rules are.** Your conventions sit in `q-docs/conventions/`, one doc per topic, beside q's own and those of any extension you install. Your `CLAUDE.md` indexes all of them. Every session is told to check them before writing code, making design decisions, or changing docs, whether or not it invokes a q skill.
 
-**Your docs come in four kinds.** Each has its own directory under `docs/`:
+**Your docs come in four kinds.** Each has its own directory under `q-docs/`:
 
 <!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
 
-- **Conventions** (`docs/conventions/`) say how code here gets written. They start nearly empty, because conventions are earned as decisions are made, not pre-written. `/q:update-docs` records each decision as a rule, with one home per fact, placed where its next reader will look. Break a convention and the code is wrong.
-- **Specs** (`docs/specs/`) say what a feature does. You write them on purpose, before the code or as a deliberate change to it. Break a spec and the product is wrong, unless you meant to change the promise, in which case the spec changes with it.
-- **Guides** (`docs/guides/`) say how to use and operate the product, such as how to deploy it.
-- **Plans** (`docs/plans/`) say how a feature will be built, phase by phase. `/q:create-plan` writes them with you, and `/q:implement-plan` carries them out. They stay in the repo after they ship.
+- **Conventions** (`q-docs/conventions/`) say how code here gets written. They start nearly empty, because conventions are earned as decisions are made, not pre-written. `/q:update-docs` records each decision as a rule, with one home per fact, placed where its next reader will look. Break a convention and the code is wrong.
+- **Specs** (`q-docs/specs/`) say what a feature does. You write them on purpose, before the code or as a deliberate change to it. Break a spec and the product is wrong, unless you meant to change the promise, in which case the spec changes with it.
+- **Guides** (`q-docs/guides/`) say how to use and operate the product, such as how to deploy it.
+- **Plans** (`q-docs/plans/`) say how a feature will be built, phase by phase. `/q:create-plan` writes them with you, and `/q:implement-plan` carries them out. They stay in the repo after they ship.
 
 **Every task runs the same loop.** Work enters through `/q:implement`, which takes a single task. `/q:triage` feeds it from a set of items, picking one task at a time. `/q:review` starts from work that already exists. From there:
 
@@ -57,13 +57,13 @@ Everything q produces lives in plain text files in your repo.
 - q is an npm package, so its version is pinned in your repo like any other dependency. Every teammate runs the same version of q, and it changes only when you upgrade it. When you upgrade, `/q:reconcile` brings your docs in line with the new version.
 - Removing q leaves your docs intact and yours.
 
-<!-- source: docs/workflow-chart/chart.html -->
-<!-- regenerated by docs/workflow-chart/screenshot.py -->
+<!-- source: q-docs/workflow-chart/chart.html -->
+<!-- regenerated by q-docs/workflow-chart/screenshot.py -->
 <!-- markdownlint-disable MD033 -->
-<a href="docs/workflow-chart/light.png">
+<a href="q-docs/workflow-chart/light.png">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-chart/dark.png">
-    <img alt="The q workflow. Entry points — /q:triage takes a set of work, /q:implement a single task, /q:review existing work — feed one workflow loop: investigate, discuss, execute, adversarial review, then a PR, opened directly in ship mode or after the human's local review in local mode, then human PR review and merge, with requested changes looping back into discuss. Docs ground every step: project docs — conventions, specs, guides, plans — over installed extensions over q, with plans, findings, and new rulings written back as work happens, and upstream PRs carrying overrides to the layers that own them." src="docs/workflow-chart/light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="q-docs/workflow-chart/dark.png">
+    <img alt="The q workflow. Entry points — /q:triage takes a set of work, /q:implement a single task, /q:review existing work — feed one workflow loop: investigate, discuss, execute, adversarial review, then a PR, opened directly in ship mode or after the human's local review in local mode, then human PR review and merge, with requested changes looping back into discuss. Docs ground every step: project docs — conventions, specs, guides, plans — over installed extensions over q, with plans, findings, and new rulings written back as work happens, and upstream PRs carrying overrides to the layers that own them." src="q-docs/workflow-chart/light.png">
   </picture>
 </a>
 <!-- markdownlint-enable MD033 -->
@@ -97,7 +97,7 @@ You only do this once per project. Any later checkout, yours or a teammate's, ju
 - `/q:implement` — Take on any work — ground it in the code, then fix it in a single adversarially reviewed PR. Escalate to planning for larger work.
 - `/q:triage` — Choose what to work on next from a set of items (a Jira board, GitHub issues, a text doc, etc.) and hand each agreed pick to `/q:implement`.
 - `/q:review` — Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer. You rule on the findings and decide what to change.
-- `/q:create-plan` — Collaboratively write a feature plan and save it to `docs/plans/`.
+- `/q:create-plan` — Collaboratively write a feature plan and save it to `q-docs/plans/`.
 - `/q:implement-plan` — Execute a plan end-to-end, in a single PR or stacked PRs.
 - `/q:address-feedback` — Review feedback on a PR. Implement the agreed fixes then push them to the PR, with replies posted when you want them.
 
@@ -110,7 +110,7 @@ You only do this once per project. Any later checkout, yours or a teammate's, ju
 **Local environment:**
 
 - `/q:parallelize` — Give parallel sessions their own copies of what they compete for while running the product — ports, databases, caches, devices. Isolates what it can, and names what sessions must take turns over instead.
-- `/q:drive` — Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took to `docs/guides/driving-manual.md`, so the next session doesn't rediscover it.
+- `/q:drive` — Bring the product up and exercise it — to see a change working, or to settle a question only running something can. Records what launching and navigating it took to `q-docs/guides/driving-manual.md`, so the next session doesn't rediscover it.
 - `/q:clean-worktrees` — Clear the git worktrees that finished parallel sessions leave behind. Reports what each one holds and whether that work has reached the remote.
 
 **Setup and upgrades:**
@@ -127,7 +127,7 @@ q's settings live under the `q` key of your root `package.json`. Everything else
 
 <!--
   Keys must not wrap.
-  see: docs/conventions/documentation.md, Table cells that must not wrap
+  see: q-docs/conventions/documentation.md, Table cells that must not wrap
 -->
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -174,7 +174,7 @@ q is developed with q. To work on it:
 Rules live in two places:
 
 - `q-extension/` is what the `@lab43/q` package ships: the skills, and the conventions every project using q follows.
-- `docs/conventions/` holds the rules for developing q itself. They don't ship.
+- `q-docs/conventions/` holds the rules for developing q itself. They don't ship.
 
 <!-- source: .claude/skills/release/SKILL.md -->
 

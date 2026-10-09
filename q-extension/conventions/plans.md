@@ -12,7 +12,7 @@ The plan documents the work, not the conversation that produced it: the reader i
 
 ## Filename
 
-A plan is `docs/plans/<date>-<plan-name>.md`. The date is the day the plan was created, as `YYYY-MM-DD`, so the directory lists plans in the order they were written. The plan name is the part after the date. It names the plan everywhere else: the branch that implements it, the invocation that runs it.
+A plan is `q-docs/plans/<date>-<plan-name>.md`. The date is the day the plan was created, as `YYYY-MM-DD`, so the directory lists plans in the order they were written. The plan name is the part after the date. It names the plan everywhere else: the branch that implements it, the invocation that runs it.
 
 ## Frontmatter
 

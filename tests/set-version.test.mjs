@@ -40,7 +40,7 @@ const assertRejected = (base, expected, level = "patch") => {
 };
 
 describe("the arithmetic", () => {
-  // The levels docs/guides/releasing.md defines, over plain major.minor.patch.
+  // The levels q-docs/guides/releasing.md defines, over plain major.minor.patch.
   for (const [level, expected] of [
     ["major", "2.0.0"],
     ["minor", "1.3.0"],

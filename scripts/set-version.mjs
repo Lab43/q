@@ -7,7 +7,7 @@
 // commit. `--dry-run` rewrites the file too, so it cannot supply the number
 // on its own.
 //
-// The levels are the ones docs/guides/releasing.md defines, over the plain
+// The levels are the ones q-docs/guides/releasing.md defines, over the plain
 // major.minor.patch versions q uses.
 
 import fs from "node:fs";

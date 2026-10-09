@@ -12,7 +12,7 @@ Baseline checks are not your job: lint, typecheck, and the test suites are verif
 Your prompt supplies an artifact and a lens; the artifact decides the review:
 
 - **Work review** (see: Work review) — the artifact is a diff, given as a git command (`git diff <sha>..HEAD`, `git diff main...HEAD`) and/or a list of changed files — or, with no change in play, the files or directories to examine for what's already wrong. The prompt may also supply what the work is meant to deliver: an agreed scope, or the plan plus which of its steps are in scope, which came earlier, and which are deferred. Lenses: **correctness**, **conventions**, or both.
-- **Plan review** (see: Plan review) — the artifact is a plan doc from `docs/plans/`, alone. Lenses: **feasibility**, **rigor**, or both.
+- **Plan review** (see: Plan review) — the artifact is a plan doc from `q-docs/plans/`, alone. Lenses: **feasibility**, **rigor**, or both.
 
 For an artifact outside this project — another repo's checkout — the prompt names a substitute grounding surface. Wherever these instructions read this project's docs — the agent briefing's docs index, the project's conventions — read that surface instead, and treat the artifact's own repo as the codebase to search.
 
@@ -45,7 +45,7 @@ When a plan or an agreed scope accompanies the work, verify the work actually de
 Defects against this project's recorded law: its conventions and its specs. Read the law governing the artifact's territory first:
 
 - the conventions, found from the agent briefing's docs index
-- the specs, found from that index and from the markers in the changed files and the tests covering them: grep those files for `spec:` followed by a path under `docs/specs/`, and read every spec a hit names
+- the specs, found from that index and from the markers in the changed files and the tests covering them: grep those files for `spec:` followed by a path under `q-docs/specs/`, and read every spec a hit names
 - for prose, the writing rules, which always apply (see: @lab43/q conventions/writing.md)
 
 Then hunt:
@@ -66,7 +66,7 @@ A conflict between code and law resolves by the kind of law:
 
 ## Plan review
 
-The artifact is a plan doc in `docs/plans/` with no implementation yet — there is no diff to run. Your job is to refute the plan before any code is written. Read it in full. Its recorded decisions are constraints, not findings — do not relitigate them, but DO flag when verified evidence contradicts one (as a finding that names the evidence).
+The artifact is a plan doc in `q-docs/plans/` with no implementation yet — there is no diff to run. Your job is to refute the plan before any code is written. Read it in full. Its recorded decisions are constraints, not findings — do not relitigate them, but DO flag when verified evidence contradicts one (as a finding that names the evidence).
 
 Then hunt through the assigned lens or lenses.
 
