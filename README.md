@@ -31,11 +31,16 @@ Agents do their best work with good documentation and a structured workflow. q p
 
 ## Getting started
 
-q requires [Claude Code](https://claude.com/claude-code) and is installed in your repo with npm. It also requires [GitHub CLI](https://cli.github.com) (`gh`) to be installed and authenticated.
+q requires [Claude Code](https://claude.com/claude-code) and is installed in your repo with npm. It also requires the [GitHub CLI](https://cli.github.com) (`gh`) to be installed and authenticated, because q opens pull requests and reads their reviews through it.
 
 <!-- source: @lab43/q skills/install/SKILL.md -->
 
 ```sh
+# Install and authenticate the GitHub CLI, if you haven't.
+# On other platforms, see https://cli.github.com.
+brew install gh
+gh auth login
+
 # Add q as a dev dependency, pinned to this exact version.
 npm install --save-dev --save-exact @lab43/q
 
