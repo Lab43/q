@@ -1,25 +1,70 @@
 # q
 
-An agentic coding workflow for Claude Code: skills for planning, implementing, verifying, and grooming, grounded in conventions docs that each project builds up over time.
-
-Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
-
-## What your agent is missing
-
-An agent starts each session knowing nothing about your project, and it trusts its own work. q supplies what it would otherwise go without:
+An agentic coding workflow for Claude Code. Named for Q, the quartermaster who equips James Bond with his gadgets — q outfits your agents before they go into the field.
 
 <!-- source: @lab43/q conventions/documentation.md, Taxonomy -->
-<!-- source: @lab43/q skills/drive/SKILL.md -->
-<!-- source: @lab43/q conventions/pull-requests.md, Sections -->
 <!-- source: @lab43/q references/run-contract.md, Validation -->
-<!-- source: @lab43/q references/run-contract.md, Working alongside a peer -->
 
-- **Context.** What you're building, and how your team writes code, lives in people's heads, Notion, and Jira, where an agent can't reliably find it. q keeps it in the repo, as conventions, specs, and guides under `q-docs/`, indexed in the `CLAUDE.md` every session loads. `/q:update-docs` records each decision as you make it, so it binds every session after.
-- **Direction before code.** Once an agent has written code, it's hard to turn. `/q:create-plan` settles a plan with you before any code exists. `/q:implement` grounds smaller work in the code and waits for your go-ahead.
-- **Eyes.** An agent won't look at its work running unless it's told to. `/q:drive` brings the product up and exercises the change. The PR then says what was exercised and what it showed, claim by claim, so "it works" arrives with evidence. `/q:drive` records what launching the product took in a driving manual, so the next session doesn't rediscover it.
-- **Doubt.** An agent is confident about its own output. A q run that delivers work hands it to an adversarial reviewer: a subagent with fresh context, grounded in your conventions, trying to refute it. The run fixes what the reviewer finds and reviews again, up to three rounds, before a human sees it.
-- **Parallel sessions.** Run several tasks in one repo at once without them colliding. q sessions tell each other what work they're taking up, so two never pick up the same task. A session takes its own git worktree when it learns another is working the checkout. `/q:parallelize` gives each session its own ports, databases, and anything else they would otherwise fight over.
-- **Upkeep.** Docs drift as the code changes, and an agent follows stale docs as faithfully as true ones. `/q:groom-docs` checks the whole documentation surface against the code and consolidates what has drifted.
+Agents do their best work with good documentation and a structured workflow. q provides both:
+
+- **A documentation format.** An agent's documentation needs to be well organized, maintained, and available to it at the right moment. q avoids a sprawling, disorganized `CLAUDE.md` file by providing a structured and opinionated documentation format. Conventions, plans, specs, and guides live in topic-focused, cross-referenced markdown files under `q-docs/` in your repo, indexed so a session reads each one when its work calls for it.
+- **Workflow skills.** q provides a set of workflow skills that carry work from idea to pull request. They settle a plan with you before writing code, run the change to see it working, and have a subagent with fresh context try to break it before you see it. Work is grounded in the documentation, and the documentation is kept up to date as you work.
+
+## What else you get
+
+<!-- source: @lab43/q references/run-contract.md, Working alongside a peer -->
+<!-- source: @lab43/q skills/drive/SKILL.md -->
+<!-- source: @lab43/q skills/parallelize/SKILL.md -->
+<!-- source: @lab43/q conventions/pull-requests.md, Sections -->
+<!-- source: @lab43/q references/run-contract.md, Collaboration modes -->
+<!-- source: @lab43/q conventions/extensions.md, Identity -->
+<!-- source: @lab43/q conventions/extensions.md, Pinning -->
+<!-- source: @lab43/q skills/reconcile/SKILL.md -->
+<!-- source: @lab43/q hooks/session-start.mjs -->
+
+- **Parallel sessions.** Run several tasks in one repo at once. Sessions tell each other what they're working on, and take their own git worktree when another is working the checkout. When they run the product, each gets its own ports, databases, and anything else they'd fight over, and they take turns over what can't be split.
+- **You decide, q does the work.** Agents write the code, but you still own it. Every q skill run talks decisions through with you, and goes ahead only when you agree. From there it works on its own, and stops to check with you only when the work would go beyond what you agreed.
+- **Evidence in the PR.** q runs your change in the product before opening the PR, and the PR says what was tried and what it showed.
+- **Extensions.** Share conventions across projects as an npm package: your organization's coding standards, or the rules for using your component library. Install a package that ships an extension, and its docs join your index alongside your own.
+- **Version controlled.** Your docs live in your repo, so they're reviewed and versioned with your code. q itself is pinned in `package.json`, so every teammate runs the same version. When you upgrade q or an extension, `/q:reconcile` brings your docs in line with it.
+- **No lock-in.** Removing q leaves your docs intact and yours.
+
+## Getting started
+
+q requires [Claude Code](https://claude.com/claude-code) and is installed in your repo with npm. It also requires [GitHub CLI](https://cli.github.com) (`gh`) to be installed and authenticated.
+
+<!-- source: @lab43/q skills/install/SKILL.md -->
+
+```sh
+# Add q as a dev dependency, pinned to this exact version.
+npm install --save-dev --save-exact @lab43/q
+
+# Load q manually the first time.
+claude --plugin-dir ./node_modules/@lab43/q/q-extension
+
+# Within Claude, set up q.
+# This scaffolds the docs and auto-loads the skills in future sessions.
+/q:install
+```
+
+You only do this once per project. Any later checkout, yours or a teammate's, just needs `npm install`. q arrives with the project's other dependencies, and Claude Code loads it automatically.
+
+**Make something!** Try running `/q:implement` with an issue link or a description of the work. Or run `/q:review` to analyze existing code.
+
+<!-- source: @lab43/q skills/reconcile/SKILL.md -->
+<!-- source: @lab43/q hooks/session-start.mjs -->
+
+### Upgrading
+
+```sh
+# Move the pin in package.json to the latest version of q.
+npm install --save-dev --save-exact @lab43/q@latest
+
+# Within Claude, bring your docs in line with the new version.
+/q:reconcile
+```
+
+Until you run `/q:reconcile`, every session reminds you to.
 
 ## How it works
 
@@ -48,15 +93,6 @@ Everything q produces lives in plain text files in your repo.
 5. Open a PR. You pick the review mode at the start of each run. In ship mode the PR opens straight away. In local mode nothing is committed until you've reviewed the work.
 6. Review the PR and merge it. Merging is always yours. Changes you request go through `/q:address-feedback`.
 
-**You stay in charge.**
-
-<!-- source: @lab43/q references/run-contract.md, Collaboration modes -->
-
-- Every run talks decisions through with you, and goes ahead only when you agree. Once you have, it does the work without asking. It stops to check with you only when the work would go beyond what you agreed.
-- Your rules beat q's. When one of q's rules doesn't suit your project, write your own in your conventions, and it replaces q's there (see: Markers).
-- q is an npm package, so its version is pinned in your repo like any other dependency. Every teammate runs the same version of q, and it changes only when you upgrade it. When you upgrade, `/q:reconcile` brings your docs in line with the new version.
-- Removing q leaves your docs intact and yours.
-
 <!-- source: q-docs/workflow-chart/chart.html -->
 <!-- regenerated by q-docs/workflow-chart/screenshot.py -->
 <!-- markdownlint-disable MD033 -->
@@ -67,26 +103,6 @@ Everything q produces lives in plain text files in your repo.
   </picture>
 </a>
 <!-- markdownlint-enable MD033 -->
-
-## Getting started
-
-[Claude Code](https://claude.com/claude-code), [Node.js](https://nodejs.org), and an authenticated [GitHub CLI](https://cli.github.com) (`gh`) are required.
-
-<!-- source: @lab43/q skills/install/SKILL.md -->
-
-```sh
-# Add q as a dev dependency, pinned to this exact version.
-npm install --save-dev --save-exact @lab43/q
-
-# Load q manually the first time.
-claude --plugin-dir ./node_modules/@lab43/q/q-extension
-
-# Within Claude, set up q.
-# This scaffolds the docs and auto-loads the skills in future sessions.
-/q:install
-```
-
-You only do this once per project. Any later checkout, yours or a teammate's, just needs `npm install`. q arrives with the project's other dependencies, and Claude Code loads it automatically.
 
 ## Skills
 
@@ -117,6 +133,28 @@ You only do this once per project. Any later checkout, yours or a teammate's, ju
 
 - `/q:install` — Set up q in a project you've already npm-installed it into, or repair a scaffold that has drifted. Safe to re-run on a partially set-up project.
 - `/q:reconcile` — Reconcile the project's docs with the versions of q and extensions in package.json.
+
+## Extensions
+
+<!-- source: @lab43/q conventions/extensions.md -->
+<!-- source: @lab43/q conventions/conventions.md, Three tiers of conventions -->
+
+An extension is an npm package that ships q docs, so several projects can share one set of rules. Install it like any other package, then run `/q:reconcile` to add its docs to your index. Its conventions bind your sessions alongside q's and your own. Where they conflict, your rules beat the extension's, and the extension's beat q's.
+
+A package can ship code and an extension together, such as a component library carrying the rules for using it. A project can hold it in `dependencies` or `devDependencies`.
+
+To publish an extension:
+
+- Add the `q-extension` keyword to its `package.json`.
+- Put a `q-extension/` directory at the package root, holding any of the following:
+  - `conventions/` for conventions docs
+  - `guides/` for guides to using what the package provides
+  - `.claude-plugin/` for a Claude Code plugin, with its skills, agents, and hooks
+- List `q-extension` in `package.json`'s `files`. Without it the package ships no rules, and nothing warns you.
+- Set `q.description` (see: Settings).
+- Pin `@lab43/q` to an exact version in `devDependencies`. It tells consumers which version of q the rules were written against.
+
+The full rules are in [q's extension format](q-extension/conventions/extensions.md).
 
 ## Settings
 
