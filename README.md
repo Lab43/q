@@ -7,7 +7,7 @@ An agentic coding workflow for Claude Code. Named for Q, the quartermaster who e
 
 Agents do their best work with good documentation and a structured workflow. q provides both:
 
-- **A documentation format.** An agent's documentation needs to be well organized, maintained, and available to it at the right moment. q avoids a sprawling, disorganized `CLAUDE.md` file by providing a structured and opinionated documentation format. Conventions, plans, specs, and guides live in topic-focused, cross-referenced markdown files under `q-docs/` in your repo, indexed so a session reads each one when its work calls for it.
+- **A documentation format.** An agent's documentation needs to be well organized, maintained, and available to it at the right moment. q avoids sprawling, disorganized `CLAUDE.md` files by providing a structured and opinionated documentation format. Conventions, plans, specs, and guides live in topic-focused, cross-referenced markdown files under `q-docs/` in your repo, indexed so a session reads each one when its work calls for it.
 - **Workflow skills.** q provides a set of workflow skills that carry work from idea to pull request. They settle a plan with you before writing code, run the change to see it working, and have a subagent with fresh context try to break it before you see it. Work is grounded in the documentation, and the documentation is kept up to date as you work.
 
 ## What else you get
@@ -16,6 +16,8 @@ Agents do their best work with good documentation and a structured workflow. q p
 <!-- source: @lab43/q skills/drive/SKILL.md -->
 <!-- source: @lab43/q skills/parallelize/SKILL.md -->
 <!-- source: @lab43/q conventions/pull-requests.md, Sections -->
+<!-- source: @lab43/q conventions/pull-requests.md, Diff comments -->
+<!-- source: @lab43/q skills/implement-plan/SKILL.md -->
 <!-- source: @lab43/q references/run-contract.md, Collaboration modes -->
 <!-- source: @lab43/q conventions/extensions.md, Identity -->
 <!-- source: @lab43/q conventions/extensions.md, Pinning -->
@@ -24,7 +26,8 @@ Agents do their best work with good documentation and a structured workflow. q p
 
 - **Parallel sessions.** Run several tasks in one repo at once. Sessions tell each other what they're working on, and take their own git worktree when another is working the checkout. When they run the product, each gets its own ports, databases, and anything else they'd fight over, and they take turns over what can't be split.
 - **You decide, q does the work.** Agents write the code, but you still own it. Every q skill run talks decisions through with you, and goes ahead only when you agree. From there it works on its own, and stops to check with you only when the work would go beyond what you agreed.
-- **Evidence in the PR.** q runs your change in the product before opening the PR, and the PR says what was tried and what it showed.
+- **q checks its work.** q brings your product up and tries the change before calling it done, rather than trusting that the code looks right. What launching the product took goes into a driving manual, so the next session doesn't have to work it out again.
+- **Human reviewable PRs.** Each PR says what it delivers and what testing showed, and names the known problems up front. Notes on specific changes sit on their lines of the diff. A plan too big for one PR ships as a stack of smaller ones.
 - **Extensions.** Share conventions across projects as an npm package: your organization's coding standards, or the rules for using your component library. Install a package that ships an extension, and its docs join your index alongside your own.
 - **Version controlled.** Your docs live in your repo, so they're reviewed and versioned with your code. q itself is pinned in `package.json`, so every teammate runs the same version. When you upgrade q or an extension, `/q:reconcile` brings your docs in line with it.
 - **No lock-in.** Removing q leaves your docs intact and yours.
@@ -89,7 +92,13 @@ Everything q produces lives in plain text files in your repo.
 - **Guides** (`q-docs/guides/`) say how to use and operate the product, such as how to deploy it.
 - **Plans** (`q-docs/plans/`) say how a feature will be built, phase by phase. `/q:create-plan` writes them with you, and `/q:implement-plan` carries them out. They stay in the repo after they ship.
 
-**Every task runs the same loop.** Work enters through `/q:implement`, which takes a single task. `/q:triage` feeds it from a set of items, picking one task at a time. `/q:review` starts from work that already exists. From there:
+**Every task runs the same loop.** Start it with any of these:
+
+- Use `/q:implement` to take on a single task.
+- Use `/q:triage` to work through a set of items, one task at a time.
+- Use `/q:review` to start from work that already exists.
+
+From there:
 
 1. Investigate the code and the docs.
 2. Settle the approach with you. Larger work becomes a plan first, through `/q:create-plan`. A plan too big for one PR ships as a stack of PRs.
