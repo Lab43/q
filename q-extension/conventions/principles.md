@@ -33,11 +33,28 @@ A comment, in code or in a doc's markup, states what its file cannot show: the c
 
 An exception marker's reason passes the test (see: @lab43/q conventions/documentation.md, Markers). It stops the next reader pulling the site back into line with a rule it is excused from. A spec marker passes it too: it tells the next reader the site enforces a commitment, which they would otherwise remove as an ordinary check.
 
-What fails the test is the author addressing someone other than that reader, in two shapes:
+What fails the test comes in three shapes:
 
+- **Restatement** — telling the reader what the file already shows. A label over a section that already reads as one, a comment narrating what the next lines do, a comment repeating a lint rule's message, a config value, or a convention's text: each adds nothing, and it drifts from what it restates.
 - **Justification** — defending the chosen design, weighing alternatives, narrating how the solution was arrived at. That addresses the reviewer, and it's noise once merged; git history and the PR carry it.
 - **Pointers to unmaintained artifacts** — plan docs (frozen after merge) (source: @lab43/q conventions/plans.md, Lifecycle), tickets, PRs, external trackers. State the constraint in the comment itself, or point at the convention doc that owns it. The one sanctioned link: a ticket tracking work that will change this code when it lands — a workaround awaiting an upstream fix, a shim awaiting a migration. The dependency is stated inline so the comment stands alone; the link exists only to check the pending work's status.
 
 ## Prefer the strongest enforcement rung
 
 When establishing a rule or pattern, put it on the strongest rung that can hold it: bake it into a component or API so violations are impossible, else lint it so they're mechanical to catch, and only as the last rung document it. Prose enforcement depends on a reader noticing; components and lint don't.
+
+Add the enforcement in the same change that adds the rule. A check deferred to later rarely arrives, and the code written in between already breaks the rule. When no automated check can hold the rule, say so in the PR.
+
+## Fail loudly
+
+When code meets a state it did not expect, say so and stop. Never route around the problem with any of these fallbacks:
+
+- a default put in place of a missing input
+- a guess between two sources that disagree
+- a step quietly skipped
+
+A fallback leaves the project looking healthy while something underneath is broken. The breakage then surfaces later, further from its cause, or never.
+
+The cheapest way to fail loudly is to leave the unexpected state unhandled. Write no branch and no catch for it, and let it fail where it lands: the error is visible, and it points at the cause. Handle a state only to report it more clearly than its own failure would, naming what was found and who can fix it.
+
+A designed silence is not a fallback. It answers a state the code anticipated and deliberately left unreported. Silence about a state nobody anticipated is the failure this rule forbids.
