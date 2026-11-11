@@ -46,7 +46,7 @@ A phase is the unit of work and of review; the PR is the unit of shipping. A sin
 The `delivery` call:
 
 - **Single PR** — the default when the whole change is a scope a reviewer can hold in one sitting (roughly a few hundred changed lines).
-- **Stacked PRs** — for anything larger, using the `gh stack` CLI extension: per-layer CI and review, cascading bottom-up merge. A stacked plan's Phases section groups its phases into PRs, each group one or more phases making a reviewable scope; `/q:implement-plan` carries the mechanics.
+- **Stacked PRs** — for anything larger: one PR per layer, each reviewed on its own and merged bottom-up. With the `gh stack` CLI extension, GitHub also links the layers, runs each one's CI against the default branch, and cascades the merge. A stacked plan's Phases section groups its phases into PRs, each group one or more phases making a reviewable scope; `/q:implement-plan` carries the mechanics.
 
 When in doubt, ask the user. A genuinely borderline call records its rationale as a Decision.
 

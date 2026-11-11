@@ -28,7 +28,7 @@ Then establish what each of the rest holds:
 - whether its tree is clean — `git -C <path> status --porcelain`
 - whether every commit it carries has reached a remote — `git -C <path> log --oneline HEAD --not --remotes` prints the ones that have not
 
-Then establish whether its work has landed. Run `gh pr list --head <branch> --state all` for each branch's pull requests. Never use `git branch --merged` for this. A squash-merged branch is not an ancestor of the default branch, so that test reports long-merged work as unmerged. A detached worktree has no branch, so it has no pull requests to read.
+Then establish whether its work has landed. Look up each branch's pull requests, closed and merged ones included (`gh pr list --head <branch> --state all`). Without an integration that can look them up (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, GitHub integrations), a branch's pull requests are unknown, which Step 2 treats as no pull request at all. Never use `git branch --merged` for this. A squash-merged branch is not an ancestor of the default branch, so that test reports long-merged work as unmerged. A detached worktree has no branch, so it has no pull requests to read.
 
 A worktree is removable when it holds nothing the remote does not already have:
 

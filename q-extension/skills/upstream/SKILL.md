@@ -22,7 +22,7 @@ Partition the candidates by destination: skill friction and "(overrides: @lab43/
 
 ## Step 2: Converge with the user
 
-Qualify the candidates against q's documentation policy (see: @lab43/q conventions/documentation.md). An override or elaboration made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Non-qualifiers are dropped without discussion and surface only in the report.
+Qualify the candidates against q's documentation policy (see: @lab43/q conventions/documentation.md). An override or elaboration made for project-specific reasons doesn't qualify. Don't disqualify one for adopting an alternative the target doc records as rejected — that is evidence against the rejection, and the candidate becomes revisiting it. Check each destination's PR history too — search open and closed PRs per candidate (`gh pr list --repo <owner>/<repo> --state all --search "<topic>"`), reading a hit's diff when its description doesn't settle the overlap: a candidate an open PR already covers is recommended defer, and one already proposed and closed without merging qualifies only with evidence the earlier PR lacked. Without an integration that can search them (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, GitHub integrations), skip the check and say so in the report. Non-qualifiers are dropped without discussion and surface only in the report.
 
 Present the qualifiers grouped by destination — for each, the proposed change and the evidence behind it — and collect a ruling on each (AskUserQuestion), in conversational mode (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Collaboration modes). In the same batch, ask which review mode — local or ship — the deliveries run under, every destination PR and the project-side deletions alike (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Discuss a candidate only where its ruling calls for it: the user pushes back, asks, or raises an alternative. The rulings:
 
@@ -38,7 +38,7 @@ First the Remove rulings: hand the deletions to `/q:update-docs` for full delive
 
 Then, for each destination with shipped candidates:
 
-1. **Clone and branch**: clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`) and branch.
+1. **Clone and branch**: clone fresh into a temporary directory outside the project (`gh repo clone <owner>/<repo>`, or `git clone` of its URL) and branch.
 2. **Read the checkout's briefing** — `CLAUDE.md` — first and follow it. It governs how the change is made.
 3. **Apply the change set** for the destination. In the q repo, run `npm run check`. Leave every `version` untouched, in whichever manifests carry one — releasing is the maintainer's act, not the PR's.
 4. **Commit**, in ship mode — the review history stays inspectable in git.
@@ -47,7 +47,7 @@ Then, for each destination with shipped candidates:
 
 ## Step 4: Open the PRs
 
-Push each destination branch and open its PR with `gh pr create` against the default branch — the Step 2 agreement covers these PRs. Author the body and diff comments per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md); the destination's own PR conventions and template win where they speak (source: @lab43/q conventions/pull-requests.md). Carry the provoking context from this session in the body — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: @lab43/q conventions/conventions.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
+Push each destination branch and open its PR (`gh pr create`) against the default branch — the Step 2 agreement covers these PRs. Open it, and author the body and diff comments, per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md, Opening); the destination's own PR conventions and template win where they speak (source: @lab43/q conventions/pull-requests.md). Carry the provoking context from this session in the body — the PR is the paper trail, so provenance belongs there, never in the conventions prose (source: @lab43/q conventions/conventions.md, Conventions docs). If pushing to a repo is denied, fall back to a fork and say so.
 
 ## Step 5: Report
 

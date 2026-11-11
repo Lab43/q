@@ -16,9 +16,9 @@ Propose `/q:install` and stop in either of these states — there is nothing to 
 
 Otherwise enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`.
 
-## Step 2: Check the GitHub CLI
+## Step 2: Check for a GitHub integration
 
-Run `gh auth status`, and `gh repo view` to confirm the repo's `origin` is GitHub-hosted — q's workflow skills require both. When either fails, report the fix: install via <https://cli.github.com> and authenticate with `gh auth login` for a missing or unauthenticated CLI; a failing `gh repo view` with an authenticated CLI means `origin` is not GitHub-hosted.
+Check which GitHub integration the session has: `gh`, when `gh repo view` succeeds, or a GitHub MCP server among the session's tools (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, GitHub integrations). When it has none, report what one would add and how to get one: install the GitHub CLI via <https://cli.github.com> and authenticate with `gh auth login`.
 
 ## Step 3: Take stock
 
@@ -101,7 +101,7 @@ Skip this step when Step 4 found nothing to deliver.
 Close the session by reporting:
 
 - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
-- The GitHub CLI result, with the fix when it failed.
+- Which GitHub integration the session has, with how to get one when it has none.
 - Each version move reconciled and what its release changed.
 - Each arrival reconciled — the group and lines indexed, the plugin registered, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
 - Each departure reconciled — the records and plugin registration dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. Name a departure by dropped payload as a release that stopped shipping rules, since the project may want the dependency reconsidered.

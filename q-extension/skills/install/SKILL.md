@@ -16,7 +16,7 @@ Hold the project against each of Step 3's scaffold items, noting what is absent 
 - Convention-like docs living elsewhere — a `docs/` scan for rule-carrying files, a briefing bloated with per-task rules
 - Content already in `q-docs/conventions/` that has drifted from the documentation policy
 - Whether an earlier run's scaffold sits uncommitted in the working tree
-- The GitHub CLI: `gh auth status`, and that the repo's `origin` is GitHub-hosted (`gh repo view` succeeds). q's workflow skills require both. If either fails, tell the user the fix (install via <https://cli.github.com> and authenticate with `gh auth login`; `gh repo view` failing with an authenticated CLI means `origin` is not GitHub-hosted) and continue — the scaffold still lands.
+- Which GitHub integration the session has: `gh`, when `gh repo view` succeeds, or a GitHub MCP server among the session's tools (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, GitHub integrations).
 
 ## Step 2: Settle delivery
 
@@ -24,7 +24,6 @@ Skip this step in any of these cases:
 
 - A run where Step 1 found nothing missing or drifted, and no scaffold sitting uncommitted from an earlier run — there is nothing to change or deliver. An unpopulated `node_modules/` is machine state rather than drift: a fresh clone nobody has installed on. Enforce the declarations per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`, which populates it, then stop with the closing report (Step 5).
 - Step 1 found no `@lab43/q` in `devDependencies` in the repo root's `package.json` — q's bytes have not arrived, and nothing scaffolds without them. Report the bootstrap for the developer to run — `npm install --save-dev --save-exact @lab43/q`, or their package manager's equivalent — and stop with the closing report (Step 5): this skill runs no package manager against a named package.
-- Step 1's GitHub CLI check failed — there is no delivery to settle.
 - Another skill's run invoked this one — the changes join that run's change.
 
 Otherwise ask which review mode — local or ship — the run delivers under (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Review modes). Then pick the delivery branch (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch). Commit the q declaration the bootstrap left uncommitted in the root `package.json` and the lockfile with the scaffold, without asking. It is the input the bootstrap above prescribes, and the scaffold is broken without it (exception: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The delivery branch).
@@ -58,7 +57,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    The marketplace needs a name no other project on the machine will use. The registry the CLI resolves against holds one entry per marketplace name, machine-wide (source: ${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md). Two projects sharing a name means the second one loads another project's q rather than its own.
 
-   Name it `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters. It is what keeps the name unique. Read owner and repo from the repo's GitHub origin with `gh repo view --json nameWithOwner`. Use the project directory's name in their place when that command yields nothing. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
+   Name it `q-pin-<owner>-<repo>-<suffix>` — for example, `q-pin-acme-storefront-4f2ab9`. Owner and repo keep the name legible in that registry. The suffix is six random hex characters. It is what keeps the name unique. Read owner and repo from the path of the repo's `origin` URL (`git remote get-url origin`), less any `.git` suffix. Use the project directory's name in their place when there is no `origin`. Lowercase the whole name and replace every character outside `a-z0-9-` with a hyphen.
 
    Generate that name only when creating the file. A project that already records one keeps it, whatever it is. Other clones have already registered that name locally. Regenerating it strands them.
 
@@ -116,15 +115,12 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
 ## Step 4: Deliver
 
-Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked and no earlier run's scaffold awaits delivery: switch back to the prior branch, delete any branch this run created, and report that and stop. When Step 1's GitHub CLI check failed, stop here with the closing report (Step 5), adding:
-
-- That the changes stay uncommitted — restate the `gh` fix.
-- That a re-run delivers them once `gh` is in place.
+Invoked from another skill's run, stop here — the changes are that run's to validate and deliver. When the run changed nothing tracked and no earlier run's scaffold awaits delivery: switch back to the prior branch, delete any branch this run created, and report that and stop.
 
 Otherwise, in ship mode, commit. No adversarial review closes this run: the scaffold is deliberately deterministic — much of it is verbatim templates a reviewer would only second-guess — and the user reviews the delivered diff. Then:
 
 1. **The local gate**: run it over the uncommitted changes (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The local gate) — minus the adversarial pass the gate otherwise adds after substantial iteration. The no-review ruling above covers the gate's too.
-2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md).
+2. **Open the PR**: push the branch and open the PR per the PR-authoring rules (see: @lab43/q conventions/pull-requests.md, Opening).
 
 ## Step 5: Report
 
@@ -132,6 +128,7 @@ Close the session by reporting:
 
 - What was created.
 - What already existed and was left untouched.
+- Which GitHub integration the session has. When it has none, say what one would add and how to get one: install the GitHub CLI via <https://cli.github.com> and authenticate with `gh auth login`.
 - When this run wrote q's entry, each installed extension it recorded, with the notes an arrival's reconciliation reports:
   - a missing `q.description`, when it ships docs to index — the extension author's to fix (source: @lab43/q conventions/extensions.md, Description)
   - any overrides markers its docs carry against q's rules — deviations the project now lives under, its own rulings still winning on conflict
