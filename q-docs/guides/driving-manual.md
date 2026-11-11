@@ -14,6 +14,8 @@ Exercise a change to the hooks, to `/q:install`, or to the marketplace it scaffo
 
 A fixture with no `origin` remote stops `/q:install` before delivery, with the scaffold left uncommitted. That lets the run go headless (see: Driving a skill headless). Grant it `Read,Write,Edit,Glob,Grep,Bash`.
 
+Make the fixture outside the driving session's scratchpad directory. A headless skill run in a fixture nested there takes the driving session's run note, `q-run.md`, for its own and overwrites it.
+
 `/q:install` registers the fixture's `q-pin-…` marketplace in the machine-wide registry. Remove it when you are done with `claude plugin marketplace remove <name>`. Otherwise it outlives the fixture.
 
 q ships no dependencies, so a fixture needs nothing installed beyond the tarball. This checkout is different: `npm install` here installs q's own devDependencies and the pre-commit hook.

@@ -1,6 +1,6 @@
 ---
 name: install
-description: Set up q in a project the developer has already npm-installed it into, or repair a scaffold that has drifted. Invoke bare. Safe to re-run on a partially set-up project. An extension's arrival is /q:reconcile's. The changes ship as a PR.
+description: Set up q in a project the developer has already npm-installed it into, or repair a scaffold that has drifted. Invoke bare. Safe to re-run on a partially set-up project. Records the extensions already installed alongside q. One installed later is /q:reconcile's. The changes ship as a PR.
 ---
 
 # Install
@@ -92,7 +92,7 @@ The invocation is the agreement — scaffold autonomously; on a fully set-up, un
 
    Write this settings entry by hand, its `path` the literal `./` shown — producing it with `claude plugin marketplace add` records an absolute path instead, which breaks every other checkout of the repo.
 5. **Enforce the declarations** — make this machine match what the project now declares, per `${CLAUDE_PLUGIN_ROOT}/references/enforce-declarations.md`.
-6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
+6. **State file** — write `.claude/q-state.json` per `${CLAUDE_PLUGIN_ROOT}/references/q-state.md`: a `reconciledAgainst` entry for `@lab43/q`, from the version in `node_modules/@lab43/q/package.json`. When this run is the one writing that entry, also write one for each installed extension item 4 looks across, from the version in its own `node_modules/<package>/package.json`. This run has already indexed its docs (item 3) and registered its plugin (item 4). A run that finds q's entry already present writes no extension entries. An extension arriving after q is `/q:reconcile`'s. Write only absent watermarks — a present entry, stale or not, is reconciliation's to move (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
 7. **Ignore rules** — ensure `.gitignore` covers `node_modules/`, `.claude/settings.local.json`, and `.claude/worktrees/`, and that the committed scaffold files are not ignored: run `git check-ignore` on `.claude/settings.json`, `.claude-plugin/`, and `.claude/q-state.json`, fixing the rules until it reports nothing. A bare negation under an ignored `.claude/` does nothing — the directory rule itself must become `.claude/*` plus the negations. Leave every unrelated ignore rule alone.
 8. **The README's q section** — when the README doesn't mention q, add this section verbatim:
 
@@ -132,6 +132,9 @@ Close the session by reporting:
 
 - What was created.
 - What already existed and was left untouched.
+- When this run wrote q's entry, each installed extension it recorded, with the notes an arrival's reconciliation reports:
+  - a missing `q.description`, when it ships docs to index — the extension author's to fix (source: @lab43/q conventions/extensions.md, Description)
+  - any overrides markers its docs carry against q's rules — deviations the project now lives under, its own rulings still winning on conflict
 - Each shipped plugin left without a marketplace entry, and why.
 - Convention-like content Step 1 found outside `q-docs/conventions/` — migration candidates this run leaves alone. Moving a project's existing docs is its own delivery: suggest `/q:create-plan` for a docs tree, or `/q:implement` for a handful of rules.
 - Content already in `q-docs/conventions/` that has drifted from the documentation policy — grooming's territory: suggest `/q:groom-docs`.
