@@ -4,9 +4,9 @@ The format behind the extension conventions tier — rules for authoring and pub
 
 ## Identity
 
-A q extension is an npm package that carries the `q-extension` keyword in its `package.json` and ships a `q-extension/` payload directory (see: Layout). Both halves identify it. The keyword is how tooling tells extensions from a project's other dependencies and how they are found on the registry. The payload is what the keyword promises. A package carrying the keyword and shipping nothing is not an extension, and q's machinery passes over it in silence rather than reporting a state no skill can repair.
+A q extension is an npm package that carries the `q-extension` keyword in its `package.json`. The keyword is how tooling tells extensions from a project's other dependencies and how they are found on the registry. It promises a `q-extension/` payload directory (see: Layout), so never carry the keyword without shipping one. q's skills trust that promise and identify an extension by the keyword alone. The session-start check is the exception: it reports an unrecorded extension only when the payload is there too.
 
-Look for extensions across a project's direct `dependencies` as well as its `devDependencies`. A package can ship rules and code together — a component library carrying the conventions for using it — and a project that imports such a package holds it as a regular dependency. Meeting both halves means q's machinery:
+Look for extensions across a project's direct `dependencies` as well as its `devDependencies`. A package can ship rules and code together — a component library carrying the conventions for using it — and a project that imports such a package holds it as a regular dependency. Carrying the keyword means q's machinery:
 
 - discovers the package
 - indexes what it documents
@@ -52,20 +52,22 @@ Rejected: a `q` metadata key in `package.json` naming paths or listing docs — 
 
 ## Pinning
 
-Declare `@lab43/q` as a devDependency in the `package.json` at the repo root. That is the only place anything looks for it, whatever else the repo holds — a monorepo declares q at the root, never in a workspace manifest. Keep it a devDependency: q is tooling rather than code a project imports, and a project holding it in `dependencies` goes unvalidated at session start, silently.
+Declare `@lab43/q` as a devDependency in the `package.json` at the repo root. That declaration is the project's pin, whatever else the repo holds. Keep it a devDependency: q is tooling rather than code a project imports, and a project holding it in `dependencies` goes unvalidated at session start, silently.
 
-Declare each extension in that same root manifest. `dependencies` and `devDependencies` both serve (see: Identity), but no other manifest does — a declaration in a workspace package is one nothing reads. The specifier's form is the project's own choice: q reads versions from the lockfile and `node_modules`, never from the manifest.
+Declare each extension the project consumes in that same root manifest, in `dependencies` or `devDependencies` (see: Identity). q looks for consumed extensions in no other manifest. In a monorepo, an extension that only a workspace package declares is one q never sees: declare it at the root too, even when only that package uses it. Its rules then bind the whole repo, like every rule in the briefing. The specifier's form is the project's own choice: q reads versions from the lockfile and `node_modules`, never from the manifest.
 
-A repo that publishes rules already declares q at its root, like any q project, with one requirement of its own: the pin is exact. With the payload at that root, the published package is the repo itself — its `package.json` goes into the tarball, and the pin in it tells consumers which q version the rules were written against. That is a fact only an exact version can state, and the manifest is the author's only channel for it: the lockfile that would resolve a range never ships. The declaration stays inert in consumers — npm installs no dependency's devDependencies — so extensions declaring different q versions never collide; the gap is surfaced at reconciliation and closes through releases.
+A package that publishes rules declares `@lab43/q` exactly in its own `package.json`. That manifest goes into the tarball, and the declaration tells consumers which q version the rules were written against. Only an exact version can state that, since the lockfile that would resolve a range never ships. At the repo root this declaration is also the project's pin. In a workspace package it must equal the version the root lockfile resolves. The declaration stays inert in consumers — npm installs no dependency's devDependencies — so extensions declaring different q versions never collide; the gap is surfaced at reconciliation and closes through releases.
 
 ## Authoring
 
-In its authoring project, an extension's conventions docs, its guides, and its `q.description` join the documentation surface (see: Description). They are groomed and reconciled against q's updates like the project's own docs.
+A repo authors each extension whose working tree it holds: any package carrying the `q-extension` keyword, at the repo root or in a workspace package (see: Identity). Find them among the manifests git lists: `git ls-files --cached --others --exclude-standard -- ':(glob)**/package.json'`.
 
-They are indexed there too. The authoring repo's briefing gives them groups of their own, shaped like a consumed extension's and headed the same way. The groups carry no pin, because a repo does not depend on itself, and no watermark, because a watermark certifies that changed rules have been absorbed and there is nothing to absorb in rules you are editing.
+In its authoring project, an extension's conventions docs, its guides, and its `q.description` join the documentation surface (see: Description). They are groomed and reconciled against q's updates like the project's own docs, and so is its `@lab43/q` declaration (see: Pinning).
+
+They are indexed there too. The authoring repo's briefing gives them groups of their own, shaped like a consumed extension's and headed the same way, and says where the extension's name resolves (see: @lab43/q conventions/documentation.md, Package doc paths). The groups carry no pin, because a repo does not depend on itself, and no watermark, because a watermark certifies that changed rules have been absorbed and there is nothing to absorb in rules you are editing.
+
+A root that lists one of its own workspace packages as a dependency is depending on the extension it authors, not installing one. npm and pnpm install such a dependency as a link, whatever its specifier: its installed copy's real path lies inside the repo's, with no `node_modules` segment between them. A copy resolving outside the repo, or under any `node_modules/`, is an install. A workspace link takes no watermark, no installed extension's index group, and no marketplace entry under `node_modules/`.
 
 An extension's doc may deviate from a q rule the same way a project doc does, stating the deviation with an overrides marker (see: @lab43/q conventions/documentation.md, Markers); the project's own rulings still win over any extension's (source: @lab43/q conventions/conventions.md, Three tiers of conventions).
 
-The plugin the extension ships loads from the working tree too. Add its entry to the project's own marketplace by hand, beside q's: sourced at `./q-extension` and named by the `name` in its `plugin.json`. Enable it in `.claude/settings.json` the way q's entry is enabled there.
-
-All of this assumes the payload sits at the repo's own root. Publish from a sub-package of a larger repo and consumers install it exactly the same way, but the authoring repo gets none of the above: no group in its briefing, and a root declaration that is not the pin the package ships (see: Pinning).
+The plugin the extension ships loads from the working tree too. `/q:install` adds its entry to the project's own marketplace, beside q's: sourced at the extension's own `q-extension/` and named by the `name` in its `plugin.json`, and enables it the way q's entry is enabled.

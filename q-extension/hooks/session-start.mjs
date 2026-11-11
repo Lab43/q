@@ -132,9 +132,12 @@ for (const [ext, mark] of Object.entries(recon)) {
 
 // Reverse direction: a dependency whose installed copy is an extension but
 // that has no watermark entry was installed by hand and never indexed.
-// Identity is both halves — the q-extension keyword, and a payload directory
-// holding conventions/, guides/, or .claude-plugin/. Either alone describes a
-// package that is not an extension and has no watermark to be missing.
+// Unlike the skills, which trust the keyword alone, this check requires both
+// halves of identity — the q-extension keyword, and a payload directory
+// holding conventions/, guides/, or .claude-plugin/ (source: @lab43/q
+// conventions/extensions.md, Identity). A keyword with no payload is a package
+// the skills leave unscripted, so reporting it here would be drift no skill
+// clears.
 //
 // Both are readable only from the package's own copy under node_modules, so a
 // dependency whose manifest is absent or unparseable is skipped rather than
@@ -150,10 +153,31 @@ const isDir = (p) => {
 };
 const hasPayload = (dir) =>
   ["conventions", "guides", ".claude-plugin"].some((sub) => isDir(path.join(dir, "q-extension", sub)));
+const realpath = (p) => {
+  try {
+    return fs.realpathSync(p);
+  } catch {
+    return null;
+  }
+};
+
+// A workspace link takes no watermark (source: @lab43/q
+// conventions/extensions.md, Authoring). Compare real paths on both sides,
+// because the project directory may itself sit behind a symlink, as macOS's
+// temp directory does.
+const projReal = realpath(proj);
+const isWorkspaceLink = (installed) => {
+  const real = realpath(installed);
+  if (projReal === null || real === null) return false;
+  const rel = path.relative(projReal, real);
+  if (rel === ".." || rel.startsWith(`..${path.sep}`) || path.isAbsolute(rel)) return false;
+  return !rel.split(path.sep).includes("node_modules");
+};
 
 for (const dep of Object.keys(deps)) {
   if (Object.hasOwn(recon, dep)) continue;
   const installed = path.join(proj, "node_modules", dep);
+  if (isWorkspaceLink(installed)) continue;
   const keywords = parse(read(path.join(installed, "package.json")) ?? "")?.keywords;
   if (Array.isArray(keywords) && keywords.includes("q-extension") && hasPayload(installed)) fail();
 }
