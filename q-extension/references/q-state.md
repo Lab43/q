@@ -24,6 +24,7 @@ The file lives at `.claude/q-state.json`, committed. JSON, one key per line, so 
 ## Writer rules
 
 - `/q:install` writes a missing `@lab43/q` entry when it scaffolds, from the version installed, which has no reconciliation debt. It never touches a present entry — a stale one is reconciliation's to move.
+- In the run that writes q's entry, `/q:install` also writes one for each extension already installed, from its installed version. Once q's entry exists, an extension's first entry is reconciliation's to write.
 - `/q:reconcile` writes watermarks as reconciliation's record: it moves a package's entry after reconciling its version move, writes an arrival's first entry from the version installed, and drops an entry as part of reconciling a departure. It writes nothing before a reconciliation — watermarks certify one.
 
 An absent file means no record — create it on the first watermark write.

@@ -11,12 +11,14 @@ A run is in one of two modes, depending on whether the user has agreed on what t
 
 ## Review modes
 
-Work that will become commits runs in one of two review modes, settled up front — with the run's opening questions, or at the go-ahead that enters autonomous mode. Once settled, the run never reopens it: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
-
-The user can still overrule a step: telling a local run to commit now (see: The local gate), or a ship run to hold its push. The ruling spends itself on the step it names — the mode stands for everything after, however much the instruction resembles the other mode's procedure. Name the conflict before complying rather than inferring a switch.
+Work that will become commits runs in one of two review modes, settled up front:
 
 - **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
 - **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's. When the PR opened as a draft (see: @lab43/q conventions/pull-requests.md, Draft), say so: marking it ready is the user's too.
+
+Ask the mode as a question in the run's AskUserQuestion batch, even when it is the batch's only question (see: Batch questions). A run another skill hands the mode to, as `/q:triage` hands it to `/q:implement`, takes it as settled. Never fold it into the plain-text go-ahead, where it reads as one more line of the scope and goes unanswered. A go-ahead that leaves the mode unanswered has not settled it: ask before the first commit rather than choosing one. Once settled, the run never reopens it: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
+
+The user can still overrule a step: telling a local run to commit now (see: The local gate), or a ship run to hold its push. The ruling spends itself on the step it names — the mode stands for everything after, however much the instruction resembles the other mode's procedure. Name the conflict before complying rather than inferring a switch.
 
 ## The run note
 
@@ -77,7 +79,7 @@ Send nothing else. A message to a peer carries only what keeps two sessions from
 - Never send a peer a suggestion, an opinion, or a finding, unless they need it to avoid a collision.
 - Answer a peer only when the answer changes what they do. No reply is owed.
 
-A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds three precautions:
+A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds these precautions:
 
 - Never switch the branch without announcing first.
 - Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
