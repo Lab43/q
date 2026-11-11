@@ -22,9 +22,17 @@ Check which GitHub integration the session has: `gh`, when `gh repo view` succee
 
 ## Step 3: Take stock
 
-Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md) and compare:
+The packages in scope are `@lab43/q` and the project's extensions. An extension is a direct dependency, in `dependencies` or `devDependencies`, carrying the `q-extension` keyword (source: @lab43/q conventions/extensions.md, Identity). Beyond that definition:
 
-- the version the project's lockfile resolves for `@lab43/q` and for each extension against its `reconciledAgainst` entry, and the version installed under `node_modules/` against the lockfile's, in both directions — the extensions are the direct dependencies, in `dependencies` and `devDependencies` alike, whose installed copy carries both halves of an extension's identity — the `q-extension` keyword and a payload directory (source: @lab43/q conventions/extensions.md, Identity). A dependency carrying the keyword, shipping no payload, and holding no `reconciledAgainst` entry is not an extension: leave it out of scope rather than reporting a missing record no skill could resolve. A watermarked package stays in scope however it changed, because a record already exists and only reconciliation or removal clears it
+- A watermarked package stays in scope however it changed. A record already exists, and only reconciliation or removal clears it.
+- A dependency on one of the repo's own workspace packages is out of scope. It is an extension this repo authors, never watermarked, so it is neither an arrival nor a departure (source: @lab43/q conventions/extensions.md, Authoring).
+
+Read `.claude/q-state.json` (see: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md). For each package in scope, compare:
+
+- the version the project's lockfile resolves against its `reconciledAgainst` entry
+- the version installed under `node_modules/` against the lockfile's
+
+Run each comparison in both directions: a package with a watermark but no dependency, and a dependency with no watermark.
 
 Each finding routes to its remedy:
 
@@ -34,6 +42,8 @@ Each finding routes to its remedy:
 - Any other declared extension with no entry, from either dependency map — an arrival, installed by hand and never recorded: this run reconciles it (Step 7).
 
 Alongside, hold each third-party extension's q declaration — the `@lab43/q` devDependency in its own `node_modules/<extension>/package.json` (source: @lab43/q conventions/extensions.md, Pinning) — against the project's own installed q, and flag a mismatch either way in the close. A declaration ahead of the project's q closes by the developer moving q forward; one behind closes only by that extension's release. A ranged q declaration states no version at all — flag it as the extension author's to fix.
+
+Hold the packages this repo authors to the same declaration (see: @lab43/q conventions/extensions.md, Authoring). Each one declares `@lab43/q` exactly in its own `package.json`. Flag one that is missing, ranged, or different from the version the root lockfile resolves for `@lab43/q`, as the developer's edit to make: this run never writes a `package.json`. At the repo root the declaration is the project's pin, so it agrees by construction.
 
 ## Step 4: Settle delivery
 
@@ -50,7 +60,7 @@ Diff the two published versions: `npm pack <package>@<version>` for the watermar
   - prune a project rule the new text now owns — it is duplication now
   - ask about a project rule the new text contradicts, the one call the go-ahead didn't settle: keep it as a recorded deviation (add the overrides marker) or adopt the incoming rule. Adopting can leave code non-conforming — suggest `/q:review` on the affected area; bringing code back into conformance is out of scope here
 
-  An extension authored in this repo is part of that surface: re-check its docs and its own `q.description` the same way. The exact `@lab43/q` pin in its root `package.json` is also that extension's shipped declaration of which q version its rules were written against — the manifest goes into the published tarball, which makes this the one `package.json` entry still read as a version (source: @lab43/q conventions/extensions.md, Pinning). Flag it when it no longer names the q the project now runs; moving it is the developer's npm edit.
+  Every package this repo authors is part of that surface: re-check its docs and its own `q.description` the same way (see: @lab43/q conventions/extensions.md, Authoring).
 
   Then sync the briefing's index lines for the package — a doc added or removed changes the list, and a changed intro means rewriting the doc's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
 - **Changed guides** — sync the package's guide lines in the briefing's docs index. A guide added or removed changes the list, and a changed intro means rewriting the guide's blurb (see: @lab43/q conventions/documentation.md, Taxonomy).
@@ -75,7 +85,7 @@ Then rule on what the departure orphaned. Grep the docs the documentation policy
 
 The developer already installed the package; this run records it. For each arrived extension:
 
-1. Verify both halves of its identity (source: @lab43/q conventions/extensions.md, Identity): `node_modules/<extension>/package.json` carries the `q-extension` keyword, and the package holds at least one of `q-extension/conventions/`, `q-extension/guides/`, and `q-extension/.claude-plugin/`. Step 3 scoped by this same identity; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing the check is reported in the close and left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
+1. Verify that `node_modules/<extension>/package.json` carries the `q-extension` keyword (source: @lab43/q conventions/extensions.md, Identity). Step 3 scoped by this same test; re-verify at the acting site, because the watermark write is what a misclassification would poison. A package failing it is left alone — no index lines, and above all no watermark, which would record a package q cannot reconcile.
 2. An extension gets a group in the briefing's docs index for each kind of doc it ships, conventions docs and guides, written to that file's rules (see: `${CLAUDE_PLUGIN_ROOT}/references/agent-briefing.md`). One shipping neither is watermarked without being indexed, having no docs to index (source: @lab43/q conventions/extensions.md, Layout).
 3. An extension shipping a plugin gets it registered in the project's marketplace: re-run `/q:install`, scoped to join this run's change. One shipping none has nothing to load.
 4. Write its watermark from the version in `node_modules/<extension>/package.json`. Never overwrite a present entry, stale or not: a stale watermark moves only by reconciling the version move behind it (source: ${CLAUDE_PLUGIN_ROOT}/references/q-state.md).
@@ -103,9 +113,9 @@ Close the session by reporting:
 - What Step 1 enforced, and any tracked file it rewrote (a lockfile) left in the tree as the user's.
 - Which GitHub integration the session has, with how to get one when it has none.
 - Each version move reconciled and what its release changed.
-- Each arrival reconciled — the group and lines indexed, the plugin registered, the watermark written — with Step 7's per-arrival notes, and each package that failed the identity check, left alone.
+- Each arrival reconciled — the group and lines indexed, the plugin registered, the watermark written — with Step 7's per-arrival notes.
 - Each departure reconciled — the records and plugin registration dropped, any lockfile catch-up applied, and each orphaned reference with the user's ruling. Name a departure by dropped payload as a release that stopped shipping rules, since the project may want the dependency reconsidered.
 - Any plugin an install re-run left without a marketplace entry, and why.
-- Each flagged q declaration, and what closes it.
+- Each flagged q declaration, a third-party extension's or an authored package's, and what closes it.
 
 Then, where Step 3 found no `@lab43/q` record, make its `/q:install` hand-off — a full run of its own that asks and delivers for itself.

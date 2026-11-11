@@ -167,7 +167,9 @@ To publish an extension:
   - `.claude-plugin/` for a Claude Code plugin, with its skills, agents, and hooks
 - List `q-extension` in `package.json`'s `files`. Without it the package ships no rules, and nothing warns you.
 - Set `q.description` (see: Settings).
-- Pin `@lab43/q` to an exact version in `devDependencies`. It tells consumers which version of q the rules were written against.
+- Pin `@lab43/q` to an exact version in the package's own `devDependencies`. It tells consumers which version of q the rules were written against.
+
+A workspace package of a monorepo publishes the same way. Its `@lab43/q` version must match the one the root lockfile resolves. Run `/q:install` in the repo that authors the package, and its sessions index the package's docs and load its plugin from the working tree.
 
 The full rules are in [q's extension format](q-extension/conventions/extensions.md).
 
@@ -176,7 +178,7 @@ The full rules are in [q's extension format](q-extension/conventions/extensions.
 <!-- source: @lab43/q conventions/pull-requests.md, Draft -->
 <!-- source: @lab43/q conventions/extensions.md, Description -->
 
-q's settings live under the `q` key of your root `package.json`. Everything else about how q behaves in your project is decided in your conventions docs.
+q's settings live under the `q` key in `package.json`. Everything else about how q behaves in your project is decided in your conventions docs.
 
 <!--
   Keys must not wrap.
@@ -190,11 +192,11 @@ q's settings live under the `q` key of your root `package.json`. Everything else
   </tr>
   <tr>
     <td nowrap><samp>q.draftPullRequests</samp></td>
-    <td>Set to <code>true</code> to open every PR as a draft, so its author reviews it before the team does.</td>
+    <td>Set in your root <code>package.json</code> to <code>true</code> to open every PR as a draft, so its author reviews it before the team does.</td>
   </tr>
   <tr>
     <td nowrap><samp>q.description</samp></td>
-    <td>Only required for repos that publish a q extension. One sentence saying what the extension's docs cover. Projects that install the extension show it in their agent briefing.</td>
+    <td>Only required for a package that publishes a q extension, and set in that package's own <code>package.json</code>: in a monorepo, the workspace package's rather than the root's. One sentence saying what the extension's docs cover. Projects that install the extension show it in their agent briefing.</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->

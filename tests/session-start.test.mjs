@@ -431,9 +431,9 @@ describe("watermarked extensions", () => {
     assertLoud(runHook(staged));
   });
 
-  // The keyword alone is not identity. A package carrying it but shipping no
-  // payload is not an extension, so it has no watermark to be missing and
-  // there is no finding any skill could resolve.
+  // The hook requires a payload as well as the keyword. A package carrying
+  // the keyword but shipping no payload is one the skills leave unscripted,
+  // so there is no finding any skill could resolve.
   it("is silent for a keyword-carrying dependency that ships no payload", () => {
     const staged = stageHook({
       project: agreeing({
@@ -511,6 +511,46 @@ describe("watermarked extensions", () => {
       }),
     });
     assertSilent(runHook(staged));
+  });
+
+  // The root depending on its own workspace package. npm workspaces and pnpm
+  // both install it as a symlink into the package's directory.
+  const linkedProject = (target) => {
+    const staged = stageHook({
+      project: agreeing({
+        "package.json": JSON.stringify({ devDependencies: { "@lab43/q": PIN, "@acme/ext": "*" } }),
+      }),
+    });
+    const dir = target(staged);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(
+      path.join(dir, "package.json"),
+      JSON.stringify({ name: "@acme/ext", version: "2.0.0", keywords: ["q-extension"] }),
+    );
+    fs.mkdirSync(path.join(dir, "q-extension/conventions"), { recursive: true });
+    fs.writeFileSync(path.join(dir, "q-extension/conventions/rules.md"), "# Rules\n");
+    const link = path.join(staged.proj, "node_modules/@acme/ext");
+    fs.mkdirSync(path.dirname(link), { recursive: true });
+    fs.symlinkSync(path.relative(path.dirname(link), dir), link);
+    return staged;
+  };
+
+  it("is silent for an unwatermarked extension that is a workspace link", () => {
+    assertSilent(runHook(linkedProject(({ proj }) => path.join(proj, "packages/ext"))));
+  });
+
+  // npm link, or a store outside the project, resolves elsewhere: an install
+  // like any other, which still has to be watermarked.
+  it("is loud for an unwatermarked extension linked from outside the project", () => {
+    assertLoud(runHook(linkedProject(({ base }) => path.join(base, "elsewhere/ext"))));
+  });
+
+  // A pnpm store inside a workspace package resolves into the project, but
+  // under node_modules/: an install, not the repo's own package.
+  it("is loud for an unwatermarked extension linked into a nested node_modules", () => {
+    assertLoud(
+      runHook(linkedProject(({ proj }) => path.join(proj, "packages/a/node_modules/.pnpm/ext"))),
+    );
   });
 
   it("emits one message when two things are wrong at once", () => {
