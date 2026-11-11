@@ -13,10 +13,11 @@ description: Work feedback on an open pull request — the reviewer's comments, 
 - **The PR under review is the boundary**: the round's fixes land on its branch as new commits. Never rebase that branch and never force-push over it — the reviewer's inline comments anchor to the commits they read, and rewriting the history strands them. Never open a second PR. Work the feedback opens that this PR can't hold goes to a plan or the tracker instead.
 - **Keep the run note** (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, The run note). Carry each item in it: where it came from, its agreed disposition, and how it resolved. It feeds the replies and the closing report.
 - **Context hygiene**: use subagents (Explore for recon, background Bash for checks, `adversarial-reviewer` for review) to keep large output out of the main context.
+- **A GitHub integration is optional**: read and post through whatever integration the session has (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, GitHub integrations). The `gh` commands below are worked examples. Without an integration that can do a step, the user carries what it would read or post, as each step says.
 
 ## Step 1: Gather the feedback
 
-1. Resolve the PR from the invocation — a number or a URL. Given nothing, run `gh pr view` for the current branch. Ask which PR to work when that branch has none. Stop and tell the user when the PR is already closed or merged.
+1. Resolve the PR from the invocation — a number or a URL. Given nothing, look up the current branch's PR (`gh pr view`). Ask which PR to work when that branch has none. Stop and tell the user when the PR is already closed or merged. Without an integration that can look it up, ask which PR when the invocation names none, and ask the user to confirm that it is still open and which branch is its head, offering the current branch.
 2. Require a clean working tree first — if anything is uncommitted, stop and show the user. Uncommitted work carried onto the PR's branch by a checkout lands in someone else's review.
 3. Work on the PR's own branch, never a new one (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The delivery branch). Check it out and fast-forward it:
 
@@ -25,7 +26,7 @@ description: Work feedback on an open pull request — the reviewer's comments, 
    ```
 
    Stop and show the user when the local branch has diverged from the PR's. Record the head SHA once the branch is current: `git rev-parse HEAD`. It is the branch as this round found it, and Step 5 reviews the round against it.
-4. Fetch everything the reviewer wrote:
+4. Fetch everything the reviewer wrote. With `gh`, that takes two reads:
    - `gh pr view <n> --comments` — the top-level comments, plus each review's summary and verdict.
    - the inline threads, which GitHub groups and tracks resolution for:
 
@@ -33,7 +34,9 @@ description: Work feedback on an open pull request — the reviewer's comments, 
      gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){pullRequest(number:<n>){reviewThreads(first:100){nodes{isResolved isOutdated path line comments(first:50){nodes{databaseId author{login} body}}}}}}}'
      ```
 
-     Skip every thread `isResolved` reports closed — the reviewer ended those. An `isOutdated` thread is still live: it anchors to a line that later commits moved. Skip a thread whose last comment already answers the one before it. An earlier round settled that item, and the reviewer has not written back.
+     Skip every thread `isResolved` reports closed — the reviewer ended those. An `isOutdated` thread is still live: it anchors to a line that later commits moved. Skip a thread whose last comment already answers the one before it. An earlier round settled that item, and the reviewer has not written back. An integration that reads the threads without their resolution state reads them as pasted text does, below.
+
+   Without an integration that can read them, ask the user to paste them instead: each comment with its file and line when it sits on the diff, and each review's summary and verdict. Pasted text carries no resolution state, so take every thread they paste as live, except one whose last comment already answers the one before it.
 5. Ignore every comment that raises nothing to settle. A callout explaining the change under review is the common case (see: @lab43/q conventions/pull-requests.md, Diff comments).
 6. Gather the user's own feedback. The invocation may carry it. Ask the user what they want changed whenever the PR carries no feedback of its own. Always ask whether more is coming, because the user may still be reading the PR and add items as they go.
 7. Build the agenda from everything gathered — one item per inline thread, top-level comment, or review summary that carries feedback, plus one per point the user raised. Merge items that share a root cause or answer each other. Record where each item came from, because that decides how it gets answered. Post the agenda — each item's gist in one line, in the order you propose to take them. No positions yet, and no edits. Leave the agenda open when the user has more coming, and add each new item to it as it arrives. The agenda closes when the user says nothing more is coming. Ask them rather than reading a pause as the end.
@@ -72,7 +75,7 @@ State those for the user to veto rather than asking them (see: `${CLAUDE_PLUGIN_
 Ask one batch, carrying only what the user has to rule on:
 
 - the fork a disposition turns on, wherever an item has materially different resolutions, each with a recommendation
-- whether each resolution is posted back where the feedback was written, asked once for the round. Skip it when nothing was written on the PR.
+- whether each resolution is posted back where the feedback was written, asked once for the round. Without an integration that can post them, ask instead whether to draft the replies for the user to post. Skip it when nothing was written on the PR.
 - the review mode (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, Review modes). In this run, ship covers commit and push to the PR. Local commits nothing until the user has reviewed the diff.
 
 Ask the batch's round-wide questions at the first item and carry the answers forward. A later item reopens the batch only for the fork it turns on.
@@ -101,12 +104,14 @@ The round is the product, so its diff runs from Step 1's recorded SHA: `git diff
 
 1. **The local gate**: run it over the session's uncommitted work (see: `${CLAUDE_PLUGIN_ROOT}/references/run-contract.md`, The local gate).
 2. **Push**: `git push origin HEAD`.
-3. **Bring the PR body, title, and diff comments up to date** wherever the round changed what they claim, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md).
-4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. Reply to an inline thread at its first comment's `databaseId`:
+3. **Bring the PR body, title, and diff comments up to date** wherever the round changed what they claim, the findings that survived Step 5 included (see: @lab43/q conventions/pull-requests.md). Without an integration that can edit the PR, hand the user the updated title and body in a fenced block, so they paste as written. Diff comments are skipped without one that can post them (source: @lab43/q conventions/pull-requests.md, Diff comments).
+4. **Reply**, when replying was agreed: post each item's resolution where the feedback was written. Skip an item the user raised in session. It has no thread to answer. Give the reviewer what they need to understand it — the answer, the evidence behind a push-back, or the reason a fix took the shape it did. Sign each reply (source: @lab43/q conventions/writing.md, Sign what you post). Write each reply to a file and pass it by path, so apostrophes in the prose can't break the command. With `gh`, reply to an inline thread at its first comment's `databaseId`:
 
    ```bash
    gh api --method POST repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<reply-file>
    ```
 
    Answer a top-level comment or a review summary with `gh pr comment <n> --body-file <reply-file>`. Never mark a thread resolved — that is the reviewer's call.
+
+   Without an integration that can post them, when drafting was agreed, hand the user each reply in a fenced block, naming the comment it answers. Sign each one all the same: the user posts it under their account, but Claude wrote it.
 5. Close the session by reporting each item's resolution, any caveats, any amendment raised instead of applied, and any follow-up work — filed in the tracker on the user's agreement (source: @lab43/q conventions/issue-tracking.md, Ask before filing).

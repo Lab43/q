@@ -14,7 +14,7 @@ description: Choose what to work on next from a set of items — a Jira board, G
 
 ## Step 1: Read the set
 
-The set comes from the invocation — a Jira board or filter, a GitHub repo's issues, a Notion doc, a file, a pasted list; given nothing, ask what to triage. Read it with whatever tool serves the source, fetching summaries rather than full item histories. Note any priority guidelines the invocation carries.
+The set comes from the invocation — a Jira board or filter, a GitHub repo's issues, a Notion doc, a file, a pasted list; given nothing, ask what to triage. Read it with whatever tool serves the source, fetching summaries rather than full item histories. A GitHub repo's issues are read through a GitHub integration — `gh`, in the worked example below (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, GitHub integrations). Without an integration that can read them, report that source as unreadable and ask for another. Note any priority guidelines the invocation carries.
 
 Read the priority the user set, when the source records one — a hand-ordered position, a priority field, a label. A default listing order is not one: creation date and ID say nothing about priority. A fetch can drop fields silently. Confirm the call you use preserves the priority and carries descriptions, labels, dates, assignees. A GitHub milestone records its priority as a hand-ordered position. That order comes back only through GraphQL:
 
@@ -24,7 +24,7 @@ gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){milestones(q
 
 `milestones(query:)` matches titles by substring, so take the node whose title is the one you were given. `gh issue list --milestone` returns creation order instead. Omitting `states: OPEN` pulls in the milestone's closed issues.
 
-Set aside items not available to pick up rather than proposing them (source: @lab43/q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Ask the peers what work items they hold, and set those aside too (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Any session holds an item, not just another triage run — a `/q:implement` invoked straight on an issue holds it too. A peer triaging the same set holds no item until it picks. Never divide the set between sessions. Never ask the user to resolve the overlap. Name the set-asides once; the user can pull any back in.
+Set aside items not available to pick up rather than proposing them (source: @lab43/q conventions/issue-tracking.md, Respect existing claims). Check the project's open PRs (`gh pr list`) against the set — the source may not show a fix in review. Without an integration that can list them, skip the check, and say so when presenting the set. Ask the peers what work items they hold, and set those aside too (see: ${CLAUDE_PLUGIN_ROOT}/references/run-contract.md, Working alongside a peer). Any session holds an item, not just another triage run — a `/q:implement` invoked straight on an issue holds it too. A peer triaging the same set holds no item until it picks. Never divide the set between sessions. Never ask the user to resolve the overlap. Name the set-asides once; the user can pull any back in.
 
 ## Step 2: Settle the session
 

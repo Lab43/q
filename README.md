@@ -34,13 +34,14 @@ Agents do their best work with good documentation and a structured workflow. q p
 
 ## Getting started
 
-q requires [Claude Code](https://claude.com/claude-code) and is installed in your repo with npm. It also requires the [GitHub CLI](https://cli.github.com) (`gh`) to be installed and authenticated, because q opens pull requests and reads their reviews through it.
+q requires [Claude Code](https://claude.com/claude-code) and is installed in your repo with npm. A GitHub integration is optional: the [GitHub CLI](https://cli.github.com) (`gh`), installed and authenticated, or a GitHub MCP server. With one, q opens pull requests and reads their reviews itself. Without one, q pushes the branch and hands you a link that opens the pull request, with its description drafted for you to paste.
 
 <!-- source: @lab43/q skills/install/SKILL.md -->
+<!-- source: @lab43/q conventions/pull-requests.md, Opening -->
 
 ```sh
-# Install and authenticate the GitHub CLI, if you haven't.
-# On other platforms, see https://cli.github.com.
+# Optional: install and authenticate the GitHub CLI, so q opens PRs itself.
+# A GitHub MCP server serves too. On other platforms, see https://cli.github.com.
 brew install gh
 gh auth login
 
@@ -129,7 +130,7 @@ From there:
 - `/q:review` — Review anything ad hoc — a diff, file, directory, feature, or plan doc — through the adversarial reviewer. You rule on the findings and decide what to change.
 - `/q:create-plan` — Collaboratively write a feature plan and save it to `q-docs/plans/`.
 - `/q:implement-plan` — Execute a plan end-to-end, in a single PR or stacked PRs.
-- `/q:address-feedback` — Review feedback on a PR. Implement the agreed fixes then push them to the PR, with replies posted when you want them.
+- `/q:address-feedback` — Review feedback on a PR. Implement the agreed fixes then push them to the PR, with replies posted when you want them. Without a GitHub integration, you paste the feedback in and post the replies yourself.
 
 **Docs:**
 

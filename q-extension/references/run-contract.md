@@ -14,7 +14,7 @@ A run is in one of two modes, depending on whether the user has agreed on what t
 Work that will become commits runs in one of two review modes, settled up front:
 
 - **Local** — nothing is committed unreviewed: work pauses uncommitted at each review point the running skill defines, and the user's go-ahead is what commits it.
-- **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s). The grant ends at the PR: merging is the user's. When the PR opened as a draft (see: @lab43/q conventions/pull-requests.md, Draft), say so: marking it ready is the user's too.
+- **Ship** — commit as the running skill's own procedure calls for, without asking, and push when the work is done; the user reviews on GitHub, so finish by directing them to the PR(s), or to what opens each one when the run could not (see: @lab43/q conventions/pull-requests.md, Opening). The grant ends at the PR: merging is the user's. When the PR opened as a draft (see: @lab43/q conventions/pull-requests.md, Draft), say so: marking it ready is the user's too.
 
 Ask the mode as a question in the run's AskUserQuestion batch, even when it is the batch's only question (see: Batch questions). A run another skill hands the mode to, as `/q:triage` hands it to `/q:implement`, takes it as settled. Never fold it into the plain-text go-ahead, where it reads as one more line of the scope and goes unanswered. A go-ahead that leaves the mode unanswered has not settled it: ask before the first commit rather than choosing one. Once settled, the run never reopens it: a ship run reaches its PR without stopping again, so the user comes back to a PR waiting, not a prompt asking whether to open one.
 
@@ -87,6 +87,12 @@ A worktree is what separates two sessions, and not every case gets one. A peer m
 - Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
+
+## GitHub integrations
+
+Do each GitHub operation through whatever integration the session has that can do it: reading an issue or a PR's review threads, listing PRs, posting a comment. The GitHub CLI is one when `gh repo view` succeeds. A GitHub MCP server is another when its tools are in the session. Where the two overlap, either serves.
+
+The `gh` commands in q's skills are worked examples. With another integration, do what the command does through that integration's equivalent. Judge each operation on its own: an integration that opens PRs may still lack one a step needs, such as reading whether a review thread is resolved. Fall back to the manual steps a skill names only for an operation no integration in the session can do. A skill's "without an integration" means exactly that case. Opening a PR follows the PR-authoring rules (see: @lab43/q conventions/pull-requests.md, Opening).
 
 ## Decide at the right altitude
 
