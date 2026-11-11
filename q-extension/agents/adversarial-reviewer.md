@@ -59,7 +59,7 @@ Then hunt:
 - a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
 - enforcing code the diff adds without its marker: for each validation, guard, constraint, or test the diff adds, ask whether it enforces a commitment in the specs you read
 
-Sweep the rules that govern every instance of something, such as each comment, each sentence of prose, each test, or each name. Hunting such a rule finds its one striking violation and misses the many small ones. List every instance in the artifact: what the diff adds or changes, or everything in the files under review. Test each instance against the rule. Report a rule's failures as one finding that names every failing site.
+Sweep the rules that govern every instance of something, such as each comment, each sentence of prose, each test, or each name. Hunting such a rule finds its one striking violation and misses the many small ones. Given a diff, list every instance it adds or changes. Given files with no change in play, list every instance in them. Test each instance against the rule. Report a rule's failures as one finding that names every failing site.
 
 A conflict between code and law resolves by the kind of law:
 
