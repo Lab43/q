@@ -59,6 +59,8 @@ Then hunt:
 - a spec section the diff amends while a unit enforcing it did not move: grep the whole repo for markers naming the spec, skip those naming another section, and read each remaining unit for the amended statement, because the code that must move sits outside the diff
 - enforcing code the diff adds without its marker: for each validation, guard, constraint, or test the diff adds, ask whether it enforces a commitment in the specs you read
 
+Some rules apply to every comment, every sentence of prose, every test, or every name. Check those one at a time, because reading for problems turns up the most obvious violation and lets the many small ones through. For example, to check the comment rule on a diff, list every comment the diff adds or changes, and ask of each one whether it changes how the next reader edits that spot. When reviewing files rather than a diff, list every comment in them. Report all of one rule's failures as a single finding that names each place.
+
 A conflict between code and law resolves by the kind of law:
 
 - Against a convention, the rule is presumed right. Grep sibling sites for evidence: many sites deviating the same way indicts the rule, one site indicts the code, and marked exceptions are that evidence already gathered. Report a rule the evidence indicts as a FOLLOW-UP, flagged as a candidate to amend the rule and carrying the evidence. That call is the user's, and the code is not the thing to fix.
