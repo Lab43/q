@@ -86,13 +86,13 @@ A worktree is what separates two sessions' trees, and not every case gets one. A
 - Commit by explicit path too, with `git commit --only <paths>`. A plain commit takes the whole index, and the index may hold staging you did not set: someone marking up a review stages hunks as they read them.
 - Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
 
-Sessions in separate worktrees still share the user's dev stack. Its server and database run from one checkout, so every session driving the stack drives whatever that checkout holds. Working in that checkout, announce any of these before making it:
+Sessions in separate worktrees still share the user's dev stack. Its server and database run from one checkout, so every session driving the stack drives whatever that checkout holds. Working in that checkout, announce to your peers before doing any of these:
 
 - switching the branch
 - running a migration
 - installing dependencies
 
-Driving a stack you did not start, ask the session working in its checkout what changed before diagnosing a failure from the repo. A branch you read earlier goes stale as soon as that session moves on. Ask the user when no session there answers.
+When the stack fails while you drive it from another tree, ask the session working in its checkout what changed before diagnosing the failure. The repo shows that checkout's branch, but not which migrations the database has run or what the server has loaded. Ask the user when no session there answers.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
 
