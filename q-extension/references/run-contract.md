@@ -79,12 +79,20 @@ Send nothing else. A message to a peer carries only what keeps two sessions from
 - Never send a peer a suggestion, an opinion, or a finding, unless they need it to avoid a collision.
 - Answer a peer only when the answer changes what they do. No reply is owed.
 
-A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds these precautions:
+A worktree is what separates two sessions' trees, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds these precautions:
 
 - Never switch the branch without announcing first.
 - Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
 - Commit by explicit path too, with `git commit --only <paths>`. A plain commit takes the whole index, and the index may hold staging you did not set: someone marking up a review stages hunks as they read them.
 - Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
+
+Sessions in separate worktrees still share the user's dev stack. Its server and database run from one checkout, so every session driving the stack drives whatever that checkout holds. Working in that checkout, announce each change that alters what the stack runs or reads before making it:
+
+- switching the branch
+- running a migration
+- installing dependencies
+
+Driving a stack you did not start, ask the session working in its checkout what changed before diagnosing a failure from the repo. A branch you read earlier goes stale as soon as that session moves on.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
 
