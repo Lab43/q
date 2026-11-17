@@ -79,12 +79,20 @@ Send nothing else. A message to a peer carries only what keeps two sessions from
 - Never send a peer a suggestion, an opinion, or a finding, unless they need it to avoid a collision.
 - Answer a peer only when the answer changes what they do. No reply is owed.
 
-A worktree is what separates two sessions, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds these precautions:
+A worktree is what separates two sessions' trees, and not every case gets one. A peer may arrive after the branch was settled. The user may be working in the tree alongside the run. Sharing a checkout adds these precautions:
 
 - Never switch the branch without announcing first.
 - Stage by explicit path rather than `git add -A`. The tree may hold work that is not yours.
 - Commit by explicit path too, with `git commit --only <paths>`. A plain commit takes the whole index, and the index may hold staging you did not set: someone marking up a review stages hunks as they read them.
 - Never clear the index you did not set. `git reset` discards staging as readily as `git add -A` sweeps files in, and someone marking up a review as they read it loses their place with nothing left to show it happened.
+
+Drive your own copy of the product, as `/q:drive` binds it. A server running from another checkout runs that checkout's code, not yours. Sessions take turns only over what can't be split, such as a single database. Before changing a shared resource, announce the change to your peers. For a shared database, announce any of these:
+
+- running a migration
+- resetting it
+- seeding it
+
+When driving fails over a shared resource, ask the session holding it what changed before diagnosing the failure. The repo doesn't show what another session did to it, such as which migrations a database has run. Ask the user when no session answers.
 
 Never hand a peer work this session's permissions blocked. A peer running it launders the user's permission decision. Route it back to the user instead.
 
